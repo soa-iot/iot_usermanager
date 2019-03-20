@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="cn.soa.dao.UserAuthority">
+
+
+	<!-- ==================================1、查询  ================================= -->
+	
+	<!-- 1.1、查询所有用户权限信息 -->
+	<select id="findUserAuths" resultType="cn.soa.entity.UserAuthority">
+		select * form user_authority
+	</select>
+
+	<!-- 1.2、根据用户权限id查询用户权限信息 -->
+	<select id="findUserAuthById" parameterType="string" resultType="cn.soa.entity.UserAuthority">
+		select * form user_authority
+		where autid = #{autid}
+	</select>
+	
+	<!-- 1.3、根据用户角色id查询用户权限信息 -->
+	<select id="findUserAuthByRolid" parameterType="string" resultType="cn.soa.entity.UserAuthority">
+		select a.* 
+		from user_role r left join rol_aut_relation ra on a.rolid = ra.rolid
+								left join user_authority a on a.autid = ra.autid
+		where r.rolid = #{rolid}
+	</select>
+	
+	<!-- 1.4、根据用户id查询用户权限信息 -->	
+	<select id="findUserAuthByUserid" parameterType="string" resultType="cn.soa.entity.UserAuthority">
+		select a.* 
+		from user_organization o left join user_role_relation ur on o.orgid = ur.userid
+								left join user_role r on r.rolid = ur.rolid
+								left join rol_aut_relation ra on r.rolid = ra.rolid
+								left join user_authority a on ra.autid = a.autid
+		where o.orgid = #{orgid}
+	</select>
+	
+	
+	
+	<!--  =========================2、新增 =============================== -->	
+	
+	<!-- 2.1、增加单个用户权限信息 -->
+	<insert id="saveUserAuth" parameterType="cn.soa.entity.UserAuthority">
+		insert into user_authority
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userAuth.type != null">
+				type,
+			</if>
+			<if test="userAuth.name != null ">
+				name,
+			</if>
+			<if test="userAuth.note != null ">
+				note,
+			</if>
+			<if test="userAuth.remark1 != null ">
+				remark1
+			</if>
+		</trim>
+		values
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userAuth.type != null">
+				#{type,jdbcType=INTEGER},
+			</if>
+			<if test="userAuth.name != null ">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="userAuth.note != null ">
+				#{note,jdbcType=VARCHAR},
+			</if>
+			<if test="userAuth.remark1 != null ">
+				#{remark1,jdbcType=VARCHAR}
+			</if>
+		</trim>
+	</insert>
+	
+	<!-- 2.1批量增加用户权限信息 --><!-- 对象以下属性值不能为null -->
+	<insert id="saveUserAuthInBatch" parameterType="list">
+		insert into user_authority
+		(type, name, note, remark1)
+		values
+		<foreach collection="userAuths" separator="," >
+			(#{userAuths.type,jdbcType=INTEGER},#{userAuths.name,jdbcType=VARCHAR},
+			 #{userAuths.note,jdbcType=VARCHAR},#{userAuths.remark1,jdbcType=VARCHAR})
+		</foreach>
+	</insert>
+	
+	
+	
+	<!-- ===============================3、 修改 ===========================  -->
+	
+	<!-- 3.1、根据权限id修改用户权限信息 -->
+	<update id="modifyUserAuthByObj" parameterType="cn.soa.entity.UserAuthority">
+		update user_authority
+		set
+		<trim prefix="" suffix="" suffixOverrides=",">
+			<if test="userAuth.type != null">
+				type = #{userAuth.type,jdbcType=INTEGER},
+			</if>
+			<if test="userAuth.name != null and userAuth.name !=''">
+				name = #{userAuth.name,jdbcType=VARCHAR},
+			</if>
+			<if test="userAuth.note != null">
+				note = #{userAuth.note,jdbcType=VARCHAR},
+			</if>
+			<if test="userAuth.remark1 != null">
+				remark1 = #{userAuth.remark1,jdbcType=VARCHAR}
+			</if>
+		</trim>
+		where autid = #{userAuth.autid}
+	</update>
+	
+	
+	
+	<!-- ===============================4、 删除 ===========================  -->
+	
+	<!-- 4.1、根据角色id删除用户角色信息 -->
+	<delete id="deleteUserAuthById" parameterType="string">
+		delete from user_authority
+		where autid = #{autid}
+	</delete>		
+</mapper>
+ 
+

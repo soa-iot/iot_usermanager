@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="cn.soa.dao.UserInfoMapper">
+
+	<!-- ===========================1、查询===============================  -->
+	
+	<!-- 1.1、根据id查询用户信息 -->
+	<select id="findUserInfoById" parameterType="int" resultType="cn.soa.entity.UserInfo">
+		select * from user_info 
+		where userid = #{ userId }
+	</select>
+	
+	<!-- 1.2、查询所有用户信息 -->
+	<select id="findUserInfoAll" resultType="cn.soa.entity.UserInfo">
+		select * from user_info
+	</select>
+	
+	<!-- 1.3、根据用户唯一标识num查询用户信息-->
+	<select id="findUserInfoByUsernum" parameterType="int" resultType="cn.soa.entity.UserInfo">
+		select i.*
+		from user_organization o left join user_info i on o.usernum = i.userid
+		where o.usernum = #{usernum}
+	</select>
+	
+	
+	
+	<!-- ===========================2、新增===============================  -->
+	
+	<!-- 2.1、根据id增加用户信息 --><!-- 业务层必须保证userid不为null或空 -->
+	<insert id="saveUserInfo" parameterType="cn.soa.entity.UserInfo">
+		insert into user_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userInfo.userid !=null ">
+				userid,	
+			</if>
+			<if test="userInfo.nname !=null ">
+				nname,	
+			</if>
+			<if test="userInfo.age !=null ">
+				age,	
+			</if>
+			<if test="userInfo.sex !=null ">
+				sex,	
+			</if>
+			<if test="userInfo.address !=null ">
+				address,	
+			</if>
+			<if test="userInfo.telephone !=null ">
+				telephone,	
+			</if>
+			<if test="userInfo.email !=null ">
+				email,	
+			</if>
+			<if test="userInfo.state !=null ">
+				state,	
+			</if>
+			<if test="userInfo.note !=null ">
+				note,	
+			</if>
+			<if test="userInfo.remark1 !=null ">
+				remark1,	
+			</if>
+			<if test="userInfo.remark2 !=null ">
+				remark2,	
+			</if>
+		</trim>		
+		<!-- ( userid, nname, age, sex, address, telephone, email, state, note, remark1, remark2) -->
+		values
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userInfo.userid !=null   ">
+				#{userInfo.userid,jdbcType=INTEGER},	
+			</if>
+			<if test="userInfo.nname !=null ">
+				#{userInfo.nname,jdbcType=VARCHAR},	
+			</if>
+			<if test="userInfo.age !=null ">
+				#{userInfo.age,jdbcType=INTEGER},
+			</if>
+			<if test="userInfo.sex !=null ">
+				#{userInfo.sex,jdbcType=INTEGER},
+			</if>
+			<if test="userInfo.address !=null ">
+				 #{userInfo.address,jdbcType=VARCHAR},	
+			</if>
+			<if test="userInfo.telephone !=null ">
+				#{userInfo.telephone,jdbcType=INTEGER},
+			</if>
+			<if test="userInfo.email !=null ">
+				#{userInfo.email,jdbcType=VARCHAR},
+			</if>
+			<if test="userInfo.state !=null ">
+				#{userInfo.state,jdbcType=INTEGER},	
+			</if>
+			<if test="userInfo.note !=null ">
+				#{userInfo.note,jdbcType=VARCHAR},
+			</if>
+			<if test="userInfo.remark1 !=null ">
+				#{userInfo.remark1,jdbcType=INTEGER},
+			</if>
+			<if test="userInfo.remark2 !=null ">
+				#{userInfo.remark2,jdbcType=VARCHAR}
+			</if>
+		</trim>
+	</insert>
+	
+	<!-- 根据id批量增加用户信息 -->
+	
+	<!-- 根据id修改用户信息 -->
+	<update id="modifyUserInfoById" parameterType="cn.soa.entity.UserInfo">
+		update user_info
+		set
+		<trim prefix="" suffix="" suffixOverrides=",">
+			<if test="userInfo.nname != null ">
+				nname = #{ userInfo.nname },
+			</if>
+			<if test="userInfo.age != null ">
+				age = #{ userInfo.age },
+			</if>
+			<if test="userInfo.sex != null ">
+				sex = #{ userInfo.sex },
+			</if>
+			<if test="userInfo.address != null ">
+				address = #{ userInfo.address },
+			</if>
+			<if test="userInfo.telephone != null  ">
+				telephone = #{ userInfo.telephone },
+			</if>
+			<if test="userInfo.email != null ">
+				email = #{ userInfo.email },
+			</if>
+			<if test="userInfo.state != null ">
+				state = #{ userInfo.state },
+			</if>
+			<if test="userInfo.note != null ">
+				note = #{ userInfo.note },
+			</if>
+			<if test="userInfo.remark1 != null ">
+				remark1 = #{ userInfo.remark1 },
+			</if>
+			<if test="userInfo.remark2 != null ">
+				remark2 = #{ userInfo.remark2 }
+			</if>
+		</trim>
+		where userid = #{ userInfo.userid }
+	</update>
+	
+	<!-- 根据id删除用户 -->
+	<delete id="deleteUserInfoById" parameterType="string">
+		delete from user_info
+		where userid = #{ userid }
+	</delete>
+	
+</mapper>
+ 
+

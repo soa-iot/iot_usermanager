@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+  	<title>注册页面</title>
+  	<meta name="renderer" content="webkit">
+  	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  	<link rel="stylesheet" href="/jsPackage/layui-v2.4.5/css/layui.css"  media="all">
+  	<link rel="stylesheet" href="/css/userCenter/register.css"  media="all">
+  	<script src="/jsPackage/jquery-3.3.1/jquery-3.3.1.min.js" type="text/javascript"></script>
+  	<script src="/jsPackage/jquery-3.3.1/jquery.validate.js" type="text/javascript"></script>
+  	<script src="/jsPackage/layui-v2.4.5/layui.all.js" type="text/javascript"></script> 
+  	<script src="/js/micro_userManager.js" type="text/javascript"></script>
+  	<script src="/js/userCenter/register.js" type="text/javascript"></script> 
+  	<script src="/jsPackage/own/universal.js" type="text/javascript"></script> 	
+</head>
+<body id="content">
+ <!-- 
+	<blockquote class="layui-elem-quote layui-text">
+  		User Register Page<a href="javaScipt:;" target="_blank"></a> <a href="javaScipt:void(0);" target="_blank"></a>
+	</blockquote> -->
+              
+	<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+  		<legend>注册信息填写</legend>
+	</fieldset>
+ 
+	<form class="layui-form" id="form">
+		<div class="layui-fluid" >
+			<div class="layui-row ">
+				<div class="layui-col-xs9 layui-col-sm9 layui-col-md9 layui-col-lg9">
+	      			<div class="layui-form-item">
+			    		<label class="layui-form-label">用户编号：</label>
+				    	<div class="layui-input-block" style="width:60%">
+							<input type="text" id="num" name="num" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+				    	</div>
+			  		</div>
+	   			</div>
+	   			<div class="layui-col-xs3 layui-col-sm3 layui-col-md3 layui-col-lg3" >
+	      			<div class=""  style="margin-top:10px"> 
+					</div>
+	   			</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-xs9 layui-col-sm9 layui-col-md9 layui-col-lg9">
+	      			<div class="layui-form-item">
+			    		<label class="layui-form-label">用户名：</label>
+				    	<div class="layui-input-block" style="width:60%">
+							<input type="text" id="name" name="name" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+				    	</div>
+			  		</div>
+	   			</div>
+	   			<div class="layui-col-xs3 layui-col-sm3 layui-col-md3 layui-col-lg3">
+	      			<div class=""  style="margin-top:10px"> 
+					</div>
+	   			</div>
+			</div>
+			<div class="layui-row ">
+				<div class="layui-col-xs9 layui-col-sm9 layui-col-md9 layui-col-lg9">
+	      			<div class="layui-form-item">
+				    	<label class="layui-form-label">密&nbsp&nbsp码：</label>
+				    	<div class="layui-input-block" style="width:60%">
+				      		<input type="text" readonly="true" lay-verify="required" value="注册成功以后初始密码为：123" autocomplete="off" class="layui-input">
+				    	</div>
+			  		</div>
+	   			</div>
+	   			<div class="layui-col-xs3 layui-col-sm3 layui-col-md3 layui-col-lg3">
+	      			<div class=""  style="margin-top:10px"> 
+					</div>
+	   			</div>
+			</div>
+			<div class="layui-row ">
+				<div class="layui-col-xs9 layui-col-sm9 layui-col-md9 layui-col-lg9">
+	      			<div class="layui-form-item layui-form-text">
+			    		<label class="layui-form-label">备注信息：</label>
+			    		<div class="layui-input-block">
+			      			<textarea id="note" name="note"  placeholder="请输入您具体所在的工段、班组或是其他单位，您的职务信息等" class="layui-textarea"></textarea>
+			    		</div>
+			  		</div>
+	   			</div>
+	   			<div class="layui-col-xs3 layui-col-sm3 layui-col-md3 layui-col-lg3" >	
+	   				<div class=""  style="margin-top:10px"> 
+					</div>      
+	   			</div>
+			</div>
+		</div> 	
+		
+		<!-- 按钮 -->
+  		<div class="layui-form-item">
+    		<div class="layui-input-block">
+      			<button class="layui-btn" id="register">注册</button>
+      			<button type="reset" class="layui-btn layui-btn-primary" id="cancel">取消</button>
+    		</div>
+  		</div> 
+	  	
+	</form>
+	
+	<!-- js -->
+	<script src="/js/userCenter/register.js" type="text/javascript"></script> 
+	<script type="text/javascript">
+		/**
+		 * 变量定义
+		 */
+		var saveRegisterUrl = ipPort + "/register",
+			getNumRightUrl = ipPort + "/register/user";
+		 
+		 /**
+		  * 事件绑定
+		  */
+		$(function(){
+			/*
+			 * 注册按钮单击事件
+			 */
+			$('#register').on('click', registerCF);
+			 
+			/*
+			 * 取消按钮单击事件
+			 */
+			$('#cancel').on('click', cancelCallBack);
+			 
+		})
+		  
+		 /**
+		  * 页面初始化
+		  */
+		$(function(){
+			/*
+			 * 参数扩展验证
+			 */
+			// 匹配汉字
+			jQuery.validator.addMethod( "isChinese", function(value, element) {
+				return this.optional(element) || /^[\u4e00-\u9fa5]+$/.test(value);
+			}, "必须是中文");
+			// 用户编码必须未被使用
+			jQuery.validator.addMethod( "allowedNum", function(value, element) {
+				value=parseInt(value);
+				if( this.optional(element) ){
+					return false;
+				}
+				//验证字符串合法性
+				console.log( '------------ 验证用户编码------------ ');
+				console.log( value );
+				var b;
+				$.ajax({
+				     type: "GET",
+				     url: getNumRightUrl+'/'+value,
+				     data: {},
+				     async: false, //默认
+				     cache: true, //默认
+				     contentType: "application/x-www-form-urlencoded",//默认
+				     dataType: "json",//必须指定，否则根据后端判断				 
+				     success: function( jsonData ){
+				    	 if( jsonData != null){
+				    		 if( jsonData.state == 0 ){
+				    			 console.log( '------------ 用户编码已存在，不合格------------ ');
+				    			 b = false;
+				    		 }else{
+				    			 console.log( '------------ 用户编码合格------------ ');
+				    			 b = true;
+				    		 }
+				    	 }else{
+				    		 layer.msg('编号检查出错');
+				    	 }
+				     },
+				     error:function(){
+				    	 layer.msg('请求失败：');
+				     }		       
+				});
+				return b;
+			 }, "用户编码不合法，请重新输入");
+			 
+			/*
+			 * 参数验证
+			 */
+			$( '#form' ).validate({
+				rules : {
+					num : {
+						required : true,
+						allowedNum : true
+					},
+					name : {
+						required : true,
+						isChinese : true,
+						minlength: 2
+					},
+					note : {
+						required : true
+					}
+				},
+				messages : {
+					num : {
+						required : "必须填写用户编号",
+						allowedNum : "用户编号已使用"
+					},
+					name : {
+						required : "用户名不能为空",
+						isChinese : "名称必须是中文",
+						minlength: "长度不能小于2"
+					},
+					note : {
+						required : "请备注您所在部门和职务"
+					}
+				},
+				onfocusout :  function( element ){
+					$(element).valid();
+				},
+				onsubmit : false,
+				focusInvalid : true,			
+				highlight : function( element ) {
+					$(element).next('label').css({'color':'red'});
+			    },
+			    errorPlacement : function(error, element) {  
+			    	$($(element).parents('div')[2]).next('div').find('div').append( error );
+		        }/*,
+		        submitHandler : function( form ) {
+		        	console.log( '---准备提交---' );   	
+		        	//form.submit();      	
+		        }
+			    success : function(label) {
+			    	label.closest('.form-group').removeClass('has-error');
+		            label.remove();
+		        },     
+		        submitHandler : function( form ) {
+		        	//form.submit();      	
+		        } */
+			})
+		 })
+		 
+		 /**
+		  * 注册按钮单击事件回调函数
+		  */
+		function registerCF(){
+			console.log( '------------ 注册按钮单击事件回调函数------------ ');
+			//验证
+			if( $('#form').valid() ){
+				//获取输入信息，发送请求
+				var name = $('#name').val(),num = $('#num').val(),
+				 	note = $('#note').val();
+				console.log( '------------ 验证完成------------ ');
+				var data = {"name":name,"num":num,"note":note};
+				$.ajax({
+				     type: "post",
+				     url: saveRegisterUrl,
+				     data: JSON.stringify(data),
+				     async: false, //默认
+				     cache: true, //默认
+				     contentType: "application/json",//默认
+				     dataType: "json",//必须指定，否则根据后端判断				 
+				     success: registerCallBack,
+				     error:function(){
+				    	 layer.msg('请求失败：');
+				     }		       
+				});
+				return false;
+			}else{
+				layer.msg( '注册信息有误', {icon:2,time:2000} );
+			}						
+		}
+		
+		 /**
+		  * 注册成功回调函数
+		  */
+		function registerCallBack( jsonData ){
+			console.log( '------------ 注册成功回调函数------------ ');
+			if( jsonData != null){
+	    		 if( jsonData.state == 0 && jsonData.data != null ){
+	    			 layer.msg( '注册成功,请等待管理员审核', {icon:1,time:3000}, function(){				
+	    					//关闭注册页面
+	    					var index = parent.layer.getFrameIndex(window.name); 
+	    					parent.layer.close( index );
+	    				});		
+	    		 }else{
+	    			 layer.msg('注册失败');
+	    		 }
+	    	 }else{
+	    		 layer.msg('注册失败');
+	    	 }				
+		}
+		
+		 /**
+		  * 取消按钮单击事件回调函数
+		  */
+		function cancelCallBack(){
+			console.log( '------------ 取消按钮单击事件回调函数------------ ');
+			console.log( layer.index );
+			//关闭注册页面
+			var index = parent.layer.getFrameIndex(window.name); 
+			parent.layer.close( index );
+		}
+	</script> 
+</body>
+</html>

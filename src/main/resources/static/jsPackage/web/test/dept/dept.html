@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<link rel="stylesheet" href="/design/css/layui.css">
+<style>
+	html, body {
+		height: 100%;
+		margin:0;padding:0;
+		font-size: 12px;
+	}
+	div{
+		-moz-box-sizing: border-box;  /*Firefox3.5+*/
+		-webkit-box-sizing: border-box; /*Safari3.2+*/
+		-o-box-sizing: border-box; /*Opera9.6*/
+		-ms-box-sizing: border-box; /*IE8*/
+		box-sizing: border-box; /*W3C标准(IE9+，Safari5.1+,Chrome10.0+,Opera10.6+都符合box-sizing的w3c标准语法)*/
+	}
+</style>
+<body>
+<div id="app" style="height: 100%;padding: 10px">
+	<!-- 操作按钮以及查询控件 -->
+	<div id="topdiv" style="margin-bottom: 5px">
+		<div class="layui-row">
+			<div class="layui-col-xs12">
+				<div style="float: left;">
+					<a class="layui-btn layui-btn-primary"  onclick="window.location.href='/test/dept/dept.html'">刷新</a>
+					<a class="layui-btn layui-btn-primary"  onclick="querytest()">返回不同列数</a>
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-md12">
+				<div class="_line" style="margin: 0px;"></div>
+			</div>
+		</div>
+	</div>
+	<!-- 表单 -->
+	<div  id="contentdiv">
+		<table id="depttable" lay-filter="depttable">
+		</table>
+	</div>
+</div>
+</body>
+<script src="/design/layui.js"></script>
+<script src="/test/vue.js"></script>
+
+<script>
+    var editObj=null,ptable=null,treeGrid=null,tableId='depttable',$;
+    layui.config({
+        base: '/design/extend/'
+    }).extend({
+        treeGrid:'treeGrid'
+    }).use(['jquery','treeGrid','layer'], function(){
+        $=layui.jquery;
+        treeGrid = layui.treeGrid;
+        var layer=layui.layer;
+        ptable=treeGrid.render({
+			id:tableId
+            ,elem: '#'+tableId
+			,idField:'sd_id'
+            ,isFilter:true
+            ,url:'/deptList/'
+            ,cellMinWidth: 100
+            ,treeId:'sd_id'
+            ,treeUpId:'up_sd_id'
+            ,treeShowName:'sd_name'
+            ,heightRemove:[55]
+            ,cols: [[
+                {width:160,title: '操作', align:'center'/*toolbar: '#barDemo'*/
+                    ,templet: function(d){
+						var html='';
+						var smType=d.sd_type;
+						var addBtn='<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="add">添加</a>';
+						var delBtn='<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>';
+						if(smType==0){
+                            html+=addBtn
+						}else if(smType==4){
+							html+=delBtn;
+						}else{
+							html+=addBtn+(d.children.length<=0?delBtn:"");
+						}
+						return html;
+                	}
+                }
+                ,{field:'sd_use',title:'使用',width:90}
+                ,{field:'sd_sort',title:'排序号',width:80,edit:'text'}
+                ,{field:'sd_type',title:'机构类型',width:90}
+                ,{field:'sd_name', edit:'text',width:300, title: '机构'}
+                ,{field:'sd_id_all_value',title:'机构全路径',fixed:'right'}
+            ]]
+            ,page:false
+        });
+
+        //监听单元格编辑
+        treeGrid.on('edit('+tableId+')', function(obj){
+            var value = obj.value //得到修改后的值
+                ,data = obj.data //得到所在行所有键值
+                ,field = obj.field; //得到字段
+            data.children=null;
+            dl.ajax.post('/sys/dept/save/',data);
+        });
+
+        treeGrid.on('tool('+tableId+')',function (obj) {
+            if(obj.event === 'del'){//删除行
+                del(obj);
+            }else if(obj.event==="add"){//添加行
+                add(obj);
+            }
+        });
+
+        $("#sync").click(function () {
+            var url="/sys/dept/sync";
+            dl.ajax.post(url,{},function (d) {
+                dl.tip.msgTip(d.tip)
+            });
+        });
+        $("#aoutIdAll").click(function () {
+            var url='/sys/dept/aoutIdAll';
+            var param={};
+            dl.ajax.post(url,param,function (o) {
+                dl.tip.msgTip(o.tip);
+                query();
+            });
+        });
+        $("#test").click(function () {
+            console.log(treeGrid.cache);
+        });
+    });
+
+    //删除
+    function del(obj) {
+        dl.tip.confirm(dl.tip.constant.del_warn_tree,function (is) {
+            if(is){//点击是
+                var delIds=treeGrid.treeFindSonIdFields(tableId,obj.data);
+                var url='/sys/dept/deleteByList';
+                var param={};
+                param.list=delIds.join(',');
+                dl.ajax.post(url,param,function (o) {
+                    if(o.is){
+                        obj.del();
+                        query();
+                    }
+                    dl.tip.msgTip(o.tip);
+                });
+            }
+        });
+    }
+
+    //添加
+    function add(obj) {
+        editObj=obj.data;
+        var param={};
+        param.sd_name='新建机构';
+        param.sd_use=1;
+        param.sd_type=parseInt(editObj.sd_type)+1;
+        param.up_sd_id=editObj.sd_id;
+        var url="/sys/dept/save";
+        dl.ajax.post(url,param,function (o) {
+            if(o.is){
+                treeGrid.addRow(tableId,editObj.LAY_TABLE_INDEX+1,o.obj);
+            }
+            dl.tip.msgTip(o.tip);
+        });
+    }
+    //刷新
+    function query() {
+       treeGrid.query(tableId);
+    }
+    //刷新
+    function querytest() {
+        var param={};
+        var url="";
+       $.post(url,param,function (o) {
+
+       });
+    }
+</script>
+</html>

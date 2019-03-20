@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="cn.soa.dao.UserRegistMapper">
+
+	<!-- ===========================1、查询===============================  -->
+	
+	<!-- 1.1、根据注册usernum查询注册用户-->
+	<select id="findRegisterByNum" parameterType="string" resultType="cn.soa.entity.UserRegister">
+		select * from IOT_USER_REGISTER_INFO
+		where num = #{usernum}
+	</select>
+	
+	<!-- 1.2、查询所有注册用户-->
+	<select id="findRegisters" resultType="cn.soa.entity.UserRegister">
+		select * from IOT_USER_REGISTER_INFO
+		where state = 0
+	</select>
+	
+	
+	<!-- 1.3、 -->
+	
+	
+	<!-- 1.3、 -->
+	
+	
+	
+	
+	<!-- ===========================2、新增===============================  -->
+	
+	<!-- 2.1、增加用户信息 -->
+	<insert id="saveUserRegis" parameterType="cn.soa.entity.UserRegister">
+		insert into IOT_USER_REGISTER_INFO
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="num != null">
+				num,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="create_time != null">
+				create_time,
+			</if>
+			<if test="note != null">
+				note,
+			</if>
+			<if test="remark1 != null">
+				remark1,
+			</if>
+			<if test="remark2 != null">
+				remark2
+			</if>
+		</trim>
+		values
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="num != null">
+				#{num},
+			</if>
+			<if test="name != null">
+				#{name},
+			</if>
+			<if test="create_time != null">
+				#{create_time},
+			</if>
+			<if test="note != null">
+				#{note},
+			</if>
+			<if test="remark1 != null">
+				#{remark1},
+			</if>
+			<if test="remark2 != null">
+				#{remark2}
+			</if>
+		</trim>
+	</insert>
+	
+	<!-- 2.2、根据id增加用户信息 ，返回id -->		
+	
+	
+	
+	
+	
+	<!-- ===========================3、修改===============================  -->	
+	
+	<!-- 3.1、根据id修改用户信息 -->
+	<update id="modifyRegisteState" parameterType="string">
+		update IOT_USER_REGISTER_INFO
+		<set>
+			state = 1
+		</set>
+		<where>
+			num = #{num}
+		</where>
+	</update>
+	
+	
+	<!-- ===========================4、删除===============================  -->	
+	
+	
+</mapper>
+ 
+
