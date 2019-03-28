@@ -95,7 +95,9 @@ function userInfoCE(){
  * @type 
  */
 function logoutCallBack(){
+	
 	console.log( '----------退出事件绑定回调函数----------');
+	
 	//关闭链接请求
 	$.ajax({
 	    url: logoutUrl,
@@ -184,7 +186,7 @@ $(function(){
 //    console.log(WebSocket);
 	
 	//ws连接,打开服务
-	socket = new WebSocket( "ws://"+ ipPort.substr(6) + "/push/pushVideoListToWeb" );
+	socket = new WebSocket( "ws://"+ ipPort.substring(0,22) + "/push/pushVideoListToWeb" );
 	socket.onopen = function(){
 		console.log("--------------ws服务已打开----------------");  
 		socket.send( JSON.stringify({'test':20}) ); 
@@ -296,7 +298,7 @@ function sortForTree( jsonObj ){
 	/* 
 	 * 加载 
 	 */
-	console.log( arr );
+	//console.log( arr );
 	return arr;
 }
 
@@ -313,7 +315,7 @@ function generateTree( jsonObj, unsortResult ){
 			suthSet.push( unsortResult[i] );
 			continue;
 		}
-		console.log(suthSet.length);
+		//console.log(suthSet.length);
 		for( var j = 0; j < suthSet.length; j++ ){
 			if( suthSet[j].remark1 > unsortResult[i].remark1  ){
 				suthSet.splice( j, 0, unsortResult[i] );

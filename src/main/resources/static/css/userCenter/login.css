@@ -8,7 +8,7 @@ blockquote {
 	padding: 0;
 	overflow: auto;
 	/*background-color: white;*/
-	background-image: url('/img/iot_login.jpg');
+	background-image: url('../../img/iot_login.jpg');
 }
 input {
 	height: 80px;	

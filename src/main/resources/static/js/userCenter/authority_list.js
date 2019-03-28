@@ -1,6 +1,6 @@
 layui.config({
 //			base : '../../module/'
-			base : '/jsPackage/web/design/module/'
+			base : '../../../jsPackage/web/design/module/'
 		}).extend({
 			treetable : 'treetable-lay/treetable'
 		}).use(['table', 'layer', 'treetable', 'form', 'tree', 'upload'],
@@ -24,7 +24,7 @@ layui.config({
 					treeIdName : 'modId',
 					treePidName : 'parentId',
 					elem : '#auth-table',
-					url : '/roleAuthority/getAuthotityInfo',
+					url : ipPort + '/roleAuthority/getAuthotityInfo',
 					page : false,
 					cols : [[/*
 								 * { type : 'numbers' },
@@ -154,7 +154,7 @@ layui.config({
 						});
 
 				$.ajax({
-					url : '/resource/getResourceInfoOfNode',
+					url : ipPort + '/resource/getResourceInfoOfNode',
 					dataType : 'json',
 					success : function(data) {
 						// console.log(data.data);
@@ -216,7 +216,7 @@ layui.config({
 
 						layer.close(add_layer);
 						$.ajax({
-									url : '/roleAuthority/addAuthority',
+									url : ipPort + '/roleAuthority/addAuthority',
 									type : 'post',
 									dataType : 'json',
 									data : authority,
@@ -257,7 +257,7 @@ layui.config({
 
 						layer.close(add_layer);
 						$.ajax({
-									url : '/roleAuthority/updateAuthority',
+									url : ipPort + '/roleAuthority/updateAuthority',
 									type : 'post',
 									dataType : 'json',
 									data : authority,
@@ -297,7 +297,7 @@ layui.config({
 								 */
 								$.ajax({
 											method : "get",
-											url : "/roleAuthority/delAuthority",
+											url : ipPort + "/roleAuthority/delAuthority",
 											data : {
 												autid : obj.data.autid
 											},
@@ -357,7 +357,7 @@ layui.config({
 								}
 							});
 					$.ajax({
-						url : '/resource/getResourceInfoOfNode',
+						url : ipPort + '/resource/getResourceInfoOfNode',
 						dataType : 'json',
 						success : function(data) {
 							// console.log(data.data);
@@ -401,7 +401,7 @@ layui.config({
 
 							// 发送请求插入权限数据
 							$.ajax({
-										url : '/roleAuthority/changeToAuthority',
+										url : ipPort + '/roleAuthority/changeToAuthority',
 										dataType : 'json',
 										type : 'post',
 										data : {
@@ -437,7 +437,7 @@ layui.config({
 					var roleIds;
 					// 发送请求获取已有权限
 					$.ajax({
-								url : '/roleAuthority/getRoleIdByAuthorityId',
+								url : ipPort + '/roleAuthority/getRoleIdByAuthorityId',
 								dataType : 'json',
 								data : {
 									authorityId : obj.data.autid
@@ -454,7 +454,7 @@ layui.config({
 
 					// 发送请求获取角色列表
 					$.ajax({
-						url : '/role/roles',
+						url : ipPort + '/role/roles',
 						dataType : 'json',
 						success : function(data) {
 							console.log(data.data);

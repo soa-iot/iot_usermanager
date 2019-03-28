@@ -20,7 +20,7 @@ public class UserRoleTest {
 	@Autowired
 	public RoleServiceInter roleServiceInter;
 	
-	@Test
+	//@Test
 	public void findAuthByRolidServ() {
 //		String rolid = "77A987B996C744EFAEC54B5855F7C98E";
 		String rolid = "42ba62c1a1414d7491eb05338d14c1c3";

@@ -14,10 +14,8 @@ import cn.soa.entity.UserOrganization;
 import cn.soa.entity.headResult.ResultJson;
 import cn.soa.entity.headResult.UserTableJson;
 
-
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = { IotUsermanagerApplication.class })
-@WebAppConfiguration
+@SpringBootTest(classes = IotUsermanagerApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class UserControTest {
 	@Autowired
 	private UserController userController;
@@ -40,7 +38,7 @@ public class UserControTest {
 	  * @Description:  根据usernum删除用户          
 	  * @return: void        
 	  */  
-	@Test
+	//@Test
 	public void deleteUserContro(){
 		String usernum = "134";
 		ResultJson<String> deleteUserContro = userController.deleteUserContro(usernum);

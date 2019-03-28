@@ -12,8 +12,7 @@ import cn.soa.IotUsermanagerApplication;
 import cn.soa.entity.UserRole;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = { IotUsermanagerApplication.class })
-@WebAppConfiguration
+@SpringBootTest(classes = IotUsermanagerApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class UserAuthMapperTest {
 	@Autowired
 	public UserRoleMapper userRoleMapper;
@@ -80,7 +79,7 @@ public class UserAuthMapperTest {
 	  * @Description:  根据用户id、用户角色id，增加关联关系         
 	  * @return: void        
 	  */  
-	@Test
+	//@Test
 	public void saveUserAndRoleById() {
 		int userid = 12;
 		int rolid = 1;

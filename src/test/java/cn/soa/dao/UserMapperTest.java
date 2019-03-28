@@ -133,7 +133,7 @@ public class UserMapperTest {
 //	}
 	
 	//修改用户
-	@Test
+	//@Test
 	public void modifyUserById() {
 		UserOrganization u = new UserOrganization();
 		u.setOrgid("919B20B203E144CABF8B2C624A69C1A7");

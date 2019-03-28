@@ -1,5 +1,5 @@
 layui.config({
-			base : '/jsPackage/web/design/module/'
+			base : '../../../jsPackage/web/design/module/'
 		}).extend({
 			treetable : 'treetable-lay/treetable'
 		}).use(['table', 'laydate', 'treetable', 'form'], function() {
@@ -23,7 +23,7 @@ layui.config({
 					treeIdName : 'modId',
 					treePidName : 'parentId',
 					elem : '#resource_table',
-					url : '/resource/getAllResourceInfo',
+					url : ipPort + '/resource/getAllResourceInfo',
 					page : false,
 					cols : [[{
 								field : 'modId',
@@ -127,7 +127,7 @@ layui.config({
 					}
 				});
 		$.ajax({
-			url : '/resource/getParentResource',
+			url : ipPort + '/resource/getParentResource',
 			dataType : 'json',
 			success : function(data) {
 				// console.log(data);

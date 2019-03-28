@@ -28,7 +28,7 @@ public class UserRoleMapperTest {
 	@Autowired
 	public UserRoleMapper userRoleMapper;
 	
-	@Test
+	//@Test
 	public void findAuthByRolid() {
 		String rolid = "77A987B996C744EFAEC54B5855F7C98E";
 		ArrayList<IotUserModuleResource> findAuthByRolid = userRoleMapper.findAuthByRolid(rolid);

@@ -113,7 +113,7 @@ function registerClickEvent(){
 		title: '用户注册页面',
 //		btn: ['确定', '取消'],
 		area: ['700px','450px'],
-		content: '/html/userCenter/register.html',
+		content: ipPort + '/html/userCenter/register.html',
 		//此处要求返回的格式
 		success: function(){
 			

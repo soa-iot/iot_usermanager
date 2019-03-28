@@ -11,13 +11,12 @@ import cn.soa.entity.headResult.ResultJson;
 
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = { IotUsermanagerApplication.class })
-@WebAppConfiguration
+@SpringBootTest(classes = IotUsermanagerApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class LoginControTest {
 	@Autowired
 	private LoginController loginController;
 	
-	@Test
+	//@Test
 	public void loginContrTest(){
 		String userName = "亚瑟";
 		String userPassword = "123";

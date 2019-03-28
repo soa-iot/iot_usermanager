@@ -53,8 +53,9 @@ public class WSConfig {
 //		return numberMap;
 //	}
 
-	@Bean 
-	public ServerEndpointExporter serverEndpointExporter() {		
-		return new ServerEndpointExporter();		
-	}  
+	//打war包运行外部tomcat的时需要注释掉以下代码
+//	@Bean 
+//	public ServerEndpointExporter serverEndpointExporter() {		
+//		return new ServerEndpointExporter();		
+//	}  
 }

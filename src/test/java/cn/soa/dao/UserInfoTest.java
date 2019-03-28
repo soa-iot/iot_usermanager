@@ -22,14 +22,13 @@ import cn.soa.entity.UserOrganization;
 import cn.soa.entity.UserRegister;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = { IotUsermanagerApplication.class })
-@WebAppConfiguration
+@SpringBootTest(classes = IotUsermanagerApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class UserInfoTest {
 	@Autowired
 	public UserRegistMapper userRegistMapper;
 	
 	//增加用户注册信息
-	@Test
+	//@Test
 	public void saveRegister() {
 		UserRegister u1 = new UserRegister( "123", "test", 0, "note");
 		int i = userRegistMapper.saveUserRegis(u1);

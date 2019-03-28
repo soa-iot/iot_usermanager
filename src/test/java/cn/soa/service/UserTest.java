@@ -26,7 +26,7 @@ public class UserTest {
 	private UserServiceInter userService;
 	
 	
-	@Test
+	//@Test
 	public void getInitOrganServ() {
 		 String usernum = "11";
 		 List<Map<String, Object>> initOrganServ = userService.getInitOrganServ(usernum);
