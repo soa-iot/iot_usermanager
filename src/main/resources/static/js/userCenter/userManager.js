@@ -164,7 +164,8 @@ $(function(){
 			dataJson ={
 				"orgid": data.orgid,
 				"usernum": data.usernum,
-				"name": data.name || ""
+				"name": data.name || null,
+				"password": data.user_password || "123"
 			};
 		console.log( dataJson );
 		ajax( 'put', modifyUserUrl, dataJson, modifyUserSF );
@@ -230,8 +231,9 @@ $(function(){
 			cols : [ [
 				{type: 'numbers',title:'序号', align:'center', minWidth:120}
 		    	,{field:'orgid', title:'id', minWidth:120, fixed: 'left', hide: true, align:'center'}
-		    	,{field:'usernum', title:'用户编号', minWidth:300, edit: 'text', align:'center'}
-		    	,{field:'name', title:'姓名', minWidth:250, edit: 'text', align:'center'}
+		    	,{field:'usernum', title:'用户编号', minWidth:200, edit: 'text', align:'center'}	           
+		    	,{field:'name', title:'姓名', minWidth:200, edit: 'text', align:'center'}
+		    	 ,{field:'user_password', minWidth:150,title: '密码',edit:'text', align:'center'}
 		    	,{field:'state', title:'状态', minWidth:80, sort: true,  hide: true, align:'center'}
 		    	,{fixed: 'right', title:'操作', toolbar: '#barDemo',minWidth:300, align:'center'}
 			] ],
@@ -320,7 +322,7 @@ $(function(){
 	        	console.log( '---------打开用户组织管理页面---------' );
 	        	var editObj=null,ptable=null,treeGrid=null,tableId='treeTable';
 	        	layui.config({
-	        	    base: '/jsPackage/web/design/extend/'
+	        	    base: '../../../jsPackage/web/design/extend/'
 	        	}).extend({
 	        	}).use(['jquery','treeGrid','layer'], function(){
 	        	    var $=layui.jquery;
@@ -345,9 +347,9 @@ $(function(){
 	        	        ,cols: [[
 	        	            {type:'numbers'}
 	        	            ,{type:'radio'}
-	        	            ,{field:'name', width:'80%', title: '人员组织名称',edit:'text'}
-	        	            ,{field:'usernum',width:0, title: 'id',edit:'text',hide:true}
-	        	            ,{field:'parent_id',width:0, title: 'pid',hide:true}
+	        	            ,{field:'name', width:'50%', title: '人员组织名称',edit:'text'}
+	        	            ,{field:'usernum',width:-1, title: 'id',edit:'text',hide:true}
+	        	            ,{field:'parent_id',width:-1, title: 'pid',hide:true}
 	        	        ]]
 	        	        ,parseData:function (res) {//数据加载后回调
 	        	            return res;

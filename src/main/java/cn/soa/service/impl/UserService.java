@@ -398,13 +398,14 @@ public class UserService implements UserServiceInter{
 	 * @return: int        
 	 */ 
 	@Override
-	public int modifyUserByIdServ( String orgid, String usernum, String name  ) {
+	public int modifyUserByIdServ( String orgid, String usernum, String name ,String password ) {
 		int i = -1;
 		try {
 			UserOrganization u = new UserOrganization();
 			u.setOrgid(orgid);
 			u.setUsernum(usernum);
 			u.setName(name);
+			u.setUser_password(password);
 			i = userMapper.modifyUserById(u);
 		} catch (Exception e) {
 			e.printStackTrace();

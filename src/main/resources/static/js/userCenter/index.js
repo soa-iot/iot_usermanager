@@ -164,11 +164,18 @@ function navClickBack(obj){
 	console.log( '----------侧边导航栏单击事件函数---------');	
 	var url = $(obj).attr('url');
 	//http://localhost:8001/html/userCenter/userManager.html
-	//动态加载页面
-	var a = $( '#indexContent' )
+	//动态加载页面	
+	var reg = /userCenter/;
+	if( reg.test(url) ){
+		var a = $( '#indexContent' )
 		.load( ipPort + url + ' .loadContent', function(returnDom){
 			$( returnDom ).find( 'script' ).appendTo( '#indexContent' );
 		});
+	}else{
+		$( '#indexContent div' ).empty()
+		$( '#indexContent div' ).append('<iframe style="width:100%;height:100%" src=' + ipPort + url  + '></iframe>');
+	}
+	
 }
 
 /**

@@ -99,6 +99,13 @@ layui.config({
 					});
 		}
 	});
+	
+	/*
+	 * 隐藏弹出框
+	 */
+	function hideElement(){
+		$( '#resource_add' ).hide();
+	}
 
 	// 监听“新增”按钮点击事件
 	var add_layer;
@@ -124,6 +131,9 @@ layui.config({
 						var mask = $(".layui-layer-shade");
 						mask.appendTo(layero.parent());
 						// 其中：layero是弹层的DOM对象
+					},
+					end:function(){
+						hideElement();
 					}
 				});
 		$.ajax({
@@ -173,7 +183,7 @@ layui.config({
 
 				layer.close(add_layer);
 				$.ajax({
-							url : '/resource/updateResource',
+							url : ipPort +'/resource/updateResource',
 							data : fdata,
 							success : function(data) {
 
@@ -214,7 +224,7 @@ layui.config({
 
 				layer.close(add_layer);
 				$.ajax({
-							url : '/resource/addResource',
+							url : ipPort + '/resource/addResource',
 							data : fdata,
 							success : function(data) {
 
@@ -253,7 +263,7 @@ layui.config({
 						 */
 						$.ajax({
 									method : "get",
-									url : "/resource/delResourceInfoById",
+									url : ipPort + "/resource/delResourceInfoById",
 									data : {
 										modId : obj.data.modId,
 										parentId : obj.data.parentId
@@ -311,10 +321,13 @@ layui.config({
 							var mask = $(".layui-layer-shade");
 							mask.appendTo(layero.parent());
 							// 其中：layero是弹层的DOM对象
+						},
+						end:function(){
+							hideElement();
 						}
 					});
 			$.ajax({
-				url : '/resource/getParentResource',
+				url : ipPort + '/resource/getParentResource',
 				dataType : 'json',
 				success : function(data) {
 					// console.log(data);

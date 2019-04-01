@@ -160,7 +160,7 @@ public interface UserServiceInter {
 	 * @Description: 根据用户id修改用户信息    
 	 * @return: int        
 	 */  
-	int modifyUserByIdServ(String orgid, String usernum, String name);
+	int modifyUserByIdServ(String orgid, String usernum, String name,String password);
 
 
 	/**   

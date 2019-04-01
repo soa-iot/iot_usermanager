@@ -433,9 +433,10 @@ public class UserController {
 	public ResultJson<String> modifyUserById(
 			@RequestParam("orgid") @NotBlank String orgid,
 			@RequestParam("usernum") @NotBlank String usernum,
-			@RequestParam("name") @NotBlank String name){
+			@RequestParam("name") @NotBlank String name,
+			@RequestParam("password") @NotBlank String password){
 		logger.debug( "--C---------- 根据用户id修改用户信息  -----------" );
-		int i = userService.modifyUserByIdServ(orgid, usernum, name);
+		int i = userService.modifyUserByIdServ(orgid, usernum, name, password);
 		if( i > 0 ) {
 			logger.debug("-----C------- 根据用户id修改用户信息   成功  ----  " + i);
 			return new ResultJson<String>( 0, "修改成功 ", i + "" );

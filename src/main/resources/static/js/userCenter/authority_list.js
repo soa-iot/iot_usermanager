@@ -120,6 +120,14 @@ layui.config({
 							});
 				}
 			});
+			
+			/*
+			 * 隐藏弹出框
+			 */
+			function hideElement(){
+				$( '#add_authority_role' ).hide();
+				$( '#authority_add' ).hide();
+			}
 
 			// 监听新增按钮点击事件
 			var add_layer;
@@ -150,6 +158,10 @@ layui.config({
 							     var mask = $(".layui-layer-shade");
 							     mask.appendTo(layero.parent());
 							     //其中：layero是弹层的DOM对象
+							     mask.hide();
+							},
+							end:function(){
+								hideElement();
 							}
 						});
 
@@ -176,7 +188,7 @@ layui.config({
 
 					},
 					error : function() {
-
+							
 					}
 
 				});
@@ -354,6 +366,10 @@ layui.config({
 								     var mask = $(".layui-layer-shade");
 								     mask.appendTo(layero.parent());
 								     //其中：layero是弹层的DOM对象
+								     mask.hide();
+								},
+								end:function(){
+									hideElement();
 								}
 							});
 					$.ajax({
@@ -431,6 +447,9 @@ layui.config({
 						     var mask = $(".layui-layer-shade");
 						     mask.appendTo(layero.parent());
 						     //其中：layero是弹层的DOM对象
+						},
+						end:function(){
+							hideElement();
 						}
 					});
 
