@@ -172,8 +172,8 @@ function navClickBack(obj){
 			$( returnDom ).find( 'script' ).appendTo( '#indexContent' );
 		});
 	}else{
-		$( '#indexContent div' ).empty()
-		$( '#indexContent div' ).append('<iframe style="width:100%;height:100%" src=' + ipPort + url  + '></iframe>');
+		$( '#indexContent div' ).empty();
+		$( '#indexContent div' ).append('<iframe style="width:100%;height:78.5vh;" src=http://' + url  + '></iframe>');
 	}
 	
 }
