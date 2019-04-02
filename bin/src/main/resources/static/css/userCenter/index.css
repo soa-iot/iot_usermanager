@@ -1,0 +1,172 @@
+/* 公用 */
+.w3 {
+	width: 3%;
+}
+
+.w5 {
+	width: 5%;
+}
+
+.w10 {
+	width: 10%;
+}
+
+.w20 {
+	width: 20%;
+}
+
+.w25 {
+	width: 25%;
+}
+
+.w30 {
+	width: 30%;
+}
+
+.w40 {
+	width: 40%;
+}
+
+.w45 {
+	width: 45%;
+}
+
+
+
+/* 菜单模块 */
+#index_module > ul {
+	padding-left: 45px;
+	background-color: #0B2967;
+}
+
+#index_module > ul > li{
+	width: 15%;
+	height: 50px;
+	display: inline-block;
+	font-size: 18px;
+	font-weight: bold;
+	color: #A0E9FF;
+	font-family: "华文仿宋";
+	/*margin-top: 10px ;
+	margin-bottom: 10px ;*/
+	
+}
+
+.index_module_name {
+	/*background: linear-gradient(to right,#95E0FF,#2E78C1);*/
+	text-align: center;
+	width: 100%;
+	height: 100%;
+	line-height: 50px;
+}
+
+.index_module_name a {
+	/* color: #A0E9FF;*/
+	color: white
+}
+
+.index_module_name > img {
+	width: 30px;
+	height: 20px;
+}
+
+#index_avail_nav {
+	position: absolute;
+	width: 40px;
+	top: 90px;
+	height: 100vh;	
+	/*background: linear-gradient(to right,#DBDBDB,#FCFCFC);*/
+	background-color: rgba(0,0,0,0.05);
+	text-align: center;
+}
+
+#index_avail_nav div {
+	margin: 0 auto;
+	margin-top: calc( 100vh/2 - 40px);
+	width: 30px;
+	height: 120px;
+}
+
+#index_avail_nav img {
+	width: 100%;
+	height: 100%;
+}
+
+#index_ehart {
+	width: 100%;
+}
+
+#index_ehart ul {
+	/*border: 2px solid #16284E;
+	background-color: #22477E;*/
+	text-align: center;
+	font-size: 18px;
+	font-weight: bold;
+	color: #B2FCFB;
+	font-family: "宋体";
+	margin: 0px;
+	padding-left: 25px;
+}
+
+#index_ehart li {
+	display: inline-block;
+	width: 16%;
+	height: 160px;		
+	
+}
+
+
+#index_ehart li div{
+	width: 100%;
+	height: 180px;
+	/*background-color: #0B2967;*/
+}
+
+#userManager {
+	width: 99%
+}
+
+
+/* 流程代办 */
+#index_process_job {
+	display:inline-block;
+	width: 65%;
+	height: calc(100vh * 0.25);
+	background-color: #0B2967;
+	color: #BCF7FA;
+	padding:3px;
+	vertical-align: middle;
+}
+
+#index_process_job ul div{
+	text-align: center;
+	display: inline-block;
+	margin: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+	border: 2px solid #0F287A;
+}
+
+#index_process_job li {
+	height: 30px;
+	color: #D8FFFF;
+	margin: 0px;	
+}
+
+/* 动态消息 */
+#index_active_message {
+	margin-left: 10px;
+	display:inline-block;
+	width: 32%;
+	height: calc(100vh * 0.25);
+	background-color: #0B2967;
+	color: #BCF7FA;
+	padding:3px;
+	vertical-align: middle;
+}
+
+#index_active_message li {
+	text-align: center;	
+	color: #BCF7FA;
+	font-size: 14px;	
+}

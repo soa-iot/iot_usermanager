@@ -10,6 +10,21 @@ import cn.soa.entity.IotUserAuthority;
 public interface IotUserAuthorityMapper {
 	int deleteByPrimaryKey(String autid);
 
+	/**
+	 * 根据IOT_USER_MODULE_RESOURCE的id关联删除权限表IOT_USER_AUTHORITY的数据
+	 * 
+	 * @return
+	 */
+	int deleteAuthByModid(String modid);
+
+	/**
+	 * 根据权限id 删除权限及子权限
+	 * 
+	 * @param autid
+	 * @return
+	 */
+	int deleteByAutid(String autid);
+
 	int insert(IotUserAuthority record);
 
 	int insertSelective(IotUserAuthority record);
@@ -27,5 +42,4 @@ public interface IotUserAuthorityMapper {
 	 */
 	List<IotUserAuthority> findAllAuthorityInfo();
 
-	
 }

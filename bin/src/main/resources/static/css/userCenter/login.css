@@ -1,9 +1,14 @@
+blockquote {
+	margin: 0px;
+}
+
 .layui-fluid {
-	/*height: 100vh;*/
+	height: calc( 100vh - 63px);
 	margin: 0;
 	padding: 0;
 	overflow: auto;
-	background-color: white;
+	/*background-color: white;*/
+	background-image: url('../../img/iot_login.jpg');
 }
 input {
 	height: 80px;	
@@ -15,12 +20,12 @@ label {
 }
 
 div[class^="layui-col-"] {
-	border: 1px white solid; 
+	/*border: 1px white solid; */
 	line-height: 80px;
 }
 
 .layui-row {
-	border: 1px white solid; 
+	/*border: 1px white solid; */
 	height: 80px;
 	text-align: center;
 }
@@ -42,4 +47,5 @@ div[class^="layui-col-"] {
 	width: 80px;
 }
 
-
+#form {
+}

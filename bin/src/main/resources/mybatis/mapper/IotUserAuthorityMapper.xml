@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.soa.dao.IotUserAuthorityMapper">
+  <resultMap id="BaseResultMap" type="cn.soa.entity.IotUserAuthority">
+    <id column="AUTID" jdbcType="VARCHAR" property="autid" />
+    <result column="RESOURCEID" jdbcType="VARCHAR" property="resourceid" />
+    <result column="TYPE" jdbcType="DECIMAL" property="type" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="NOTE" jdbcType="VARCHAR" property="note" />
+    <result column="REMARK1 " jdbcType="DECIMAL" property="remark1" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    AUTID, RESOURCEID, TYPE, NAME, NOTE, "REMARK1 "
+  </sql>
+  <!-- 查询所有数据 -->
+  <select id="findAllAuthorityInfo" resultMap="BaseResultMap">
+  	select 
+  		<include refid="Base_Column_List"></include>
+  	from 
+  		IOT_USER_AUTHORITY
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from IOT_USER_AUTHORITY
+    where AUTID = #{autid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from IOT_USER_AUTHORITY
+    where AUTID = #{autid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="cn.soa.entity.IotUserAuthority">
+    insert into IOT_USER_AUTHORITY (AUTID, RESOURCEID, TYPE, 
+      NAME, NOTE, "REMARK1 "
+      )
+    values (#{autid,jdbcType=VARCHAR}, #{resourceid,jdbcType=VARCHAR}, #{type,jdbcType=DECIMAL}, 
+      #{name,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{remark1,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.soa.entity.IotUserAuthority">
+    insert into IOT_USER_AUTHORITY
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="autid != null">
+        AUTID,
+      </if>
+      <if test="resourceid != null">
+        RESOURCEID,
+      </if>
+      <if test="type != null">
+        TYPE,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="note != null">
+        NOTE,
+      </if>
+      <if test="remark1 != null">
+        "REMARK1 ",
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="autid != null">
+        #{autid,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceid != null">
+        #{resourceid,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null">
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="remark1 != null">
+        #{remark1,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.soa.entity.IotUserAuthority">
+    update IOT_USER_AUTHORITY
+    <set>
+      <if test="resourceid != null">
+        RESOURCEID = #{resourceid,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        TYPE = #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null">
+        NOTE = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="remark1 != null">
+        "REMARK1 " = #{remark1,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where AUTID = #{autid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.soa.entity.IotUserAuthority">
+    update IOT_USER_AUTHORITY
+    set RESOURCEID = #{resourceid,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=DECIMAL},
+      NAME = #{name,jdbcType=VARCHAR},
+      NOTE = #{note,jdbcType=VARCHAR},
+      "REMARK1 " = #{remark1,jdbcType=DECIMAL}
+    where AUTID = #{autid,jdbcType=VARCHAR}
+  </update>
+</mapper>

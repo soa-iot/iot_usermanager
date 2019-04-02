@@ -7,53 +7,64 @@
 	<!-- ===========================1、查询===============================  -->
 	
 	<!-- 1.1、根据id查询用户信息 -->
-	<select id="findUserById" parameterType="int" resultType="cn.soa.entity.UserOrganization">
-		select * from user_organization
-		where userId = #{userId}
+	<select id="findUserById" parameterType="string" resultType="cn.soa.entity.UserOrganization">
+		select * from iot_user_organization
+		where orgid = #{userId}
 	</select>
 	
-	<!-- 1.2、根据用户唯一标识查询用户 -->
-	<select id="findUserByUsernum" parameterType="int" resultType="cn.soa.entity.UserOrganization">
-		select * from user_organization
+	<!-- 1.2、根据用户唯一标识查询组织 -->
+	<select id="findUserByUsernum" parameterType="string" resultType="cn.soa.entity.UserOrganization">
+		select * from iot_user_organization
 		where usernum = #{userNum}
 	</select>	
 	
 	<!-- 1.3、查询所有用户信息 -->
 	<select id="findUserAll" resultType="cn.soa.entity.UserOrganization">
-		select * from user_organization
+		select * from iot_user_organization where IS_PARENT = 0
 	</select>	
 	
-	<!-- 1.3、查询所有用户信息和对应的状态 -->
+	<!-- 1.4、查询所有用户非组织信息 -->
+	<select id="findUsersAll" resultType="cn.soa.entity.UserOrganization">
+		select * from iot_user_organization where IS_PARENT = 1
+	</select>
+	
+	<!-- 1.5、根据用户唯一标识查询用户 -->
+	<select id="findUsersByNum" parameterType="string" resultType="cn.soa.entity.UserOrganization">
+		select * from iot_user_organization
+		where usernum = #{userNum} and IS_PARENT = 1
+	</select>	
+	
+	<!-- 1.3、查询所有用户信息和对应的状态 
 	<select id="findUsersAndState" resultType="cn.soa.entity.UserOrganization">
 		select o.orgid, o.name, o.parent_id, o.usernum, o.user_password, 
 				o.is_parent, o.note, i.state as remark1, o.remark2
-		from user_organization o left join user_info i on o.usernum=i.userid	
-	</select>	
-	
+		from iot_user_organization o left join iot_user_info i on o.usernum=i.usernum	
+	</select>	 -->	
 	
 	
 	<!-- ===========================2、新增===============================  -->
 	
-	<!-- 2.1、根据id增加用户信息 -->
+	<!-- 2.1、根据id增加用户组织 -->
 	<insert id="saveUser"  parameterType="cn.soa.entity.UserOrganization">
-		insert into user_organization
-		( name, parent_id, usernum, user_password, is_parent, note, remark1, remark2)
+		insert into iot_user_organization
+		( name, parent_id, usernum, user_password, is_parent, state, note, remark1, remark2)
 		values
-		(#{userOrgan.name,jdbcType=VARCHAR}, #{userOrgan.parent_id,jdbcType=INTEGER}, 
-		 #{userOrgan.usernum,jdbcType=INTEGER},#{userOrgan.user_password,jdbcType=VARCHAR}, 
-		 #{userOrgan.is_parent,jdbcType=INTEGER}, #{userOrgan.note,jdbcType=VARCHAR},
+		(#{userOrgan.name,jdbcType=VARCHAR}, #{userOrgan.parent_id,jdbcType=VARCHAR}, 
+		 #{userOrgan.usernum,jdbcType=VARCHAR},#{userOrgan.user_password,jdbcType=VARCHAR}, 
+		 #{userOrgan.is_parent,jdbcType=INTEGER},#{userOrgan.state,jdbcType=INTEGER},
+		 #{userOrgan.note,jdbcType=VARCHAR},		 
 		 #{userOrgan.remark1,jdbcType=INTEGER}, #{userOrgan.remark2,jdbcType=VARCHAR})
 	</insert>
 	
-	<!-- 2.2、根据id增加用户信息 ，返回id			
+	<!-- 2.2、根据id增加组织 ，返回id			
 	<insert id="saveUserBackId"  parameterType="cn.soa.entity.UserOrganization">		
 		<selectKey resultType ="java.lang.Integer" keyProperty= "userOrgan.orgid" keyColumn="orgid" order= "AFTER">
 			SELECT LAST_INSERT_ID()
 		</selectKey >-->
-	<insert id="saveUserBackId"  useGeneratedKeys="true" keyProperty="orgid" keyColumn="orgid" parameterType="cn.soa.entity.UserOrganization">
-		insert into user_organization
+	<insert id="saveOrganBackId"  useGeneratedKeys="true" keyProperty="orgid" keyColumn="orgid" parameterType="cn.soa.entity.UserOrganization">
+		insert into iot_user_organization
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="name != null and '' != name">
+			<if test="name != null">
 				name,
 			</if>
 			<if test="parent_id != null">
@@ -68,6 +79,9 @@
 			<if test="is_parent != null">
 				is_parent,
 			</if>
+			<if test="state != null">
+				state,
+			</if>
 			<if test="note != null">
 				note,
 			</if>
@@ -80,20 +94,23 @@
 		</trim>
 		values
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="name != null and '' != name">
+			<if test="name != null ">
 				#{name,jdbcType=VARCHAR},
 			</if>
 			<if test="parent_id != null">
-				#{parent_id,jdbcType=INTEGER},
+				#{parent_id,jdbcType=VARCHAR},
 			</if>
 			<if test="usernum != null">
-				#{usernum,jdbcType=INTEGER},	  
+				#{usernum,jdbcType=VARCHAR},	  
 			</if>
 			<if test="user_password != null">
 				#{user_password,jdbcType=VARCHAR},
 			</if>
 			<if test="is_parent != null">
 				#{is_parent,jdbcType=INTEGER},
+			</if>
+			<if test="state != null">
+				#{state,jdbcType=INTEGER},
 			</if>
 			<if test="note != null">
 				#{note,jdbcType=VARCHAR},
@@ -107,15 +124,78 @@
 		</trim>
 	</insert>
 	
-	<!-- 2.3、根据id批量增加用户信息 -->
+	<!-- 2.3、根据id增加用户 ，返回id -->
+	<insert id="saveUserBackId"  useGeneratedKeys="true" keyProperty="orgid" keyColumn="orgid" parameterType="cn.soa.entity.UserOrganization">
+		insert into iot_user_organization
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name != null">
+				name,
+			</if>
+			<if test="parent_id != null">
+				parent_id,
+			</if>
+			<if test="usernum != null">
+				usernum,
+			</if>
+			<if test="user_password != null">
+				user_password,
+			</if>			
+			<if test="state != null">
+				state,
+			</if>
+			<if test="note != null">
+				note,
+			</if>
+			<if test="remark1 != null">
+				remark1,
+			</if>
+			<if test="remark2 != null">
+				remark2,
+			</if>
+			is_parent
+		</trim>
+		values
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name != null ">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="parent_id != null">
+				#{parent_id,jdbcType=VARCHAR},
+			</if>
+			<if test="usernum != null">
+				#{usernum,jdbcType=VARCHAR},	  
+			</if>
+			<if test="user_password != null">
+				#{user_password,jdbcType=VARCHAR},
+			</if>			
+			<if test="state != null">
+				#{state,jdbcType=INTEGER},
+			</if>
+			<if test="note != null">
+				#{note,jdbcType=VARCHAR},
+			</if>
+			<if test="remark1 != null">
+				#{remark1,jdbcType=INTEGER},
+			</if>
+			<if test="remark2 != null">
+				#{remark2,jdbcType=VARCHAR},
+			</if>
+			<if test="is_parent != null">
+				#{is_parent,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+	<!-- 2.4、根据id批量增加用户信息 -->
 	<insert id="saveUserByBatch" parameterType="list" useGeneratedKeys="true" >	
-		insert into user_organization
-		( name, parent_id, usernum, user_password, is_parent, note, remark1, remark2)
+		insert into iot_user_organization
+		( name, parent_id, usernum, user_password, is_parent, state, note, remark1, remark2)
 		values
 		<foreach collection="userOrgans" separator=","  item="item"  >
-			(#{item.name,jdbcType=VARCHAR}, #{item.parent_id,jdbcType=INTEGER}, 
-			 #{item.usernum,jdbcType=INTEGER},#{item.user_password,jdbcType=VARCHAR}, 
+			(#{item.name,jdbcType=VARCHAR}, #{item.parent_id,jdbcType=VARCHAR}, 
+			 #{item.usernum,jdbcType=VARCHAR},#{item.user_password,jdbcType=VARCHAR}, 
 			 #{item.is_parent,jdbcType=INTEGER}, #{item.note,jdbcType=VARCHAR},
+			 #{item.state,jdbcType=INTEGER},
 			 #{item.remark1,jdbcType=INTEGER}, #{item.remark2,jdbcType=VARCHAR})
 		</foreach>  
 	</insert>
@@ -125,27 +205,24 @@
 	
 	<!-- ===========================3、修改===============================  -->	
 	
-	<!-- 3.1、根据id修改用户信息 -->
-	<update id="modifyUserById" parameterType="cn.soa.entity.UserOrganization">
-		update user_organization		
-		<trim prefix="set" suffix="where orgid = #{userOrgan.orgid}" suffixOverrides="," >
+	<!-- 3.1、根据num修改用户信息 -->
+	<update id="modifyUserBynum" parameterType="cn.soa.entity.UserOrganization">
+		update iot_user_organization		
+		<trim prefix="set" suffix="where usernum = #{userOrgan.usernum}" suffixOverrides="," >
 			<if test="userOrgan.name != null">
 				name = #{ userOrgan.name },
 			</if>
 			<if test="userOrgan.parent_id != null">
 				parent_id = #{ userOrgan.parent_id },
 			</if>
-			<if test="userOrgan.usernum != null">
-				usernum = #{ userOrgan.usernum },
-			</if>
-			<if test="userOrgan.usernum != null">
-				usernum = #{ userOrgan.usernum },
-			</if>
 			<if test="userOrgan.user_password != null">
 				user_password = #{ userOrgan.user_password },
 			</if>
-			<if test="userOrgan.is_parent != null">
-				is_parent = #{ userOrgan.is_parent },
+			<if test="userOrgan.state != null">
+				state = #{ userOrgan.state },
+			</if>
+			<if test="userOrgan.note != null">
+				note = #{ userOrgan.note }, 
 			</if>
 			<if test="userOrgan.is_parent != null">
 				is_parent = #{ userOrgan.is_parent }, 
@@ -154,7 +231,41 @@
 				remark1 = #{ userOrgan.remark1 }, 
 			</if>
 			<if test="userOrgan.remark2 != null">
-				remark2 = #{ userOrgan.remark2 }, 
+				remark2 = #{ userOrgan.remark2 }
+			</if>
+		</trim>
+	</update>
+	
+	<!-- 3.2、根据id修改用户 -->
+	<update id="modifyUserById" parameterType="cn.soa.entity.UserOrganization">
+		update iot_user_organization		
+		<trim prefix="set" suffix="where orgid = #{userOrgan.orgid}" suffixOverrides="," >
+			<if test="userOrgan.usernum != null">
+				usernum = #{ userOrgan.usernum },
+			</if>
+			<if test="userOrgan.name != null">
+				name = #{ userOrgan.name },
+			</if>
+			<if test="userOrgan.parent_id != null">
+				parent_id = #{ userOrgan.parent_id },
+			</if>
+			<if test="userOrgan.user_password != null">
+				user_password = #{ userOrgan.user_password },
+			</if>
+			<if test="userOrgan.state != null">
+				state = #{ userOrgan.state },
+			</if>
+			<if test="userOrgan.note != null">
+				note = #{ userOrgan.note }, 
+			</if>
+			<if test="userOrgan.is_parent != null">
+				is_parent = #{ userOrgan.is_parent }, 
+			</if>
+			<if test="userOrgan.remark1 != null">
+				remark1 = #{ userOrgan.remark1 }, 
+			</if>
+			<if test="userOrgan.remark2 != null">
+				remark2 = #{ userOrgan.remark2 }
 			</if>
 		</trim>
 	</update>
@@ -165,14 +276,14 @@
 
 	<!-- 4.1、根据id删除用户 -->
 	<delete id="deleteUserById" parameterType="string">
-		delete from user_organization
+		delete from iot_user_organization
 		where orgid = #{ userid }
 	</delete>
 	
 	<!-- 4.2、根据usernum删除用户 -->
-	<delete id="deleteUserByUsernum" parameterType="int">
-		delete from user_organization
-		where usernum = #{ usernum }
+	<delete id="deleteUserByUsernum" parameterType="string">
+		delete from iot_user_organization
+		where usernum = #{usernum}
 	</delete>
 	
 </mapper>

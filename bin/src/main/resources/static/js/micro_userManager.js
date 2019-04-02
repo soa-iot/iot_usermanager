@@ -2,7 +2,7 @@
  * 项目变量
  */
 var ip = "localhost";
-var port = "8001";
+var port = "10238";
 
 
-var ipPort = "http://" + ip + ":" + port;
+var ipPort = "http://" + ip + ":" + port + "/iot_usermanager";
