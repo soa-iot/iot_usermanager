@@ -23,5 +23,6 @@ public interface RoleAuthorityMapper {
 	 * @return
 	 */
 	List<RoleAuthority> findRoleAuthority();
+	
 
 }

@@ -9,7 +9,7 @@ var element = layui.element,
 	roleAuthJsonUrl = ipPort + "/user/auths",
 	username;
 //菜单配置
-var menoArr,authArr;
+var menoArr,authArr,currentLastMenoId;
 
 /**
  * 初始化加载
@@ -162,7 +162,9 @@ function menoCallBack(){
  */
 function navClickBack(obj){
 	console.log( '----------侧边导航栏单击事件函数---------');	
-	var url = $(obj).attr('url');
+	var url = $(obj).attr('url'),
+	currentLastMenoId = $(obj).attr('modId');
+	
 	//http://localhost:8001/html/userCenter/userManager.html
 	//动态加载页面	
 	var reg = /userCenter/;
@@ -193,7 +195,7 @@ $(function(){
 //    console.log(WebSocket);
 	
 	//ws连接,打开服务
-	socket = new WebSocket( "ws://"+ ipPort.substring(0,22) + "/push/pushVideoListToWeb" );
+	socket = new WebSocket( "ws://"+ ipPort.substring(8,ipPort.length) + "/push/pushVideoListToWeb" );
 	socket.onopen = function(){
 		console.log("--------------ws服务已打开----------------");  
 		socket.send( JSON.stringify({'test':20}) ); 
@@ -247,7 +249,7 @@ $(function(){
 function generateF( $obj, data ){
 	$.each( data, function(index,item){
 	  	var html ='<li class="layui-nav-item "' + 
-	  					' url=' + item.url + ' onclick="navClickBack(this);">' + 
+	  					' url=' + item.url + ' modId=' + item.modId + ' onclick="navClickBack(this);">' + 
 					'<a href="javascript:;">'+ item.name + '</a>'
 				'</li>';
 		$this = $(html);

@@ -445,4 +445,22 @@ public class UserController {
 			return new ResultJson<String>( 0, "修改失败 ", "" );
 		}
 	}
+	
+	/**   
+	 * @Title: getButtonAuthorityC   
+	 * @Description:  获取用户模块对应的按钮权限 
+	 * @return: ResultJson<String>        
+	 */  
+	@GetMapping("/authority/{userid}/{modId}")
+	public ResultJson<List<IotUserModuleResource>> getButtonAuthorityC( 
+			@PathVariable("userid") @NotBlank String userid,
+			@PathVariable("modId") @NotBlank String modId){
+		logger.debug("-----C------- getButtonAuthorityC ----  " + userid + "," + modId );
+		List<IotUserModuleResource> resources = userService.getButtonAuthorityS(userid, modId);
+		if( resources.size() > 0 ) {
+			return new ResultJson<List<IotUserModuleResource>>( 0, "查询成功 ", resources );
+		}else {
+			return new ResultJson<List<IotUserModuleResource>>( 1, "查询失败 ", null );
+		}
+	}		
 }

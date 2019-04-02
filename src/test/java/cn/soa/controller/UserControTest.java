@@ -10,6 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import cn.soa.IotUsermanagerApplication;
+import cn.soa.entity.IotUserModuleResource;
 import cn.soa.entity.UserOrganization;
 import cn.soa.entity.headResult.ResultJson;
 import cn.soa.entity.headResult.UserTableJson;
@@ -44,6 +45,11 @@ public class UserControTest {
 		ResultJson<String> deleteUserContro = userController.deleteUserContro(usernum);
 		System.out.println(deleteUserContro);
 	}
-	
-	
+	@Test
+	public void testGet() {
+		String userId = "liu";
+		String modId = "3296CD7E555042D38AB92A50B0164C7F";
+		ResultJson<List<IotUserModuleResource>> buttonAuthorityC = userController.getButtonAuthorityC(userId, modId);
+		System.out.println(buttonAuthorityC);
+	}
 }

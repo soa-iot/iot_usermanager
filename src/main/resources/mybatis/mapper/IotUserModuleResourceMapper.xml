@@ -153,4 +153,11 @@
   		IOT_USER_MODULE_RESOURCE
   </select>
   
+  
+	<select id="findAuthResourceByRoleid" parameterType="string" resultType="cn.soa.entity.IotUserModuleResource">
+  		select umr.* from IOT_USER_ROLE_AUTH ura 
+  				left join IOT_USER_AUTHORITY ua on ura.autid=ua.AUTID
+ 				left join IOT_USER_MODULE_RESOURCE umr on ua.RESOURCEID=umr.MODID 
+ 		where ura.rolid=#{rolid} and umr.PARENT_ID = #{modid}
+	</select>
 </mapper>

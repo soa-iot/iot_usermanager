@@ -14,6 +14,7 @@ package cn.soa.service.inter;
 import java.util.List;
 import java.util.Map;
 
+import cn.soa.entity.IotUserModuleResource;
 import cn.soa.entity.UserInfo;
 import cn.soa.entity.UserOrganization;
 
@@ -168,7 +169,15 @@ public interface UserServiceInter {
 	 * @Description:根据usernum删除用户   
 	 * @return: int        
 	 */  
-	int deleteUserByNum(String usernum);		
+	int deleteUserByNum(String usernum);
+
+
+	/**   
+	 * @Title: getButtonAuthorityS   
+	 * @Description:   获取用户模块对应的按钮权限   
+	 * @return: List<IotUserModuleResource>        
+	 */  
+	List<IotUserModuleResource> getButtonAuthorityS(String userid, String modId);		
 
 
 }

@@ -34,4 +34,11 @@ public interface IotUserModuleResourceMapper {
      * @return
      */
     List<Map<String, String>> findParentResource();
+    
+    /**   
+     * @Title: findAuthResourceByRoleid   
+     * @Description: 根据用户角色id和菜单id，查询按钮id  
+     * @return: List<IotUserModuleResource>        
+     */  
+    List<IotUserModuleResource> findAuthResourceByRoleid( String rolid,String modId);
 }
