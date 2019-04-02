@@ -96,6 +96,7 @@ public class RoleAuthorityService implements RoleAuthorityServiceInter {
 
 		int result = 0;
 		for (String autid : ids) {
+			result += roleAuthMapper.deleteByAutid(autid);
 			result += authorityMapper.deleteByAutid(autid);
 		}
 
