@@ -29,10 +29,10 @@ public class ResourceService implements ResourceServiceInter {
 
 	@Autowired
 	private IotUserModuleResourceMapper resourceMapper;
-	
+
 	@Autowired
 	private IotUserAuthorityMapper userAuthorityMapper;
-	
+
 	@Autowired
 	private IotUserRoleAuthMapper userRoleAuthMapper;
 
@@ -43,82 +43,100 @@ public class ResourceService implements ResourceServiceInter {
 	 */
 	@Override
 	public List<IotUserModuleResource> getResourceInfo() {
-		
+
 		List<IotUserModuleResource> resourceInfo = resourceMapper.findAllResourceInfo();
 		System.out.println(resourceInfo);
-		
+
 		return resourceInfo;
 	}
 
-
-	/* (non-Javadoc)
-	 * @see cn.soa.service.inter.ResourceServiceInter#delResourceInfoById(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see cn.soa.service.inter.ResourceServiceInter#delResourceInfoById(java.lang.
+	 * String)
 	 */
 	@Override
 	public int delResourceInfoById(String modId) {
-		
+
 		/**
-		 * 删除资源
+		 * 删除权限角色关系
 		 */
-		int resultNum = resourceMapper.deleteByPrimaryKey(modId);
-		
+		int resultNum = userRoleAuthMapper.deleteByModid(modId);
+
+		/**
+		 * 删除权限
+		 */
+		userAuthorityMapper.deleteAuthByModid(modId);
+
+		/**
+		 * 删除资源数据
+		 */
+		resultNum += resourceMapper.deleteByPrimaryKey(modId);
+
+		/**
+		 * 删除自己资源顺序
+		 */
 		resultNum += resourceMapper.deleteByParentId(modId);
-		
-		resultNum += userRoleAuthMapper.deleteByModid(modId);
-		
-		resultNum += userAuthorityMapper.deleteAuthByModid(modId);
-		
-		
+
+		System.out.println("resultNum:" + resultNum);
 		return resultNum;
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see cn.soa.service.inter.ResourceServiceInter#getParentResource()
 	 */
 	@Override
 	public List<Map<String, String>> getParentResource() {
-		List<Map<String,String>> result = resourceMapper.findParentResource();
+		List<Map<String, String>> result = resourceMapper.findParentResource();
 		return result;
 	}
 
-
-	/* (non-Javadoc)
-	 * @see cn.soa.service.inter.ResourceServiceInter#addResourceInfo(cn.soa.entity.IotUserModuleResource)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see cn.soa.service.inter.ResourceServiceInter#addResourceInfo(cn.soa.entity.
+	 * IotUserModuleResource)
 	 */
 	@Override
 	public Integer addResourceInfo(IotUserModuleResource resource) {
-		
+
 		System.out.println(">>>>>>>>>>>>>>>>>>>>");
 		Integer result = resourceMapper.insertSelective(resource);
-		
+
 		System.out.println(result);
 		return result;
 	}
 
-
-	/* (non-Javadoc)
-	 * @see cn.soa.service.inter.ResourceServiceInter#updateResourceInfo(cn.soa.entity.IotUserModuleResource)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * cn.soa.service.inter.ResourceServiceInter#updateResourceInfo(cn.soa.entity.
+	 * IotUserModuleResource)
 	 */
 	@Override
 	public Integer updateResourceInfo(IotUserModuleResource resource) {
-		
+
 		Integer result = resourceMapper.updateByPrimaryKeySelective(resource);
 		return result;
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see cn.soa.service.inter.ResourceServiceInter#getResourceInfoOfNode()
 	 */
 	@Override
 	public List<Node> getResourceInfoOfNode() {
-		
+
 		List<IotUserModuleResource> resourceInfos = resourceMapper.findAllResourceInfo();
 		List<Node> nodes = new ArrayList<Node>();
-		for(IotUserModuleResource resourceInfo : resourceInfos) {
-			
-			if(("-1").equals(resourceInfo.getParentId())) {
+		for (IotUserModuleResource resourceInfo : resourceInfos) {
+
+			if (("-1").equals(resourceInfo.getParentId())) {
 				Node node = new Node();
 				node.setId(resourceInfo.getModId());
 				node.setName(resourceInfo.getName());
@@ -127,7 +145,7 @@ public class ResourceService implements ResourceServiceInter {
 				nodes.add(node);
 			}
 		}
-		
+
 		return nodes;
 	}
 

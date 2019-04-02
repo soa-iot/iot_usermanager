@@ -51,7 +51,7 @@
 		parent_id =#{modid,jdbcType=VARCHAR})
 	</delete>
 
-	<!-- 根据权限id删除权限及子权限-->
+	<!-- 根据权限id删除权限及子权限 -->
 	<delete id="deleteByAutid" parameterType="java.lang.String">
 		DELETE
 		FROM
@@ -72,7 +72,8 @@
 		FROM
 		IOT_USER_AUTHORITY
 		WHERE
-		AUTID = #{autid,jdbcType=VARCHAR})
+		AUTID =
+		#{autid,jdbcType=VARCHAR})
 		OR parent_id = (
 		SELECT RESOURCEID
 		FROM
