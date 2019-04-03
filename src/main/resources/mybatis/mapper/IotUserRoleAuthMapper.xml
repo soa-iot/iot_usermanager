@@ -1,89 +1,152 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.soa.dao.IotUserRoleAuthMapper">
-  <resultMap id="BaseResultMap" type="cn.soa.entity.IotUserRoleAuth">
-    <id column="ROL_AUT_ID" jdbcType="VARCHAR" property="rolAutId" />
-    <result column="ROLID" jdbcType="VARCHAR" property="rolid" />
-    <result column="AUTID " jdbcType="VARCHAR" property="autid" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    ROL_AUT_ID, ROLID, AUTID
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from IOT_USER_ROLE_AUTH
-    where ROL_AUT_ID = #{rolAutId,jdbcType=VARCHAR}
-  </select>
-  
-  <!-- 根据AUTID查询ROLID -->
-  <select id="selectByAutid" parameterType="java.lang.String" resultType="java.lang.String">
-  	select 
-  		ROLID
-  	from 
-  		IOT_USER_ROLE_AUTH
-  	where
-  		AUTID = #{authorityId,jdbcType=VARCHAR}
-  </select>
-  
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from IOT_USER_ROLE_AUTH
-    where ROL_AUT_ID = #{rolAutId,jdbcType=VARCHAR}
-  </delete>
-  
-  <delete id="deleteByAutid" parameterType="java.lang.String">
-  	delete from IOT_USER_ROLE_AUTH
-    where AUTID = #{autid,jdbcType=VARCHAR}
-  </delete>
-  
-  
-  <insert id="insert" parameterType="cn.soa.entity.IotUserRoleAuth">
-    insert into IOT_USER_ROLE_AUTH (ROL_AUT_ID, ROLID, "AUTID "
-      )
-    values (#{rolAutId,jdbcType=VARCHAR}, #{rolid,jdbcType=VARCHAR}, #{autid,jdbcType=VARCHAR}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="cn.soa.entity.IotUserRoleAuth">
-    insert into IOT_USER_ROLE_AUTH
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="rolAutId != null">
-        ROL_AUT_ID,
-      </if>
-      <if test="rolid != null">
-        ROLID,
-      </if>
-      <if test="autid != null">
-        AUTID,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="rolAutId != null">
-        #{rolAutId,jdbcType=VARCHAR},
-      </if>
-      <if test="rolid != null">
-        #{rolid,jdbcType=VARCHAR},
-      </if>
-      <if test="autid != null">
-        #{autid,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.soa.entity.IotUserRoleAuth">
-    update IOT_USER_ROLE_AUTH
-    <set>
-      <if test="rolid != null">
-        ROLID = #{rolid,jdbcType=VARCHAR},
-      </if>
-      <if test="autid != null">
-        "AUTID " = #{autid,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where ROL_AUT_ID = #{rolAutId,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="cn.soa.entity.IotUserRoleAuth">
-    update IOT_USER_ROLE_AUTH
-    set ROLID = #{rolid,jdbcType=VARCHAR},
-      "AUTID " = #{autid,jdbcType=VARCHAR}
-    where ROL_AUT_ID = #{rolAutId,jdbcType=VARCHAR}
-  </update>
+	<resultMap id="BaseResultMap"
+		type="cn.soa.entity.IotUserRoleAuth">
+		<id column="ROL_AUT_ID" jdbcType="VARCHAR" property="rolAutId" />
+		<result column="ROLID" jdbcType="VARCHAR" property="rolid" />
+		<result column="AUTID " jdbcType="VARCHAR" property="autid" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ROL_AUT_ID, ROLID, AUTID
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from IOT_USER_ROLE_AUTH
+		where ROL_AUT_ID = #{rolAutId,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 根据AUTID查询ROLID -->
+	<select id="selectByAutid" parameterType="java.lang.String"
+		resultType="java.lang.String">
+		select
+		ROLID
+		from
+		IOT_USER_ROLE_AUTH
+		where
+		AUTID =
+		#{authorityId,jdbcType=VARCHAR}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		IOT_USER_ROLE_AUTH
+		where ROL_AUT_ID = #{rolAutId,jdbcType=VARCHAR}
+	</delete>
+
+	<!--根据IOT_USER_MODULE_RESOURCE的id关联删除权限表IOT_USER_ROLE_AUTH的数据 -->
+	<delete id="deleteByModid" parameterType="java.lang.String">
+		DELETE
+		FROM
+		IOT_USER_ROLE_AUTH
+		WHERE
+		AUTID IN (
+		SELECT
+		AUTID
+		FROM
+		IOT_USER_AUTHORITY
+		WHERE
+		RESOURCEID IN (
+		SELECT
+		MODID
+		FROM
+		IOT_USER_MODULE_RESOURCE
+		WHERE
+		MODID
+		= #{modid,jdbcType=VARCHAR}
+		OR parent_id = #{modid,jdbcType=VARCHAR}))
+	</delete>
+
+
+	<delete id="deleteByAutid" parameterType="java.lang.String">
+		DELETE
+		FROM
+		IOT_USER_ROLE_AUTH
+		WHERE
+		AUTID IN (
+		SELECT AUTID
+		FROM
+		IOT_USER_AUTHORITY
+		WHERE
+		RESOURCEID IN (
+		SELECT MODID
+		FROM
+		IOT_USER_MODULE_RESOURCE
+		WHERE
+		MODID = (
+		SELECT RESOURCEID
+		FROM
+		IOT_USER_AUTHORITY
+		WHERE
+		AUTID = #{autid,jdbcType=VARCHAR})
+		OR parent_id = (
+		SELECT RESOURCEID
+		FROM
+		IOT_USER_AUTHORITY
+		WHERE
+		AUTID = #{autid,jdbcType=VARCHAR})
+		))
+	</delete>
+
+
+	<insert id="insert"
+		parameterType="cn.soa.entity.IotUserRoleAuth">
+		insert into IOT_USER_ROLE_AUTH (ROL_AUT_ID, ROLID,
+		"AUTID "
+		)
+		values (#{rolAutId,jdbcType=VARCHAR},
+		#{rolid,jdbcType=VARCHAR},
+		#{autid,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective"
+		parameterType="cn.soa.entity.IotUserRoleAuth">
+		insert into IOT_USER_ROLE_AUTH
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="rolAutId != null">
+				ROL_AUT_ID,
+			</if>
+			<if test="rolid != null">
+				ROLID,
+			</if>
+			<if test="autid != null">
+				AUTID,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="rolAutId != null">
+				#{rolAutId,jdbcType=VARCHAR},
+			</if>
+			<if test="rolid != null">
+				#{rolid,jdbcType=VARCHAR},
+			</if>
+			<if test="autid != null">
+				#{autid,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="cn.soa.entity.IotUserRoleAuth">
+		update IOT_USER_ROLE_AUTH
+		<set>
+			<if test="rolid != null">
+				ROLID = #{rolid,jdbcType=VARCHAR},
+			</if>
+			<if test="autid != null">
+				"AUTID " = #{autid,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ROL_AUT_ID = #{rolAutId,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="cn.soa.entity.IotUserRoleAuth">
+		update IOT_USER_ROLE_AUTH
+		set ROLID =
+		#{rolid,jdbcType=VARCHAR},
+		"AUTID " = #{autid,jdbcType=VARCHAR}
+		where
+		ROL_AUT_ID = #{rolAutId,jdbcType=VARCHAR}
+	</update>
 </mapper>

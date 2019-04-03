@@ -16,7 +16,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cn.soa.dao.IotUserAuthorityMapper;
 import cn.soa.dao.IotUserModuleResourceMapper;
+import cn.soa.dao.IotUserRoleAuthMapper;
 import cn.soa.entity.IotUserModuleResource;
 import cn.soa.entity.Node;
 import cn.soa.service.inter.ResourceServiceInter;
@@ -27,6 +29,12 @@ public class ResourceService implements ResourceServiceInter {
 
 	@Autowired
 	private IotUserModuleResourceMapper resourceMapper;
+	
+	@Autowired
+	private IotUserAuthorityMapper userAuthorityMapper;
+	
+	@Autowired
+	private IotUserRoleAuthMapper userRoleAuthMapper;
 
 	/*
 	 * (non-Javadoc)
@@ -48,9 +56,19 @@ public class ResourceService implements ResourceServiceInter {
 	 */
 	@Override
 	public int delResourceInfoById(String modId) {
+		
+		/**
+		 * 删除资源
+		 */
 		int resultNum = resourceMapper.deleteByPrimaryKey(modId);
 		
 		resultNum += resourceMapper.deleteByParentId(modId);
+		
+		resultNum += userRoleAuthMapper.deleteByModid(modId);
+		
+		resultNum += userAuthorityMapper.deleteAuthByModid(modId);
+		
+		
 		return resultNum;
 	}
 

@@ -9,6 +9,14 @@ import cn.soa.entity.IotUserRoleAuth;
 @Mapper
 public interface IotUserRoleAuthMapper {
     int deleteByPrimaryKey(String rolAutId);
+    
+    /**
+     *  根据IOT_USER_MODULE_RESOURCE的id关联删除权限表IOT_USER_ROLE_AUTH的数据
+     * @param modid
+     * @return
+     */
+    int deleteByModid(String modid);
+    
 
     int insert(IotUserRoleAuth record);
 

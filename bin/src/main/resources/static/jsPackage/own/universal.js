@@ -289,6 +289,7 @@ function ajax( t, u, d, f, a ){
 					puAjax( u, d, f );
 					break;
 				case 'DELETE':
+					dAjax( u, d, f );
 					break;
 			}
 			break;
@@ -304,6 +305,7 @@ function ajax( t, u, d, f, a ){
 				puAjax1( u, d, f, a );
 				break;
 			case 'DELETE':
+				dAjax1( u, d, f, a );
 				break;
 			}
 			break;
@@ -360,8 +362,6 @@ function gAjax1( url, data, succFuncName, requestType){
 	 		if( jsonData ){
 	 			var data = jsonData.data;
 	 			if( jsonData.state == 0 && data ){
-	 				//eval( succFuncName + "(data)" );
-	 				console.log( '111111111111' );
 	 				succFuncName(data);
 	 			}else{
 	 				layer.msg( jsonData.message, {icon:2} );
@@ -393,9 +393,7 @@ function pAjax( url, data, succFuncName ){
 	 		if( jsonData ){
 	 			var data = jsonData.data;
 	 			if( jsonData.state == 0 && data ){
-	 				console.log( '111111111111' );
 	 				succFuncName( data );
-	 				console.log( '222222222222' );
 	 			}else{
 	 				layer.msg( jsonData.message, {icon:2} );
 	 			}		
@@ -426,7 +424,7 @@ function pAjax1( url, data, succFuncName, requestType ){
 	 		if( jsonData ){
 	 			var data = jsonData.data;
 	 			if( jsonData.state == 0 && data ){
-	 				eval( succFuncName + "(data)" );
+	 				succFuncName( data );
 	 			}else{
 	 				layer.msg( jsonData.message, {icon:2} );
 	 			}		
@@ -457,7 +455,8 @@ function puAjax( url, data, succFuncName ){
 	 		if( jsonData ){
 	 			var data = jsonData.data;
 	 			if( jsonData.state == 0 && data ){
-	 				eval( succFuncName + "(data)" );
+	 				succFuncName(data);
+	 				//eval( succFuncName + "(data)" );
 	 			}else{
 	 				layer.msg( jsonData.message, {icon:2} );
 	 			}		
@@ -466,7 +465,7 @@ function puAjax( url, data, succFuncName ){
 	 		}		
 	     },
 	     error:function(){
-	    	 layer.msg('请求失败：');
+	    	 layer.msg('请求失败');
 	     }		       
 	});
 }
@@ -488,7 +487,8 @@ function puAjax1( url, data, succFuncName, requestType ){
 	 		if( jsonData ){
 	 			var data = jsonData.data;
 	 			if( jsonData.state == 0 && data ){
-	 				eval( succFuncName + "(data)" );
+	 				//eval( succFuncName + "(data)" );
+	 				succFuncName( data );
 	 			}else{
 	 				layer.msg( jsonData.message, {icon:2} );
 	 			}		
@@ -501,6 +501,71 @@ function puAjax1( url, data, succFuncName, requestType ){
 	     }		       
 	});
 }
+
+/**
+ * ajax-delete异步访问模板
+ */
+function dAjax( url, data, succFuncName ){
+	console.log( 'ajax-dAjax异步访问模板……' );
+	$.ajax({
+	     type : "DELETE",
+	     url : url,
+	     data : data,
+	     async : true, 
+	     cache : true,
+	     contentType : "application/x-www-form-urlencoded",
+	     dataType : "json",
+	     success : function( jsonData ){
+	 		if( jsonData ){
+	 			var data = jsonData.data;
+	 			if( jsonData.state == 0 && data ){
+	 				succFuncName(data);
+	 				//eval( succFuncName + "(data)" );
+	 			}else{
+	 				layer.msg( jsonData.message, {icon:2} );
+	 			}		
+	 		}else{
+	 			layer.msg( '请求失败', {icon:2} );
+	 		}		
+	     },
+	     error:function(){
+	    	 layer.msg('请求失败');
+	     }		       
+	});
+}
+
+/**
+ * ajax-delete同步访问模板
+ */
+function dAjax1( url, data, succFuncName, requestType ){
+	console.log( 'ajax-dAjax1同步访问模板……' );
+	$.ajax({
+	     type : "DELETE",
+	     url : url,
+	     data : data,
+	     async : requestType || false, 
+	     cache : true,
+	     contentType : "application/x-www-form-urlencoded",
+	     dataType : "json",
+	     success : function( jsonData ){
+	 		if( jsonData ){
+	 			var data = jsonData.data;
+	 			if( jsonData.state == 0 && data ){
+	 				//eval( succFuncName + "(data)" );
+	 				succFuncName( data );
+	 			}else{
+	 				layer.msg( jsonData.message, {icon:2} );
+	 			}		
+	 		}else{
+	 			layer.msg( '请求失败', {icon:2} );
+	 		}		
+	     },
+	     error:function(){
+	    	 layer.msg('请求失败：');
+	     }		       
+	});
+}
+
 
 
 /**
@@ -877,6 +942,7 @@ Array.prototype.remove = function(value){
  * 数组包含元素
  * @param {} value
  */
+
 
 
 /*-----------------------------------

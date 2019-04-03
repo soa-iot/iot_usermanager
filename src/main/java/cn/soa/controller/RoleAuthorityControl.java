@@ -73,7 +73,7 @@ public class RoleAuthorityControl {
 		List<String> ids = new ArrayList<String>();
 		ids.add(autid);
 		Integer result = authorityService.deleteAuthorityInfo(ids);
-		ResultJson<Integer> reObj = new ResultJson<Integer>(0, "添加数据成功", result);
+		ResultJson<Integer> reObj = new ResultJson<Integer>(0, "删除数据成功", result);
 		return reObj;
 	}
 

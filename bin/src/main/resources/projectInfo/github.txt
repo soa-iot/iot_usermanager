@@ -1,1 +1,1 @@
-https://github.com/zhu-gang/iot_usermanager.git
+https://github.com/soa-iot/iot_usermanager.git

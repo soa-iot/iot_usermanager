@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -22,6 +23,7 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -452,15 +454,21 @@ public class UserController {
 	 * @return: ResultJson<String>        
 	 */  
 	@GetMapping("/authority/{userid}/{modId}")
-	public ResultJson<List<IotUserModuleResource>> getButtonAuthorityC( 
+	public List<IotUserModuleResource> getButtonAuthorityC( 
 			@PathVariable("userid") @NotBlank String userid,
-			@PathVariable("modId") @NotBlank String modId){
-		logger.debug("-----C------- getButtonAuthorityC ----  " + userid + "," + modId );
+			@PathVariable("modId") @NotBlank String modId,
+			HttpServletRequest req){
+		String callback=req.getParameter("callback");
+		logger.debug("-----C------- getButtonAuthorityC ----  " + modId );
+		logger.debug("-----C------- getButtonAuthorityC ----  " + userid );
+		if( userid == null || userid.isEmpty() ) {
+			return null;
+		}
 		List<IotUserModuleResource> resources = userService.getButtonAuthorityS(userid, modId);
 		if( resources.size() > 0 ) {
-			return new ResultJson<List<IotUserModuleResource>>( 0, "查询成功 ", resources );
+			return resources;
 		}else {
-			return new ResultJson<List<IotUserModuleResource>>( 1, "查询失败 ", null );
+			return null;
 		}
 	}		
 }

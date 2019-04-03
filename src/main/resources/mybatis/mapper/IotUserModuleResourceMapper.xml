@@ -158,6 +158,6 @@
   		select umr.* from IOT_USER_ROLE_AUTH ura 
   				left join IOT_USER_AUTHORITY ua on ura.autid=ua.AUTID
  				left join IOT_USER_MODULE_RESOURCE umr on ua.RESOURCEID=umr.MODID 
- 		where ura.rolid=#{rolid} and umr.PARENT_ID = #{modid}
+ 		where ura.rolid=#{param1} and umr.PARENT_ID = #{param2}
 	</select>
 </mapper>

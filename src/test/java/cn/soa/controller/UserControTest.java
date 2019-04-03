@@ -49,7 +49,8 @@ public class UserControTest {
 	public void testGet() {
 		String userId = "liu";
 		String modId = "3296CD7E555042D38AB92A50B0164C7F";
-		ResultJson<List<IotUserModuleResource>> buttonAuthorityC = userController.getButtonAuthorityC(userId, modId);
-		System.out.println(buttonAuthorityC);
+		String callback = "";
+//		ResultJson<List<IotUserModuleResource>> buttonAuthorityC = userController.getButtonAuthorityC( userid,modId,callback);
+//		System.out.println(buttonAuthorityC);
 	}
 }

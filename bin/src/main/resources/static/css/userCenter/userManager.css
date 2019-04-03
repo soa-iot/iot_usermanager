@@ -1,0 +1,18 @@
+#tableDiv {
+	width: 97%;
+}
+
+#messageTip {
+	margin-bottom: 2%;
+	margin-top: 2%;
+	margin-left: 2%;	
+	margin-right: 2%;
+	/*height: 100px;*/
+	/*border: 1px red solid;*/
+}
+
+blockquote span{
+	font-size: 18px;
+}
+
+

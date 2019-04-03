@@ -2,7 +2,8 @@
  * 全局变量
  */
 var loginUrl = ipPort + "/user",
-	indexUrl = ipPort + "/static/index";
+	indexUrl = ipPort + "/jsPackage/web/design/index",
+	indexSonWinIndex;
  
 /**
  * 初始化加载
@@ -107,8 +108,31 @@ function loginClickEvent(){
 function registerClickEvent(){
 	console.log( '-------注册单击事件回调函数-----------' );
 	//弹出框注册页面
+	indexSonWinIndex = layer.open({
+		type: 2,
+		title: '用户注册页面',
+//		btn: ['确定', '取消'],
+		area: ['700px','450px'],
+		content: ipPort + '/html/userCenter/register.html',
+		//此处要求返回的格式
+		success: function(){
+			
+		},
+		yes: function( index, sonDom ){
+			var sonWindow = window[sonDom.find('iframe')[0]['name']],
+				nextNodeExecuPE = sonWindow.getCurrTreeNodeName();	
+		}
+//		btn2: function(index, layero){
+//		    //return false 开启该代码可禁止点击该按钮关闭
+//			layer.close( index );
+//		},
+//		cancel: function( index, layero ){
+//			layer.close( index );
+//		},
+	});
 	
 	//刷新登录页
+	return false;
 }
 
 /**
