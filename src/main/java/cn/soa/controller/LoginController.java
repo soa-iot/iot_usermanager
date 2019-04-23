@@ -111,16 +111,16 @@ public class LoginController{
 			
 			resultJson = new ResultJson<String>(0, "登录成功", subject.getSession().getId() + "");
 		} catch (IncorrectCredentialsException e) {
-			resultJson = new ResultJson<String>(0, "密码错误", null);
+			resultJson = new ResultJson<String>(1, "密码错误", null);
 		} catch (DisabledAccountException e) {
-			resultJson = new ResultJson<String>(0, "登录失败，该用户已被冻结", null);
+			resultJson = new ResultJson<String>(1, "登录失败，该用户已被冻结", null);
 		} catch (UnknownAccountException e) {
-			resultJson = new ResultJson<String>(0, "该用户不存在", null);
+			resultJson = new ResultJson<String>(1, "该用户不存在", null);
 		} catch (AuthenticationException e) {
-			resultJson = new ResultJson<String>(0, "登录认证失败，错误信息", null);
+			resultJson = new ResultJson<String>(1, "登录认证失败，错误信息", null);
 		} catch (Exception e) {
 			e.printStackTrace();
-			resultJson = new ResultJson<String>(0, "登录失败，未知错误" , null );
+			resultJson = new ResultJson<String>(1, "登录失败，未知错误" , null );
 		}
 		return resultJson;
 	}
