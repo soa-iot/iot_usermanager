@@ -166,8 +166,6 @@
 		FROM
 		IOT_USER_MODULE_RESOURCE
 	</select>
-
-=======
   <resultMap id="BaseResultMap" type="cn.soa.entity.IotUserModuleResource">
     <id column="modId" jdbcType="VARCHAR" property="modId" />
     <result column="NAME" jdbcType="VARCHAR" property="name" />
@@ -327,5 +325,4 @@
  				left join IOT_USER_MODULE_RESOURCE umr on ua.RESOURCEID=umr.MODID 
  		where ura.rolid=#{param1} and umr.PARENT_ID = #{param2}
 	</select>
->>>>>>> branch 'master' of https://github.com/soa-iot/iot_usermanager.git
 </mapper>
