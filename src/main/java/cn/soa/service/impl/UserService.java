@@ -11,9 +11,13 @@
         
 package cn.soa.service.impl;
 
+import static org.assertj.core.api.Assertions.useDefaultRepresentation;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.validation.constraints.NotBlank;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,13 +25,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreType;
 
+import cn.soa.dao.IotUserModuleResourceMapper;
 import cn.soa.dao.UserInfoMapper;
 import cn.soa.dao.UserMapper;
+import cn.soa.entity.AuthInfo;
+import cn.soa.entity.IotUserModuleResource;
 import cn.soa.entity.UserInfo;
 import cn.soa.entity.UserOrganization;
+import cn.soa.entity.UserRole;
 import cn.soa.service.inter.UserServiceInter;
 import cn.soa.util.GlobalUtil;
 import cn.soa.dao.UserRoleMapper;
@@ -52,6 +61,9 @@ public class UserService implements UserServiceInter{
 	
 	@Autowired
 	private UserRoleMapper userRoleMapper;
+	
+	@Autowired
+	private IotUserModuleResourceMapper iotUserModuleResourceMapper;
 	
 	
 	/**   
@@ -412,5 +424,34 @@ public class UserService implements UserServiceInter{
 			return -1;
 		}
 		return i;
+	}
+	
+	/**   
+	 * @Title: getButtonAuthorityS   
+	 * @Description: 获取用户模块对应的按钮权限  
+	 * @return: AuthInfo        
+	 */  
+	@Transactional
+	@Override
+	public List<IotUserModuleResource> getButtonAuthorityS( String userid, String modId ) {
+		List<IotUserModuleResource> authResources = new ArrayList<IotUserModuleResource>();
+		try {
+			//查找用户角色
+			List<UserRole> roles = userRoleMapper.findUserRoleByNum(userid);
+			if( roles.size() == 0 ) {
+				return null;
+			}
+			logger.debug("---S------getButtonAuthorityS------" + roles);
+			//查找用户权限			
+			for( UserRole u : roles ) {
+				List<IotUserModuleResource> authResourcesTemp = iotUserModuleResourceMapper.findAuthResourceByRoleid(u.getRolid(), modId);
+				authResources.addAll(authResourcesTemp);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		logger.debug("---S------getButtonAuthorityS------" + authResources);
+		return authResources;
 	}
 }

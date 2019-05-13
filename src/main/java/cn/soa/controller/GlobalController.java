@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.method.annotation.AbstractJsonpResponseBodyAdvice;
 
 import cn.soa.entity.headResult.ResultJson;
 
@@ -20,10 +21,15 @@ import cn.soa.entity.headResult.ResultJson;
  * @author zhugang
  * @date 2018年7月25日
  */
+@SuppressWarnings("deprecation")
 @ControllerAdvice
 @ResponseBody
-public class GlobalController {
+public class GlobalController  extends AbstractJsonpResponseBodyAdvice {
 	private final static Logger logger = LoggerFactory.getLogger(GlobalController.class);
+	
+	public GlobalController() {
+        super("callback", "jsonp");
+    }
 	
 	 /**   
 	 * @Title: initBinder   
@@ -54,6 +60,7 @@ public class GlobalController {
 	 */  
 	@ExceptionHandler
 	ResultJson<Object> handlerException(Exception e){
+		e.printStackTrace();
 		logger.debug(e.getMessage());
 		return new ResultJson<Object>(1, e.getMessage(), null);
 	}
@@ -68,6 +75,7 @@ public class GlobalController {
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	@ResponseBody
 	ResultJson<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e){
+		e.printStackTrace();
 		logger.error(e.getMessage(), e);
 		return new ResultJson<Object>(e);
 	}

@@ -7,9 +7,9 @@ var element = layui.element,
 	logoutUrl = ipPort + "/user/logout",	
 	roleAuthUrl = ipPort + "/user/role/auths",
 	roleAuthJsonUrl = ipPort + "/user/auths",
-	username;
+	username,userid;
 //菜单配置
-var menoArr,authArr;
+var menoArr,authArr,currentLastMenoId;
 
 /**
  * 初始化加载
@@ -26,7 +26,7 @@ $(function(){
 	 */
 	function getAuthsSF( data ){
 		console.log( '-------初始化菜单权限请求成功回调函数---------');
-		console.log( data );		
+		//console.log( data );		
 		menoArr = data;
 	}
 	
@@ -61,6 +61,8 @@ $(function(){
 	 */
 	//获取usernum
 	username = getCookie1("name");
+	userid = getCookie1("num");
+	userid = userid.substr( 1, username.length-2);
 	username = username.substr( 1, username.length-2);
 	$('#userName').find('img').after(username);
 })
@@ -143,7 +145,7 @@ function menoCallBack(){
 			sonMeno = item.child;
 		}
 	})
-	console.log( sonMeno );	
+	//console.log( sonMeno );	
 	
 	//加载子菜单
 	if( sonMeno ){
@@ -162,7 +164,12 @@ function menoCallBack(){
  */
 function navClickBack(obj){
 	console.log( '----------侧边导航栏单击事件函数---------');	
-	var url = $(obj).attr('url');
+	var url = $(obj).attr('url'),	
+	currentLastMenoId = $(obj).attr('modId');
+	console.log( '------------currentLastMenoId---------------');
+	url = url + "?currentLastMenoId=" + currentLastMenoId +'&userid=' + userid;
+	console.log( currentLastMenoId );
+	
 	//http://localhost:8001/html/userCenter/userManager.html
 	//动态加载页面	
 	var reg = /userCenter/;
@@ -193,7 +200,7 @@ $(function(){
 //    console.log(WebSocket);
 	
 	//ws连接,打开服务
-	socket = new WebSocket( "ws://"+ ipPort.substring(0,22) + "/push/pushVideoListToWeb" );
+	socket = new WebSocket( "ws://"+ ipPort.substring(7,ipPort.length) + "/push/pushVideoListToWeb" );
 	socket.onopen = function(){
 		console.log("--------------ws服务已打开----------------");  
 		socket.send( JSON.stringify({'test':20}) ); 
@@ -246,8 +253,9 @@ $(function(){
  */
 function generateF( $obj, data ){
 	$.each( data, function(index,item){
+		//console.log(item);
 	  	var html ='<li class="layui-nav-item "' + 
-	  					' url=' + item.url + ' onclick="navClickBack(this);">' + 
+	  					' url=' + item.url + ' modId=' + item.id + ' onclick="navClickBack(this);">' + 
 					'<a href="javascript:;">'+ item.name + '</a>'
 				'</li>';
 		$this = $(html);
@@ -258,7 +266,7 @@ function generateF( $obj, data ){
 			$.each( item.child, function(index1,item1){				
 				if(item1.child){
 					$this.append('<dd></dd>');
-					generateT( $this.find('dd:last'), item1.child, item1.name);
+					generateT( $this.find('dd:last'), item1);
 				}else{
 					$this.append('<dd><a href="javascript:;">'+item1.name+'</a></dd>');
 				}
@@ -270,9 +278,10 @@ function generateF( $obj, data ){
 /*
  * 生成无限极layui-Nav第二步
  */
-function generateT( $obj, data, name ){
-	var html ='<li class="layui-nav-item">' + 
-				'<a href="javascript:;">'+ name + '</a>' +
+function generateT( $obj, _item){
+	var html ='<li class="layui-nav-item "' + 
+				' url=' + _item.url + ' modId=' + _item.id + ' onclick="navClickBack(this);">' + 
+				'<a href="javascript:;">'+ _item.name + '</a>' +
 			    '<dl class="layui-nav-child">' +
 			    '</dl>' +
 			'</li>';
@@ -280,7 +289,7 @@ function generateT( $obj, data, name ){
 	$obj.append($this);
 	$.each( data, function(index,item){
 		if(item.child){
-			generateT( $this.find('dd:last'), item.child, item.name);
+			generateT( $this.find('dd:last'), item);
 		}else{
 			$this.find('dl').append('<dd><a href="javascript:;">'+item.name+'</a></dd>');
 		}
