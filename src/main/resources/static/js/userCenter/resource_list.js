@@ -1,5 +1,5 @@
 layui.config({
-			base : '../../../jsPackage/web/design/module/'
+			base : '/iot_usermanager/jsPackage/web/design/module/'
 		}).extend({
 			treetable : 'treetable-lay/treetable'
 		}).use(['table', 'laydate', 'treetable', 'form'], function() {
@@ -23,7 +23,7 @@ layui.config({
 					treeIdName : 'modId',
 					treePidName : 'parentId',
 					elem : '#resource_table',
-					url : ipPort + '/resource/getAllResourceInfo',
+					url : '/iot_usermanager/resource/getAllResourceInfo',
 					page : false,
 					cols : [[{
 								field : 'modId',
@@ -124,7 +124,7 @@ layui.config({
 
 		add_layer = layer.open({
 					title : '资源新增',
-					area : ['30%', '60%'], // 宽高
+					area : ['30%', '70%'], // 宽高
 					type : 1,
 					content : $('#resource_add'),
 					success : function(layero) {
@@ -137,7 +137,7 @@ layui.config({
 					}
 				});
 		$.ajax({
-			url : ipPort + '/resource/getParentResource',
+			url : '/iot_usermanager/resource/getParentResource',
 			dataType : 'json',
 			success : function(data) {
 				// console.log(data);
@@ -183,7 +183,7 @@ layui.config({
 
 				layer.close(add_layer);
 				$.ajax({
-							url : ipPort +'/resource/updateResource',
+							url : '/iot_usermanager/resource/updateResource',
 							data : fdata,
 							success : function(data) {
 
@@ -224,7 +224,7 @@ layui.config({
 
 				layer.close(add_layer);
 				$.ajax({
-							url : ipPort + '/resource/addResource',
+							url :'/iot_usermanager/resource/addResource',
 							data : fdata,
 							success : function(data) {
 
@@ -263,7 +263,7 @@ layui.config({
 						 */
 						$.ajax({
 									method : "get",
-									url : ipPort + "/resource/delResourceInfoById",
+									url : "/iot_usermanager/resource/delResourceInfoById",
 									data : {
 										modId : obj.data.modId,
 										parentId : obj.data.parentId
@@ -314,7 +314,7 @@ layui.config({
 
 			add_layer = layer.open({
 						title : '资源编辑',
-						area : ['30%', '60%'], // 宽高
+						area : ['30%', '70%'], // 宽高
 						type : 1,
 						content : $('#resource_add'),
 						success : function(layero) {
@@ -327,7 +327,7 @@ layui.config({
 						}
 					});
 			$.ajax({
-				url : ipPort + '/resource/getParentResource',
+				url : '/iot_usermanager/resource/getParentResource',
 				dataType : 'json',
 				success : function(data) {
 					// console.log(data);

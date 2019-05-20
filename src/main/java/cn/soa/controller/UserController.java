@@ -320,6 +320,7 @@ public class UserController {
 		 */
 		String rolid = null;
 		String usernum =  GlobalUtil.getCookie("num");
+		System.out.println(usernum);
 		logger.debug("--C-----查询用户的模块菜单权限  :-----------usernum:" + usernum.substring( 1, usernum.length()-1 ));
 		List<UserRole> userRoles = roleService.getUserRoleByNum(usernum.substring( 1, usernum.length()-1 ));		
 		logger.debug("--C-----查询用户的模块菜单权限  :-----------userRoles:" + userRoles );

@@ -1,0 +1,535 @@
+@charset "utf-8";
+
+* {
+	margin: 0;
+	padding: 0;
+	font-family: "Microsoft YaHei", "\5FAE\8F6F\96C5\9ED1", "SimSun",
+		"\5b8b\4f53";
+	font-size: 14px;
+	outline: none;
+}
+
+/**--a--**/
+a {
+	text-decoration: none;
+	cursor: pointer;
+	background: transparent;
+}
+
+.table {
+	display: table;
+	width: 100%;
+}
+
+.table-row {
+	display: table-row;
+	width: 100%;
+}
+
+.table-cell {
+	display: table;
+	width: 100%;
+	height: 100%;
+}
+
+/**----------------------滚动条----------------------**/
+/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+::-webkit-scrollbar {
+	width: 5px;
+	height: 5px;
+	background-color: #F5F5F5;
+}
+
+/*定义滚动条轨道 内阴影+圆角*/
+::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
+	border-radius: 5px;
+	background-color: #F5F5F5;
+}
+
+/*定义滑块 内阴影+圆角*/
+::-webkit-scrollbar-thumb {
+	border-radius: 5px;
+	-webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, .3);
+	background-color: rgb(189, 192, 183);
+}
+
+body {
+	background-color: #e8e8ea;
+	/* min-width: 1200px; */
+}
+
+/**-----------------主界面上面的顶部--------------**/
+.cz-block {
+	height: 200px;
+	margin: 15px;
+	width: calc(100% - 30px);
+}
+
+.cz-block .table-row {
+	width: 100%;
+}
+
+.cz-block .table-row .table-cell {
+	width: 32%;
+	height: 95px;
+}
+
+.cz-block .block {
+	width: 50%;
+}
+
+/* 异常 */
+.abnormal {
+	background-color: #2e95bb;
+}
+
+.abnormal .inline-block:first-child {
+	background-color: #2c8db1;
+}
+
+.abnormal .inline-block:last-child {
+	color: #f27201;
+}
+
+/* 警告 */
+.alarm {
+	background-color: #6c9895;
+}
+
+.alarm .inline-block:first-child {
+	background-color: #66908d;
+}
+
+.alarm .inline-block:last-child {
+	color: #eb0202;
+}
+
+/* 分割 */
+.division-x {
+	width: 10px !important;
+	min-width: 10px !important;
+	max-width: 10px !important;
+}
+
+.division-y {
+	height: 10px;
+}
+
+/* 隐患 */
+.danger {
+	background-color: #2e95bb;
+}
+
+.danger .inline-block:first-child {
+	background-color: #2c8db1;
+}
+
+.danger .inline-block:last-child {
+	color: #22b804;
+}
+
+/* 完成率 */
+.completion {
+	background-color: #53b687;
+}
+
+.completion .inline-block:first-child {
+	background-color: #4fad80;
+}
+
+.completion .inline-block:last-child {
+	color: #fff;
+}
+
+/* 待办 */
+.need {
+	background-color: #9badb0;
+}
+
+.need .inline-block:first-child {
+	background-color: #93a4a7;
+}
+
+.need .inline-block:last-child {
+	color: #fff;
+}
+
+/* 超期 */
+.overdue {
+	background-color: #53b687;
+}
+
+.overdue .inline-block:first-child {
+	background-color: #4fad80;
+}
+
+.overdue .inline-block:last-child {
+	color: #fff;
+}
+
+/* 能耗 */
+.energy {
+	width: 50%;
+	background-color: #6c9895;
+}
+
+.energy .inline-block:first-child {
+	background-color: #66908d;
+}
+
+/*快捷导航*/
+.navigation-list{
+	width: calc(100% - 105px);
+    min-width: 20px;
+    height: 95px;
+    vertical-align: middle;
+    font-size: 25px;
+    font-weight: bold;
+    position: relative;
+    z-index: 40;
+    display: inline-block;
+    text-align: center;
+  
+}
+.navi-icon{
+	max-width: 30px;
+	max-height: 30px;
+}
+
+.navi-td{
+	width: 40px;
+	height: 50px;;
+	/*border: 1px red solid;*/
+}
+
+
+
+/* 流布局 */
+.inline-block {
+	display: inline-block;
+	height: 100%;
+	/* vertical-align: middle; */
+	text-align: center;
+	width: 100px;
+	min-width: 100px;
+	position: relative;
+	z-index: 30;
+}
+
+.inline-block:last-child {
+	width: calc(100% - 105px);
+	min-width: 20px;
+	height: 30px;
+	vertical-align: middle;
+	font-size: 22px;
+	font-weight: bold;
+	position: relative;
+	z-index: 40;
+}
+
+.inline-block>i {
+	display: block;
+	color: #fff;
+	text-align: center;
+	vertical-align: middle;
+	font-size: 2em;
+	position: relative;
+	top: 25px;
+}
+
+.inline-block>span {
+	display: block;
+	color: #fff;
+	text-align: center;
+	vertical-align: middle;
+	position: relative;
+	top: 30px;
+}
+
+.energy-list {
+	height: 95px;
+	color: #fff;
+	vertical-align: top !important;
+	text-align: left !important;
+}
+
+.energy-list p {
+	padding: 5px 0px;
+}
+
+.energy-list p:first-child {
+	padding-top: 15px;
+}
+
+.energy-list p span:last-child {
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.energy .inline-block>i {
+	top: 70px;
+}
+
+.energy .inline-block>span {
+	top: 75px;
+}
+
+/**-----------------待办和消息--------------**/
+.cz-todoAndMessage a {
+	color: #3b8fae;
+}
+
+.cz-todoAndMessage {
+	margin: 15px;
+	width: calc(100% - 30px);
+	margin-top: 0px;
+	height: 273px;
+}
+
+.cz-todoAndMessage>div.table-cell {
+	width: 50%;
+}
+
+.cz-todoAndMessage .head {
+	background-color: #f6f6f6;
+	height: 40px;
+	line-height: 40px;
+}
+
+.cz-todoAndMessage .title {
+	text-align: left;
+	padding-left: 18px;
+	font-weight: bold;
+}
+
+.cz-todoAndMessage .more {
+	text-align: right;
+	padding-right: 18px;
+	font-weight: bold;
+}
+
+.content table {
+	width: 100%;
+	border: none;
+	border-collapse: collapse;
+	text-align: center;
+	table-layout: fixed;
+}
+
+.content table tr, .content table td, .content table th {
+	border: none;
+	text-align: center;
+}
+
+.content table thead tr {
+	height: 40px;
+	line-height: 40px;
+	background-color: #ffffff;
+	border-bottom: 1px solid #e3e3e6;
+	font-weight: bold;
+}
+
+.content table th {
+	font-weight: normal;
+	word-break: keep-all;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.content table tbody tr td {
+	text-align: center;
+	padding: 10px 0px;
+	word-break: keep-all;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.content table tbody tr:nth-child(odd) {
+	background-color: #ffffff;
+}
+
+.content table tbody tr:nth-child(even) {
+	background-color: #f2f2f2;
+}
+
+.more a {
+	color: black;
+}
+
+.content {
+	height: 252px;
+	min-height: 252px;
+	max-height: 252px;
+	overflow-y: auto;
+	background-color: #fff;
+}
+
+.content p {
+	padding: 10px 20px 0px;
+}
+
+.content p span {
+	padding-left: 10px;
+	color: black;
+}
+
+.content marquee {
+	height: 232px;
+	min-height: 232px;
+	max-height: 232px;
+}
+
+/* 表报-巡检-问题 */
+.cz-inspection-problem a {
+	color: #3b8fae;
+}
+
+.cz-inspection-problem {
+	margin: 15px;
+	width: calc(100% - 30px);
+	margin-top: 0px;
+	height: 273px;
+}
+
+.cz-inspection-problem>div.table-cell {
+	width: 50%;
+}
+
+.cz-inspection-problem .head {
+	background-color: #f6f6f6;
+	height: 40px;
+	line-height: 40px;
+}
+
+.cz-inspection-problem .title {
+	text-align: left;
+	padding-left: 18px;
+	font-weight: bold;
+}
+
+.cz-inspection-problem .more {
+	text-align: right;
+	padding-right: 18px;
+	font-weight: bold;
+}
+
+/* 表报-能耗走势 */
+.cz-energy-consumption{
+	margin: 15px;
+	width: calc(100% - 30px);
+	margin-top: 0px;
+	height: 273px;
+}
+
+.cz-energy-consumption>div.table-cell {
+	width: 100%;
+}
+
+.cz-energy-consumption .head {
+	background-color: #f6f6f6;
+	height: 40px;
+	line-height: 40px;
+}
+
+.cz-energy-consumption .title {
+	text-align: left;
+	padding-left: 18px;
+	font-weight: bold;
+}
+
+.cz-energy-consumption .more {
+	text-align: right;
+	padding-right: 18px;
+	font-weight: bold;
+}
+
+/* 能耗兼容设置 */
+@media screen and (max-width: 1300px) { 
+	.energy-list p:first-child {
+		padding-top: 33px;
+	}
+	.energy-list p{
+		padding: 0px;
+	}
+}
+
+@media screen and (max-width: 1200px) { 
+	.energy-list p:first-child {
+		padding-top: 13px;
+	}
+}
+
+@media screen and (max-width: 1150px) { 
+	.energy-list p:first-child {
+		padding-top: 0px;
+	}
+	.energy-list p span,.energy-list p sup{
+		font-size: 14px !important;
+	}
+}
+
+@media screen and (max-width: 900px) { 
+	.energy-list p span,.energy-list p sup{
+		font-size: 12px !important;
+	}
+}
+
+@media screen and (max-width: 850px) { 
+	.energy-list p span,.energy-list p sup{
+		font-size: 10px !important;
+	}
+}
+
+@media screen and (max-width: 750px) { 
+	.energy-list p span,.energy-list p sup{
+		font-size: 1px !important;
+	}
+}
+
+/* 表报 */
+.report{
+	width: 100%;
+	height: 100%;
+	border: 0px;
+	position:relative;
+	z-index: 1;
+}
+
+.task-operation {
+	width: 52px;
+	height: 25px;
+	border-radius: 5px;
+	background-color: #dadce2;
+	text-align: center;
+	vertical-align: top;
+	line-height: 25px;
+	margin-right: 0px;
+	margin-left:auto;
+	cursor: pointer;
+}
+
+.task-operation span {
+	display: inline-block;
+	color: #666666;
+	background-color: #fff;
+	width: 35px;
+	height: 100%;
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+}
+
+.task-operation i {
+	color: #848a9b;
+	width: 10px;
+	text-align: left;
+	height: 20px;
+	vertical-align: bottom;
+	padding-right: 2px;
+}
+
+.cz-icon{
+	cursor: pointer;
+}

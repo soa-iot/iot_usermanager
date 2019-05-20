@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="author" content="">
+
+		<link href="css/font-awesome.css" rel="stylesheet">
+		<link href="css/main.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="css/easyui/themes/default/easyui.css">
+		<link rel="stylesheet" type="text/css" href="css/easyui/themes/icon.css">
+
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/font-awesome.min.css" />
+		<link rel="stylesheet" href="dist/gridstack.css" />
+		<link rel="stylesheet" type="text/css" href="css/default.css">
+
+		<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript" src="js/jquery.easyui.min.js"></script>
+		<script type="text/javascript" src="js/jquery.easyui.min.js"></script>
+		<!-- <script type="text/javascript" src="js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="js/easyui-lang-zh_CN.js"></script> -->
+		<script src="layer/layer.js"></script>
+		<script src="js/main.js"></script>
+		<title>遂宁龙王庙天然气净化厂物联网平台-主页面</title>
+		<style type="text/css">
+			* {
+				padding: 0px;
+				margin: 0px;
+			}
+
+			.pb {
+				padding: 0px !important;
+			}
+
+			.details {
+				cursor: hand;
+			}
+
+			.navi-td>p {
+				font-size: 10px;
+				color: white;
+				margin-top: 5px;
+				margin-bottom: 5px;
+			}
+
+			.navi-block>p {
+				font-size: 14px;
+				color: white;
+				margin-top: 5px;
+			}
+
+			.navi {
+				width: 40%;
+				height: 40%;
+			}
+
+			.navi-list {
+				display: inline-block;
+				height: 100%;
+				vertical-align: middle;
+				text-align: center;
+				width: 100px;
+				min-width: 100px;
+				position: relative;
+			}
+
+			.navi-block {
+				display: inline-block;
+				vertical-align: middle;
+				text-align: center;
+				width: 100px;
+				min-width: 100px;
+				position: relative;
+				z-index: 30;
+				margin-top: -5%;
+			}
+
+			.navi-td {
+				width: 80px;
+				height: auto;
+			}
+
+			.navi-td>i {
+				display: block;
+				color: #fff;
+				text-align: center;
+				vertical-align: middle;
+				font-size: 1.8em;
+			}
+
+			.data {
+				margin-top: 20px;
+			}
+
+			#nav_table .navi-td {
+				width: 150px;
+				height: 60px;
+			}
+		</style>
+		<script type="text/javascript">
+			//快捷导航页面跳转
+			function openUrl(type) {
+
+				var linkUrl = "";
+
+				switch (type) {
+					case 1: //闭环管理
+						linkUrl = "index.action?type=3&column=problem";
+						break;
+					case 2: //生产报表
+						linkUrl = "index.action?type=3&column=product";
+						break;
+					case 3: //辅助决策
+						linkUrl = "index.action?type=3&column=strategic";
+						break;
+					case 4: //任务管理
+						linkUrl = "/index.action?type=3&column=task";
+						break;
+					case 5: //任务跟踪
+						linkUrl = "index.action?type=3&column=follow";
+						break;
+					case 6: //应知应会
+						linkUrl = "http://10.89.90.118:10239/dynamicui/?UIID=4240242CCDAE416C82382BDBAB9C6338";
+						break;
+					case 7: //任务
+						linkUrl = "index.action?type=3&column=taskbi";
+						break;
+					case 8: //问题
+						linkUrl = "index.action?type=3&column=problembi";
+						break;
+					default:
+						break;
+				}
+
+				window.location.href = linkUrl;
+			}
+
+			//消息提醒
+			function showDetails(a) {
+				var message = a.innerText;
+				/* $('<div></div>').dialog({
+					id : 'newDialog',
+					title : '详细信息',
+					top : 150,
+					width : 550,
+					height : 250,
+					closed : false,
+					cache : false,
+					href : 'MsgRemDetailsServlet.action',
+					queryParams : {
+						MESSAGE : message
+					},
+					modal : true
+				}); */ //作废
+				/*
+				$.ajax({
+				    url:'MsgRemDetailsServlet.action',
+				    type:'POST', //GET
+				    async:true,    //或false,是否异步
+				    data:{
+				    	MESSAGE:message
+				    },
+				    dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+				    success:function(data){
+				        var status  = data.status;
+				        //console.log(status);
+				        if(status == "0"){
+				        	var url = data.url;
+				        	//console.log(url);
+				        	window.location.href = url;
+				        } else {
+				        	console.log("出错了！！！");
+				        }
+				    },
+				    error:function(xhr,textStatus){
+				       
+				    }
+				});
+				*/
+			}
+
+
+			/**
+			 * 页面初始化
+			 */
+			$(function() {
+				/*
+				 * 初始化消息提醒内容
+				 */
+				//获取当前登录人
+				var userName = unescape(document.cookie.split("userLogin=")[1].split(";")[0]);
+				console.log('username:' + userName);
+
+				//请求消息
+				$.ajax({
+					url: 'getMessageInfoInMain.action',
+					type: 'get', //GET
+					async: true, //或false,是否异步
+					data: {
+						userName: userName
+					},
+					dataType: 'json', //返回的数据格式：json/xml/html/script/jsonp/text
+					success: function(data) {
+						console.log(data);
+						if (data && data != '0') {
+							$.each(data, function(index, item) {
+								$('marquee').append(
+									' <p> ' +
+									' 	<i class="fa fa-bell-o"></i> ' +
+									' 	<span class="details" onclick="dealMessage(this)" piid="' + item.PIID + '"> ' +
+									item.PROBLEMDESCRIBE +
+									' 	</span>' +
+									' </p> '
+								);
+							})
+						} else {
+							$.messager.show({
+								title: "提示",
+								msg: "请求数据为空",
+								showType: 'slide',
+								timeout: 5000
+							})
+						}
+					},
+					error: function(xhr, textStatus) {
+						$.messager.show({
+							title: "提示",
+							msg: "请求处理失败",
+							showType: 'slide',
+							timeout: 5000
+						})
+					}
+				})
+			})
+
+			/**
+			 * 消息提醒单击事件
+			 */
+			function dealMessage(obj) {
+				/*
+				 * 参数获取
+				 */
+				var userName = unescape(document.cookie.split("userLogin=")[1].split(";")[0]),
+					piid = $(obj).attr('piid');
+				console.log(userName + piid);
+
+				/*
+				 * 处理点击的消息
+				 */
+				$.ajax({
+					url: 'dealInfoInMainMessage.action',
+					type: 'get', //GET
+					async: true, //或false,是否异步
+					data: {
+						userName: userName,
+						piid: piid
+					},
+					dataType: 'json', //返回的数据格式：json/xml/html/script/jsonp/text
+					success: function(data) {
+						console.log(data);
+						if (data && data != '0') {
+							$.messager.show({
+								title: "提示",
+								msg: "成功",
+								showType: 'slide',
+								timeout: 3000
+							})
+						} else {
+							$.messager.show({
+								title: "提示",
+								msg: "处理消息失败",
+								showType: 'slide',
+								timeout: 3000
+							})
+						}
+						$('span[piid=' + piid + ']').parent().hide();
+					},
+					error: function(xhr, textStatus) {
+						$.messager.show({
+							title: "提示",
+							msg: "处理失败",
+							showType: 'slide',
+							timeout: 3000
+						})
+					}
+				})
+			}
+
+
+
+			function openbi(type) {
+				switch (type) {
+					case 1: //任务完成情况
+						$("#task").trigger("click");
+						break;
+					case 2: //问题发现及解决情况
+						$("#problem").trigger("click");
+						break;
+					case 3: //能耗走势
+						$("#energy").trigger("click");
+						break;
+					default:
+						break;
+				}
+
+			}
+		</script>
+	</head>
+	<body>
+		<div class="table cz-block">
+			<div class="table-cell block">
+				<div class="table">
+					<div class="table-row">
+						<div class="table-cell abnormal cz-icon" data-url="deviceExceptionDetails.html">
+							<div class="inline-block">
+								<i class="fa fa-calendar"></i> <span>设备异常</span>
+							</div>
+							<div class="inline-block data">123</div>
+						</div>
+						<div class="table-cell division-x"></div>
+						<div class="table-cell alarm cz-icon" data-url="noticeWarn.html">
+							<div class="inline-block">
+								<i class="fa fa-bell"></i> <span>预警</span>
+							</div>
+							<div class="inline-block data">123</div>
+						</div>
+						<div class="table-cell division-x"></div>
+						<div class="table-cell danger cz-icon" data-url="question_traking.html?type=warn">
+							<div class="inline-block">
+								<i class="fa fa-warning"></i> <span>隐患问题量</span>
+							</div>
+							<div class="inline-block data">123</div>
+						</div>
+						<!-- <div class="table-cell division-x"></div> -->
+					</div>
+					<div class="table-row division-y "></div>
+					<div class="table-row">
+						<div class="table-cell completion cz-icon" data-url="index.action?type=3&column=taskbi">
+							<!-- data-url="unfinishedTask.html"> -->
+
+							<div class="inline-block">
+								<i class="fa fa-pencil-square-o"></i> <span>任务完成率</span>
+							</div>
+							<div class="inline-block data">123</div>
+						</div>
+						<div class="table-cell division-x"></div>
+						<div class="table-cell need cz-icon" data-url="http://10.89.90.118:10239/BPMOperationCenter/?UIID=Gtask">
+							<div class="inline-block">
+								<i class="fa fa-calendar-check-o"></i> <span>待办数量</span>
+							</div>
+							<div class="inline-block data">123</div>
+						</div>
+						<div class="table-cell division-x"></div>
+						<div class="table-cell overdue cz-icon" data-url="index.action?type=3&column=problembi">
+							<div class="inline-block">
+								<i class="fa fa-hourglass-o"></i> <span>问题整改率</span>
+							</div>
+							<div class="inline-block data">123</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 分割 -->
+			<div class="table-cell division-x"></div>
+			<div class="table-cell block">
+				<!-- 快捷导航 -->
+				<div class="table-cell navigation-block" style="background-color: #2CA0B1; width: 5%;">
+					<!-- 占位 -->
+					<div class="navi-block" style="height: 82px;"></div>
+					<div class="navi-block" style="font-size: 2em;color: #fff">
+						<!-- <i style="margin-top: 42px;"> <img alt=""
+					src="images/navigation/navi.png" class="navi-icon" />
+				</i> -->
+						<i class="fa fa-hand-o-right"></i>
+						<p>快捷导航</p>
+					</div>
+					<div class="navi-block" style="height: 80px;"></div>
+				</div>
+
+				<div class="table-cell cz-icon " style="background-color: #2EA9BB; vertical-align: middle;">
+					<table id="nav_table" style="text-align: center;margin: 0 auto;">
+						<tr>
+							<td class="navi-td" onclick="openUrl(1)">
+								<!-- <img alt="" src="images/navigation/navi1.png" class="navi-icon"/> -->
+								<i class="fa fa-calendar"></i>
+								<p>闭环管理</p>
+							</td>
+							<td class="navi-td" onclick="openUrl(2)">
+								<!-- <img alt="" src="images/navigation/navi2.png" class="navi-icon"/> -->
+								<i class="fa fa-flask"></i>
+								<p>生产报表</p>
+							</td>
+							<td class="navi-td" onclick="openUrl(3)">
+								<!-- <img alt="" src="images/navigation/navi3.png" class="navi-icon"/> -->
+								<i class="fa fa-podcast"></i>
+								<p>辅助决策</p>
+							</td>
+						</tr>
+						<tr>
+							<td class="navi-td" onclick="openUrl(4)" id="task">
+								<!-- <img alt="" src="images/navigation/navi4.png" class="navi-icon"/> -->
+								<i class="fa fa-bar-chart"></i>
+								<p>任务管理</p>
+							</td>
+							<td class="navi-td" onclick="openUrl(5)" id="problem">
+								<!-- <img alt="" src="images/navigation/navi5.png" class="navi-icon"/> -->
+								<i class="fa fa-line-chart"></i>
+								<p>任务跟踪</p>
+							</td>
+							<td class="navi-td" onclick="openUrl(6)" id="energy">
+								<!-- <img alt="" src="images/navigation/navi6.png" class="navi-icon"/> -->
+								<i class="fa fa-search"></i>
+								<p>应知应会</p>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="table cz-todoAndMessage">
+			<div class="table-cell">
+				<div class="table head">
+					<div class="table-cell title">待办任务</div>
+					<div class="table-cell more">
+						<a href="http://10.89.90.118:10239/BPMOperationCenter/?UIID=Gtask" title="更多待办任务">更多>></a>
+					</div>
+				</div>
+				<div class="table content">
+					<table class="table-boday">
+						<colgroup>
+							<col width="35">
+							<col>
+							<col>
+							<col>
+							<col width="50">
+							<col>
+						</colgroup>
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>任务名</th>
+								<th>发起者</th>
+								<th>任务到达时间</th>
+								<th>紧急度</th>
+								<th>处理</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>123</td>
+								<td>123</td>
+								<td>123</td>
+								<td>123</td>
+								<td>123</td>
+								<td><a href="http://10.89.90.118:10239/BPMOperationCenter/?UIID=TaskDispose&PIID=${map.PRO_INST_ID }&TIID=${map.TASK_INST_ID }"
+									 data-click-href="rest/process/claimTask?userID=${sessionScope.userID}&userPwd=123456&task_owner=${sessionScope.userID}&PIID=${map.PRO_INST_ID }&TIID=${map.TASK_INST_ID }">
+										<i class="fa fa-pencil-square-o"></i> 处理
+									</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="table-cell division-x"></div>
+			<div class="table-cell">
+				<div class="table head">
+					<div class="table-cell title">消息提醒</div>
+					<div class="table-cell more">
+						<a href="moreMessageReminder.html" title="更多消息提醒">更多>></a>
+					</div>
+				</div>
+				<div class="table content">
+					<marquee direction="up" behavior="scroll" scrollamount="3" scrolldelay="0" loop="-1" hspace="10" vspace="10"
+					 direction="up" onmouseover="this.stop()" onmouseout="this.start()">
+					</marquee>
+				</div>
+			</div>
+		</div>
+		<div class="table cz-inspection-problem">
+			<!--
+		<div class="table-cell">
+			<div class="table head">
+				<div class="table-cell title">巡检任务完成情况</div>
+				<div class="table-cell more">
+					<div title="点击切换月周" class="task-operation" data-month="http://10.89.90.5:9300/p2pd/servlet/dispatch?b_action=cognosViewer&ui.action=run&ui.object=%2fcontent%2ffolder%5b%40name%3d%27myPackage%27%5d%2fpackage%5b%40name%3d%27%E9%A6%96%E9%A1%B5%E7%9B%B8%E5%85%B3%27%5d%2freport%5b%40name%3d%27%E5%B7%A1%E6%A3%80%E4%BB%BB%E5%8A%A1%E5%AE%8C%E6%88%90%E6%83%85%E5%86%B5%EF%BC%88%E6%9C%88%EF%BC%89%27%5d&ui.name=%E5%B7%A1%E6%A3%80%E4%BB%BB%E5%8A%A1%E5%AE%8C%E6%88%90%E6%83%85%E5%86%B5%EF%BC%88%E6%9C%88%EF%BC%89&run.outputFormat=&run.prompt=true"
+						data-week="http://10.89.90.5:9300/p2pd/servlet/dispatch?b_action=cognosViewer&ui.action=run&ui.object=%2fcontent%2ffolder%5b%40name%3d%27myPackage%27%5d%2fpackage%5b%40name%3d%27%E9%A6%96%E9%A1%B5%E7%9B%B8%E5%85%B3%27%5d%2freport%5b%40name%3d%27%E5%B7%A1%E6%A3%80%E4%BB%BB%E5%8A%A1%E5%AE%8C%E6%88%90%E6%83%85%E5%86%B5%EF%BC%88%E5%91%A8%EF%BC%89%27%5d&ui.name=%E5%B7%A1%E6%A3%80%E4%BB%BB%E5%8A%A1%E5%AE%8C%E6%88%90%E6%83%85%E5%86%B5%EF%BC%88%E5%91%A8%EF%BC%89&run.outputFormat=&run.prompt=true">
+						<span>月</span>
+						<i class="fa fa-sort-desc"></i>
+					</div>
+				</div>
+			</div>
+			<div class="table content">
+				<iframe class="report" src="http://10.89.90.5:9300/p2pd/servlet/dispatch?b_action=cognosViewer&ui.action=run&ui.object=%2fcontent%2ffolder%5b%40name%3d%27myPackage%27%5d%2fpackage%5b%40name%3d%27%E9%A6%96%E9%A1%B5%E7%9B%B8%E5%85%B3%27%5d%2freport%5b%40name%3d%27%E5%B7%A1%E6%A3%80%E4%BB%BB%E5%8A%A1%E5%AE%8C%E6%88%90%E6%83%85%E5%86%B5%EF%BC%88%E6%9C%88%EF%BC%89%27%5d&ui.name=%E5%B7%A1%E6%A3%80%E4%BB%BB%E5%8A%A1%E5%AE%8C%E6%88%90%E6%83%85%E5%86%B5%EF%BC%88%E6%9C%88%EF%BC%89&run.outputFormat=&run.prompt=true"></iframe>
+			</div>
+		</div>
+		  -->
+			<div class="table-cell" onclick="openbi(7)" style="cursor:pointer;">
+				<div class="table head">
+					<div class="table-cell title">任务完成情况</div>
+					<div class="table-cell more"></div>
+				</div>
+				<div class="table content">
+					<iframe class="report" src="http://10.89.90.5:9300/p2pd/servlet/dispatch?b_action=cognosViewer&ui.action=run&ui.object=%2fcontent%2ffolder%5b%40name%3d%27myPackage%27%5d%2fpackage%5b%40name%3d%27%e9%a6%96%e9%a1%b5%e7%9b%b8%e5%85%b3%27%5d%2freport%5b%40name%3d%27%e4%bb%bb%e5%8a%a1%e5%ae%8c%e6%88%90%e6%b8%85%e6%83%85%e5%86%b5%27%5d&ui.name=%e4%bb%bb%e5%8a%a1%e5%ae%8c%e6%88%90%e6%b8%85%e6%83%85%e5%86%b5&run.outputFormat=&run.prompt=true"></iframe>
+				</div>
+			</div>
+			<div class="table-cell division-x"></div>
+			<div class="table-cell" onclick="openbi(8)" style="cursor:pointer;">
+				<div class="table head">
+					<div class="table-cell title">问题发现及解决情况</div>
+					<div class="table-cell more"></div>
+				</div>
+				<div class="table content">
+					<iframe class="report" src="http://10.89.90.5:9300/p2pd/servlet/dispatch?b_action=cognosViewer&ui.action=run&ui.object=%2fcontent%2ffolder%5b%40name%3d%27myPackage%27%5d%2fpackage%5b%40name%3d%27%e9%a6%96%e9%a1%b5%e7%9b%b8%e5%85%b3%27%5d%2freport%5b%40name%3d%27%e9%97%ae%e9%a2%98%e5%8f%91%e7%8e%b0%e5%8f%8a%e8%a7%a3%e5%86%b3%e6%83%85%e5%86%b5%27%5d&ui.name=%e9%97%ae%e9%a2%98%e5%8f%91%e7%8e%b0%e5%8f%8a%e8%a7%a3%e5%86%b3%e6%83%85%e5%86%b5&run.outputFormat=&run.prompt=true"></iframe>
+				</div>
+			</div>
+		</div>
+		<div class="table cz-energy-consumption" style="display:none">
+			<div class="table-cell" onclick="openbi(4)" style="cursor:pointer;">
+				<div class="table head">
+					<div class="table-cell title">能耗走势</div>
+					<div class="table-cell more"></div>
+				</div>
+				<div class="table content">
+					<iframe class="report" src="http://10.89.90.5:9300/p2pd/servlet/dispatch?b_action=cognosViewer&ui.action=run&ui.object=%2fcontent%2ffolder%5b%40name%3d%27myPackage%27%5d%2fpackage%5b%40name%3d%27%e9%a6%96%e9%a1%b5%e7%9b%b8%e5%85%b3%27%5d%2freport%5b%40name%3d%27%e8%83%bd%e8%80%97%e8%b5%b0%e5%8a%bf%27%5d&ui.name=%e8%83%bd%e8%80%97%e8%b5%b0%e5%8a%bf&run.outputFormat=&run.prompt=true"></iframe>
+				</div>
+			</div>
+		</div>
+
+		<div class="grid-stack-item" data-gs-x="0" data-gs-y="0" data-gs-width="4" data-gs-height="2">
+			<div class="grid-stack-item-content">
+				<div class="table-cell abnormal cz-icon" data-url="deviceExceptionDetails.html">
+					<div class="inline-block">
+						<i class="fa fa-calendar"></i> <span>设备异常</span>
+					</div>
+					<div class="inline-block data">1111</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="js/drag/jquery.min.js"></script>
+	<script src="js/drag/jquery-ui.min.js"></script>
+	<script src="js/drag/bootstrap.min.js"></script>
+	<script src="js/drag/lodash.min.js"></script>
+	<script src="dist/gridstack.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			var options = {
+				cell_height: 80,
+				vertical_margin: 10
+			};
+			$('.grid-stack').gridstack(options);
+		});
+	</script>
+</html>

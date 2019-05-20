@@ -55,7 +55,7 @@
 						       left join IOT_USER_AUTHORITY iua on  iura.AUTID = iua.AUTID
 							   left join IOT_USER_MODULE_RESOURCE iumr on iumr.MODID = iua.RESOURCEID
 		where iur.ROLID = #{rolid} and ( iua.type = 0 or iua.type =1 ) 
-		order by iumr.CREATE_TIME
+		order by iumr.remark1
 	</select>
 	
 	
