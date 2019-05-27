@@ -9,9 +9,12 @@
  */
 package cn.soa.service.inter;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
+
+import cn.soa.entity.IotIndexInfo;
 
 
 
@@ -22,5 +25,19 @@ public interface IndexServiceInter {
 	 * @return
 	 */
 	public Map<String,Object> getIndexData(String userName);
+	
+	/**
+	 * 保存首页编辑后的数据（块元素的位置、大小等信息）
+	 * @param datas
+	 * @return
+	 */
+	public int saveIndexEditData(List<IotIndexInfo> datas);
+	
+	/**
+	 * 根据用户角色id获取其对应的首页编辑信息
+	 * @param roleId
+	 * @return
+	 */
+	public List<IotIndexInfo> getIndexEditData();
 
 }

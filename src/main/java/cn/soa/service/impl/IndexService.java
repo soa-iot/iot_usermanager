@@ -12,20 +12,39 @@ package cn.soa.service.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import cn.soa.dao.IndexInfoMapper;
+import cn.soa.dao.IndexInfoRoleMapper;
 import cn.soa.dao.IndexMapper;
+import cn.soa.dao.UserRoleMapper;
+import cn.soa.entity.IndexInfoRole;
+import cn.soa.entity.IotIndexInfo;
 import cn.soa.entity.NoticeInfo;
 import cn.soa.entity.TodoTask;
+import cn.soa.entity.UserRole;
 import cn.soa.service.inter.IndexServiceInter;
+import cn.soa.util.GlobalUtil;
+import cn.soa.util.ZipUtils;
 
 @Service
 public class IndexService implements IndexServiceInter {
 
 	@Autowired
 	private IndexMapper indexMapper;
+
+	@Autowired
+	private IndexInfoMapper indexInfoMapper;
+
+	@Autowired
+	private UserRoleMapper userRoleMapper;
+	
+	@Autowired
+	private IndexInfoRoleMapper indexInfoRoleMapper;
 
 	/*
 	 * (non-Javadoc)
@@ -77,6 +96,75 @@ public class IndexService implements IndexServiceInter {
 		System.out.println(noticeInfos);
 		result.put("noticeListMap", noticeInfos);
 
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see cn.soa.service.inter.IndexServiceInter#saveIndexEditData(java.util.List)
+	 */
+	@Override
+	public int saveIndexEditData(List<IotIndexInfo> datas) {
+
+		/**
+		 * 获取当前用户的roleId
+		 */
+		String userNum = GlobalUtil.getCookie("num").replaceAll("\"", "");
+		List<UserRole> userRoles = userRoleMapper.findUserRoleByNum(userNum);
+
+		/**
+		 * 先删除当前roleid所对应的数据
+		 */
+		indexInfoMapper.deleteByRoleId(userRoles);
+		indexInfoRoleMapper.deleteRecords(userRoles);
+
+
+		int num = 0;
+		String pageId = UUID.randomUUID().toString().replaceAll("-", "");
+
+		for (IotIndexInfo data : datas) {
+			data.setPageId(pageId);
+			try {
+				int result = indexInfoMapper.insertSelective(data);
+				if (result > 0) {
+					num++;
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw e;
+			}
+		}
+		
+		/**
+		 * 保存首页信息  角色关系
+		 */
+		for(UserRole role :userRoles) {
+			IndexInfoRole indexInfoRole = new IndexInfoRole();
+			indexInfoRole.setPageId(pageId);
+			indexInfoRole.setRoleId(role.getRolid());
+			indexInfoRoleMapper.insertSelective(indexInfoRole);
+		}
+		
+
+		return num;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * cn.soa.service.inter.IndexServiceInter#getIndexEditData(java.lang.String)
+	 */
+	@Override
+	public List<IotIndexInfo> getIndexEditData() {
+		/**
+		 * 获取当前用户的roleId
+		 */
+		String userNum = GlobalUtil.getCookie("num").replaceAll("\"", "");
+		List<UserRole> userRoles = userRoleMapper.findUserRoleByNum(userNum);
+		List<IotIndexInfo> result = indexInfoMapper.findIndexInfoByRoleId(userRoles);
 		return result;
 	}
 

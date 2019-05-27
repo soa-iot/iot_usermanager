@@ -13,7 +13,8 @@ layui.use(['layer', 'form', 'element', 'jquery', 'dialog'], function() {
 	var num = 0;
 	var mod_id_str = '';
 	var usedId = [];
-	var user_name = getCookie('name').replace(/\%22/g, '');
+//	var user_name = getCookie('name').replace(/\%22/g, '');
+	var user_name = decodeURI(getCookie('name')).replace(/\"/g, '');
 	console.log(user_name);
 	$('#user-name').html(user_name);
 

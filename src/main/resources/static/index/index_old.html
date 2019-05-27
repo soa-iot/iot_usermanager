@@ -12,6 +12,10 @@
 <link rel="stylesheet" type="text/css" href="css/easyui/themes/icon.css">
 <link rel="stylesheet" type="text/css" href="layui/css/layui.css" />
 <style type="text/css">
+.link_block {
+	cursor: pointer;
+}
+
 .grid-stack-item-content::-webkit-scrollbar {
 	/*滚动条整体样式*/
 	width: 2px;
@@ -55,6 +59,7 @@ body {
 }
 
 .layui-row {
+	/* background-color: #00EE00; */
 	height: 100%;
 }
 
@@ -102,11 +107,11 @@ body {
 }
 
 .quick-navigation-title {
-	background-color: #FFFFFF;
+	background-color: #2C9FB1;
 }
 
 .quick-navigation-items {
-	background-color: #FFFFFF;
+	background-color: #2EA9BB;
 }
 
 .align-fa {
@@ -154,39 +159,28 @@ body {
 .problem_rate:last-child {
 	color: white;
 }
-
-.data-block {
-	background-color: #FFFFFF;
-}
-
-.quick-navigation-title i, .quick-navigation-title p {
-	color: #2EA9BB;
-}
-
-.quick-navigation-items i, .quick-navigation-items p {
-	color: #7CB4CB;
-}
 </style>
 <script src="layui/layui.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
-	<div class="grid-stack" data-gs-animate="turns animation on"
-		id="grid-stack">
+	<div class="grid-stack" data-gs-animate= "turns animation on"  id="">
 		<div class="grid-stack-item" data-gs-x="0" data-gs-y="0"
 			data-gs-width="2" data-gs-height="1">
 			<div class="grid-stack-item-content">
-				<div class="height-full abnormal link_block data-block"
+				<div class="height-full abnormal link_block"
 					data-url="deviceExceptionDetails.html"
 					data-id="deviceExceptionDetails" data-text="设备异常">
 					<div
-						class="layui-col-xs5 layui-col-sm5 layui-col-md5 height-full align-fa">
+						class="layui-col-xs5 layui-col-sm5 layui-col-md5 height-full align-fa"
+						style="background-color: #2C8DB0;">
 						<div class="align-ch">
-							<i class="fa fa-calendar" style="color: #F8BB74;"></i>
-							<p style="color: #F8BB74;">设备异常</p>
+							<i class="fa fa-calendar"></i>
+							<p>设备异常</p>
 						</div>
 					</div>
 					<div
-						class="layui-col-xs7 layui-col-sm7 layui-col-md7  data height-full align-fa">
+						class="layui-col-xs7 layui-col-sm7 layui-col-md7  data height-full align-fa"
+						style="background-color: #2E96BB;">
 						<p class="align-ch" id="total_PROBLEM"></p>
 					</div>
 				</div>
@@ -196,18 +190,20 @@ body {
 		<div class="grid-stack-item" data-gs-x="2" data-gs-y="0"
 			data-gs-width="2" data-gs-height="1">
 			<div class="grid-stack-item-content">
-				<div class="height-full alarm link_block data-block"
-					data-url="noticeWarn.html" data-id="noticeWarn" data-text="预警">
+				<div class="height-full alarm link_block" data-url="noticeWarn.html"
+					data-id="noticeWarn" data-text="预警">
 					<div
-						class="layui-col-xs5 layui-col-sm5 layui-col-md5 height-full align-fa">
+						class="layui-col-xs5 layui-col-sm5 layui-col-md5 height-full align-fa"
+						style="background-color: #66908E;">
 						<div class="align-ch">
-							<i class="fa fa-bell" style="color: #86D2EE;"></i>
-							<p class="align-ch" style="color: #86D2EE;">预警</p>
+							<i class="fa fa-bell"></i>
+							<p class="align-ch">预警</p>
 						</div>
 					</div>
 					<div
-						class="layui-col-xs7 layui-col-sm7 layui-col-md7 height-full data align-fa">
-						<p class="align-ch" id="total_WARN" style="color: #86D2EE;"></p>
+						class="layui-col-xs7 layui-col-sm7 layui-col-md7 height-full data align-fa"
+						style="background-color: #6C9996;">
+						<p class="align-ch" id="total_WARN"></p>
 					</div>
 				</div>
 			</div>
@@ -216,20 +212,21 @@ body {
 		<div class="grid-stack-item" data-gs-x="4" data-gs-y="0"
 			data-gs-width="2" data-gs-height="1">
 			<div class="grid-stack-item-content">
-				<div class="height-full danger link_block data-block"
+				<div class="height-full danger link_block"
 					data-url="question_traking.html?type=warn"
 					data-id="question_traking" data-text='隐患问题'>
 					<div
-						class="layui-col-xs5 layui-col-sm5 layui-col-md5 height-full align-fa">
+						class="layui-col-xs5 layui-col-sm5 layui-col-md5 height-full align-fa"
+						style="background-color: #2C8DB0;">
 						<div class="align-ch">
-							<i class="fa fa-warning" style="color: #94E0E1;"></i>
-							<p class="align-ch" style="color: #94E0E1;">隐患问题</p>
+							<i class="fa fa-warning"></i>
+							<p class="align-ch">隐患问题</p>
 						</div>
 					</div>
 					<div
-						class="layui-col-xs7 layui-col-sm7 layui-col-md7 height-full data align-fa">
-						<p class="align-ch" id="total_PROBLEM_WARN"
-							style="color: #94E0E1;"></p>
+						class="layui-col-xs7 layui-col-sm7 layui-col-md7 height-full data align-fa"
+						style="background-color: #2E96BB;">
+						<p class="align-ch" id="total_PROBLEM_WARN"></p>
 					</div>
 				</div>
 			</div>
@@ -238,19 +235,21 @@ body {
 		<div class="grid-stack-item" data-gs-x="0" data-gs-y="1"
 			data-gs-width="2" data-gs-height="1">
 			<div class="grid-stack-item-content">
-				<div class="height-full completion link_block data-block"
+				<div class="height-full completion link_block"
 					data-url="index.action?type=3&column=taskbi"
 					data-id="task_finish_rate" data-text="任务完成率">
 					<div
-						class="layui-col-xs5 layui-col-sm5 layui-col-md5 align-fa height-full">
+						class="layui-col-xs5 layui-col-sm5 layui-col-md5 align-fa height-full"
+						style="background-color: #50AD80;">
 						<div class="align-ch">
-							<i class="fa fa-pencil-square-o" style="color: #53B687;"></i>
-							<p class="align-ch" style="color: #53B687;">任务完成率</p>
+							<i class="fa fa-pencil-square-o"></i>
+							<p class="align-ch">任务完成率</p>
 						</div>
 					</div>
 					<div
-						class="layui-col-xs7 layui-col-sm7 layui-col-md7 height-full data align-fa">
-						<p class="align-ch" id="total_TASK_RATE" style="color: #53B687;"></p>
+						class="layui-col-xs7 layui-col-sm7 layui-col-md7 height-full data align-fa"
+						style="background-color: #53B687;">
+						<p class="align-ch" id="total_TASK_RATE"></p>
 					</div>
 				</div>
 			</div>
@@ -259,19 +258,21 @@ body {
 		<div class="grid-stack-item" data-gs-x="2" data-gs-y="1"
 			data-gs-width="2" data-gs-height="1">
 			<div class="grid-stack-item-content">
-				<div class="height-full need link_block data-block"
+				<div class="height-full need link_block"
 					data-url="http://192.168.18.22:10239/BPMOperationCenter/?UIID=Gtask"
 					data-id="need" data-text="待办数量">
 					<div
-						class="layui-col-xs5 layui-col-sm5 layui-col-md5 align-fa height-full">
+						class="layui-col-xs5 layui-col-sm5 layui-col-md5 align-fa height-full"
+						style="background-color: #92A4A6;">
 						<div class="align-ch">
-							<i class="fa fa-calendar-check-o" style="color: #6C9996;"></i>
-							<p class="align-ch" style="color: #6C9996;">待办数量</p>
+							<i class="fa fa-calendar-check-o"></i>
+							<p class="align-ch">待办数量</p>
 						</div>
 					</div>
 					<div
-						class="layui-col-xs7 layui-col-sm7 layui-col-md7 height-full data align-fa">
-						<p class="align-ch" id="total_TODO" style="color: #6C9996;"></p>
+						class="layui-col-xs7 layui-col-sm7 layui-col-md7 height-full data align-fa"
+						style="background-color: #9BADB1;">
+						<p class="align-ch" id="total_TODO"></p>
 					</div>
 				</div>
 			</div>
@@ -280,20 +281,21 @@ body {
 		<div class="grid-stack-item" data-gs-x="4" data-gs-y="1"
 			data-gs-width="2" data-gs-height="1">
 			<div class="grid-stack-item-content">
-				<div class="height-full problem_rate link_block data-block"
+				<div class="height-full problem_rate link_block"
 					data-url="index.action?type=3&column=problembi"
 					data-id="problem_rate" data-text="问题整改率">
 					<div
-						class="layui-col-xs5 layui-col-sm5 layui-col-md5 align-fa height-full">
+						class="layui-col-xs5 layui-col-sm5 layui-col-md5 align-fa height-full"
+						style="background-color: #50AD80;">
 						<div class="align-ch">
-							<i class="fa fa-hourglass-o" style="color: #FFBFA7;"></i>
-							<p class="align-ch" style="color: #FFBFA7;">问题整改率</p>
+							<i class="fa fa-hourglass-o"></i>
+							<p class="align-ch">问题整改率</p>
 						</div>
 					</div>
 					<div
-						class="layui-col-xs7 layui-col-sm7 layui-col-md7 height-full data align-fa">
-						<p class="align-ch" id="total_PROBLEMRECTIFYRATE"
-							style="color: #FFBFA7;"></p>
+						class="layui-col-xs7 layui-col-sm7 layui-col-md7 height-full data align-fa"
+						style="background-color: #53B687;">
+						<p class="align-ch" id="total_PROBLEMRECTIFYRATE"></p>
 					</div>
 				</div>
 			</div>
