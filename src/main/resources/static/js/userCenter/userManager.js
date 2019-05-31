@@ -5,13 +5,13 @@ $(function(){
 	 */
 	var table = layui.table,
 		layer = layui.layer,
-		getUsersUrl = ipPort + "/user",
-		getUsersByNumUrl = ipPort + "/user/users",
-		addUserUrl = ipPort + "/user/users",
-		initOrganDataUrl = ipPort + "/user/organ",
-		modifyUserParentUrl = ipPort + "/user/organ",
-		modifyUserUrl = ipPort + "/user/user",
-		deleteUserUrl = ipPort + "/user";
+		getUsersUrl = "/iot_usermanager/user",
+		getUsersByNumUrl = "/iot_usermanager/user/users",
+		addUserUrl = "/iot_usermanager/user/users",
+		initOrganDataUrl = "/iot_usermanager/user/organ",
+		modifyUserParentUrl = "/iot_usermanager/user/organ",
+		modifyUserUrl = "/iot_usermanager/user/user",
+		deleteUserUrl = "/iot_usermanager/user";
 		
 
 	/**

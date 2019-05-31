@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.soa.dao.IndexInfoRoleMapper">
+	<resultMap id="BaseResultMap"
+		type="cn.soa.entity.IndexInfoRole">
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="ROLE_ID" jdbcType="VARCHAR" property="roleId" />
+		<result column="PAGE_ID" jdbcType="VARCHAR" property="pageId" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, ROLE_ID, PAGE_ID
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from IOT_INDEX_INFO_ROLE
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		IOT_INDEX_INFO_ROLE
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="cn.soa.entity.IndexInfoRole">
+		insert into
+		IOT_INDEX_INFO_ROLE (ID, ROLE_ID, PAGE_ID
+		)
+		values
+		(#{id,jdbcType=VARCHAR}, #{roleId,jdbcType=VARCHAR},
+		#{pageId,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective"
+		parameterType="cn.soa.entity.IndexInfoRole">
+		insert into IOT_INDEX_INFO_ROLE
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="roleId != null">
+				ROLE_ID,
+			</if>
+			<if test="pageId != null">
+				PAGE_ID,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="roleId != null">
+				#{roleId,jdbcType=VARCHAR},
+			</if>
+			<if test="pageId != null">
+				#{pageId,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="cn.soa.entity.IndexInfoRole">
+		update IOT_INDEX_INFO_ROLE
+		<set>
+			<if test="roleId != null">
+				ROLE_ID = #{roleId,jdbcType=VARCHAR},
+			</if>
+			<if test="pageId != null">
+				PAGE_ID = #{pageId,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="cn.soa.entity.IndexInfoRole">
+		update IOT_INDEX_INFO_ROLE
+		set ROLE_ID =
+		#{roleId,jdbcType=VARCHAR},
+		PAGE_ID = #{pageId,jdbcType=VARCHAR}
+		where
+		ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<delete id="deleteRecords"
+		parameterType="cn.soa.entity.UserRole">
+		delete from IOT_INDEX_INFO_ROLE where ROLE_ID in
+		<foreach collection="list" index="index" item="item" open="("
+			separator="," close=")">
+			#{item.rolid,jdbcType=VARCHAR}
+		</foreach>
+	</delete>
+</mapper>

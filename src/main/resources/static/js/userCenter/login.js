@@ -2,7 +2,7 @@
  * 全局变量
  */
 var loginUrl = ipPort + "/user",
-	indexUrl = ipPort + "/jsPackage/web/design/index",
+	indexUrl = "/iot_usermanager/index/navigation.html",
 	indexSonWinIndex;
  
 /**

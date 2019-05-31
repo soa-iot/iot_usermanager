@@ -7,7 +7,7 @@ $(function(){
 	table.render({
 		toolbar: '#toolbarDemo'
 	    ,elem: '#role'
-	    ,url: ipPort + '/role/roles/'
+	    ,url:'/iot_usermanager/role/roles/'
 	    ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
 	    ,loading:true
 	    ,page:true
@@ -48,7 +48,7 @@ $(function(){
 	
 	form.on('submit(formSubmit)', function(data){
 		$.ajax({
-			url:ipPort + '/role/addOrUpdateRole',
+			url:'/iot_usermanager/role/addOrUpdateRole',
 			data:$('.role-form').serialize() ,
 			dataType:'json',
 			success:function(data){
@@ -107,7 +107,7 @@ $(function(){
 				}
 				var ids_string=ids.join(",")
 				$.ajax({
-					url:ipPort + '/role/deleteRoles',
+					url:'/iot_usermanager/role/deleteRoles',
 					data:{ids:ids_string},
 					dataType:'json',
 					success:function(ajaxdata){
@@ -153,7 +153,7 @@ $(function(){
 			//获取角色下的所有用户
 				    $.ajax({
 			     type: "post",
-			     url: ipPort + '/role/queryUsersByRold',
+			     url: '/iot_usermanager/role/queryUsersByRold',
 			     data: {'rolid':data.rolid},
 			     async: true, 
 			     cache: true,
@@ -186,7 +186,7 @@ $(function(){
 							//动态的添加用户
 							$.ajax({
 							     type: "post",
-							     url: ipPort + '/role/addOrUpdateUserRole',
+							     url: '/iot_usermanager/role/addOrUpdateUserRole',
 							     data: {"list":checkNodes,"rolid":data.rolid},
 							     async: true, 
 							     cache: true,
