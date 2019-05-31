@@ -76,6 +76,40 @@ public class RoleService implements RoleServiceInter{
 		}
 		return auths;
 	}
+	
+	/**   
+	 * @Title: findUsersById   
+	 * @Description:  根据角色id查询对应的所有用户 
+	 * @return: List<UserOrganization>        
+	 */  
+	@Override
+	public List<UserOrganization> findUsersById( String roleid ){
+		try {
+			List<UserOrganization> users = userRoleMapper.findUsersById(roleid);
+			logger.debug( users.toString() );
+			return users;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	/**   
+	 * @Title: findUsersByName   
+	 * @Description: 根据角色名称查询对应的所有用户     
+	 * @return: List<UserOrganization>        
+	 */  
+	@Override
+	public List<UserOrganization> findUsersByName( String rolename ){
+		try {
+			List<UserOrganization> users = userRoleMapper.findUsersByName(rolename);
+			logger.debug( users.toString() );
+			return users;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 	
 	/**   

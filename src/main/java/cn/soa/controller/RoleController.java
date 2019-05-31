@@ -137,4 +137,39 @@ public class RoleController{
 		}
 		return  new ResultJson(0);
 	}
+	
+	
+	/**   
+	 * @Title: findUsersByIdC   
+	 * @Description: 根据角色id查询对应的所有用户   
+	 * @return: ResultJson<List<UserOrganization>>        
+	 */  
+	@GetMapping("/id/users")
+	public ResultJson<List<UserOrganization>> findUsersByIdC( 
+			@RequestParam("roleId") String roleId ){
+		logger.debug( "--C----------根据角色id查询对应的所有用户   ---------------" );
+		logger.debug( roleId );
+		List<UserOrganization> users = roleService.findUsersById(roleId);
+		if( users != null ) {
+			return new ResultJson<List<UserOrganization>>( 0, "查询角色下所有人员成功", users );
+		}
+		return new ResultJson<List<UserOrganization>>( 1, "查询角色下所有人员失败或数据为空", users );
+	}
+	
+	/**   
+	 * @Title: findUsersByIdC   
+	 * @Description: 根据角色名称查询对应的所有用户   
+	 * @return: ResultJson<List<UserOrganization>>        
+	 */  
+	@GetMapping("/name/users")
+	public ResultJson<List<UserOrganization>> findUsersByNameC( 
+			@RequestParam("roleName") String roleName){
+		logger.debug( "--C----------根据角色名称查询对应的所有用户    ---------------" );
+		logger.debug( roleName );
+		List<UserOrganization> users = roleService.findUsersByName(roleName);
+		if( users != null ) {
+			return new ResultJson<List<UserOrganization>>( 0, "查询角色下所有人员成功", users );
+		}
+		return new ResultJson<List<UserOrganization>>( 1, "查询角色下所有人员失败或数据为空", users );
+	}
 }

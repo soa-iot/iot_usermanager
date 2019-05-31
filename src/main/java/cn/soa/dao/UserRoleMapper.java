@@ -47,6 +47,20 @@ public interface UserRoleMapper {
 	  */  
 	public List<UserRole> findUserRoleByNum(@Param("usernum") String usernum);
 	
+	/**   
+	 * @Title: findUsersById   
+	 * @Description: 根据角色id查询对应的所有用户   
+	 * @return: List<UserOrganization>        
+	 */  
+	public List<UserOrganization> findUsersById( String roleid );
+	
+	/**   
+	 * @Title: findUsersById   
+	 * @Description: 根据角色名称查询对应的所有用户   
+	 * @return: List<UserOrganization>        
+	 */  
+	public List<UserOrganization> findUsersByName( String rolename );
+	
 	
 	 /**   
 	  * @Title: saveUserRole   

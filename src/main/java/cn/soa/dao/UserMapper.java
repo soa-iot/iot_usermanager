@@ -84,6 +84,50 @@ public interface UserMapper {
 	  * @return: List<UserOrganization>        
 	  */  
 //	public List<UserOrganization> findUsersAndState();
+	
+	
+	/**   
+	 * @Title: findUserFirstParentByNum   
+	 * @Description:  根据用户唯一标识查询用户上一级父组织 
+	 * @return: UserOrganization        
+	 */  
+	public UserOrganization findUserFirstParentByNum(@Param("usernum") String usernum );
+	
+	/**   
+	 * @Title: findUserSecondParentByNum   
+	 * @Description:  根据用户唯一标识查询用户上两级父组织 
+	 * @return: UserOrganization        
+	 */  
+	public UserOrganization findUserSecondParentByNum(@Param("usernum") String usernum );
+	
+	/**   
+	 * @Title: findUserThirdParentByNum   
+	 * @Description: 根据用户唯一标识查询用户上三级父组织   
+	 * @return: UserOrganization        
+	 */  
+	public UserOrganization findUserThirdParentByNum(@Param("usernum") String usernum );
+	
+	/**   
+	 * @Title: findUserFirstParentByNum   
+	 * @Description:  根据用户姓名查询用户上一级父组织 
+	 * @return: UserOrganization        
+	 */  
+	public UserOrganization findUserFirstParentByName(@Param("name") String name );
+	
+	/**   
+	 * @Title: findUserSecondParentByNum   
+	 * @Description:  根据用户姓名查询用户上两级父组织 
+	 * @return: UserOrganization        
+	 */  
+	public UserOrganization findUserSecondParentByName(@Param("name") String name );
+	
+	/**   
+	 * @Title: findUserThirdParentByNum   
+	 * @Description: 根据用户姓名查询用户上三级父组织   
+	 * @return: UserOrganization        
+	 */  
+	public UserOrganization findUserThirdParentByName(@Param("name") String name );
+	
 		
 	
 	 /** 

@@ -177,7 +177,25 @@ public interface UserServiceInter {
 	 * @Description:   获取用户模块对应的按钮权限   
 	 * @return: List<IotUserModuleResource>        
 	 */  
-	List<IotUserModuleResource> getButtonAuthorityS(String userid, String modId);		
+	List<IotUserModuleResource> getButtonAuthorityS(String userid, String modId);
+
+
+	UserOrganization findUserFirstParentByNum(String usernum);
+
+
+	UserOrganization findUserSecondParentByNum(String usernum);
+
+
+	UserOrganization findUserThirdParentByNum(String usernum);
+
+
+	UserOrganization findUserFirstParentByName(String usernum);
+
+
+	UserOrganization findUserSecondParentByName(String usernum);
+
+
+	UserOrganization findUserThirdParentByName(String usernum);		
 
 
 }

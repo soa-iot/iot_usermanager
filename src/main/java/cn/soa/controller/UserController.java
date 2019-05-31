@@ -64,10 +64,28 @@ public class UserController {
 	@Autowired
 	private RoleServiceInter roleService;
 	
+	/**   
+	 * @Title: getUserByNum   
+	 * @Description:  根据用户usernum查询用户
+	 * @param: @param usernum      
+	 * @return: void        
+	 */  
+	@GetMapping("/users/{usernum}")
+	public ResultJson<UserOrganization> getUserByNum( @PathVariable("usernum") String usernum ) {
+		logger.debug("-----C------- 根据用户usernum查询用户   ---- usernum： " + usernum);
+		UserOrganization u = userService.getUsersByNum(usernum);
+		if( u != null ) {
+			logger.debug( "---C---- 根据用户usernum查询用户成功------u：" + u );
+			return new ResultJson<UserOrganization>( 0, "查询用户成功", u ); 
+		}
+		logger.debug( "---C---- 根据用户usernum查询用户失败------u：" + u );
+		return new ResultJson<UserOrganization>( 1, "查询用户失败", null ); 
+	}
+	
 	
 	 /**   
 	  * @Title: existsUsernum   
-	  * @Description: 检查用户表用户编码是否存在     
+	  * @Description: 根据用户编码检查用户表是否存在     
 	  * @return: ResultJson<String>        
 	  */  
 	@GetMapping("/usernum/{num}")
@@ -79,6 +97,104 @@ public class UserController {
 			return new ResultJson<String>( 0, "用户存在", "用户存在" );
 		}else {
 			return new ResultJson<String>( 1, "用户不存在", "用户不存在" );
+		}
+	}
+	
+	/**   
+	 * @Title: findUserFirstParentByNumC   
+	 * @Description:  根据用户唯一标识查询用户上一级父组织 
+	 * @return: void        
+	 */  
+	@GetMapping("/organ/1/usernum/{usernum}")
+	public UserOrganization findFirstOrganByUsernumC(@PathVariable("usernum")  String usernum ) {
+		logger.debug( "--C----------根据用户唯一标识查询用户上一级父组织 -----------" );
+		logger.debug( usernum );
+		UserOrganization organ = userService.findUserFirstParentByNum( usernum );
+		return organ;
+	}
+	
+	/**   
+	 * @Title: findUserSecondParentByNumC   
+	 * @Description: 根据用户唯一标识查询用户上两级父组织   
+	 * @return: void        
+	 */  
+	@GetMapping("/organ/2/usernum/{usernum}")
+	public ResultJson<UserOrganization> findSecondOrganByUsernumC( @PathVariable("usernum") String usernum ) {
+		logger.debug( "--C----------根据用户唯一标识查询用户上两级父组织   -----------" );
+		logger.debug( usernum );
+		UserOrganization organ = userService.findUserSecondParentByNum( usernum );
+		if( organ != null ) {
+			return new ResultJson<UserOrganization>( 0, "组织存在", organ );
+		}else {
+			return new ResultJson<UserOrganization>( 1, "组织不存在或访问出错", organ );
+		}
+	}
+	
+	/**   
+	 * @Title: findUserThirdParentByNumC   
+	 * @Description: 根据用户唯一标识查询用户上三级父组织     
+	 * @return: ResultJson<UserOrganization>        
+	 */  
+	@GetMapping("/organ/3/usernum/{usernum}")
+	public ResultJson<UserOrganization> findThirdOrganByUsernumC( @PathVariable("usernum") String usernum ) {
+		logger.debug( "--C----------根据用户唯一标识查询用户上三级父组织   -----------" );
+		logger.debug( usernum );
+		UserOrganization organ = userService.findUserThirdParentByNum( usernum );
+		if( organ != null ) {
+			return new ResultJson<UserOrganization>( 0, "组织存在", organ );
+		}else {
+			return new ResultJson<UserOrganization>( 1, "组织不存在或访问出错", organ );
+		}
+	}
+	
+	/**   
+	 * @Title: findUserFirstParentByNameC   
+	 * @Description: 根据用户姓名查询用户上一级父组织  
+	 * @return: ResultJson<UserOrganization>        
+	 */  
+	@GetMapping("/organ/1/name/{name}")
+	public ResultJson<UserOrganization> findFirstOrganByUsernameC( @PathVariable("name") String name ) {
+		logger.debug( "--C----------根据用户姓名查询用户上一级父组织   -----------" );
+		logger.debug( name );
+		UserOrganization organ = userService.findUserFirstParentByName( name );
+		if( organ != null ) {
+			return new ResultJson<UserOrganization>( 0, "组织存在", organ );
+		}else {
+			return new ResultJson<UserOrganization>( 1, "组织不存在或访问出错", organ );
+		}
+	}
+	
+	/**   
+	 * @Title: findUserSecondParentByNameC   
+	 * @Description:  根据用户姓名查询用户上两级父组织 
+	 * @return: ResultJson<UserOrganization>        
+	 */ 
+	@GetMapping("/organ/2/name/{name}")
+	public ResultJson<UserOrganization> findSecondOrganByUsernameC( @PathVariable("name") String name ) {
+		logger.debug( "--C----------根据用户姓名查询用户上两级父组织   -----------" );
+		logger.debug( name );
+		UserOrganization organ = userService.findUserSecondParentByName( name );
+		if( organ != null ) {
+			return new ResultJson<UserOrganization>( 0, "组织存在", organ );
+		}else {
+			return new ResultJson<UserOrganization>( 1, "组织不存在或访问出错", organ );
+		}
+	}
+	
+	/**   
+	 * @Title: findUserThirdParentByNameC   
+	 * @Description:  根据用户姓名查询用户上三级父组织  
+	 * @return: ResultJson<UserOrganization>        
+	 */  
+	@GetMapping("/organ/3/name/{name}")
+	public ResultJson<UserOrganization> findThirdOrganByUsernameC( @PathVariable("name") String name ) {
+		logger.debug( "--C----------根据用户姓名查询用户上三级父组织   -----------" );
+		logger.debug( name );
+		UserOrganization organ = userService.findUserThirdParentByName( name );
+		if( organ != null ) {
+			return new ResultJson<UserOrganization>( 0, "组织存在", organ );
+		}else {
+			return new ResultJson<UserOrganization>( 1, "组织不存在或访问出错", organ );
 		}
 	}
 	
@@ -346,23 +462,7 @@ public class UserController {
 		}
 	}
 	
-	/**   
-	 * @Title: getUserByNum   
-	 * @Description:  根据用户usernum查询用户
-	 * @param: @param usernum      
-	 * @return: void        
-	 */  
-	@GetMapping("/users/{usernum}")
-	public ResultJson<UserOrganization> getUserByNum( @PathVariable("usernum") String usernum ) {
-		logger.debug("-----C------- 根据用户usernum查询用户   ---- usernum： " + usernum);
-		UserOrganization u = userService.getUsersByNum(usernum);
-		if( u != null ) {
-			logger.debug( "---C---- 根据用户usernum查询用户成功------u：" + u );
-			return new ResultJson<UserOrganization>( 0, "查询用户成功", u ); 
-		}
-		logger.debug( "---C---- 根据用户usernum查询用户失败------u：" + u );
-		return new ResultJson<UserOrganization>( 1, "查询用户失败", null ); 
-	}
+	
 	
 	/**   
 	 * @Title: saveUserBackIdContr   
@@ -471,4 +571,6 @@ public class UserController {
 			return null;
 		}
 	}		
+	
+	
 }

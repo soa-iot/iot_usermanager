@@ -151,6 +151,110 @@ public class UserService implements UserServiceInter{
 	}
 	
 	
+	/**   
+	 * @Title: getUserFirstParentByNum   
+	 * @Description:  根据用户唯一标识查询用户上一级父组织  
+	 * @return: UserOrganization        
+	 */  
+	@Override
+	public UserOrganization findUserFirstParentByNum( String usernum ) {
+		try {
+			UserOrganization organ = userMapper.findUserFirstParentByNum( usernum );
+			return organ;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	/**   
+	 * @Title: findUserSecondParentByNum   
+	 * @Description:  根据用户唯一标识查询用户上两级父组织 
+	 * @return: UserOrganization        
+	 */  
+	@Override
+	public UserOrganization findUserSecondParentByNum( String usernum ) {
+		try {
+			UserOrganization organ = userMapper.findUserSecondParentByNum( usernum );
+			return organ;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	/**   
+	 * @Title: findUserThirdParentByNum   
+	 * @Description:  根据用户唯一标识查询用户上三级父组织     
+	 * @return: UserOrganization        
+	 */ 
+	@Override
+	public UserOrganization findUserThirdParentByNum( String usernum ) {
+		try {
+			UserOrganization organ = userMapper.findUserThirdParentByNum( usernum );
+			return organ;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	/**   
+	 * @Title: getUserFirstParentByNum   
+	 * @Description:  根据用户姓名查询用户上一级父组织  
+	 * @return: UserOrganization        
+	 */  
+	@Override
+	public UserOrganization findUserFirstParentByName( String usernum ) {
+		try {
+			UserOrganization organ = userMapper.findUserFirstParentByName( usernum );
+			return organ;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	/**   
+	 * @Title: findUserSecondParentByNum   
+	 * @Description:  根据用户姓名查询用户上两级父组织 
+	 * @return: UserOrganization        
+	 */  
+	@Override
+	public UserOrganization findUserSecondParentByName( String usernum ) {
+		try {
+			UserOrganization organ = userMapper.findUserSecondParentByName( usernum );
+			return organ;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	/**   
+	 * @Title: findUserThirdParentByNum   
+	 * @Description:  根据用户姓名查询用户上三级父组织     
+	 * @return: UserOrganization        
+	 */ 
+	@Override
+	public UserOrganization findUserThirdParentByName( String usernum ) {
+		try {
+			UserOrganization organ = userMapper.findUserThirdParentByName( usernum );
+			return organ;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	 /**   

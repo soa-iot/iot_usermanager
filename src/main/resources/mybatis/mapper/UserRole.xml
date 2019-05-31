@@ -58,9 +58,24 @@
 		order by iumr.CREATE_TIME
 	</select>
 	
+	<!-- 1.4、根据角色id查询对应的所有用户 -->
+	<select id="findUsersById" parameterType="string" resultType="cn.soa.entity.IotUserModuleResource">
+		SELECT * FROM IOT_USER_ROLE r 
+			LEFT JOIN IOT_USER_USER_ROLE ur  on r.ROLID = ur.ROLID
+		  	LEFT JOIN IOT_USER_ORGANIZATION o on ur.USERID = o.USERNUM
+		WHERE r.ROLID = #{param1};
+	</select>
+	
+	<!-- 1.5、根据角色名称查询对应的所有用户 -->
+	<select id="findUsersByName" parameterType="string" resultType="cn.soa.entity.IotUserModuleResource">
+		SELECT * FROM IOT_USER_ROLE r 
+			LEFT JOIN IOT_USER_USER_ROLE ur  on r.ROLID = ur.ROLID
+		  	LEFT JOIN IOT_USER_ORGANIZATION o on ur.USERID = o.USERNUM
+		WHERE r.NAME = #{param1};
+	</select>
 	
 	<!-- 根据角色查询对应的所有用户 -->
-	<select id="queryAllorgnInfo" resultType="cn.soa.entity.UserOrganization">
+	<select id="findUsersByRolename" resultType="cn.soa.entity.UserOrganization">
 		select * from IOT_USER_ORGANIZATION 
 	</select>
 	<!-- 查询出组织机构信息 -->
