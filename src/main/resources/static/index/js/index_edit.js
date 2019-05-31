@@ -42,11 +42,13 @@ layui.use(['layer', 'jquery', 'table'], function() {
 									success : function(res) {
 										// console.log(res);
 										layer.msg('保存成功');
+										/*load_index_page(true);*/
+										window.location.reload();
 									},
 									error : function() {
 									}
 								});
-						load_index_page(true);
+						
 					}.bind(this);
 
 					this.clear_grid = function() {

@@ -45,9 +45,7 @@ function load_index_page(isEdit) {
 								"disable element resizing");
 						$('.grid-stack-item').attr("data-gs-no-move",
 								"disable element moving");
-					} else {
-						$('.grid-stack-item').removeClass('data-gs-no-resize');
-					}
+					} 
 					var options = {
 						cell_height : 80,
 						vertical_margin : 10
