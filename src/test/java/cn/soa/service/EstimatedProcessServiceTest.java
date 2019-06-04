@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import cn.soa.IotUsermanagerApplication;
-import cn.soa.entity.UserInfo;
+import cn.soa.entity.UserOrganization;
 import cn.soa.service.inter.EstimatedProcessServiceInter;
 
 @RunWith(SpringRunner.class)
@@ -21,7 +21,7 @@ public class EstimatedProcessServiceTest {
 	
 	@Test
 	public void getUserByRoleNameTest() {
-		List<UserInfo> userInfos = estimatedProcessServiceInter.getUserByRoleName("3591A0F744F49EFBABA6959917139CE");
+		List<UserOrganization> userInfos = estimatedProcessServiceInter.getUserByRoleName("3591A0F744F49EFBABA6959917139CE");
 		System.err.println(userInfos);
 	}
 }

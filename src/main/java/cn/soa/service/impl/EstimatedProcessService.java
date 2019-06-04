@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.soa.dao.EstimatedProcessMapper;
-import cn.soa.entity.UserInfo;
+import cn.soa.entity.UserOrganization;
 import cn.soa.service.inter.EstimatedProcessServiceInter;
 
 /**
@@ -28,7 +28,7 @@ public class EstimatedProcessService implements EstimatedProcessServiceInter {
 	 * @return 返回当前用户 的使用下级用户
 	 */	
 	@Override
-	public List<UserInfo> getUserByRoleName(String roleName) {
+	public List<UserOrganization> getUserByRoleName(String roleName) {
 		
 		return findUserByRoleName(roleName);
 	}
@@ -38,7 +38,7 @@ public class EstimatedProcessService implements EstimatedProcessServiceInter {
 	 * @param roleName 当前用户 的就是名称
 	 * @return 返回当前用户 的使用下级用户
 	 */
-	private List<UserInfo> findUserByRoleName(String roleName){
+	private List<UserOrganization> findUserByRoleName(String roleName){
 		try {
 			return estimatedProcessMapper.findUserByRoleName(roleName);
 		}catch (Exception e) {

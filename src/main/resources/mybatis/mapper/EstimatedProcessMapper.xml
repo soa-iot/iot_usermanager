@@ -2,11 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.soa.dao.EstimatedProcessMapper">
 
-	<select id="findUserByRoleName" resultType="cn.soa.entity.UserInfo">
+	<select id="findUserByRoleName" resultType="cn.soa.entity.UserOrganization">
 		SELECT 
-			usernum,nname 
+			name,
+			usernum,
+			parent_id 
 		FROM 
-			iot_user_info 
+			iot_user_organization 
 		WHERE 
 			usernum in (
 		SELECT 
