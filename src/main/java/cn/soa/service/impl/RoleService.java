@@ -245,6 +245,12 @@ public class RoleService implements RoleServiceInter{
 		
 	}
 
-
+	/** 
+	  * @Title: getUserRoleByRoleName 
+	  * @Description: 根据用户角色id查找角色名称
+	  */
+	public UserRole getUserRoleByRoleName(String rolid) {
+		return userRoleMapper.findUserRoleByRoleName(rolid);
+	}
 	
 }

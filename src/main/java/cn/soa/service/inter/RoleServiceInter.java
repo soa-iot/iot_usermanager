@@ -80,4 +80,10 @@ public interface RoleServiceInter {
 	 * @return: ArrayList<IotUserModuleResource>        
 	 */  
 	ArrayList<IotUserModuleResource> findAuthJsonServ(String rolid);
+	
+	/** 
+	  * @Title: findUserRoleByRoleName 
+	  * @Description: 根据用户角色id查找角色名称
+	  */
+	public UserRole getUserRoleByRoleName(String rolid);
 }

@@ -106,4 +106,11 @@ public class UserRoleMapperTest {
 		int i = userRoleMapper.saveUserAndRoleById(userid, rolid);
 		System.out.println(i);		
 	}
+	
+	@Test
+	public void findUserRoleByRoleName() {
+
+		UserRole userRole = userRoleMapper.findUserRoleByRoleName("3591A0F744F49EFBABA6959917139CE");
+		System.out.println(userRole);
+	}
 }
