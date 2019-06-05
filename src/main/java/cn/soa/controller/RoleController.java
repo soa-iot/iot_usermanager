@@ -143,7 +143,7 @@ public class RoleController{
 	 * @param rolid 角色id
 	 * @return 角色实体josn数据
 	 */
-	@GetMapping("role_name")
+	@GetMapping("/rolename")
 	public ResultJson<UserRole> gainRoleName(String rolid){
 		UserRole userRole = roleService.getUserRoleByRoleName(rolid);
 		if (userRole != null) {

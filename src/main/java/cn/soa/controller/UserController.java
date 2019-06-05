@@ -489,10 +489,9 @@ public class UserController {
 
 		List<UserOrganization> users = estimatedProcessServiceInter.getUserByRoleName(roleName);
 		if (users != null) {
-			for (int i = 0; i < 10; i++) {
-				users.add(users.get(0));
-			}
-			users.get(0);
+			/*
+			 * for (int i = 0; i < 10; i++) { users.add(users.get(0)); } users.get(0);
+			 */
 			return new ResultJson<List<UserOrganization>>(0, "数据获取成功", users);
 		}else {
 			return new ResultJson<List<UserOrganization>>(1, "数据获取失败", users);
