@@ -484,7 +484,7 @@ public class UserController {
 	 * @param roleName 当前用户 的角色名称
 	 * @return 返回当前用户 的使用下级用户的json数据
 	 */	
-	@GetMapping("/role_name/")
+	@GetMapping("/rolename")
 	public ResultJson<List<UserOrganization>> getUserByRoleName(String roleName) {
 
 		List<UserOrganization> users = estimatedProcessServiceInter.getUserByRoleName(roleName);

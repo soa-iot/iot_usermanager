@@ -20,7 +20,7 @@ public class EstimatedProcessMapperTest {
 	
 	@Test
 	public void findUserByRoleNameTest() {
-		List<UserOrganization> userInfos = estimatedProcessMapper.findUserByRoleName("3591A0F744F49EFBABA6959917139CE");
+		List<UserOrganization> userInfos = estimatedProcessMapper.findUserByRoleName("超级管理员");
 		System.err.println(userInfos);
 	}
 }
