@@ -42,6 +42,7 @@ import cn.soa.entity.UserRole;
 import cn.soa.entity.UserTest;
 import cn.soa.entity.headResult.ResultJson;
 import cn.soa.entity.headResult.UserTableJson;
+import cn.soa.service.inter.EstimatedProcessServiceInter;
 import cn.soa.service.inter.RoleServiceInter;
 import cn.soa.service.inter.UserServiceInter;
 import cn.soa.util.GlobalUtil;
@@ -63,6 +64,9 @@ public class UserController {
 	
 	@Autowired
 	private RoleServiceInter roleService;
+	
+	@Autowired
+	private EstimatedProcessServiceInter estimatedProcessServiceInter;
 	
 	/**   
 	 * @Title: getUserByNum   
@@ -573,5 +577,24 @@ public class UserController {
 		}
 	}		
 	
+	/**
+	 * 通过当前用户角色获取对应的下级的用户信息信息控制层方法
+	 * @param roleName 当前用户 的角色名称
+	 * @return 返回当前用户 的使用下级用户的json数据
+	 */	
+	@GetMapping("/roleName")
+	public ResultJson<List<UserOrganization>> getUserByRoleName(String roleName) {
+
+		List<UserOrganization> users = estimatedProcessServiceInter.getUserByRoleName(roleName);
+		if (users != null) {
+			for (int i = 0; i < 10; i++) {
+				users.add(users.get(0));
+			}
+			users.get(0);
+			return new ResultJson<List<UserOrganization>>(0, "数据获取成功", users);
+		}else {
+			return new ResultJson<List<UserOrganization>>(1, "数据获取失败", users);
+		}
+	}
 	
 }

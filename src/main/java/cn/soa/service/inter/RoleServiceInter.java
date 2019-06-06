@@ -94,4 +94,10 @@ public interface RoleServiceInter {
 	 * @return: List<UserOrganization>        
 	 */  
 	List<UserOrganization> findUsersByName(String rolename);
+	
+	/** 
+	  * @Title: findUserRoleByRoleName 
+	  * @Description: 根据用户角色id查找角色名称
+	  */
+	public UserRole getUserRoleByRoleName(String rolid);
 }

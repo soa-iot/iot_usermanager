@@ -181,4 +181,11 @@ public interface UserRoleMapper {
 	 * @return int
 	 */
 	public int deleteUserUserAndRolebyId(@Param("rolid")String rolid);
+	
+	 /** 
+	  * @Title: findUserRoleByRoleName 
+	  * @Description: 根据用户角色id查找角色名称
+	  */
+	public UserRole findUserRoleByRoleName(String rolid);
+	
 }

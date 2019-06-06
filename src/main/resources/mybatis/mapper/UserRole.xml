@@ -219,6 +219,13 @@
 		delete from IOT_USER_USER_ROLE
 		where rolid=#{rolid} 
 	</delete>
+	
+	<!-- 根据用户角色id查找角色名称 -->
+	<select id="findUserRoleByRoleName" resultType="cn.soa.entity.UserRole">
+		select * from iot_user_role
+		where rolid = #{rolid}
+	</select>
+	
 </mapper>
  
 

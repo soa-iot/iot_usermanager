@@ -138,7 +138,7 @@ public class RoleController{
 		return  new ResultJson(0);
 	}
 	
-	
+
 	/**   
 	 * @Title: findUsersByIdC   
 	 * @Description: 根据角色id查询对应的所有用户   
@@ -171,5 +171,22 @@ public class RoleController{
 			return new ResultJson<List<UserOrganization>>( 0, "查询角色下所有人员成功", users );
 		}
 		return new ResultJson<List<UserOrganization>>( 1, "查询角色下所有人员失败或数据为空", users );
+
+	}
+	
+	/**
+	 *  根据用户角色id查找角色名称
+	 * @param rolid 角色id
+	 * @return 角色实体josn数据
+	 */
+	@GetMapping("role_name")
+	public ResultJson<UserRole> gainRoleName(String rolid){
+		UserRole userRole = roleService.getUserRoleByRoleName(rolid);
+		if (userRole != null) {
+			return new ResultJson<UserRole>(0,"数据获取成功",userRole);
+		}else {
+			return new ResultJson<UserRole>(1,"数据获取失败",userRole);
+		}
+		
 	}
 }
