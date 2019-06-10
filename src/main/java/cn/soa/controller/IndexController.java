@@ -9,8 +9,6 @@
  */
 package cn.soa.controller;
 
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
-
 import java.util.List;
 import java.util.Map;
 

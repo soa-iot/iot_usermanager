@@ -584,13 +584,12 @@ public class UserController {
 	 */	
 	@GetMapping("/roleName")
 	public ResultJson<List<UserOrganization>> getUserByRoleName(String roleName) {
-
+		logger.debug( "--------通过当前用户角色获取对应的下级的用户信息信息控制层方法-----------" + roleName );
 		List<UserOrganization> users = estimatedProcessServiceInter.getUserByRoleName(roleName);
 		if (users != null) {
-			for (int i = 0; i < 10; i++) {
-				users.add(users.get(0));
-			}
-			users.get(0);
+			/*
+			 * for (int i = 0; i < 10; i++) { users.add(users.get(0)); } users.get(0);
+			 */
 			return new ResultJson<List<UserOrganization>>(0, "数据获取成功", users);
 		}else {
 			return new ResultJson<List<UserOrganization>>(1, "数据获取失败", users);

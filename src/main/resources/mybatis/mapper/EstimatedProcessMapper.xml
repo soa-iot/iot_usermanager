@@ -16,13 +16,22 @@
 		FROM 
 			iot_user_user_role 
 		WHERE 
-			rolid = (
+		
+		rolid=(
+		
+		SELECT 
+			rolid 
+		FROM 
+			iot_user_role 
+		WHERE 
+		
+			name = (
 		SELECT 
 			rolename1 
 		FROM 
 			iot_user_role_role 
 		WHERE 
-			rolename=#{roleName}))
+			rolename=#{roleName})))
 	</select>
 
 </mapper>
