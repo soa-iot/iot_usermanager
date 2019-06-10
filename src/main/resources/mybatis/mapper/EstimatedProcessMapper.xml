@@ -2,11 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.soa.dao.EstimatedProcessMapper">
 
+	<sql id="Base_Column_List">
+		orgid, 
+			usernum, 
+			name, 
+			parent_id, 
+			user_password, 
+			state,
+			is_parent, 
+			note,
+			remark1,
+			remark2 
+	</sql>
+	
 	<select id="findUserByRoleName" resultType="cn.soa.entity.UserOrganization">
 		SELECT 
-			name,
-			usernum,
-			parent_id 
+			<include refid="Base_Column_List"></include>
 		FROM 
 			iot_user_organization 
 		WHERE 
