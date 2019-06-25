@@ -1,7 +1,7 @@
 /**
  * 项目变量
  */
-var ip = "192.168.3.6";
+var ip = "localhost";
 var port = "10238";
 
 
