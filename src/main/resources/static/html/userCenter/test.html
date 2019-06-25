@@ -32,7 +32,7 @@ input:focus {
 	<script type="text/javascript">
 	$(function(){
 		   var iframe = document.getElementById('iframe');
-		   $('#iframe').attr('src',"http://localhost:8080/iot_process/html/pending-problem.html?"+new Date().getTime());
+		   $('#iframe').attr('src',"http://192.168.3.6:8080/iot_process/html/pending-problem.html?"+new Date().getTime());
 		    iframe.onload = function() {
 		        var data = {
 		            name: $.cookie("name").replace(/"/g,""),
