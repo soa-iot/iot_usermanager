@@ -19,12 +19,16 @@
         num >#{first} and num<=#{last}
      ]]>  
      </if>
+     
 	</select>
 	<!-- 统计数据 -->
 		<select id="countRoles" resultType="int" >
 		select count(*) from iot_user_role
 	</select>
-	
+	<!-- 根据角色查询对应的所有用户 -->
+	<select id="queryAllorgnInfo" resultType="cn.soa.entity.UserOrganization">
+		select * from IOT_USER_ORGANIZATION 
+	</select>
 	<!-- 1.1、根据用户角色id查询用户角色信息 -->
 	<select id="findUserRoleById" parameterType="string" resultType="cn.soa.entity.UserRole">
 		select * from IOT_USER_ROLE
