@@ -45,7 +45,6 @@ input:focus {
 		            name: $.cookie("name").replace(/"/g,""),
 		            num:$.cookie("num").replace(/"/g,""),
 		            organ:$.cookie("organ").replace(/"/g,"")
-		          
 		        };
 		        // 向domain2传送跨域数据
 		        iframe.contentWindow.postMessage(JSON.stringify(data), '*');
