@@ -21,7 +21,7 @@ public class EstimatedProcessServiceTest {
 	
 	@Test
 	public void getUserByRoleNameTest() {
-		List<UserOrganization> userInfos = estimatedProcessServiceInter.getUserByRoleName("超级管理员");
+		List<UserOrganization> userInfos = estimatedProcessServiceInter.getUserByRoleName("HSE办公室");
 		System.err.println(userInfos);
 	}
 }
