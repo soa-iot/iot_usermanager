@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.soa.dao.IndexTempInfoMapper">
+  <resultMap id="BaseResultMap" type="cn.soa.entity.IndexTempInfo">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="TEMP_NAME" jdbcType="VARCHAR" property="tempName" />
+    <result column="STANDBY1" jdbcType="VARCHAR" property="standby1" />
+    <result column="STANDBY2" jdbcType="VARCHAR" property="standby2" />
+    <result column="STANDBY3" jdbcType="VARCHAR" property="standby3" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="cn.soa.entity.IndexTempInfo">
+    <result column="TEMP_COMTENT" jdbcType="CLOB" property="tempComtent" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, TEMP_NAME, STANDBY1, STANDBY2, STANDBY3
+  </sql>
+  <sql id="Blob_Column_List">
+    TEMP_COMTENT
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from IOT_INDEX_TEMP_INFO
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+   <select id="findAll" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from IOT_INDEX_TEMP_INFO
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from IOT_INDEX_TEMP_INFO
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="cn.soa.entity.IndexTempInfo">
+    insert into IOT_INDEX_TEMP_INFO (ID, TEMP_NAME, STANDBY1, 
+      STANDBY2, STANDBY3, TEMP_COMTENT
+      )
+    values (#{id,jdbcType=VARCHAR}, #{tempName,jdbcType=VARCHAR}, #{standby1,jdbcType=VARCHAR}, 
+      #{standby2,jdbcType=VARCHAR}, #{standby3,jdbcType=VARCHAR}, #{tempComtent,jdbcType=CLOB}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.soa.entity.IndexTempInfo">
+    insert into IOT_INDEX_TEMP_INFO
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="tempName != null">
+        TEMP_NAME,
+      </if>
+      <if test="standby1 != null">
+        STANDBY1,
+      </if>
+      <if test="standby2 != null">
+        STANDBY2,
+      </if>
+      <if test="standby3 != null">
+        STANDBY3,
+      </if>
+      <if test="tempComtent != null">
+        TEMP_COMTENT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="tempName != null">
+        #{tempName,jdbcType=VARCHAR},
+      </if>
+      <if test="standby1 != null">
+        #{standby1,jdbcType=VARCHAR},
+      </if>
+      <if test="standby2 != null">
+        #{standby2,jdbcType=VARCHAR},
+      </if>
+      <if test="standby3 != null">
+        #{standby3,jdbcType=VARCHAR},
+      </if>
+      <if test="tempComtent != null">
+        #{tempComtent,jdbcType=CLOB},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.soa.entity.IndexTempInfo">
+    update IOT_INDEX_TEMP_INFO
+    <set>
+      <if test="tempName != null">
+        TEMP_NAME = #{tempName,jdbcType=VARCHAR},
+      </if>
+      <if test="standby1 != null">
+        STANDBY1 = #{standby1,jdbcType=VARCHAR},
+      </if>
+      <if test="standby2 != null">
+        STANDBY2 = #{standby2,jdbcType=VARCHAR},
+      </if>
+      <if test="standby3 != null">
+        STANDBY3 = #{standby3,jdbcType=VARCHAR},
+      </if>
+      <if test="tempComtent != null">
+        TEMP_COMTENT = #{tempComtent,jdbcType=CLOB},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="cn.soa.entity.IndexTempInfo">
+    update IOT_INDEX_TEMP_INFO
+    set TEMP_NAME = #{tempName,jdbcType=VARCHAR},
+      STANDBY1 = #{standby1,jdbcType=VARCHAR},
+      STANDBY2 = #{standby2,jdbcType=VARCHAR},
+      STANDBY3 = #{standby3,jdbcType=VARCHAR},
+      TEMP_COMTENT = #{tempComtent,jdbcType=CLOB}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.soa.entity.IndexTempInfo">
+    update IOT_INDEX_TEMP_INFO
+    set TEMP_NAME = #{tempName,jdbcType=VARCHAR},
+      STANDBY1 = #{standby1,jdbcType=VARCHAR},
+      STANDBY2 = #{standby2,jdbcType=VARCHAR},
+      STANDBY3 = #{standby3,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

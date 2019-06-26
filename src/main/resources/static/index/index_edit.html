@@ -155,18 +155,17 @@ body {
 	color: white;
 }
 
-.data-block{
+.data-block {
 	background-color: #FFFFFF;
 }
 
-.quick-navigation-title i,.quick-navigation-title p{
-		color: #2EA9BB;
+.quick-navigation-title i, .quick-navigation-title p {
+	color: #2EA9BB;
 }
 
-.quick-navigation-items i,.quick-navigation-items p{
-	color:#7CB4CB;
+.quick-navigation-items i, .quick-navigation-items p {
+	color: #7CB4CB;
 }
-
 </style>
 <script src="layui/layui.js" type="text/javascript" charset="utf-8"></script>
 </head>
@@ -462,6 +461,9 @@ body {
 		<button class="layui-btn layui-btn-sm" id="save-grid">
 			<i class="layui-icon">保存</i>
 		</button>
+		<!-- <button class="layui-btn layui-btn-sm" id="add-grid">
+			<i class="layui-icon">添加</i>
+		</button> -->
 	</ul>
 </body>
 <script src="js/drag/jquery.min.js"></script>
@@ -474,6 +476,9 @@ body {
 				 data-click-href="rest/process/claimTask?userID=${sessionScope.userID}&userPwd=123456&task_owner=${sessionScope.userID}&PIID=${map.PRO_INST_ID }&TIID=${map.TASK_INST_ID }">
 					<i class="fa fa-pencil-square-o"></i> 处理
 		</a>
+</script>
+<script type="text/html" id="add-content">
+
 </script>
 <script src="js/index_common.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/index_edit.js" type="text/javascript" charset="utf-8"></script>

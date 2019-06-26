@@ -13,7 +13,7 @@ function load_index_page(isEdit) {
 				data : {},
 				async : false,
 				success : function(res) {
-					console.log(res);
+					//console.log(res);
 					if (res.data != null && res.data.length != 0) {
 						/**
 						 * 生成页面
@@ -35,7 +35,7 @@ function load_index_page(isEdit) {
 											+ '</div></div>';
 
 								}, this);
-						console.log(html);
+						//console.log(html);
 						$('#grid-stack').html(html);
 
 					}
@@ -65,7 +65,7 @@ function load_index_page(isEdit) {
 								data : {},
 								dataType : 'json', // 返回的数据格式：json/xml/html/script/jsonp/text
 								success : function(res) {
-									console.log(res);
+									//console.log(res);
 									/**
 									 * 填充数据
 									 */
@@ -97,7 +97,7 @@ function load_index_page(isEdit) {
 									// 加载消息提醒
 									load_notice(res.data.noticeListMap);
 
-									console.log('页面初始化完毕');
+									//console.log('页面初始化完毕');
 
 								},
 								error : function(xhr, textStatus) {
@@ -216,7 +216,7 @@ function load_notice(notice_list) {
 	});
 
 	html += '</marquee>'
-	console.log(notice_list);
+	//console.log(notice_list);
 	$('#notice').html(html);
 
 }
