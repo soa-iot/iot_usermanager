@@ -131,6 +131,9 @@
       <if test="parentId != null">
         PARENT_ID = #{parentId,jdbcType=VARCHAR},
       </if>
+       <if test="isParent != null">
+        IS_PARENT = #{isParent,jdbcType=VARCHAR},
+      </if>
     </set>
     where modId = #{modId,jdbcType=VARCHAR}
   </update>

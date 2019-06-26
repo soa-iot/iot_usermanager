@@ -46,7 +46,7 @@
 			<property name="enableSubPackages" value="false" />
 		</javaClientGenerator>
 		<!-- 指定数据库表 -->
-		<table tableName="IOT_INDEX_INFO_ROLE" mapperName="IndexInfoRoleMapper" domainObjectName="IndexInfoRole"
+		<table tableName="IOT_INDEX_TEMP_INFO" domainObjectName="IndexTempInfo"
 			enableCountByExample="false" enableUpdateByExample="false"
 			enableDeleteByExample="false" enableSelectByExample="false"
 			selectByExampleQueryId="false"></table>
