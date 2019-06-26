@@ -442,13 +442,13 @@ public class UserController {
 		String usernum =  GlobalUtil.getCookie("num");
 		System.out.println(usernum);
 		logger.debug("--C-----查询用户的模块菜单权限  :-----------usernum:" + usernum.substring( 1, usernum.length()-1 ));
-		List<UserRole> userRoles = roleService.getUserRoleByNum(usernum.substring( 1, usernum.length()-1 ));		
+		List<UserRole> userRoles = roleService.getUserMenoRoleByNum(usernum.substring( 1, usernum.length()-1 ));		
 		logger.debug("--C-----查询用户的模块菜单权限  :-----------userRoles:" + userRoles );
 		//暂假定一个用户一个角色
 		if( userRoles != null && userRoles.get(0) != null ) {
 			rolid = userRoles.get(0).getRolid();
 		}
-		logger.debug("--C-----查询用户的模块菜单权限  :-----------rolid:" + rolid );
+		logger.debug("--C-----查询用户的模块菜单权限 :-----------rolid:" + rolid );
 		if( rolid == null ) {
 			logger.debug( "---C---- 用户角色不存在 ------" );
 			return new ResultJson<List<IotUserModuleResource>>( 1, "用户角色不存在", null );

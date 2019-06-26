@@ -43,6 +43,14 @@
 		where o.usernum = #{usernum}
 	</select>
 	
+	<!-- 1.2.1、根据用户id查询用户菜单角色信息 -->
+	<select id="findUsermenoRoleByNum" parameterType="string" resultType="cn.soa.entity.UserRole">
+		select r.* 
+		from IOT_user_organization o left join IOT_USER_USER_ROLE ur on o.usernum = ur.userid
+								left join IOT_USER_ROLE r on ur.rolid = r.rolid
+		where o.usernum = #{usernum} and r.name like '菜单_%'
+	</select>
+	
 	<!-- 1.3、根据用户角色id查询用户具有的权限 -->
 	<select id="findAuthByRolid" parameterType="string" resultType="cn.soa.entity.IotUserModuleResource">
 		select 

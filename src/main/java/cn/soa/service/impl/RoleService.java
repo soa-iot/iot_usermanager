@@ -55,6 +55,17 @@ public class RoleService implements RoleServiceInter{
 		return userRoles;
 	}	
 	
+	/**   
+	  * @Title: getUserRoleByUserid   
+	  * @Description: 根据用户id查询用户具有的菜单角色           
+	  * @return: UserRole        
+	  */  
+	@Override
+	public List<UserRole> getUserMenoRoleByNum( String usernum ) {
+		List<UserRole> userRoles = userRoleMapper.findUsermenoRoleByNum(usernum);
+		return userRoles;
+	}	
+	
 	
 	/**   
 	 * @Title: findAuthJsonServ   
