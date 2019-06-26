@@ -21,8 +21,10 @@ import org.springframework.stereotype.Service;
 import cn.soa.dao.IndexInfoMapper;
 import cn.soa.dao.IndexInfoRoleMapper;
 import cn.soa.dao.IndexMapper;
+import cn.soa.dao.IndexTempInfoMapper;
 import cn.soa.dao.UserRoleMapper;
 import cn.soa.entity.IndexInfoRole;
+import cn.soa.entity.IndexTempInfo;
 import cn.soa.entity.IotIndexInfo;
 import cn.soa.entity.NoticeInfo;
 import cn.soa.entity.TodoTask;
@@ -45,6 +47,9 @@ public class IndexService implements IndexServiceInter {
 	
 	@Autowired
 	private IndexInfoRoleMapper indexInfoRoleMapper;
+	
+	@Autowired
+	private IndexTempInfoMapper indexTempInfoMapper;
 
 	/*
 	 * (non-Javadoc)
@@ -165,6 +170,16 @@ public class IndexService implements IndexServiceInter {
 		String userNum = GlobalUtil.getCookie("num").replaceAll("\"", "");
 		List<UserRole> userRoles = userRoleMapper.findUserRoleByNum(userNum);
 		List<IotIndexInfo> result = indexInfoMapper.findIndexInfoByRoleId(userRoles);
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.soa.service.inter.IndexServiceInter#getIndexTempIndfo()
+	 */
+	@Override
+	public List<IndexTempInfo> getIndexTempIndfo() {
+		
+		List<IndexTempInfo> result = indexTempInfoMapper.findAll();
 		return result;
 	}
 

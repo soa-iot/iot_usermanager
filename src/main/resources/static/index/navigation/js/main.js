@@ -72,7 +72,7 @@ layui.use(['layer', 'form', 'element', 'jquery', 'dialog'], function() {
 					liStr += '<li class="layui-nav-item"><a class=""  data-text = "'
 							+ menuArray[i].name
 							+ '" data-id = "'
-							+ menuArray[i].modId
+							+ menuArray[i].id
 							+ '" data-url = "'
 							+ menuArray[i].url
 							+ '" href="javascript:;"><i class="layui-icon" >&#xe68e;</i> '

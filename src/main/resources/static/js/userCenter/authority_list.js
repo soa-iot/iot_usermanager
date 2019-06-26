@@ -1,5 +1,5 @@
 layui.config({
-//			base : '../../module/'
+			// base : '../../module/'
 			base : '/iot_usermanager/jsPackage/web/design/module/'
 		}).extend({
 			treetable : 'treetable-lay/treetable'
@@ -120,13 +120,13 @@ layui.config({
 							});
 				}
 			});
-			
+
 			/*
 			 * 隐藏弹出框
 			 */
-			function hideElement(){
-				$( '#add_authority_role' ).hide();
-				$( '#authority_add' ).hide();
+			function hideElement() {
+				$('#add_authority_role').hide();
+				$('#authority_add').hide();
 			}
 
 			// 监听新增按钮点击事件
@@ -154,19 +154,19 @@ layui.config({
 							area : ['30%', '60%'], // 宽高
 							type : 1,
 							content : $('#authority_add'),
-							success:function(layero){
-							     var mask = $(".layui-layer-shade");
-							     mask.appendTo(layero.parent());
-							     //其中：layero是弹层的DOM对象
-							     mask.hide();
+							success : function(layero) {
+								var mask = $(".layui-layer-shade");
+								mask.appendTo(layero.parent());
+								// 其中：layero是弹层的DOM对象
+								mask.hide();
 							},
-							end:function(){
+							end : function() {
 								hideElement();
 							}
 						});
 
 				$.ajax({
-					url :'/iot_usermanager/resource/getResourceInfoOfNode',
+					url : '/iot_usermanager/resource/getResourceInfoOfNode',
 					dataType : 'json',
 					success : function(data) {
 						// console.log(data.data);
@@ -188,7 +188,7 @@ layui.config({
 
 					},
 					error : function() {
-							
+
 					}
 
 				});
@@ -213,82 +213,82 @@ layui.config({
 			// 监听提交按钮点击事件
 			form.on('submit(btn_commit)', function(data) {
 
-						// 获取数据
-						var authority_name = $("#authority_name").val();// 权限名称
-						var authority_type = data.field.authority_type// 权限类型
-						var resource_id = $("#resource_id").val();// 权限对应资源
-						var authority_note = $("#authority_note").val();// 权限备注
+				// 获取数据
+				var authority_name = $("#authority_name").val();// 权限名称
+				var authority_type = data.field.authority_type// 权限类型
+				var resource_id = $("#resource_id").val();// 权限对应资源
+				var authority_note = $("#authority_note").val();// 权限备注
 
-						var authority = {
-							resourceid : resource_id,
-							type : authority_type,
-							name : authority_name,
-							note : authority_note
-						};
+				var authority = {
+					resourceid : resource_id,
+					type : authority_type,
+					name : authority_name,
+					note : authority_note
+				};
 
-						layer.close(add_layer);
-						$.ajax({
-									url : '/iot_usermanager/roleAuthority/addAuthority',
-									type : 'post',
-									dataType : 'json',
-									data : authority,
-									success : function(data) {
+				layer.close(add_layer);
+				$.ajax({
+							url : '/iot_usermanager/roleAuthority/addAuthority',
+							type : 'post',
+							dataType : 'json',
+							data : authority,
+							success : function(data) {
 
-										if (data.state == 0) {
-											layer.msg("添加数据成功！！");
-											loadTable();
-										} else {
-											layer.msg("添加数据失败，请联系管理员！");
-										}
+								if (data.state == 0) {
+									layer.msg("添加数据成功！！");
+									loadTable();
+								} else {
+									layer.msg("添加数据失败，请联系管理员！");
+								}
 
-									},
-									error : function() {
-										layer.msg("添加数据失败，请联系管理员！");
-									}
-								});
-						return false;
-					});
+							},
+							error : function() {
+								layer.msg("添加数据失败，请联系管理员！");
+							}
+						});
+				return false;
+			});
 
 			// 监听更改按钮点击事件
 			form.on('submit(btn_update)', function(data) {
 
-						// 获取数据
-						var authority_id = $("#authority_id").val();// 权限id
-						var authority_name = $("#authority_name").val();// 权限名称
-						var authority_type = data.field.authority_type// 权限类型
-						var resource_id = $("#resource_id").val();// 权限对应资源
-						var authority_note = $("#authority_note").val();// 权限备注
+				// 获取数据
+				var authority_id = $("#authority_id").val();// 权限id
+				var authority_name = $("#authority_name").val();// 权限名称
+				var authority_type = data.field.authority_type// 权限类型
+				var resource_id = $("#resource_id").val();// 权限对应资源
+				var authority_note = $("#authority_note").val();// 权限备注
 
-						var authority = {
-							autid : authority_id,
-							resourceid : resource_id,
-							type : authority_type,
-							name : authority_name,
-							note : authority_note
-						};
+				var authority = {
+					autid : authority_id,
+					resourceid : resource_id,
+					type : authority_type,
+					name : authority_name,
+					note : authority_note
+				};
 
-						layer.close(add_layer);
-						$.ajax({
-									url : '/iot_usermanager/roleAuthority/updateAuthority',
-									type : 'post',
-									dataType : 'json',
-									data : authority,
-									success : function(data) {
+				layer.close(add_layer);
+				$.ajax({
+							url : '/iot_usermanager/roleAuthority/updateAuthority',
+							type : 'post',
+							dataType : 'json',
+							data : authority,
+							success : function(data) {
 
-										if (data.state == 0) {
-											layer.msg("更改数据成功！！");
-											loadTable();
-										} else {
-											layer.msg("更改数据失败，请联系管理员！");
-										}
+								if (data.state == 0) {
+									layer.msg("更改数据成功！！");
+									loadTable();
+								} else {
+									layer.msg("更改数据失败，请联系管理员！");
+								}
 
-									},
-									error : function() {
-										layer.msg("更改数据失败，请联系管理员！");
-									}
-								});
-						return false;
-					});
+							},
+							error : function() {
+								layer.msg("更改数据失败，请联系管理员！");
+							}
+						});
+				return false;
+			});
 
 			// 监听取消按钮事件
 			$("#btn_cancel").click(function() {
@@ -303,33 +303,33 @@ layui.config({
 				// console.log(obj)
 				if (obj.event === 'del') {
 					layer.confirm('若为父级数据，其所有子级数据都将被删除！确定删除该数据吗？', function(
-									index) {
-								/**
-								 * 发送请求，删除数据
-								 */
-								$.ajax({
-											method : "get",
-											url : "/iot_usermanager/roleAuthority/delAuthority",
-											data : {
-												autid : obj.data.autid
-											},
-											success : function(data) {
-												obj.del();
-												if (data.data >= 1) {
-													layer.msg("删除数据成功");
-													loadTable();
-												} else {
-													layer.msg("删除数据失败，请联系管理员！");
-												}
+							index) {
+						/**
+						 * 发送请求，删除数据
+						 */
+						$.ajax({
+							method : "get",
+							url : "/iot_usermanager/roleAuthority/delAuthority",
+							data : {
+								autid : obj.data.autid
+							},
+							success : function(data) {
+								obj.del();
+								if (data.data >= 1) {
+									layer.msg("删除数据成功");
+									loadTable();
+								} else {
+									layer.msg("删除数据失败，请联系管理员！");
+								}
 
-											},
-											error : function() {
-												layer.msg("删除数据失败，请联系管理员！");
-											}
-										});
+							},
+							error : function() {
+								layer.msg("删除数据失败，请联系管理员！");
+							}
+						});
 
-								layer.close(index);
-							});
+						layer.close(index);
+					});
 				} else if (obj.event === 'edit') {
 					// console.log(">>>>>>>>>>>>");
 
@@ -361,14 +361,14 @@ layui.config({
 								title : '资源编辑',
 								area : ['30%', '60%'], // 宽高
 								type : 1,
-								content : $('#authority_add'),	
-								success:function(layero){
-								     var mask = $(".layui-layer-shade");
-								     mask.appendTo(layero.parent());
-								     //其中：layero是弹层的DOM对象
-								     mask.hide();
+								content : $('#authority_add'),
+								success : function(layero) {
+									var mask = $(".layui-layer-shade");
+									mask.appendTo(layero.parent());
+									// 其中：layero是弹层的DOM对象
+									mask.hide();
 								},
-								end:function(){
+								end : function() {
 									hideElement();
 								}
 							});
@@ -403,7 +403,7 @@ layui.config({
 				} else if (obj.event == 'detail') {
 					// 查看角色按钮
 					add_role_layer = layer.open({
-						title : '资源编辑',
+						title : '权限角色编辑',
 						area : ['40%', '60%'], // 宽高
 						type : 1,
 						btn : ['提交', '取消'],
@@ -417,25 +417,25 @@ layui.config({
 
 							// 发送请求插入权限数据
 							$.ajax({
-										url : '/iot_usermanager/roleAuthority/changeToAuthority',
-										dataType : 'json',
-										type : 'post',
-										data : {
-											rolids : select_roleIds,
-											authorityId : obj.data.autid
-										},
-										success : function(data) {
-											if (data.state == 0) {
-												layer.msg("角色权限修改成功！！！");
-											} else {
-												layer.msg("角色权限修改失败，请联系管理员！！！");
-											}
-										},
-										error : function() {
-											layer.msg("角色权限修改失败，请联系管理员！！！");
-										}
+								url : '/iot_usermanager/roleAuthority/changeToAuthority',
+								dataType : 'json',
+								type : 'post',
+								data : {
+									rolids : select_roleIds,
+									authorityId : obj.data.autid
+								},
+								success : function(data) {
+									if (data.state == 0) {
+										layer.msg("角色权限修改成功！！！");
+									} else {
+										layer.msg("角色权限修改失败，请联系管理员！！！");
+									}
+								},
+								error : function() {
+									layer.msg("角色权限修改失败，请联系管理员！！！");
+								}
 
-									});
+							});
 
 							layer.close(add_role_layer);
 						},
@@ -443,12 +443,12 @@ layui.config({
 							// 按钮【取消】的回调
 						},
 						content : $('#add_authority_role'),
-						success:function(layero){
-						     var mask = $(".layui-layer-shade");
-						     mask.appendTo(layero.parent());
-						     //其中：layero是弹层的DOM对象
+						success : function(layero) {
+							var mask = $(".layui-layer-shade");
+							mask.appendTo(layero.parent());
+							// 其中：layero是弹层的DOM对象
 						},
-						end:function(){
+						end : function() {
 							hideElement();
 						}
 					});
@@ -456,39 +456,40 @@ layui.config({
 					var roleIds;
 					// 发送请求获取已有权限
 					$.ajax({
-								url : '/iot_usermanager/roleAuthority/getRoleIdByAuthorityId',
-								dataType : 'json',
-								data : {
-									authorityId : obj.data.autid
+						url : '/iot_usermanager/roleAuthority/getRoleIdByAuthorityId',
+						dataType : 'json',
+						data : {
+							authorityId : obj.data.autid
 
-								},
-								success : function(data) {
-									roleIds = data.data
-								},
-								error : function() {
+						},
+						success : function(data) {
+							roleIds = data.data
+						},
+						error : function() {
 
-								}
+						}
 
-							});
+					});
 
 					// 发送请求获取角色列表
 					$.ajax({
-						url :'/iot_usermanager/role/roles',
+						url : '/iot_usermanager/role/roles',
 						dataType : 'json',
-						success : function(data) {
-							console.log(data.data);
-							$.each(data.data, function(index, element) {
+						success : function(res) {
+							var roles_data = res.data;
+							$.each(roles_data, function(index, element) {
 										if ($.inArray(element.rolid, roleIds) != -1) {
 											element.LAY_CHECKED = true;
 										}
 
 									});
-
-							table.render({
+							console.log(roles_data);
+							var role_table = table.render({
 										elem : '#auth_add_table',
 										// url : '/role/roles',
-										data : data.data,
+										data : roles_data,
 										page : false,
+										limit:10000000,
 										cols : [[{
 													type : 'checkbox'
 												}, {
@@ -502,7 +503,6 @@ layui.config({
 
 										]],
 										done : function() {
-											console.log(table);
 											layer.closeAll('loading');
 
 										}

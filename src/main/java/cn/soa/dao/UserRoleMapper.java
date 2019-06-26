@@ -47,6 +47,13 @@ public interface UserRoleMapper {
 	  */  
 	public List<UserRole> findUserRoleByNum(@Param("usernum") String usernum);
 	
+	 /**   
+	  * @Title: findUserRoleByUserId   
+	  * @Description: 根据用户id查询用户具有的菜单角色    
+	  * @return: UserRole        
+	  */  
+	public List<UserRole> findUsermenoRoleByNum(@Param("usernum") String usernum);
+	
 	/**   
 	 * @Title: findUsersById   
 	 * @Description: 根据角色id查询对应的所有用户   

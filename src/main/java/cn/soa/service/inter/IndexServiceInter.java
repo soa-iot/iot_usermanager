@@ -14,6 +14,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import cn.soa.entity.IndexTempInfo;
 import cn.soa.entity.IotIndexInfo;
 
 
@@ -39,5 +40,10 @@ public interface IndexServiceInter {
 	 * @return
 	 */
 	public List<IotIndexInfo> getIndexEditData();
+
+	/**
+	 * @return
+	 */
+	public List<IndexTempInfo> getIndexTempIndfo();
 
 }

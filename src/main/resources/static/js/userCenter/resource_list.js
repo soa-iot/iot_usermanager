@@ -45,7 +45,13 @@ layui.config({
 							}, {
 								field : 'lastModifyTime',
 								title : '最后修改时间'
-							}, {
+							}, /*{
+								field:'',
+								title:'图标',
+								templ:function(d){
+									return '<i class = "layui-icon '+d.icon+'"><i>';
+								}
+							}, */{
 								title : '操作',
 								fixed : 'right',
 								width : 118,
@@ -99,12 +105,12 @@ layui.config({
 					});
 		}
 	});
-	
+
 	/*
 	 * 隐藏弹出框
 	 */
-	function hideElement(){
-		$( '#resource_add' ).hide();
+	function hideElement() {
+		$('#resource_add').hide();
 	}
 
 	// 监听“新增”按钮点击事件
@@ -132,7 +138,7 @@ layui.config({
 						mask.appendTo(layero.parent());
 						// 其中：layero是弹层的DOM对象
 					},
-					end:function(){
+					end : function() {
 						hideElement();
 					}
 				});
@@ -169,7 +175,7 @@ layui.config({
 				var resource_url = $("#resource_url").val();// 资源url
 				var resource_desc = $("#resource_desc").val();// 资源描述
 				var mod_id = $("#mod_id").val();
-				var resource_sort = $("#resource_sort").val();//排序字段
+				var resource_sort = $("#resource_sort").val();// 排序字段
 
 				var fdata = {
 					name : resource_name,
@@ -211,7 +217,7 @@ layui.config({
 				var is_parent = $("#is_parent").val();// 是否为父级
 				var resource_url = $("#resource_url").val();// 资源url
 				var resource_desc = $("#resource_desc").val();// 资源描述
-				var resource_sort = $("#resource_sort").val();//排序字段
+				var resource_sort = $("#resource_sort").val();// 排序字段
 
 				var fdata = {
 					name : resource_name,
@@ -224,7 +230,7 @@ layui.config({
 
 				layer.close(add_layer);
 				$.ajax({
-							url :'/iot_usermanager/resource/addResource',
+							url : '/iot_usermanager/resource/addResource',
 							data : fdata,
 							success : function(data) {
 
@@ -255,36 +261,36 @@ layui.config({
 		// console.log(obj)
 		if (obj.event === 'del') {
 			layer.confirm('若为父级数据，其所有子级数据都将被删除！确定删除该数据吗？', function(index) {
-						// obj.del();
-						console.log(obj);
+				// obj.del();
+				console.log(obj);
 
-						/**
-						 * 发送请求，删除数据
-						 */
-						$.ajax({
-									method : "get",
-									url : "/iot_usermanager/resource/delResourceInfoById",
-									data : {
-										modId : obj.data.modId,
-										parentId : obj.data.parentId
-									},
-									success : function(data) {
-										obj.del();
-										if (data.data >= 1) {
-											layer.msg("删除数据成功");
-											loadTable();
-										} else {
-											layer.msg("删除数据失败，请联系管理员！");
-										}
+				/**
+				 * 发送请求，删除数据
+				 */
+				$.ajax({
+							method : "get",
+							url : "/iot_usermanager/resource/delResourceInfoById",
+							data : {
+								modId : obj.data.modId,
+								parentId : obj.data.parentId
+							},
+							success : function(data) {
+								obj.del();
+								if (data.data >= 1) {
+									layer.msg("删除数据成功");
+									loadTable();
+								} else {
+									layer.msg("删除数据失败，请联系管理员！");
+								}
 
-									},
-									error : function() {
-										layer.msg("删除数据失败，请联系管理员！");
-									}
-								});
+							},
+							error : function() {
+								layer.msg("删除数据失败，请联系管理员！");
+							}
+						});
 
-						layer.close(index);
-					});
+				layer.close(index);
+			});
 		} else if (obj.event === 'edit') {
 
 			console.log(obj);
@@ -322,7 +328,7 @@ layui.config({
 							mask.appendTo(layero.parent());
 							// 其中：layero是弹层的DOM对象
 						},
-						end:function(){
+						end : function() {
 							hideElement();
 						}
 					});

@@ -100,4 +100,11 @@ public interface RoleServiceInter {
 	  * @Description: 根据用户角色id查找角色名称
 	  */
 	public UserRole getUserRoleByRoleName(String rolid);
+
+	/**   
+	 * @Title: getUserMenoRoleByNum   
+	 * @Description:  根据用户id查询用户具有的菜单角色            
+	 * @return: List<UserRole>        
+	 */  
+	List<UserRole> getUserMenoRoleByNum(String usernum);
 }
