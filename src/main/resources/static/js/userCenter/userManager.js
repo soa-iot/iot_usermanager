@@ -322,7 +322,7 @@ $(function(){
 	        	console.log( '---------打开用户组织管理页面---------' );
 	        	var editObj=null,ptable=null,treeGrid=null,tableId='treeTable';
 	        	layui.config({
-	        	    base: '../../../jsPackage/web/design/extend/'
+	        	    base: '/iot_usermanager/jsPackage/web/design/extend/'
 	        	}).extend({
 	        	}).use(['jquery','treeGrid','layer'], function(){
 	        	    var $=layui.jquery;
