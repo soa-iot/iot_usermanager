@@ -33,7 +33,7 @@ public class RoleAuthority {
 	
 	private String url;//资源url
 	
-	private String describe;//资源描述
+	private String resourceDescribe;//资源描述
 	
 	private String modId;//资源id
 	

@@ -20,7 +20,7 @@ public class IotUserModuleResource {
 
     private String url;
 
-    private String describe;
+    private String resourceDescribe;
 
     private String createTime;
 

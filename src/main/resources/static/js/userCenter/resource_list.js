@@ -37,7 +37,7 @@ layui.config({
 								field : 'url',
 								title : '资源URL'
 							}, {
-								field : 'describe',
+								field : 'resourceDescribe',
 								title : '资源描述'
 							}, {
 								field : 'createTime',
@@ -151,7 +151,7 @@ layui.config({
 
 				var html = '<option value=""></option><option value="-1">无</option>';
 				parent_resources.forEach(function(currentValue, index, arr) {
-							html += '<option value = "' + currentValue.MODID
+							html += '<option value = "' + currentValue.modId
 									+ '">' + currentValue.NAME + '</option>'
 
 						});
@@ -182,7 +182,7 @@ layui.config({
 					parentId : parent_resource,
 					isParent : is_parent,
 					url : resource_url,
-					describe : resource_desc,
+					resourceDescribe : resource_desc,
 					modId : mod_id,
 					remark1 : resource_sort
 				};
@@ -213,6 +213,7 @@ layui.config({
 
 				// 获取数据
 				var resource_name = $("#resource_name").val();// 资源名称
+				
 				var parent_resource = $("#parent_resource").val();// 父级资源id
 				var is_parent = $("#is_parent").val();// 是否为父级
 				var resource_url = $("#resource_url").val();// 资源url
@@ -224,7 +225,7 @@ layui.config({
 					parentId : parent_resource,
 					isParent : is_parent,
 					url : resource_url,
-					describe : resource_desc,
+					resourceDescribe : resource_desc,
 					remark1 : resource_sort
 				};
 
@@ -315,7 +316,7 @@ layui.config({
 			$("#resource_name").val(obj.data.name);
 			$("#is_parent").val(obj.data.isParent);
 			$("#resource_url").val(obj.data.url);
-			$("#resource_desc").val(obj.data.describe);
+			$("#resource_desc").val(obj.data.resourceDescribe);
 			$("#resource_sort").val(obj.data.remark1);
 
 			add_layer = layer.open({

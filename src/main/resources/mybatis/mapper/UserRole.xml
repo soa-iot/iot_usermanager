@@ -4,7 +4,7 @@
  
 <mapper namespace="cn.soa.dao.UserRoleMapper">
 	<sql id="userRoleFiled">
-	last_modify_time,	name, create_time,create_time,state, note, remark1 , remark2,rolid
+		last_modify_time,	name, create_time,create_time,state, note, remark1 , remark2,rolid
 	</sql>
 
 
@@ -12,18 +12,16 @@
 	
 	<!-- 分页查询角色信息 -->
 	<select id="queryAllroles" resultType="cn.soa.entity.UserRole" >
-		select <include refid="userRoleFiled"> </include> from 
-		(select ROWNUM num, role.* from  iot_user_role role order by rolid) a 
-		<if test="first >= 0  and last!= 0  ">	
-  	   where <![CDATA[ 
-        num >#{first} and num<=#{last}
-     ]]>  
-     </if>
-     
+		select <include refid="userRoleFiled"> </include>
+		from iot_user_role role 
+		order by rolid 
+		<if test="first >=0 and last != 0">
+			LIMIT ${first},${last}
+		</if>
 	</select>
 	<!-- 统计数据 -->
 		<select id="countRoles" resultType="int" >
-		select count(*) from iot_user_role
+		select count(1) from iot_user_role
 	</select>
 	<!-- 根据角色查询对应的所有用户 -->
 	<select id="queryAllorgnInfo" resultType="cn.soa.entity.UserOrganization">
@@ -57,7 +55,7 @@
 			iumr.MODID as modId	,	
 			iumr.NAME as name,
 			iumr.URL as url,
-			iumr.DESCRIBE as describe,
+			iumr.RESOURCE_DESCRIBE as resourceDescribe,
 			iumr.CREATE_TIME as createTime,
 			iumr.LAST_MODIFY_TIME as lastModifyTime,
 			iumr.REMARK1 as remark1,
@@ -100,8 +98,14 @@
 	
 	<!-- 2.1、增加用户角色信息 -->
 	<insert id="saveUserRole" parameterType="cn.soa.entity.UserRole">
+		<selectKey order="BEFORE" keyProperty="rolid" resultType="string">
+			select replace(UUID(),"-","")
+		</selectKey>
 		insert into IOT_USER_ROLE
 		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userRole.rolid != null">
+				rolid,
+			</if>
 			<if test="userRole.name != null and '' != userRole.name ">
 				name,
 			</if>
@@ -120,6 +124,9 @@
 		</trim>
 		values
 		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userRole.rolid != null">
+				#{userRole.rolid, jdbcType=VARCHAR},
+			</if>
 			<if test="userRole.name != null and '' != userRole.name ">
 				#{userRole.name,jdbcType=VARCHAR},
 			</if>
@@ -152,12 +159,14 @@
 		</foreach>
 	</insert>
 	<!-- 2.3、批量增加用户角色关系信息 --><!-- 对象以下属性值不能为null -->
-		<insert id="saveUserUserRoleInBatch" parameterType="list" useGeneratedKeys="false">
-		insert all
-		<foreach collection="lists" separator="" item="item" index="index">
-			into IOT_USER_USER_ROLE(userid,rolid) values (#{item.userid},#{item.rolid})	
+	<insert id="saveUserUserRoleInBatch" parameterType="list" useGeneratedKeys="false">
+		<!-- <selectKey order="BEFORE" keyProperty="userRolId" resultType="string">
+			select replace(UUID(),"-","")
+		</selectKey> -->
+		insert into IOT_USER_USER_ROLE(user_rol_id,userid,rolid) values
+		<foreach collection="lists" separator="," item="item" index="index">
+			  ((select replace(UUID(),"-","") id),#{item.userid},#{item.rolid})	
 		</foreach>
-		SELECT 1 FROM DUAL
 	</insert>
 	
 	<!-- ===========================3、修改===============================  -->
@@ -205,14 +214,6 @@
 		( userid, rolid )
 		values
 		( #{userid}, #{rolid} )
-	</insert>
-	
-	<!-- 根据用户对象、用户角色对象，增加关联关系 -->
-	<insert id="saveUserAndRoleByObjects">
-		insert into IOT_USER_USER_ROLE
-		( userid, rolid )
-		values
-		( #{user.userid,jdbcType=INTEGER}, #{userRole.rolid,jdbcType=INTEGER})
 	</insert>
 	
 	<!-- 根据用户id、用户角色id，删除关联关系 -->

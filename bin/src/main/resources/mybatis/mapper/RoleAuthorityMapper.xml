@@ -10,7 +10,7 @@
 		<result column="RESOURCE_NAME" jdbcType="VARCHAR"
 			property="resourceName" />
 		<result column="URL" jdbcType="VARCHAR" property="url" />
-		<result column="DESCRIBE" jdbcType="VARCHAR"
+		<result column="RESOURCE_DESCRIBE" jdbcType="VARCHAR"
 			property="describe" />
 		<result column="MODID" jdbcType="VARCHAR" property="modId" />
 		<result column="PARENT_ID" jdbcType="VARCHAR" property="parentId" />
@@ -19,7 +19,7 @@
 
 	<select id="findRoleAuthority" resultMap="BaseResultMap">
 		SELECT
-		AUTID,TYPE,T1.NAME,NOTE,T2.NAME AS RESOURCE_NAME,URL,DESCRIBE,MODID,PARENT_ID
+		AUTID,TYPE,T1.NAME,NOTE,T2.NAME AS RESOURCE_NAME,URL,RESOURCE_DESCRIBE,MODID,PARENT_ID
 		FROM
 		IOT_USER_AUTHORITY T1,IOT_USER_MODULE_RESOURCE T2
 		WHERE

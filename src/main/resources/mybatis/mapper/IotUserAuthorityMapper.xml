@@ -4,8 +4,7 @@
 	<resultMap id="BaseResultMap"
 		type="cn.soa.entity.IotUserAuthority">
 		<id column="AUTID" jdbcType="VARCHAR" property="autid" />
-		<result column="RESOURCEID" jdbcType="VARCHAR"
-			property="resourceid" />
+		<result column="RESOURCEID" jdbcType="VARCHAR" property="resourceid" />
 		<result column="TYPE" jdbcType="DECIMAL" property="type" />
 		<result column="NAME" jdbcType="VARCHAR" property="name" />
 		<result column="NOTE" jdbcType="VARCHAR" property="note" />
@@ -60,7 +59,7 @@
 		AUTID IN (
 		SELECT AUTID
 		FROM
-		IOT_USER_AUTHORITY
+		(select AUTID,RESOURCEID from IOT_USER_AUTHORITY) author1
 		WHERE
 		RESOURCEID IN (
 		SELECT MODID
@@ -70,22 +69,24 @@
 		MODID = (
 		SELECT RESOURCEID
 		FROM
-		IOT_USER_AUTHORITY
+		(select AUTID,RESOURCEID from IOT_USER_AUTHORITY) author2
 		WHERE
 		AUTID =
 		#{autid,jdbcType=VARCHAR})
 		OR parent_id = (
 		SELECT RESOURCEID
 		FROM
-		IOT_USER_AUTHORITY
+		(select AUTID,RESOURCEID from IOT_USER_AUTHORITY) author3
 		WHERE
 		AUTID = #{autid,jdbcType=VARCHAR})
 		))
 	</delete>
 
 
-	<insert id="insert"
-		parameterType="cn.soa.entity.IotUserAuthority">
+	<insert id="insert" parameterType="cn.soa.entity.IotUserAuthority">
+		<selectKey order="BEFORE" keyProperty="autid" resultType="string">
+			select replace(UUID(),"-","")
+		</selectKey>
 		insert into IOT_USER_AUTHORITY (AUTID, RESOURCEID, TYPE,
 		NAME, NOTE, "REMARK1 "
 		)
@@ -98,6 +99,9 @@
 	</insert>
 	<insert id="insertSelective"
 		parameterType="cn.soa.entity.IotUserAuthority">
+		<selectKey order="BEFORE" keyProperty="autid" resultType="string">
+			select replace(UUID(),"-","")
+		</selectKey>
 		insert into IOT_USER_AUTHORITY
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="autid != null">

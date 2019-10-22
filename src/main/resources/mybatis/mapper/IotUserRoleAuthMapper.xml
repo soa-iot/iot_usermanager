@@ -74,6 +74,9 @@
 
 	<insert id="insert"
 		parameterType="cn.soa.entity.IotUserRoleAuth">
+		<selectKey order="BEFORE" keyProperty="rolAutId" resultType="string">
+			select replace(UUID(),"-","")
+		</selectKey>
 		insert into IOT_USER_ROLE_AUTH (ROL_AUT_ID, ROLID,
 		"AUTID "
 		)
@@ -84,6 +87,9 @@
 	</insert>
 	<insert id="insertSelective"
 		parameterType="cn.soa.entity.IotUserRoleAuth">
+		<selectKey order="BEFORE" keyProperty="rolAutId" resultType="string">
+			select replace(UUID(),"-","")
+		</selectKey>
 		insert into IOT_USER_ROLE_AUTH
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="rolAutId != null">

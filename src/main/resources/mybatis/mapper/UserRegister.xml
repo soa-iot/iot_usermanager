@@ -31,8 +31,14 @@
 	
 	<!-- 2.1、增加用户信息 -->
 	<insert id="saveUserRegis" parameterType="cn.soa.entity.UserRegister">
+		<selectKey order="BEFORE" keyProperty="regid" resultType="string">
+			select replace(UUID(),"-","")
+		</selectKey>
 		insert into IOT_USER_REGISTER_INFO
 		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="regid != null">
+				regid,
+			</if>
 			<if test="num != null">
 				num,
 			</if>
@@ -54,6 +60,9 @@
 		</trim>
 		values
 		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="regid != null">
+				#{regid},
+			</if>
 			<if test="num != null">
 				#{num},
 			</if>

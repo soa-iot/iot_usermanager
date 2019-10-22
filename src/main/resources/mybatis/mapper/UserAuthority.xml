@@ -42,8 +42,14 @@
 	
 	<!-- 2.1、增加单个用户权限信息 -->
 	<insert id="saveUserAuth" parameterType="cn.soa.entity.UserAuthority">
+		<selectKey order="BEFORE" keyProperty="userAuth.autid">
+			select replace(UUID(),"-","")
+		</selectKey>
 		insert into user_authority
 		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userAuth.autid != null">
+				autid,
+			</if>
 			<if test="userAuth.type != null">
 				type,
 			</if>
@@ -59,6 +65,9 @@
 		</trim>
 		values
 		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userAuth.autid != null">
+				#{userAuth.autid,jdbcType=VARCHAR},
+			</if>
 			<if test="userAuth.type != null">
 				#{type,jdbcType=INTEGER},
 			</if>
