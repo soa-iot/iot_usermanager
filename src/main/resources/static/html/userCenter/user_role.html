@@ -10,7 +10,19 @@
 </head>
 <body>
 <div class="loadContent" >
-	<table class="layui-table" lay-filter="demo" id="role">
+	
+	<div id="toolbarDemo" style="position: absolute;z-index: 999999;margin-top: 10px;margin-left: 20px;">
+		角色名称：
+   	  <div class="layui-btn-container" style="display: inline-block">
+   		<input type = "text" id="rolid_value" class="layui-input layui-btn-sm" style= "display:inline;width: 40%;margin-right: 10px;height: 30px;">
+		<button class="layui-btn layui-btn-sm" id="search">搜索</button>
+    	<button class="layui-btn layui-btn-sm add" lay-event="add">添加</button>
+		<button class="layui-btn layui-btn-sm update" lay-event="update">编辑</button>
+    	<button class="layui-btn layui-btn-sm delete" lay-event="delete">删除</button>
+     </div>
+	</div>
+	
+	<table class="layui-table" lay-filter="demo" id="role" style="position: absolute;">
 	</table>
 	<div class="layui-row" id="popUpdateTest" style="display: none;">
 		<div class="layui-col-md10">
@@ -74,18 +86,14 @@
 	<div class="layui-row orgnation" id ="orgnation" style="display: none">
 		<ul id="user_org" class="ztree"></ul>
 	</div>
+	
 	<script type="text/html" id="barDemo">
 		<a class="layui-btn layui-btn-xs" lay-event="edit">用户管理</a>
 	</script>
 	<!-- 头工具时间 -->
-	<script type="text/html" id="toolbarDemo">
-   	  <div class="layui-btn-container">
-    	<button class="layui-btn layui-btn-sm add" lay-event="add">添加</button>
-		<button class="layui-btn layui-btn-sm update" lay-event="update">编辑</button>
-    	<button class="layui-btn layui-btn-sm delete" lay-event="delete">删除</button>
-     </div>
+	<script type="text/html" >
 	</script>
-	<link rel="stylesheet"
+	<link rel="stylesheet" 
 	href="/iot_usermanager/jsPackage/web/design/ztree/css/metroStyle/metroStyle.css"
 	type="text/css">
 	<script src="/iot_usermanager/jsPackage/web/design/layui.all.js"></script>

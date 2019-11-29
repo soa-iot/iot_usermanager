@@ -76,6 +76,19 @@ public class RoleController{
 	public UserTableJson<List<UserRole>> queryAllroles(@RequestParam(value="page",required = false) Integer page ,@RequestParam(value="limit",required = false) Integer limit) {
 		return new UserTableJson<List<UserRole>>("",0,"",roleService.queryAllroles(page, limit),roleService.countRoles(),true);
 	}
+	
+	/**
+	 * @Title: queryRolesByName 
+	 * @Description: 根据角色名称的角色信息分页查询  
+	 * @return List<UserRole>
+	 */
+	@RequestMapping("/rolename")
+	public UserTableJson<List<UserRole>> queryRolesByName(@RequestParam(value="page",required = false) Integer page ,
+			@RequestParam(value="limit",required = false) Integer limit,
+			@RequestParam(value="roleName",required = false) String roleName) {
+		return new UserTableJson<List<UserRole>>("",0,"",roleService.queryRolesByName(page, limit,roleName),roleService.countRolesByName(roleName),true);
+	}
+	
 	@RequestMapping("/addOrUpdateRole")
 	public ResultJson addOrUpdateRoles(UserRole userRole) {
 		String rid=userRole.getRolid();
@@ -109,6 +122,7 @@ public class RoleController{
 
 	@RequestMapping("/queryUsersByRold")
 	public ResultJson queryUsersByRold(String rolid) {
+		logger.debug("---C-----rolid----------:" + rolid );
 		List<Map<String, Object>> list = roleService.queryUsersByRold(rolid);
 		logger.debug("---C-----queryUsersByRold----------:" + list );
 		return new ResultJson(list);

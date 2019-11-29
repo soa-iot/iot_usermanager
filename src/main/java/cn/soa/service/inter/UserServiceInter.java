@@ -137,7 +137,7 @@ public interface UserServiceInter {
 	 * @Description:  根据id增加用户 ，返回id   
 	 * @return: int        
 	 */  
-	UserOrganization saveUserBackId(  String usernum, String name  );
+	UserOrganization saveUserBackId(  String usernum, String name, String password  );
 
 
 	/**   

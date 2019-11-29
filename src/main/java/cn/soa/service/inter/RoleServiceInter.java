@@ -40,7 +40,16 @@ public interface RoleServiceInter {
 	List<UserRole> getUserRoleByNum(String usernum);
 	
     List<UserRole> queryAllroles(Integer page, Integer pageSize);
+    
+    /**
+	 * @Title: queryRolesByName 
+	 * @Description: 根据角色名称的角色信息分页查询  
+	 * @return List<UserRole>
+	 */
+    List<UserRole> queryRolesByName(Integer page, Integer pageSize,String roleName );
+    
     int countRoles();
+    int countRolesByName(String roleName);
     public int saveUserRole( UserRole userRole);
     public int modifyUserRoleById(UserRole userRole);
     public int deleteRolesInIds(String[] ids );

@@ -21,10 +21,28 @@
      </if>
      
 	</select>
+	
+	<!-- 分页查询角色信息根据角色名称 -->
+	<select id="queryRolesByName" resultType="cn.soa.entity.UserRole" >
+		select <include refid="userRoleFiled"> </include> from 
+		(select ROWNUM num, role.* from  iot_user_role role where name like CONCAT(CONCAT('%',#{roleName}),'%') order by rolid) a 
+		<if test="first >= 0  and last!= 0  ">	
+  	   where <![CDATA[ 
+        num >#{first} and num<=#{last}
+     ]]>  
+     </if>
+     
+	</select>
 	<!-- 统计数据 -->
 		<select id="countRoles" resultType="int" >
 		select count(*) from iot_user_role
 	</select>
+	
+	<!-- 统计数据 -->
+	<select id="countRolesByName" resultType="int" >
+		select count(*) from iot_user_role where name like CONCAT(CONCAT('%',#{roleName}),'%')
+	</select>
+	
 	<!-- 根据角色查询对应的所有用户 -->
 	<select id="queryAllorgnInfo" resultType="cn.soa.entity.UserOrganization">
 		select * from IOT_USER_ORGANIZATION 

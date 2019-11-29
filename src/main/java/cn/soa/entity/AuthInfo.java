@@ -1,6 +1,5 @@
 package cn.soa.entity;
 
-import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

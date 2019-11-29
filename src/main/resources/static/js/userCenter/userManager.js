@@ -59,7 +59,7 @@ $(function(){
 			layer.open({
 		        type: 1,
 		        title: '增加用户'
-		        ,area: ['40%', '40%']	        	
+		        ,area: ['450px','280px;']
 		        ,id: 'layerDemo'+ 1 //防止重复弹出
 		        ,content: $('#form_add_user')
 		        ,btn: ['提交', '取消']
@@ -98,6 +98,9 @@ $(function(){
 		        			},
 		        			name : {
 		        				required : true
+		        			},
+		        			password : {
+		        				required : true
 		        			}
 		        		},
 		        		messages : {
@@ -106,6 +109,9 @@ $(function(){
 		        			},
 		        			name : {
 		        				required : "用户名不能为空"
+		        			},
+		        			password : {
+		        				required : "密码不能为空"
 		        			}
 		        		},
 		        		onfocusout :  function( element ){
@@ -165,7 +171,7 @@ $(function(){
 				"orgid": data.orgid,
 				"usernum": data.usernum,
 				"name": data.name || null,
-				"password": data.user_password || "123"
+				"password": data.user_password || "123456"
 			};
 		console.log( dataJson );
 		ajax( 'put', modifyUserUrl, dataJson, modifyUserSF );

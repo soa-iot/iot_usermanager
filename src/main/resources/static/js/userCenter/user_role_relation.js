@@ -1,11 +1,13 @@
+
+var te1;
 $(function(){
 	var table = layui.table,
 	layer=layui.layer,
 	laypage = layui.laypage
 	form=layui.form,
 	element=layui.element;
-	table.render({
-		toolbar: '#toolbarDemo'
+	tel = table.render({
+		toolbar:  ['filter', 'print', 'exports']
 	    ,elem: '#role'
 	    ,url:'/iot_usermanager/role/roles/'
 	    ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
@@ -72,6 +74,20 @@ $(function(){
 		 $('input[name="create_time"]').val(time);
 		 
 	 });
+	
+	$("#search").click(function() {
+		console.log("------------------------"+$("#rolid_value").val());
+		
+		tel.reload( {
+			  url: '/iot_usermanager/role/rolename'
+				  
+			  ,where: {
+				  "roleName":$("#rolid_value").val()
+			  } //设定异步数据接口的额外参数
+			  //,height: 300
+			});
+	})
+	
 	function setFormVal(el,data){
 	    for (var p in data)
 	    {

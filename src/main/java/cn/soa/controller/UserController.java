@@ -477,9 +477,10 @@ public class UserController {
 	@PostMapping("/users")
 	public ResultJson<UserOrganization> saveUserBackIdContr(
 			@RequestParam("usernum") String usernum, 
-			@RequestParam("name") String name  ){
+			@RequestParam("name") String name,
+			@RequestParam("password") String password){
 		logger.debug("-----C------- 增加用户   ---- usernum： " + usernum);
-		UserOrganization u = userService.saveUserBackId(usernum, name);
+		UserOrganization u = userService.saveUserBackId(usernum, name, password);
 		if( u != null ) {
 			logger.debug("-----C------- 增加用户成功   ----  " + u);
 			return new ResultJson<UserOrganization>( 0, "增加用户成功 ", u );

@@ -431,7 +431,7 @@ public class UserService implements UserServiceInter{
 	 */  
 	@Override
 	@Transactional
-	public UserOrganization saveUserBackId( String usernum, String name ) {
+	public UserOrganization saveUserBackId( String usernum, String name, String password ) {
 		int i = 0;
 		try {
 			/*
@@ -440,6 +440,7 @@ public class UserService implements UserServiceInter{
 			UserOrganization u = new UserOrganization();
 			u.setName(name);
 			u.setUsernum(usernum);
+			u.setUser_password(password);
 			u.setIs_parent(1);
 			i = userMapper.saveUserBackId(u);
 			if( i > 0) {
