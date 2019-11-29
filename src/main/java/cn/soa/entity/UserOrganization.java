@@ -7,7 +7,6 @@
  * @version V1.0  
  */
 
-        
 package cn.soa.entity;
 
 import java.io.Serializable;
@@ -31,39 +30,41 @@ import lombok.experimental.Accessors;
  *
  */
 
-@SuppressWarnings( "serial" )
+@SuppressWarnings("serial")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Accessors( chain=true )
+@Accessors(chain = true)
 @Validated
-public class UserOrganization implements Serializable{
-	
-	/**   
-	 * @Fields serialVersionUID : 序列化   
-	 */  
+public class UserOrganization implements Serializable {
+
+	/**
+	 * @Fields serialVersionUID : 序列化
+	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private String orgid;
-	
-	@NotBlank(message="用户名不能为空")
+
+	@NotBlank(message = "用户名不能为空")
 	private String name;
-	
+
 	private String parent_id;
-	
-	@NotBlank(message="用户标识不能为空")
+
+	@NotBlank(message = "用户标识不能为空")
 	private String usernum;
-	
-	@NotBlank(message="用户密码不能为空")
+
+	@NotBlank(message = "用户密码不能为空")
 	private String user_password;
-	private Integer is_parent; 
+	private Integer is_parent;
 	private Integer state;
 	private String note;
 	private Integer remark1;
 	private String remark2;
-	
-	public UserOrganization(String name, String parent_id, String usernum, String user_password, 
-			Integer is_parent, String note, Integer remark1, String remark2) {
+
+	private AccountExtends accountExtends;// 账户扩展信息
+
+	public UserOrganization(String name, String parent_id, String usernum, String user_password, Integer is_parent,
+			String note, Integer remark1, String remark2) {
 		this.name = name;
 		this.parent_id = parent_id;
 		this.usernum = usernum;
@@ -73,9 +74,9 @@ public class UserOrganization implements Serializable{
 		this.remark1 = remark1;
 		this.remark2 = remark2;
 	}
-	
-	public UserOrganization(String name, String parent_id, String usernum, String user_password, 
-			Integer is_parent, Integer state, String note, Integer remark1, String remark2) {
+
+	public UserOrganization(String name, String parent_id, String usernum, String user_password, Integer is_parent,
+			Integer state, String note, Integer remark1, String remark2) {
 		this.name = name;
 		this.parent_id = parent_id;
 		this.usernum = usernum;
@@ -86,9 +87,9 @@ public class UserOrganization implements Serializable{
 		this.remark1 = remark1;
 		this.remark2 = remark2;
 	}
-	
-	public UserOrganization(String name, String parent_id, String usernum, String user_password, 
-			Integer is_parent, Integer state, String note) {
+
+	public UserOrganization(String name, String parent_id, String usernum, String user_password, Integer is_parent,
+			Integer state, String note) {
 		this.name = name;
 		this.parent_id = parent_id;
 		this.usernum = usernum;
@@ -97,9 +98,9 @@ public class UserOrganization implements Serializable{
 		this.state = state;
 		this.note = note;
 	}
-	
-	public UserOrganization(String name, String parent_id, String usernum, String user_password, 
-			Integer is_parent, String note) {
+
+	public UserOrganization(String name, String parent_id, String usernum, String user_password, Integer is_parent,
+			String note) {
 		this.name = name;
 		this.parent_id = parent_id;
 		this.usernum = usernum;

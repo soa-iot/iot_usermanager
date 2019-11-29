@@ -1,29 +1,57 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-  	<title>用户管理</title>
-  	<meta name="renderer" content="webkit">
-  	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  	<link rel="stylesheet" href="/iot_usermanager/jsPackage/web/design/css/layui.css"  media="all">
-  	
-  	<script src="/iot_usermanager/jsPackage/jquery-3.3.1/jquery-3.3.1.min.js" type="text/javascript"></script>	
-	<script src="/iot_usermanager/jsPackage/web/design/layui.all.js" type="text/javascript"></script>   	
-  	<script src="/iot_usermanager/js/micro_userManager.js" type="text/javascript"></script>  	
-  	<script src="/iot_usermanager/jsPackage/own/universal.js" type="text/javascript"></script>
+<meta charset="utf-8">
+<title>用户管理</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="stylesheet"
+	href="/iot_usermanager/jsPackage/web/design/css/layui.css" media="all">
+<style type="text/css">
+.avatar-view {
+	display: block;
+	width: 220px;
+	height: 220px;
+	border: 3px solid #fff;
+	border-radius: 5px;
+	box-shadow: 0 0 5px rgba(0, 0, 0, .15);
+	cursor: pointer;
+	overflow: hidden;
+}
+
+.avatar-view img {
+	width: 100%;
+}
+
+img {
+	border: 0;
+}
+</style>
+<script
+	src="/iot_usermanager/jsPackage/jquery-3.3.1/jquery-3.3.1.min.js"
+	type="text/javascript"></script>
+<script src="/iot_usermanager/jsPackage/web/design/layui.all.js"
+	type="text/javascript"></script>
+<script src="/iot_usermanager/js/micro_userManager.js"
+	type="text/javascript"></script>
+<script src="/iot_usermanager/jsPackage/own/universal.js"
+	type="text/javascript"></script>
+<script src="/iot_usermanager/jsPackage/own/common.js"
+	type="text/javascript"></script>
 </head>
 
-<body >
+<body>
 	<div class="loadContent">
-		<div style="padding-left:15px">
-		<!-- 新增员工提示区
+		<div style="padding-left: 15px">
+			<!-- 新增员工提示区
 		<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
 	  		<legend>消息提示</legend>
 		</fieldset> -->
-		
-		 <div class="layui-fluid" id="messageTip">
-			<!-- 
+
+			<div class="layui-fluid" id="messageTip">
+				<!-- 
 			<table class="layui-table" style="margin:0px">
 				<colgroup>
 		    		<col width="80">
@@ -51,60 +79,103 @@
 				</tbody>
 	  		</table>
 	  	 -->
-		</div>
-		
-		<!-- 操作按钮  -->
-		搜索编号：
-		<div class="layui-inline">
-   			<input class="layui-input" id="search_value" autocomplete="off" style="width:150px;">
- 		</div>
-		<div class=" layui-inline layui-btn-group demoTable">			
-		  	<button class="layui-btn" id="search">搜索</button>
-		  	<button class="layui-btn" id="list">全部用户</button>
-			<button class="layui-btn" id="add">新增</button>
-		</div>
-		
-		<!-- 数据表格展示区 -->
-	    <div id="tableDiv">
-	       <table class="layui-hide" id="user_table" lay-filter="user_table"></table>
-	    </div>
-	    
-	    <!-- 用户新增区域 -->
-		<form class="layui-form" id="form_add_user" action="" style="display:none;margin-top:20px">
-  			<div class="layui-form-item">
-		    	<label class="layui-form-label">用户编号</label>
-		    	<div class="layui-input-block">
-		      		<input type="text" name="usernum" id="usernum" autocomplete="off" 
-		      			placeholder="请输入用户编号" class="layui-input" style="width:60%;display:inline-block">
-		      		<div style="width:35%;display:inline-block"></div>
-		    	</div>
-		  	</div>	
-		  	<div class="layui-form-item">
-		    	<label class="layui-form-label">姓名</label>
-		    	<div class="layui-input-block">
-		      		<input type="text" name="name" id="name" autocomplete="off" 
-		      			placeholder="请输入姓名" class="layui-input"  style="width:60%;display:inline-block">
-		      		<div style="width:35%;display:inline-block"></div>
-		    	</div>
-		  	</div>			
-		</form>
-		
-		<!-- 用户组织管理区域 -->
-		<div id="userOrgan" style="display:none">
-			 <table class="layui-hidden" id="treeTable" lay-filter="treeTable"></table>
-		</div>
-		
-		<!-- js css-->
-		<link rel="stylesheet" href="/iot_usermanager/css/userCenter/userManager.css" media="all">
-		<script type="text/html" id="barDemo">
+			</div>
+
+			<!-- 操作按钮  -->
+			搜索编号：
+			<div class="layui-inline">
+				<input class="layui-input" id="search_value" autocomplete="off"
+					style="width: 150px;">
+			</div>
+			<div class=" layui-inline layui-btn-group demoTable">
+				<button class="layui-btn" id="search">搜索</button>
+				<button class="layui-btn" id="list">全部用户</button>
+				<button class="layui-btn" id="add">新增</button>
+			</div>
+
+			<!-- 数据表格展示区 -->
+			<div id="tableDiv">
+				<table class="layui-hide" id="user_table" lay-filter="user_table"></table>
+			</div>
+
+			<!-- 用户新增区域 -->
+			<form class="layui-form" id="form_add_user" action=""
+				lay-filter="add_form" style="display: none; margin-top: 20px">
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">头像</label>
+					<div class="ibox-content">
+						<div class="row">
+							<div id="crop-avatar" class="col-md-6">
+								<div class="avatar-view" title="Change Logo Picture">
+									<img src="" alt="" id="head_sculpture">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">用户编号</label>
+					<div class="layui-input-block">
+						<input type="text" name="usernum" id="usernum" autocomplete="off"
+							placeholder="请输入用户编号" class="layui-input"
+							style="width: 60%; display: inline-block">
+						<div style="width: 35%; display: inline-block"></div>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">姓名</label>
+					<div class="layui-input-block">
+						<input type="text" name="name" id="name" autocomplete="off"
+							placeholder="请输入姓名" class="layui-input"
+							style="width: 60%; display: inline-block">
+						<div style="width: 35%; display: inline-block"></div>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">联系电话</label>
+					<div class="layui-input-block">
+						<input type="text" name="phoneNumber" id="phoneNumber"
+							autocomplete="off" placeholder="请输入联系电话" class="layui-input"
+							style="width: 60%; display: inline-block">
+						<div style="width: 35%; display: inline-block"></div>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">邮箱</label>
+					<div class="layui-input-block">
+						<input type="text" lay-verify="email" name="email" id="email"
+							autocomplete="off" placeholder="请输入邮箱" class="layui-input"
+							style="width: 60%; display: inline-block">
+						<div style="width: 35%; display: inline-block"></div>
+					</div>
+				</div>
+			</form>
+
+			<!-- 用户组织管理区域 -->
+			<div id="userOrgan" style="display: none">
+				<table class="layui-hidden" id="treeTable" lay-filter="treeTable"></table>
+			</div>
+
+			<div style="display: none;">
+				<button type="button" class="layui-button" id="img_btn"></button>
+			</div>
+
+			<!-- js css-->
+			<link rel="stylesheet"
+				href="/iot_usermanager/css/userCenter/userManager.css" media="all">
+			<script type="text/html" id="barDemo">
   		  	<a class="layui-btn layui-btn-xs" lay-event="save">保存</a>
   			<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 			<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">组织管理</a>
 		</script>
 			<script src="/iot_usermanager/js/userCenter/userManager.js"
 				type="text/javascript"></script>
-			<script src="/iot_usermanager/jsPackage/jquery-3.3.1/jquery.validate.js" type="text/javascript"></script>
-	  	</div>
-  	</div>
+			<script
+				src="/iot_usermanager/jsPackage/jquery-3.3.1/jquery.validate.js"
+				type="text/javascript"></script>
+		</div>
+	</div>
 </body>
 </html>

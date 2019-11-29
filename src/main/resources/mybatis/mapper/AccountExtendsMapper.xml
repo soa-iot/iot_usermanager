@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.soa.dao.AccountExtendsMapper">
+	<resultMap id="BaseResultMap"
+		type="cn.soa.entity.AccountExtends">
+		<id column="e_id" jdbcType="INTEGER" property="eId" />
+		<result column="user_organ_id" jdbcType="VARCHAR"
+			property="userOrganId" />
+		<result column="account_name" jdbcType="VARCHAR"
+			property="accountName" />
+		<result column="account_phone" jdbcType="VARCHAR"
+			property="accountPhone" />
+		<result column="account_email" jdbcType="VARCHAR"
+			property="accountEmail" />
+		<result column="account_picture" jdbcType="INTEGER"
+			property="accountPicture" />
+		<result column="remark1" jdbcType="VARCHAR" property="remark1" />
+		<result column="remark2" jdbcType="VARCHAR" property="remark2" />
+		<result column="remark3" jdbcType="VARCHAR" property="remark3" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		e_id, user_organ_id, account_name, account_phone, account_email,
+		account_picture,
+		remark1, remark2, remark3
+	</sql>
+	<select id="selectByPrimaryKey"
+		parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from iot_account_extends
+		where e_id = #{eId,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from iot_account_extends
+		where e_id = #{eId,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="cn.soa.entity.AccountExtends">
+		insert into iot_account_extends (e_id, user_organ_id, account_name,
+		account_phone, account_email, account_picture,
+		remark1, remark2, remark3
+		)
+		values (#{eId,jdbcType=INTEGER}, #{userOrganId,jdbcType=VARCHAR},
+		#{accountName,jdbcType=VARCHAR},
+		#{accountPhone,jdbcType=VARCHAR}, #{accountEmail,jdbcType=VARCHAR}, #{accountPicture,jdbcType=INTEGER},
+		#{remark1,jdbcType=VARCHAR}, #{remark2,jdbcType=VARCHAR},
+		#{remark3,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective"
+		parameterType="cn.soa.entity.AccountExtends" useGeneratedKeys="true"
+		keyColumn="e_id" keyProperty="eId">
+		insert into iot_account_extends
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="eId != null">
+				e_id,
+			</if>
+			<if test="userOrganId != null">
+				user_organ_id,
+			</if>
+			<if test="accountName != null">
+				account_name,
+			</if>
+			<if test="accountPhone != null">
+				account_phone,
+			</if>
+			<if test="accountEmail != null">
+				account_email,
+			</if>
+			<if test="accountPicture != null">
+				account_picture,
+			</if>
+			<if test="remark1 != null">
+				remark1,
+			</if>
+			<if test="remark2 != null">
+				remark2,
+			</if>
+			<if test="remark3 != null">
+				remark3,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="eId != null">
+				#{eId,jdbcType=INTEGER},
+			</if>
+			<if test="userOrganId != null">
+				#{userOrganId,jdbcType=VARCHAR},
+			</if>
+			<if test="accountName != null">
+				#{accountName,jdbcType=VARCHAR},
+			</if>
+			<if test="accountPhone != null">
+				#{accountPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="accountEmail != null">
+				#{accountEmail,jdbcType=VARCHAR},
+			</if>
+			<if test="accountPicture != null">
+				#{accountPicture,jdbcType=INTEGER},
+			</if>
+			<if test="remark1 != null">
+				#{remark1,jdbcType=VARCHAR},
+			</if>
+			<if test="remark2 != null">
+				#{remark2,jdbcType=VARCHAR},
+			</if>
+			<if test="remark3 != null">
+				#{remark3,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="cn.soa.entity.AccountExtends">
+		update iot_account_extends
+		<set>
+			<if test="userOrganId != null">
+				user_organ_id = #{userOrganId,jdbcType=VARCHAR},
+			</if>
+			<if test="accountName != null">
+				account_name = #{accountName,jdbcType=VARCHAR},
+			</if>
+			<if test="accountPhone != null">
+				account_phone = #{accountPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="accountEmail != null">
+				account_email = #{accountEmail,jdbcType=VARCHAR},
+			</if>
+			<if test="accountPicture != null">
+				account_picture = #{accountPicture,jdbcType=INTEGER},
+			</if>
+			<if test="remark1 != null">
+				remark1 = #{remark1,jdbcType=VARCHAR},
+			</if>
+			<if test="remark2 != null">
+				remark2 = #{remark2,jdbcType=VARCHAR},
+			</if>
+			<if test="remark3 != null">
+				remark3 = #{remark3,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where e_id = #{eId,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="cn.soa.entity.AccountExtends">
+		update iot_account_extends
+		set user_organ_id = #{userOrganId,jdbcType=VARCHAR},
+		account_name = #{accountName,jdbcType=VARCHAR},
+		account_phone = #{accountPhone,jdbcType=VARCHAR},
+		account_email = #{accountEmail,jdbcType=VARCHAR},
+		account_picture = #{accountPicture,jdbcType=INTEGER},
+		remark1 = #{remark1,jdbcType=VARCHAR},
+		remark2 = #{remark2,jdbcType=VARCHAR},
+		remark3 = #{remark3,jdbcType=VARCHAR}
+		where e_id = #{eId,jdbcType=INTEGER}
+	</update>
+</mapper>

@@ -187,5 +187,12 @@ public interface UserMapper {
 	 * @return: int        
 	 */  
 	public int modifyUserById( @Param("userOrgan") UserOrganization userOrgan );
+	
+	/**
+	 * 
+	 * @param u
+	 * @return
+	 */
+	public int saveUserWithid( UserOrganization u );
 
 }

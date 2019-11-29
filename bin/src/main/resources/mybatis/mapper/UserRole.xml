@@ -45,7 +45,7 @@
 			iumr.MODID as modId	,	
 			iumr.NAME as name,
 			iumr.URL as url,
-			iumr.RESOURCE_DESCRIBE as describe,
+			iumr.RESOURCE_DESCRIBE as `describe`,
 			iumr.CREATE_TIME as createTime,
 			iumr.LAST_MODIFY_TIME as lastModifyTime,
 			iumr.REMARK1 as remark1,

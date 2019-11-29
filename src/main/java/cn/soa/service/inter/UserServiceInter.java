@@ -195,7 +195,16 @@ public interface UserServiceInter {
 	UserOrganization findUserSecondParentByName(String usernum);
 
 
-	UserOrganization findUserThirdParentByName(String usernum);		
+	UserOrganization findUserThirdParentByName(String usernum);
+
+
+	/**
+	 * 
+	 * 新增用户
+	 * @param u
+	 * @return
+	 */
+	public UserOrganization saveUserBackId(UserOrganization u);		
 
 
 }
