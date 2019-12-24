@@ -9,6 +9,9 @@
 	content="width=device-width, initial-scale=1, maximum-scale=1">
 <link rel="stylesheet"
 	href="/iot_usermanager/jsPackage/web/design/css/layui.css" media="all">
+<!-- js css-->
+<link rel="stylesheet"
+	href="/iot_usermanager/css/userCenter/userManager.css" media="all">
 <style type="text/css">
 .avatar-view {
 	display: block;
@@ -27,6 +30,11 @@
 
 img {
 	border: 0;
+}
+
+.note {
+	margin-left: 50px;
+	color: red;
 }
 </style>
 <script
@@ -107,12 +115,17 @@ img {
 					<div class="ibox-content">
 						<div class="row">
 							<div id="crop-avatar" class="col-md-6">
-								<div class="avatar-view" title="Change Logo Picture">
-									<img src="" alt="" id="head_sculpture">
+								<div id="avatar-view" class="avatar-view"
+									title="Change Logo Picture">
+									<img src="/iot_usermanager/img/timg.jpg" alt=""
+										id="head_sculpture">
 								</div>
 							</div>
 						</div>
 					</div>
+				</div>
+				<div class="layui-form-item">
+					<span class="note">提示：点击上方头像上传头像</span>
 				</div>
 
 				<div class="layui-form-item">
@@ -157,25 +170,37 @@ img {
 			<div id="userOrgan" style="display: none">
 				<table class="layui-hidden" id="treeTable" lay-filter="treeTable"></table>
 			</div>
-
-			<div style="display: none;">
-				<button type="button" class="layui-button" id="img_btn"></button>
-			</div>
-
-			<!-- js css-->
-			<link rel="stylesheet"
-				href="/iot_usermanager/css/userCenter/userManager.css" media="all">
-			<script type="text/html" id="barDemo">
-  		  	<a class="layui-btn layui-btn-xs" lay-event="save">保存</a>
-  			<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-			<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">组织管理</a>
-		</script>
-			<script src="/iot_usermanager/js/userCenter/userManager.js"
-				type="text/javascript"></script>
-			<script
-				src="/iot_usermanager/jsPackage/jquery-3.3.1/jquery.validate.js"
-				type="text/javascript"></script>
 		</div>
 	</div>
 </body>
+<div id="img_check_div" style="display: none; margin-top: 20px;">
+	<div class="layui-row">
+		<label class="layui-form-label">头像</label>
+		<div class="ibox-content">
+			<div class="row">
+				<div id="crop-avatar1" class="col-md-6">
+					<div id="avatar-view1" class="avatar-view"
+						title="Change Logo Picture">
+						<img src="" alt="" id="head_sculpture1">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="layui-row" style="margin-top: 15px;">
+		<span class="note">提示：点击上方头像更换头像</span>
+	</div>
+</div>
+<script type="text/html" id="img">
+  		  	<a class="layui-btn layui-btn-xs" lay-event="img_check">查看</a>
+</script>
+<script type="text/html" id="barDemo">
+  		  	<a class="layui-btn layui-btn-xs" lay-event="save">保存</a>
+  			<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+			<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">组织管理</a>
+</script>
+<script src="/iot_usermanager/js/userCenter/userManager.js"
+	type="text/javascript"></script>
+<script src="/iot_usermanager/jsPackage/jquery-3.3.1/jquery.validate.js"
+	type="text/javascript"></script>
 </html>

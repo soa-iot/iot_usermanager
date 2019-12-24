@@ -19,7 +19,7 @@ $(function(){
 	      ,{field:'state', title: '状态',templet: '#titleTpl'}
 	      ,{field:'create_time', title: '创建时间', sort: true}
 	      ,{field:'last_modify_time', title: '修改时间', sort: true}
-	      ,{field:'note', title: '备注休息', align: 'center'} //单元格内容水平居中
+	      ,{field:'note', title: '备注', align: 'center'} //单元格内容水平居中
 	      ,{fixed: 'right', width: 165, align:'center', toolbar: '#barDemo'}
 	    ]]
 	  });			

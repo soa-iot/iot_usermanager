@@ -17,4 +17,10 @@ public interface AccountExtendsMapper {
     int updateByPrimaryKeySelective(AccountExtends record);
 
     int updateByPrimaryKey(AccountExtends record);
+
+	/**
+	 * @param orgid
+	 * @return
+	 */
+	AccountExtends selectByOrgId(String orgid);
 }

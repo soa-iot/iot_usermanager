@@ -19,8 +19,8 @@
 		<result column="remark3" jdbcType="VARCHAR" property="remark3" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		e_id, user_organ_id, account_name, account_phone, account_email,
-		account_picture,
+		e_id, user_organ_id, account_name, account_phone,
+		account_email,
 		remark1, remark2, remark3
 	</sql>
 	<select id="selectByPrimaryKey"
@@ -30,19 +30,33 @@
 		from iot_account_extends
 		where e_id = #{eId,jdbcType=INTEGER}
 	</select>
+
+	<!-- 根据人员id查询 -->
+	<select id="selectByOrgId" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from iot_account_extends
+		where user_organ_id = #{orgid,jdbcType=VARCHAR}
+	</select>
+
 	<delete id="deleteByPrimaryKey"
 		parameterType="java.lang.Integer">
 		delete from iot_account_extends
-		where e_id = #{eId,jdbcType=INTEGER}
+		where e_id =
+		#{eId,jdbcType=INTEGER}
 	</delete>
 	<insert id="insert" parameterType="cn.soa.entity.AccountExtends">
-		insert into iot_account_extends (e_id, user_organ_id, account_name,
-		account_phone, account_email, account_picture,
+		insert into
+		iot_account_extends (e_id, user_organ_id, account_name,
+		account_phone,
+		account_email, account_picture,
 		remark1, remark2, remark3
 		)
-		values (#{eId,jdbcType=INTEGER}, #{userOrganId,jdbcType=VARCHAR},
+		values
+		(#{eId,jdbcType=INTEGER}, #{userOrganId,jdbcType=VARCHAR},
 		#{accountName,jdbcType=VARCHAR},
-		#{accountPhone,jdbcType=VARCHAR}, #{accountEmail,jdbcType=VARCHAR}, #{accountPicture,jdbcType=INTEGER},
+		#{accountPhone,jdbcType=VARCHAR},
+		#{accountEmail,jdbcType=VARCHAR}, #{accountPicture,jdbcType=INTEGER},
 		#{remark1,jdbcType=VARCHAR}, #{remark2,jdbcType=VARCHAR},
 		#{remark3,jdbcType=VARCHAR}
 		)
@@ -144,14 +158,21 @@
 	<update id="updateByPrimaryKey"
 		parameterType="cn.soa.entity.AccountExtends">
 		update iot_account_extends
-		set user_organ_id = #{userOrganId,jdbcType=VARCHAR},
-		account_name = #{accountName,jdbcType=VARCHAR},
-		account_phone = #{accountPhone,jdbcType=VARCHAR},
-		account_email = #{accountEmail,jdbcType=VARCHAR},
-		account_picture = #{accountPicture,jdbcType=INTEGER},
-		remark1 = #{remark1,jdbcType=VARCHAR},
+		set user_organ_id =
+		#{userOrganId,jdbcType=VARCHAR},
+		account_name =
+		#{accountName,jdbcType=VARCHAR},
+		account_phone =
+		#{accountPhone,jdbcType=VARCHAR},
+		account_email =
+		#{accountEmail,jdbcType=VARCHAR},
+		account_picture =
+		#{accountPicture,jdbcType=INTEGER},
+		remark1 =
+		#{remark1,jdbcType=VARCHAR},
 		remark2 = #{remark2,jdbcType=VARCHAR},
 		remark3 = #{remark3,jdbcType=VARCHAR}
-		where e_id = #{eId,jdbcType=INTEGER}
+		where e_id =
+		#{eId,jdbcType=INTEGER}
 	</update>
 </mapper>

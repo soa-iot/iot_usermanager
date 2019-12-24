@@ -1,17 +1,24 @@
+
+
+#logo {
+	height: 48px;
+}
+
 blockquote {
 	margin: 0px;
 }
 
 .layui-fluid {
-	height: calc( 100vh - 63px);
+	height: calc(100vh - 63px);
 	margin: 0;
 	padding: 0;
 	overflow: auto;
 	/*background-color: white;*/
 	background-image: url('../../img/iot_login.jpg');
 }
+
 input {
-	height: 80px;	
+	height: 80px;
 }
 
 label {
@@ -34,7 +41,7 @@ div[class^="layui-col-"] {
 	height: 150px;
 }
 
-.layui-form-item{
+.layui-form-item {
 	line-height: 80px;
 }
 
@@ -48,4 +55,5 @@ div[class^="layui-col-"] {
 }
 
 #form {
+	
 }

@@ -17,6 +17,7 @@ $(function() {
 	 * 渲染头像上传
 	 */
 	load_head_sculpture();
+	load_head_sculpture_edit();
 	/*
 	 * 表格初始化请求成功回调函数
 	 */
@@ -202,6 +203,40 @@ $(function() {
 				active[type] ? active[type].call(this) : '';
 			});
 
+	table.on('edit(user_table)', function(obj) {
+		console.log(obj);
+		console.log(obj.value); // 得到修改后的值
+		console.log(obj.field); // 当前编辑的字段名
+		console.log(obj.data); // 所在行的所有相关数据
+		if (obj.field == 'accountPhone') {
+			// 邮箱验证
+			if (!(/^1[3456789]\d{9}$/.test(obj.value)) || obj.value == '') {
+				layer.msg("手机号码有误，请重填", {
+							icon : 2
+						});
+				return false;
+			}
+
+		} else if (obj.field == 'accountEmail') {
+			// 手机号验证
+			if (!(/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/
+					.test(obj.value))
+					|| obj.value == '') {
+				layer.msg("邮箱有误，请重填", {
+							icon : 2
+						});
+				return false;
+			}
+
+		}
+
+		if (!obj.data.accountExtends) {
+			obj.data.accountExtends = {};
+		}
+		obj.data.accountExtends[obj.field] = obj.value;
+
+	});
+
 	// 监听工具条
 	table.on('tool(user_table)', function(obj) {
 				var data = obj.data;
@@ -211,6 +246,73 @@ $(function() {
 					del(obj);
 				} else if (obj.event === 'save') {
 					save(obj);
+				} else if (obj.event === 'img_check') {
+
+					console.log(data);
+
+					if (data.accountExtends) {
+						pid = data.accountExtends.eId;
+						// 有头像
+						$.ajax({
+									url : '/iotapp-admin/image/getImages',
+									type : 'post',
+									asyn : false,
+									dataType : 'json',
+									contentType : 'application/json',
+									data : JSON.stringify({
+												picture : {
+													pid : data.accountExtends.eId,
+													ptype : '3'
+												}
+											}),
+									success : function(res) {
+										if (res.code == 0 && res.data) {
+											$('#head_sculpture1')
+													.attr(
+															'src',
+															'http://192.168.18.211:8080'
+																	+ res.data[0].ppath);
+										} else {
+											layer.msg('头像查询失败', {
+														icon : 2
+													});
+										}
+
+									},
+									error : function() {
+										layer.msg('头像查询失败', {
+													icon : 2
+												});
+									}
+								});
+
+					} else {
+						// 无头像
+						layer.msg('该用户无头像', {
+									icon : 2
+								});
+						return;
+
+					}
+
+					layer.open({
+								id : 'img_check_layer',
+								type : 1,
+								title : '头像查看',
+								skin : 'layui-layer-molv',
+								area : ['50%', '45%'],
+								resize : false,
+								btn : ['关闭'],
+								yes : function(index, layero) {
+									$('#img_check_div').css('display', 'none');
+									layer.close(index);
+								},
+								cancel : function(index, layero) {
+									$('#img_check_div').css('display', 'none');
+									layer.close(index);
+								},
+								content : $('#img_check_div')
+							});
 				}
 			})
 
@@ -225,7 +327,10 @@ $(function() {
 			"orgid" : data.orgid,
 			"usernum" : data.usernum,
 			"name" : data.name || null,
-			"password" : data.user_password || "123"
+			"password" : data.user_password || "123",
+			"eId" : data.accountExtends.eId,
+			"accountEmail" : data.accountExtends.accountEmail,
+			"accountPhone" : data.accountExtends.accountPhone
 		};
 		console.log(dataJson);
 		ajax('put', modifyUserUrl, dataJson, modifyUserSF);
@@ -329,12 +434,41 @@ $(function() {
 								hide : true,
 								align : 'center'
 							}, {
+								title : '联系电话',
+								field : 'accountPhone',
+								align : 'center',
+								edit : 'text',
+								templet : function(obj) {
+									return obj.accountExtends
+											? obj.accountExtends.accountPhone
+											: ''
+								}
+							}, {
+								title : '邮箱',
+								align : 'center',
+								field : 'accountEmail',
+								edit : 'text',
+								templet : function(obj) {
+									return obj.accountExtends
+											? obj.accountExtends.accountEmail
+											: ''
+								}
+							}, {
+								fixed : 'right',
+								title : '头像',
+								toolbar : '#img',
+								minWidth : 60,
+								width : 80,
+								align : 'center'
+							}, {
 								fixed : 'right',
 								title : '操作',
 								toolbar : '#barDemo',
 								minWidth : 300,
 								align : 'center'
-							}]],
+							}
+
+					]],
 					id : 'testReload',
 					done : function(res, curr, count) {
 					}
@@ -563,7 +697,7 @@ function load_head_sculpture() {
 	layui.use('upload', function() {
 				var $ = layui.jquery, upload = layui.upload;
 				upload.render({
-							elem : '#crop-avatar',
+							elem : '#avatar-view',
 							url : '/iotapp-admin/image/uploadImages',
 							accept : 'images',
 							auto : false,
@@ -595,6 +729,48 @@ function load_head_sculpture() {
 							},
 							error : function() {
 
+							}
+						});
+			});
+}
+
+/**
+ * 渲染头像更换
+ */
+function load_head_sculpture_edit() {
+	layui.use('upload', function() {
+				var $ = layui.jquery, upload = layui.upload;
+				upload.render({
+							elem : '#avatar-view1',
+							url : '/iotapp-admin/image/uploadImages',
+							accept : 'images',
+							field : 'files',
+							data : {
+								pid : commit_id,
+								uploadType : 0,
+								pType : 3
+							},
+							before : function(obj) {
+
+								this.data.pid = pid;
+							},
+							choose : function(obj) {
+								// 预读本地文件示例，不支持ie8
+								obj.preview(function(index, file, result) {
+											$('#head_sculpture1').attr('src',
+													result);
+										});
+							},
+							done : function(res) {
+								// 如果上传失败
+								if (res.code != 0) {
+									return layer.msg('头像修改失败');
+								}
+								// 上传成功
+								return layer.msg('头像修改成功');
+							},
+							error : function() {
+								return layer.msg('头像修改失败');
 							}
 						});
 			});

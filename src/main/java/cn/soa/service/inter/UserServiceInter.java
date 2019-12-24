@@ -14,6 +14,8 @@ package cn.soa.service.inter;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.constraints.NotBlank;
+
 import cn.soa.entity.IotUserModuleResource;
 import cn.soa.entity.UserInfo;
 import cn.soa.entity.UserOrganization;
@@ -204,7 +206,23 @@ public interface UserServiceInter {
 	 * @param u
 	 * @return
 	 */
-	public UserOrganization saveUserBackId(UserOrganization u);		
+	public UserOrganization saveUserBackId(UserOrganization u);
+
+
+	/**
+	 * 
+	 * 修改用户信息
+	 * @param orgid
+	 * @param usernum
+	 * @param name
+	 * @param password
+	 * @param eId
+	 * @param accountEmail
+	 * @param accountPhone
+	 * @return
+	 */
+	public int modifyUserByIdServ(@NotBlank String orgid, @NotBlank String usernum, @NotBlank String name,
+			@NotBlank String password, @NotBlank Integer eId, String accountEmail, String accountPhone);		
 
 
 }

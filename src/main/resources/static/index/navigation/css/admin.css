@@ -1673,9 +1673,14 @@
 
 .main-layout-side .m-logo {
 	width: 100%;
-	height: 60px;
-	background: #00b5f9 url(../images/IOT.png) 20px center no-repeat;
-/* 	background-size: 50% 50%; 通过百分比设置
+	height: 48px;
+	background: #00b5f9 url(../images/logo.png);
+	background-repeat: no-repeat;
+	background-size: cover;
+	-webkit-background-size: cover;
+	-o-background-size: cover;
+	background-position: center 0;
+	/* 	background-size: 50% 50%;通过百分比设置
 	background-size: cover; 覆盖:图片成比例填满盒子。可用于适配
 	background-size: contain; */
 }

@@ -104,6 +104,13 @@ public class UserService implements UserServiceInter {
 		List<UserOrganization> users = null;
 		try {
 			users = userMapper.findUsersAll();
+			/**
+			 * 新增账户扩展信息（陈宇林）
+			 */
+			for (UserOrganization user : users) {
+				user.setAccountExtends(accountExtendsMapper.selectByOrgId(user.getOrgid()));
+			}
+
 			return users;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -575,5 +582,39 @@ public class UserService implements UserServiceInter {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * cn.soa.service.inter.UserServiceInter#modifyUserByIdServ(java.lang.String,
+	 * java.lang.String, java.lang.String, java.lang.String, java.lang.Integer,
+	 * java.lang.String, java.lang.String)
+	 */
+	@Override
+	public int modifyUserByIdServ(@NotBlank String orgid, @NotBlank String usernum, @NotBlank String name,
+			@NotBlank String password, Integer eId, String accountEmail, String accountPhone) {
+		int i = -1;
+		try {
+			UserOrganization u = new UserOrganization();
+			u.setOrgid(orgid);
+			u.setUsernum(usernum);
+			u.setName(name);
+			u.setUser_password(password);
+			i = userMapper.modifyUserById(u);
+			AccountExtends accountExtends = new AccountExtends();
+			accountExtends.seteId(eId);
+			accountExtends.setUserOrganId(orgid);
+			accountExtends.setAccountEmail(accountEmail);
+			accountExtends.setAccountPhone(accountPhone);
+			accountExtends.setAccountName(name);
+			accountExtendsMapper.deleteByPrimaryKey(eId);
+			accountExtendsMapper.insertSelective(accountExtends);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return -1;
+		}
+		return i;
 	}
 }

@@ -45,13 +45,10 @@ layui.config({
 							}, {
 								field : 'lastModifyTime',
 								title : '最后修改时间'
-							}, /*{
-								field:'',
-								title:'图标',
-								templ:function(d){
-									return '<i class = "layui-icon '+d.icon+'"><i>';
-								}
-							}, */{
+							}, /*
+								 * { field:'', title:'图标', templ:function(d){
+								 * return '<i class = "layui-icon '+d.icon+'"><i>'; } },
+								 */{
 								title : '操作',
 								fixed : 'right',
 								width : 118,
@@ -213,7 +210,7 @@ layui.config({
 
 				// 获取数据
 				var resource_name = $("#resource_name").val();// 资源名称
-				
+
 				var parent_resource = $("#parent_resource").val();// 父级资源id
 				var is_parent = $("#is_parent").val();// 是否为父级
 				var resource_url = $("#resource_url").val();// 资源url
@@ -314,7 +311,9 @@ layui.config({
 
 			$("#mod_id").val(obj.data.modId);
 			$("#resource_name").val(obj.data.name);
-			$("#is_parent").val(obj.data.isParent);
+			$("#is_parent").val(obj.data.isParent == true
+					? 0
+					: obj.data.isParent);
 			$("#resource_url").val(obj.data.url);
 			$("#resource_desc").val(obj.data.resourceDescribe);
 			$("#resource_sort").val(obj.data.remark1);
@@ -344,7 +343,10 @@ layui.config({
 					parent_resources.forEach(
 							function(currentValue, index, arr) {
 								html += '<option value = "'
-										+ currentValue.MODID + '">'
+										+ currentValue.modId
+										+ (obj.data.modId == currentValue.modId
+												? ('selected')
+												: ('')) + '">'
 										+ currentValue.NAME + '</option>'
 
 							});
