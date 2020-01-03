@@ -1,3 +1,4 @@
+var add_layer;
 layui.config({
 			base : '/iot_usermanager/jsPackage/web/design/module/'
 		}).extend({
@@ -21,6 +22,7 @@ layui.config({
 					treeColIndex : 1,
 					treeSpid : -1,
 					treeIdName : 'modId',
+					toolbar : '#toolbar',
 					treePidName : 'parentId',
 					elem : '#resource_table',
 					url : '/iot_usermanager/resource/getAllResourceInfo',
@@ -63,13 +65,76 @@ layui.config({
 				});
 
 	}
-	$('#btn-expand').click(function() {
-				treetable.expandAll('#resource_table');
-			});
+	// 头工具栏事件
+	table.on('toolbar(resource_table)', function(obj) {
+		var checkStatus = table.checkStatus(obj.config.id);
+		console.log(">>>>>>>>>..");
+		switch (obj.event) {
+			case 'add' :
+				/**
+				 * 清除数据
+				 */
 
-	$('#btn-fold').click(function() {
+				$("#parent_resource option").remove();
+				$("#resource_name").val(null);
+				$("#resource_url").val(null);
+				$("#resource_sort").val(null);
+				$("#resource_desc").val(null);
+				$("#btn_update").css("display", "none");
+				$("#btn_commit").css("display", "inline");
+
+				add_layer = layer.open({
+							title : '资源新增',
+							area : ['30%', '70%'], // 宽高
+							type : 1,
+							content : $('#resource_add'),
+							success : function(layero) {
+								var mask = $(".layui-layer-shade");
+								mask.appendTo(layero.parent());
+								// 其中：layero是弹层的DOM对象
+							},
+							end : function() {
+								hideElement();
+							}
+						});
+				$.ajax({
+					url : '/iot_usermanager/resource/getParentResource',
+					dataType : 'json',
+					success : function(data) {
+						// console.log(data);
+						var parent_resources = data.data;
+
+						var html = '<option value=""></option><option value="-1">无</option>';
+						parent_resources.forEach(function(currentValue, index,
+										arr) {
+									html += '<option value = "'
+											+ currentValue.modId + '">'
+											+ currentValue.NAME + '</option>'
+
+								});
+						$("#parent_resource").append(html);
+						console.log(html);
+						form.render('select');
+					},
+					error : function() {
+
+					}
+				});
+
+				break;
+			case 'expand_all' :
+				treetable.expandAll('#resource_table');
+				break;
+			case 'fold_all' :
 				treetable.foldAll('#resource_table');
-			});
+				break;
+
+			// 自定义头工具栏右侧图标 - 提示
+			case 'LAYTABLE_TIPS' :
+				layer.alert('这是工具栏右侧自定义的一个图标按钮');
+				break;
+		};
+	});
 
 	$('#btn-search').click(function() {
 		var keyword = $('#edt-search').val();
@@ -109,59 +174,6 @@ layui.config({
 	function hideElement() {
 		$('#resource_add').hide();
 	}
-
-	// 监听“新增”按钮点击事件
-	var add_layer;
-	$('#btn-add').click(function() {
-		/**
-		 * 清除数据
-		 */
-
-		$("#parent_resource option").remove();
-		$("#resource_name").val(null);
-		$("#resource_url").val(null);
-		$("#resource_sort").val(null);
-		$("#resource_desc").val(null);
-		$("#btn_update").css("display", "none");
-		$("#btn_commit").css("display", "inline");
-
-		add_layer = layer.open({
-					title : '资源新增',
-					area : ['30%', '70%'], // 宽高
-					type : 1,
-					content : $('#resource_add'),
-					success : function(layero) {
-						var mask = $(".layui-layer-shade");
-						mask.appendTo(layero.parent());
-						// 其中：layero是弹层的DOM对象
-					},
-					end : function() {
-						hideElement();
-					}
-				});
-		$.ajax({
-			url : '/iot_usermanager/resource/getParentResource',
-			dataType : 'json',
-			success : function(data) {
-				// console.log(data);
-				var parent_resources = data.data;
-
-				var html = '<option value=""></option><option value="-1">无</option>';
-				parent_resources.forEach(function(currentValue, index, arr) {
-							html += '<option value = "' + currentValue.modId
-									+ '">' + currentValue.NAME + '</option>'
-
-						});
-				$("#parent_resource").append(html);
-				console.log(html);
-				form.render('select');
-			},
-			error : function() {
-
-			}
-		});
-
-	});
 
 	// 监听更新数据按钮点击事件
 	form.on('submit(btn_update)', function(data) {

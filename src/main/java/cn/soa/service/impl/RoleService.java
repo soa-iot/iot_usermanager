@@ -1,14 +1,13 @@
 
-	/**  
-     * @Title: userService.java
- 	 * @Package cn.userCenter.service.impl
- 	 * @Description: )
- 	 * @author zhugang
- 	 * @date 2019年1月12日
- 	 * @version V1.0  
- 	 */
+/**  
+ * @Title: userService.java
+ * @Package cn.userCenter.service.impl
+ * @Description: )
+ * @author zhugang
+ * @date 2019年1月12日
+ * @version V1.0  
+ */
 
-        
 package cn.soa.service.impl;
 
 import java.util.ArrayList;
@@ -29,51 +28,48 @@ import cn.soa.entity.UserRole;
 import cn.soa.entity.UserRoleRelation;
 import cn.soa.service.inter.RoleServiceInter;
 
-
-	/**
- 	 * @ClassName: userService
- 	 * @Description: 用户信息服务  - 业务层
- 	 * @author zhugang
- 	 * @date 2019年1月12日
- 	 */
+/**
+ * @ClassName: userService
+ * @Description: 用户信息服务 - 业务层
+ * @author zhugang
+ * @date 2019年1月12日
+ */
 @Service
-public class RoleService implements RoleServiceInter{
-	private static Logger logger = LoggerFactory.getLogger( RoleService.class );	
-	
+public class RoleService implements RoleServiceInter {
+	private static Logger logger = LoggerFactory.getLogger(RoleService.class);
+
 	@Autowired
 	private UserRoleMapper userRoleMapper;
 
-	
-	 /**   
-	  * @Title: getUserRoleByUserid   
-	  * @Description: 根据用户id查询用户具有的角色           
-	  * @return: UserRole        
-	  */  
+	/**
+	 * @Title: getUserRoleByUserid
+	 * @Description: 根据用户id查询用户具有的角色
+	 * @return: UserRole
+	 */
 	@Override
-	public List<UserRole> getUserRoleByNum( String usernum ) {
+	public List<UserRole> getUserRoleByNum(String usernum) {
 		List<UserRole> userRoles = userRoleMapper.findUserRoleByNum(usernum);
 		return userRoles;
-	}	
-	
-	/**   
-	  * @Title: getUserRoleByUserid   
-	  * @Description: 根据用户id查询用户具有的菜单角色           
-	  * @return: UserRole        
-	  */  
+	}
+
+	/**
+	 * @Title: getUserRoleByUserid
+	 * @Description: 根据用户id查询用户具有的菜单角色
+	 * @return: UserRole
+	 */
 	@Override
-	public List<UserRole> getUserMenoRoleByNum( String usernum ) {
+	public List<UserRole> getUserMenoRoleByNum(String usernum) {
 		List<UserRole> userRoles = userRoleMapper.findUsermenoRoleByNum(usernum);
 		return userRoles;
-	}	
-	
-	
-	/**   
-	 * @Title: findAuthJsonServ   
-	 * @Description:  根据用户角色id查询用户具有的权限    
-	 * @return: ArrayList<IotUserModuleResource>        
-	 */  
+	}
+
+	/**
+	 * @Title: findAuthJsonServ
+	 * @Description: 根据用户角色id查询用户具有的权限
+	 * @return: ArrayList<IotUserModuleResource>
+	 */
 	@Override
-	public ArrayList<IotUserModuleResource> findAuthJsonServ( String rolid){
+	public ArrayList<IotUserModuleResource> findAuthJsonServ(String rolid) {
 		/*
 		 * 查询权限
 		 */
@@ -87,34 +83,17 @@ public class RoleService implements RoleServiceInter{
 		}
 		return auths;
 	}
-	
-	/**   
-	 * @Title: findUsersById   
-	 * @Description:  根据角色id查询对应的所有用户 
-	 * @return: List<UserOrganization>        
-	 */  
+
+	/**
+	 * @Title: findUsersById
+	 * @Description: 根据角色id查询对应的所有用户
+	 * @return: List<UserOrganization>
+	 */
 	@Override
-	public List<UserOrganization> findUsersById( String roleid ){
+	public List<UserOrganization> findUsersById(String roleid) {
 		try {
 			List<UserOrganization> users = userRoleMapper.findUsersById(roleid);
-			logger.debug( users.toString() );
-			return users;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
-	/**   
-	 * @Title: findUsersByName   
-	 * @Description: 根据角色名称查询对应的所有用户     
-	 * @return: List<UserOrganization>        
-	 */  
-	@Override
-	public List<UserOrganization> findUsersByName( String rolename ){
-		try {
-			List<UserOrganization> users = userRoleMapper.findUsersByName(rolename);
-			logger.debug( users.toString() );
+			logger.debug(users.toString());
 			return users;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -122,16 +101,33 @@ public class RoleService implements RoleServiceInter{
 		}
 	}
 
-	
-	/**   
-	 * @Title: findAuthByRolidServ   
-	 * @Description: 根据用户角色id查询用户具有的权限    
-	 * @param: @param rolid
-	 * @param: @return      
-	 * @return: ArrayList<IotUserModuleResource>        
-	 */ 
+	/**
+	 * @Title: findUsersByName
+	 * @Description: 根据角色名称查询对应的所有用户
+	 * @return: List<UserOrganization>
+	 */
 	@Override
-	public ArrayList<AuthInfo> findAuthByRolidServ( String rolid){
+	public List<UserOrganization> findUsersByName(String rolename) {
+		try {
+			List<UserOrganization> users = userRoleMapper.findUsersByName(rolename);
+			logger.debug(users.toString());
+			return users;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	/**
+	 * @Title: findAuthByRolidServ
+	 * @Description: 根据用户角色id查询用户具有的权限
+	 * @param: @param
+	 *             rolid
+	 * @param: @return
+	 * @return: ArrayList<IotUserModuleResource>
+	 */
+	@Override
+	public ArrayList<AuthInfo> findAuthByRolidServ(String rolid) {
 		/*
 		 * 查询权限
 		 */
@@ -143,79 +139,78 @@ public class RoleService implements RoleServiceInter{
 			logger.debug("--------根据用户角色id查询用户具有的权限  findAuthByRolidServ--------出错");
 			return null;
 		}
-		logger.debug( "--S--------根据用户角色id查询用户具有的权限   -----auths:" );
-		logger.debug( auths.toString());
-		 
-		 /*
-		  * 运算赋值
-		  */
+		logger.debug("--S--------根据用户角色id查询用户具有的权限   -----auths:");
+		logger.debug(auths.toString());
+
+		/*
+		 * 运算赋值
+		 */
 		ArrayList<IotUserModuleResource> tempAuths = new ArrayList<IotUserModuleResource>();
 		ArrayList<AuthInfo> authInfos = new ArrayList<AuthInfo>();
-		if( auths != null ) {
-			for( IotUserModuleResource i : auths) {
-				if( "-1".equals(i.getParentId())) {
+		if (auths != null) {
+			for (IotUserModuleResource i : auths) {
+				if ("-1".equals(i.getParentId())) {
 					tempAuths.add(i);
 					AuthInfo authInfo = new AuthInfo();
-					authInfo.setId( i.getModId() );
+					authInfo.setId(i.getModId());
 					authInfo.setFirst(i.getName());
 					authInfos.add(authInfo);
-				}			
-			}
-			logger.debug( "--S--------根据用户角色id查询用户具有的权限   -----tempAuths:" );
-			logger.debug( tempAuths.toString());
-			
-			for( IotUserModuleResource i : auths) {
-				String pid = i.getParentId();
-				if(  pid != null && pid != "-1" ) {
-					for( int j = 0; j < tempAuths.size() ; j++ ) {
-						if( pid.equals( tempAuths.get(j).getModId() ) ) {
-							AuthInfo currentAuth = authInfos.get(j);
-							String a = currentAuth.getSecond();
-							//设置名称
-							if( a == null ) {
-								currentAuth.setSecond( i.getName() );
-							}else {
-								if( i.getName() == null  ) {
-									currentAuth.setSecond( a + "," + " " );
-								}else {
-									currentAuth.setSecond( a + "," + i.getName() );
-								}							 
-							}
-							
-							//设置url
-							String url = currentAuth.getUrl();
-							//设置名称
-							if( url == null ) {
-								currentAuth.setUrl( i.getUrl() );
-							}else {
-								if( i.getUrl() == null  ) {
-									currentAuth.setUrl( url + "," + " " );
-								}else {
-									currentAuth.setUrl( url + "," + i.getUrl() );
-								}
-							}
-							
-							break;
-						}
-					}			
 				}
 			}
-			logger.debug( "--S--------根据用户角色id查询用户具有的权限   -----AuthInfo" );
-			logger.debug( authInfos.toString());						
+			logger.debug("--S--------根据用户角色id查询用户具有的权限   -----tempAuths:");
+			logger.debug(tempAuths.toString());
+
+			for (IotUserModuleResource i : auths) {
+				String pid = i.getParentId();
+				if (pid != null && pid != "-1") {
+					for (int j = 0; j < tempAuths.size(); j++) {
+						if (pid.equals(tempAuths.get(j).getModId())) {
+							AuthInfo currentAuth = authInfos.get(j);
+							String a = currentAuth.getSecond();
+							// 设置名称
+							if (a == null) {
+								currentAuth.setSecond(i.getName());
+							} else {
+								if (i.getName() == null) {
+									currentAuth.setSecond(a + "," + " ");
+								} else {
+									currentAuth.setSecond(a + "," + i.getName());
+								}
+							}
+
+							// 设置url
+							String url = currentAuth.getUrl();
+							// 设置名称
+							if (url == null) {
+								currentAuth.setUrl(i.getUrl());
+							} else {
+								if (i.getUrl() == null) {
+									currentAuth.setUrl(url + "," + " ");
+								} else {
+									currentAuth.setUrl(url + "," + i.getUrl());
+								}
+							}
+
+							break;
+						}
+					}
+				}
+			}
+			logger.debug("--S--------根据用户角色id查询用户具有的权限   -----AuthInfo");
+			logger.debug(authInfos.toString());
 			return authInfos;
-		}	
+		}
 		return authInfos;
 	}
 
 	@Override
 	public List<UserRole> queryAllroles(Integer page, Integer pageSize) {
-		if(page==null || pageSize==null) {
-			page=0;
-			pageSize=0;
+		if (page == null || pageSize == null) {
+			page = 0;
+			pageSize = 0;
 		}
-		return userRoleMapper.queryAllroles((page-1)*pageSize,page*pageSize);
+		return userRoleMapper.queryAllroles((page - 1) * pageSize, page * pageSize);
 	}
-
 
 	@Override
 	public int countRoles() {
@@ -223,13 +218,11 @@ public class RoleService implements RoleServiceInter{
 		return userRoleMapper.countRoles();
 	}
 
-
 	@Override
 	public int saveUserRole(UserRole userRole) {
-		
+
 		return userRoleMapper.saveUserRole(userRole);
 	}
-
 
 	@Override
 	public int modifyUserRoleById(UserRole userRole) {
@@ -237,65 +230,64 @@ public class RoleService implements RoleServiceInter{
 		return userRoleMapper.modifyUserRoleById(userRole);
 	}
 
-
 	@Override
 	public int deleteRolesInIds(String[] ids) {
 		// TODO Auto-generated method stub
 		return userRoleMapper.deleteRolesInIds(ids);
 	}
 
-
 	@Override
-	public List<Map<String ,Object>> queryUsersByRold(String ROLID) {
-		List<UserOrganization> orgs=userRoleMapper.queryAllorgnInfo();
-		logger.debug("---S-----queryUsersByRold----------:" + orgs );
-		List<UserOrganization> orgsByid=userRoleMapper.queryUsersByRold(ROLID);
+	public List<Map<String, Object>> queryUsersByRold(String ROLID) {
+		List<UserOrganization> orgs = userRoleMapper.queryAllorgnInfo();
+		logger.debug("---S-----queryUsersByRold----------:" + orgs);
+		List<UserOrganization> orgsByid = userRoleMapper.queryUsersByRold(ROLID);
 		System.out.println(orgsByid.toString());
-		List<Map<String ,Object>> lists=new ArrayList<Map<String ,Object>>();
-		for( UserOrganization org:orgs) {
-			Map<String,Object> map=new HashMap<>();
-			map.put("name",org.getName());
-			map.put("orgid",org.getOrgid());
-			map.put("is_parent",org.getIs_parent());
-			map.put("usernum",org.getUsernum());
-			map.put("parent_id",org.getParent_id());
-			if(org.getUsernum().equals("0")) {
+		List<Map<String, Object>> lists = new ArrayList<Map<String, Object>>();
+		for (UserOrganization org : orgs) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("name", org.getName());
+			map.put("orgid", org.getOrgid());
+			map.put("is_parent", org.getIs_parent());
+			map.put("usernum", org.getUsernum());
+			map.put("parent_id", org.getParent_id());
+			if (org.getUsernum().equals("0")) {
 				map.put("open", true);
 			}
-			if( !orgsByid.isEmpty() ) {
-				for(int i=0;i<orgsByid.size();i++) {
-					if(org.getName().equals(orgsByid.get(i).getName())) {
+			if (!orgsByid.isEmpty()) {
+				for (int i = 0; i < orgsByid.size(); i++) {
+					if (orgsByid.get(i) == null) {
+						continue;
+					}
+					if (org.getName().equals(orgsByid.get(i).getName())) {
 						map.put("checked", true);
-					};						
+					}
+					;
 				}
 			}
-			
+
 			lists.add(map);
-		}		
+		}
 		return lists;
 	}
-
-
 
 	@Override
 	public int deleteUserUserAndRolebyId(String rolid) {
 		// TODO Auto-generated method stub
-		return  userRoleMapper.deleteUserUserAndRolebyId(rolid);
+		return userRoleMapper.deleteUserUserAndRolebyId(rolid);
 	}
-
 
 	@Override
-	 public int saveUserUserRoleInBatch(List<UserRoleRelation> lists) {
+	public int saveUserUserRoleInBatch(List<UserRoleRelation> lists) {
 		return userRoleMapper.saveUserUserRoleInBatch(lists);
-		
+
 	}
 
-	/** 
-	  * @Title: getUserRoleByRoleName 
-	  * @Description: 根据用户角色id查找角色名称
-	  */
+	/**
+	 * @Title: getUserRoleByRoleName
+	 * @Description: 根据用户角色id查找角色名称
+	 */
 	public UserRole getUserRoleByRoleName(String rolid) {
 		return userRoleMapper.findUserRoleByRoleName(rolid);
 	}
-	
+
 }

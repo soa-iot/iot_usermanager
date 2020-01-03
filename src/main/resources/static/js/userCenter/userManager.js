@@ -65,7 +65,7 @@ $(function() {
 						id : 'layerDemo' + 1 // 防止重复弹出
 						,
 						content : $('#form_add_user'),
-						zIndex : 0,
+						zIndex : 999,
 						btn : ['提交', '取消'],
 						btnAlign : 'c' // 按钮居中
 						,
@@ -236,6 +236,19 @@ $(function() {
 		obj.data.accountExtends[obj.field] = obj.value;
 
 	});
+	// 监听事件
+	table.on('toolbar(user_table)', function(obj) {
+				var checkStatus = table.checkStatus(obj.config.id);
+				switch (obj.event) {
+					case 'add' :
+						active['add'].call(this);
+						break;
+					case 'delete' :
+						break;
+					case 'update' :
+						break;
+				};
+			});
 
 	// 监听工具条
 	table.on('tool(user_table)', function(obj) {
@@ -328,9 +341,13 @@ $(function() {
 			"usernum" : data.usernum,
 			"name" : data.name || null,
 			"password" : data.user_password || "123",
-			"eId" : data.accountExtends.eId,
-			"accountEmail" : data.accountExtends.accountEmail,
-			"accountPhone" : data.accountExtends.accountPhone
+			"eId" : data.accountExtends ? data.accountExtends.eId : null,
+			"accountEmail" : data.accountExtends
+					? data.accountExtends.accountEmail
+					: null,
+			"accountPhone" : data.accountExtends
+					? data.accountExtends.accountPhone
+					: null
 		};
 		console.log(dataJson);
 		ajax('put', modifyUserUrl, dataJson, modifyUserSF);
@@ -384,10 +401,10 @@ $(function() {
 	function generateBTable(id, data) {
 		table.render({
 					elem : '#' + id,
-					// height : '400ox',
+					height : 'full-120',
 					title : '用户数据表',
 					data : data,
-					// toolbar: true,
+					toolbar : '#toolbar',
 					page : true,
 					even : true,
 					autoSort : false,

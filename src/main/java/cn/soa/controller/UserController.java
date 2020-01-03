@@ -543,8 +543,10 @@ public class UserController {
 	@PutMapping("/user")
 	public ResultJson<String> modifyUserById(@RequestParam("orgid") @NotBlank String orgid,
 			@RequestParam("usernum") @NotBlank String usernum, @RequestParam("name") @NotBlank String name,
-			@RequestParam("password") @NotBlank String password, @RequestParam Integer eId,
-			@RequestParam String accountEmail, @RequestParam String accountPhone) {
+			@RequestParam("password") @NotBlank String password,
+			@RequestParam(name = "eId", required = false) Integer eId,
+			@RequestParam(name = "accountEmail", required = false) String accountEmail,
+			@RequestParam(name = "accountPhone", required = false) String accountPhone) {
 		logger.debug("--C---------- 根据用户id修改用户信息  -----------");
 		int i = userService.modifyUserByIdServ(orgid, usernum, name, password, eId, accountEmail, accountPhone);
 		if (i > 0) {
