@@ -1,3 +1,4 @@
+var add_layer;
 layui.config({
 			// base : '../../module/'
 			base : '/iot_usermanager/jsPackage/web/design/module/'
@@ -22,6 +23,7 @@ layui.config({
 					treeColIndex : 0,
 					treeSpid : -1,
 					treeIdName : 'modId',
+					toolbar : '#toolbar',
 					treePidName : 'parentId',
 					elem : '#auth-table',
 					url : '/iot_usermanager/roleAuthority/getAuthotityInfo',
@@ -81,13 +83,87 @@ layui.config({
 			}
 			/** *******************************************加载数据表格****************************************************** */
 
-			$('#btn-expand').click(function() {
-						treetable.expandAll('#auth-table');
-					});
+			// 头工具栏事件
+			table.on('toolbar(auth-table)', function(obj) {
+				var checkStatus = table.checkStatus(obj.config.id);
+				console.log(">>>>>>>>>..");
+				switch (obj.event) {
+					case 'add' :
+						/**
+						 * 清除数据
+						 */
+						$("#classtree").find('*').remove();
+						$("#treeclass").html("请选择");
+						$("#resource_id").val(null);
+						$("#authority_id").val(null);
+						$("#authority_name").val(null);
+						$("#authority_type").val(null);
+						$("#authority_note").val(null);
 
-			$('#btn-fold').click(function() {
+						/**
+						 * 更改按钮的显示效果
+						 */
+						$("#btn_update").css("display", "none");
+						$("#btn_commit").css("display", "inline");
+
+						add_layer = layer.open({
+									title : '资源新增',
+									area : ['30%', '60%'], // 宽高
+									type : 1,
+									content : $('#authority_add'),
+									success : function(layero) {
+										var mask = $(".layui-layer-shade");
+										mask.appendTo(layero.parent());
+										// 其中：layero是弹层的DOM对象
+										mask.hide();
+									},
+									end : function() {
+										hideElement();
+									}
+								});
+
+						$.ajax({
+							url : '/iot_usermanager/resource/getResourceInfoOfNode',
+							dataType : 'json',
+							success : function(data) {
+								// console.log(data.data);
+								tree({
+									elem : "#classtree",
+									nodes : data.data,
+									click : function(node) {
+										var $select = $($(this)[0].elem)
+												.parents(".layui-form-select");
+										$select
+												.removeClass("layui-form-selected")
+												.find(".layui-select-title span")
+												.html(node.name)
+												.end()
+												.find("input:hidden[name='selectID']")
+												.val(node.id);
+									}
+								});
+
+							},
+							error : function() {
+
+							}
+
+						});
+						form.render();
+						break;
+					case 'expand_all' :
+						treetable.expandAll('#auth-table');
+						break;
+					case 'fold_all' :
 						treetable.foldAll('#auth-table');
-					});
+						break;
+
+					// 自定义头工具栏右侧图标 - 提示
+					case 'LAYTABLE_TIPS' :
+						layer.alert('这是工具栏右侧自定义的一个图标按钮');
+						break;
+				};
+			});
 
 			$('#btn-search').click(function() {
 				var keyword = $('#edt-search').val();
@@ -128,72 +204,6 @@ layui.config({
 				$('#add_authority_role').hide();
 				$('#authority_add').hide();
 			}
-
-			// 监听新增按钮点击事件
-			var add_layer;
-			$("#btn-add").click(function() {
-				/**
-				 * 清除数据
-				 */
-				$("#classtree").find('*').remove();
-				$("#treeclass").html("请选择");
-				$("#resource_id").val(null);
-				$("#authority_id").val(null);
-				$("#authority_name").val(null);
-				$("#authority_type").val(null);
-				$("#authority_note").val(null);
-
-				/**
-				 * 更改按钮的显示效果
-				 */
-				$("#btn_update").css("display", "none");
-				$("#btn_commit").css("display", "inline");
-
-				add_layer = layer.open({
-							title : '资源新增',
-							area : ['30%', '60%'], // 宽高
-							type : 1,
-							content : $('#authority_add'),
-							success : function(layero) {
-								var mask = $(".layui-layer-shade");
-								mask.appendTo(layero.parent());
-								// 其中：layero是弹层的DOM对象
-								mask.hide();
-							},
-							end : function() {
-								hideElement();
-							}
-						});
-
-				$.ajax({
-					url : '/iot_usermanager/resource/getResourceInfoOfNode',
-					dataType : 'json',
-					success : function(data) {
-						// console.log(data.data);
-						tree({
-									elem : "#classtree",
-									nodes : data.data,
-									click : function(node) {
-										var $select = $($(this)[0].elem)
-												.parents(".layui-form-select");
-										$select
-												.removeClass("layui-form-selected")
-												.find(".layui-select-title span")
-												.html(node.name)
-												.end()
-												.find("input:hidden[name='selectID']")
-												.val(node.id);
-									}
-								});
-
-					},
-					error : function() {
-
-					}
-
-				});
-				form.render();
-			});
 
 			$(".downpanel").on("click", ".layui-select-title", function(e) {
 				$(".layui-form-select").not($(this)
@@ -489,7 +499,7 @@ layui.config({
 										// url : '/role/roles',
 										data : roles_data,
 										page : false,
-										limit:10000000,
+										limit : 10000000,
 										cols : [[{
 													type : 'checkbox'
 												}, {

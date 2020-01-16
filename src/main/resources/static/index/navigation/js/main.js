@@ -13,9 +13,9 @@ layui.use(['layer', 'form', 'element', 'jquery', 'dialog'], function() {
 	var num = 0;
 	var mod_id_str = '';
 	var usedId = [];
-//	var user_name = getCookie('name').replace(/\%22/g, '');
+	// var user_name = getCookie('name').replace(/\%22/g, '');
 	var user_name = decodeURI(getCookie('name')).replace(/\"/g, '');
-	console.log(user_name);
+	// console.log(user_name);
 	$('#user-name').html(user_name);
 
 	/**
@@ -28,38 +28,43 @@ layui.use(['layer', 'form', 'element', 'jquery', 'dialog'], function() {
 		success : function(res) {
 
 			var data = res.data;
-			console.log(res);
+			// console.log(res);
 			var menuArray = [];
 			$.each(data, function(index, item) {
 
 						if (item.parentId != '-1') {
 							return true;
 						}
-						console.log(data);
+						// console.log(data);
 						var obj = {};
 						obj.name = item.name;
 						obj.id = item.modId;
 						obj.url = item.url;
+						obj.menuIcon = item.menuIcon;
 						// mod_id_str += item.modId + ',';
 						obj.childMenus = getChildArray(item.modId, data);
 						menuArray.push(obj);
 
 					});
-			console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>');
-			console.log(menuArray);
-			console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>');
-			console.log('>>>>>>>>>>>>>>>>>num:' + num);
+			// console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>');
+			// console.log(menuArray);
+			// console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>');
+			// console.log('>>>>>>>>>>>>>>>>>num:' + num);
 
 			var liStr = "";
 			// 遍历生成主菜单
 			for (var i = 0; i < menuArray.length; i++) {
-				// console.log("--> "+JSON.stringify(data[i]));
+				// //console.log("--> "+JSON.stringify(data[i]));
 				// 判断是否存在子菜单
 				if (menuArray[i].childMenus != null
 						&& menuArray[i].childMenus.length > 0) {
-					console.log("--> "
-							+ JSON.stringify(menuArray[i].childMenus));
-					liStr += "<li class=\"layui-nav-item\"><a class=\"\" href=\"javascript:;\"><i class='layui-icon' >&#xe68e;</i> "
+
+					console.log(menuArray[i].menuIcon);
+					liStr += "<li class=\"layui-nav-item\"><a class=\"\" href=\"javascript:;\"><i class='"
+							+ (menuArray[i].menuIcon
+									? menuArray[i].menuIcon
+									: "fa fa-home")
+							+ "'></i> "
 							+ menuArray[i].name
 							+ "</a>\n"
 							+ "<dl class=\"layui-nav-child\">\n";
@@ -75,7 +80,11 @@ layui.use(['layer', 'form', 'element', 'jquery', 'dialog'], function() {
 							+ menuArray[i].id
 							+ '" data-url = "'
 							+ menuArray[i].url
-							+ '" href="javascript:;"><i class="layui-icon" >&#xe68e;</i> '
+							+ '" href="javascript:;"><i class="'
+							+ (menuArray[i].menuIcon
+									? menuArray[i].menuIcon
+									: 'fa fa-home')
+							+ '" ></i> '
 							+ menuArray[i].name + '</a></li>';
 				}
 			};
@@ -91,14 +100,16 @@ layui.use(['layer', 'form', 'element', 'jquery', 'dialog'], function() {
 
 	// 递归生成子菜单
 	function getChildMenu(subMenu, num) {
-		console.log("num: " + num);
+		// console.log("num: " + num);
 		num++;
 		var subStr = "";
 		if (subMenu.childMenus != null && subMenu.childMenus.length > 0) {
 			subStr += "<dd><ul><li class=\"layui-nav-item\" ><a style=\"margin-Left:"
 					+ num
 					* menuCell
-					+ "px\" class=\"\" href=\"javascript:;\"><i class='layui-icon'>&#xe68e;</i> "
+					+ "px\" class=\"\" href=\"javascript:;\"><i class='"
+					+ (subMenu.menuIcon ? subMenu.menuIcon : "fa fa-home")
+					+ "'></i> "
 					+ subMenu.name
 					+ "</a>"
 					+ "<dl class=\"layui-nav-child\">\n";
@@ -109,7 +120,9 @@ layui.use(['layer', 'form', 'element', 'jquery', 'dialog'], function() {
 		} else {
 			subStr += '<dd><a href="javascript:;"  data-url="' + subMenu.url
 					+ '" data-id="' + subMenu.id + '" data-text="'
-					+ subMenu.name + '"><span class="l-line"></span>'
+					+ subMenu.name + '">' + '<i class="l-line '
+					+ (subMenu.menuIcon ? subMenu.menuIcon : 'fa fa-home')
+					+ '" ></i> '
 					+ subMenu.name + '</a></dd>';
 		}
 		return subStr;
@@ -126,6 +139,7 @@ layui.use(['layer', 'form', 'element', 'jquery', 'dialog'], function() {
 						obj.name = item.name;
 						obj.id = item.modId;
 						obj.url = item.url;
+						obj.menuIcon = item.menuIcon;
 						mod_id_str += item.modId + ',';
 						obj.childMenus = getChildArray(item.modId, data);
 						childArray.push(obj);
@@ -137,15 +151,15 @@ layui.use(['layer', 'form', 'element', 'jquery', 'dialog'], function() {
 
 	// 监听导航点击
 	element.on('nav(leftNav)', function(elem) {
-		console.log(elem);
+		// console.log(elem);
 
 		var navA = $(elem).find('a');
-		console.log(navA);
-		console.log();
+		// console.log(navA);
+		// console.log();
 		var id = navA.context.dataset.id;
 		var url = navA.context.dataset.url;
 		var text = navA.context.dataset.text;
-		console.log('>>>>>>>>>>>>>>>>点击了' + text);
+		// console.log('>>>>>>>>>>>>>>>>点击了' + text);
 		if (!url) {
 			return;
 		}
@@ -175,7 +189,7 @@ layui.use(['layer', 'form', 'element', 'jquery', 'dialog'], function() {
 	/*
 	 * element.on('nav(rightNav)', function(elem) {
 	 * 
-	 * console.log('>>>>>>>>>>>点击了导航菜单'); var navA = $(elem).find('a'); var id =
+	 * //console.log('>>>>>>>>>>>点击了导航菜单'); var navA = $(elem).find('a'); var id =
 	 * navA.attr('data-id'); var url = navA.attr('data-url'); var text =
 	 * navA.attr('data-text'); if (!url) { return; } var isActive =
 	 * $('.main-layout-tab .layui-tab-title').find("li[lay-id=" + id + "]"); if
@@ -230,7 +244,7 @@ layui.use(['layer', 'form', 'element', 'jquery', 'dialog'], function() {
 	 */
 	$('#logout').on('click', function() {
 
-		console.log('----------退出事件绑定回调函数----------');
+		// console.log('----------退出事件绑定回调函数----------');
 
 		// 关闭链接请求
 		$.ajax({
@@ -239,7 +253,7 @@ layui.use(['layer', 'form', 'element', 'jquery', 'dialog'], function() {
 			data : {},
 			dataType : 'json',
 			success : function(jsonData) {
-				console.log(jsonData);
+				// console.log(jsonData);
 				if (jsonData.state == 302) {
 					location.href = '/iot_usermanager/html/userCenter/login.html';
 				} else {
@@ -256,11 +270,11 @@ layui.use(['layer', 'form', 'element', 'jquery', 'dialog'], function() {
 	 * 查看个人信息
 	 */
 	$('#user-name').on('click', function(elem) {
-		
+
 		var id = $(this).attr('data-id');
 		var url = $(this).attr('data-url');
 		var text = $(this).attr('data-text');
-		console.log('>>>>>>>>>>>>>>>>点击了' + text);
+		// console.log('>>>>>>>>>>>>>>>>点击了' + text);
 		if (!url) {
 			return;
 		}
@@ -288,23 +302,22 @@ layui.use(['layer', 'form', 'element', 'jquery', 'dialog'], function() {
 
 		return false;
 	});
-	
-	
+
 	/**
 	 * 接受字框架的postMessage
 	 */
-	window.onmessage = function(e){
+	window.onmessage = function(e) {
 		var message = e.data;
-		console.log("message: "+message);
-		if(message.indexOf('close') >= 0){
+		// console.log("message: " + message);
+		if (message.indexOf('close') >= 0) {
 			element.tabDelete('tab', message.replace("close=", ''));
 			window.location.reload();
-		}else{
+		} else {
 			element.tabChange('tab', message);
 			element.render('tab', 'tab');
 		}
 	}
-	
+
 });
 
 /**

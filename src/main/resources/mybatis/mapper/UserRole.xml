@@ -80,7 +80,11 @@
 			iumr.LAST_MODIFY_TIME as lastModifyTime,
 			iumr.REMARK1 as remark1,
 			iumr.PARENT_ID as parentId,
-			iumr.IS_PARENT as isParent
+			iumr.IS_PARENT as isParent,
+			iumr.MENU_ICON AS menuIcon,
+			iumr.STANDBY2 AS standby2,
+			iumr.STANDBY3 AS standby3,
+			iumr.STANDBY3 AS standby4
 		from IOT_USER_ROLE iur left join IOT_USER_ROLE_AUTH iura on iur.ROLID = iura.ROLID
 						       left join IOT_USER_AUTHORITY iua on  iura.AUTID = iua.AUTID
 							   left join IOT_USER_MODULE_RESOURCE iumr on iumr.MODID = iua.RESOURCEID

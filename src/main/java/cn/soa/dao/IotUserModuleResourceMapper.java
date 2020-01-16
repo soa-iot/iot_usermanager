@@ -11,8 +11,6 @@ import cn.soa.entity.IotUserModuleResource;
 public interface IotUserModuleResourceMapper {
 	int deleteByPrimaryKey(String modid);
 
-	int deleteByParentId(String parentId);
-
 	int insert(IotUserModuleResource record);
 
 	int insertSelective(IotUserModuleResource record);
@@ -22,6 +20,14 @@ public interface IotUserModuleResourceMapper {
 	int updateByPrimaryKeySelective(IotUserModuleResource record);
 
 	int updateByPrimaryKey(IotUserModuleResource record);
+
+	/**
+	 * 根据父级ID删除
+	 * 
+	 * @param parentId
+	 * @return
+	 */
+	int deleteByParentId(String parentId);
 
 	/**
 	 * 查询所有的权限资源信息
@@ -36,11 +42,11 @@ public interface IotUserModuleResourceMapper {
 	 * @return
 	 */
 	List<Map<String, String>> findParentResource();
-	
-	/**   
-     * @Title: findAuthResourceByRoleid   
-     * @Description: 根据用户角色id和菜单id，查询按钮id  
-     * @return: List<IotUserModuleResource>        
-     */  
-    List<IotUserModuleResource> findAuthResourceByRoleid( String rolid,String modId);
+
+	/**
+	 * @Title: findAuthResourceByRoleid
+	 * @Description: 根据用户角色id和菜单id，查询按钮id
+	 * @return: List<IotUserModuleResource>
+	 */
+	List<IotUserModuleResource> findAuthResourceByRoleid(String rolid, String modId);
 }

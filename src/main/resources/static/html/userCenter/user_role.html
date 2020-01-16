@@ -3,112 +3,144 @@
 <head>
 <meta charset="UTF-8">
 <title>用户角色管理</title>
-<link rel="stylesheet" href="/iot_usermanager/jsPackage/web/design/css/layui.css">
+<link rel="stylesheet"
+	href="/iot_usermanager/jsPackage/web/design/css/layui.css">
 <link rel="stylesheet"
 	href="/iot_usermanager/jsPackage/web/design/ztree/css/metroStyle/metroStyle.css"
 	type="text/css">
+<style type="text/css">
+#search .layui-form-label {
+	width: 59px;
+}
+
+#btn-group {
+	margin-right: 10px;
+	float: right;
+}
+
+.layui-container {
+	width: 96%;
+}
+
+#search .layui-inline {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+</style>
 </head>
 <body>
-<div class="loadContent" >
-	
-	<div id="toolbarDemo" style="position: absolute;z-index: 999999;margin-top: 10px;margin-left: 20px;">
-		角色名称：
-   	  <div class="layui-btn-container" style="display: inline-block">
-   		<input type = "text" id="rolid_value" class="layui-input layui-btn-sm" style= "display:inline;width: 40%;margin-right: 10px;height: 30px;">
-		<button class="layui-btn layui-btn-sm" id="search">搜索</button>
-    	<button class="layui-btn layui-btn-sm add" lay-event="add">添加</button>
-		<button class="layui-btn layui-btn-sm update" lay-event="update">编辑</button>
-    	<button class="layui-btn layui-btn-sm delete" lay-event="delete">删除</button>
-     </div>
-	</div>
-	
-	<table class="layui-table" lay-filter="demo" id="role" style="position: absolute;">
-	</table>
-	<div class="layui-row" id="popUpdateTest" style="display: none;">
-		<div class="layui-col-md10">
-			<form class="layui-form role-form" lay-filter="roleForm" action=""
-				style="margin-top: 20px">
-				<div class="layui-form-item" style="display: none">
-					<label class="layui-form-label">角色id</label>
-					<div class="layui-input-block">
-						<input type="text" name="rolid">
-					</div>
+	<div class="layui-container">
+		<div
+			style="margin-top: 10px; vertical-align: middle; background-color: #F2F2F2;'"
+			id="search">
+			<div class="layui-inline">
+				<label class="layui-form-label">角色名称</label>
+				<div class="layui-input-inline">
+					<input id=rolid_value class="layui-input" placeholder="输入关键字">
 				</div>
-				<div class="layui-form-item">
-					<label class="layui-form-label">角色名称</label>
-					<div class="layui-input-block">
-						<input type="text" name="name" required lay-verify="required"
-							autocomplete="off" placeholder="请输入角色名称" class="layui-input">
+			</div>
+			<div class="layui-inline" id="btn-group">
+				<button class="layui-btn" lay-submit id="btn_search" lay-filter="btn_search">
+					<i class="layui-icon">&#xe615;</i>查询数据
+				</button>
+			</div>
+		</div>
+		<table class="layui-table" lay-filter="demo" id="role"
+			style="position: absolute;">
+		</table>
+		<div class="layui-row" id="popUpdateTest" style="display: none;">
+			<div class="layui-col-md10">
+				<form class="layui-form role-form" lay-filter="roleForm" action=""
+					style="margin-top: 20px">
+					<div class="layui-form-item" style="display: none">
+						<label class="layui-form-label">角色id</label>
+						<div class="layui-input-block">
+							<input type="text" name="rolid">
+						</div>
 					</div>
-				</div>
-				<div class="layui-form-item">
-					<label class="layui-form-label">是否启用</label>
-					<div class="layui-input-block">
-						<select name="state" lay-verify="required">
-							<option value=""></option>
-							<option value="0" selected="">启用</option>
-							<option value="1">停用</option>
-						</select>
+					<div class="layui-form-item">
+						<label class="layui-form-label">角色名称</label>
+						<div class="layui-input-block">
+							<input type="text" name="name" required lay-verify="required"
+								autocomplete="off" placeholder="请输入角色名称" class="layui-input">
+						</div>
 					</div>
-				</div>
-				<div class="layui-form-item">
-					<label class="layui-form-label">创建时间</label>
-					<div class="layui-input-block">
-						<input type="text" name="create_time" required
-							lay-verify="required" autocomplete="off"
-							class="layui-input layui-disabled" disabled>
+					<div class="layui-form-item">
+						<label class="layui-form-label">是否启用</label>
+						<div class="layui-input-block">
+							<select name="state" lay-verify="required">
+								<option value=""></option>
+								<option value="0" selected="">启用</option>
+								<option value="1">停用</option>
+							</select>
+						</div>
 					</div>
-				</div>
-				<div class="layui-form-item" style="display: none">
-					<label class="layui-form-label">修改时间</label>
-					<div class="layui-input-block">
-						<input type="text" name="last_modify_time" required
-							lay-verify="required" autocomplete="off"
-							class="layui-input layui-disabled" disabled>
+					<div class="layui-form-item">
+						<label class="layui-form-label">创建时间</label>
+						<div class="layui-input-block">
+							<input type="text" name="create_time" required
+								lay-verify="required" autocomplete="off"
+								class="layui-input layui-disabled" disabled>
+						</div>
 					</div>
-				</div>
-				<div class="layui-form-item">
-					<label class="layui-form-label">备注</label>
-					<div class="layui-input-block">
-						<textarea name="note" placeholder="请输入备注信息" class="layui-textarea"
-							style="resize: none"></textarea>
+					<div class="layui-form-item" style="display: none">
+						<label class="layui-form-label">修改时间</label>
+						<div class="layui-input-block">
+							<input type="text" name="last_modify_time" required
+								lay-verify="required" autocomplete="off"
+								class="layui-input layui-disabled" disabled>
+						</div>
 					</div>
-				</div>
-				<div class="layui-form-item" style="margin-top: 40px">
-					<div class="layui-input-block">
-						<button class="layui-btn" lay-submit lay-filter="formSubmit">确认</button>
-						<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+					<div class="layui-form-item">
+						<label class="layui-form-label">备注</label>
+						<div class="layui-input-block">
+							<textarea name="note" placeholder="请输入备注信息"
+								class="layui-textarea" style="resize: none"></textarea>
+						</div>
 					</div>
-				</div>
-			</form>
+					<div class="layui-form-item" style="margin-top: 40px">
+						<div class="layui-input-block">
+							<button class="layui-btn" lay-submit lay-filter="formSubmit">确认</button>
+							<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="layui-row orgnation" id="orgnation" style="display: none">
+			<ul id="user_org" class="ztree"></ul>
 		</div>
 	</div>
-	<div class="layui-row orgnation" id ="orgnation" style="display: none">
-		<ul id="user_org" class="ztree"></ul>
-	</div>
-	
-	<script type="text/html" id="barDemo">
+</body>
+<script type="text/html" id="barDemo">
 		<a class="layui-btn layui-btn-xs" lay-event="edit">用户管理</a>
+</script>
+<!-- 头工具时间 -->
+<script type="text/html">
 	</script>
-	<!-- 头工具时间 -->
-	<script type="text/html" >
-	</script>
-	<link rel="stylesheet" 
+<link rel="stylesheet"
 	href="/iot_usermanager/jsPackage/web/design/ztree/css/metroStyle/metroStyle.css"
 	type="text/css">
-	<script src="/iot_usermanager/jsPackage/web/design/layui.all.js"></script>
-	<script src="/iot_usermanager/jsPackage/web/design/ztree/jquery-1.4.4.min.js"></script>
-	<script type="text/javascript"
-		src="/iot_usermanager/jsPackage/web/design/ztree/jquery.ztree.all.js"></script>
-	<script type="text/javascript"
-		src="/iot_usermanager/js/userCenter/user_role_relation.js"></script>
-	<script type="text/html" id="titleTpl">
+<script src="/iot_usermanager/jsPackage/web/design/layui.all.js"></script>
+<script
+	src="/iot_usermanager/jsPackage/web/design/ztree/jquery-1.4.4.min.js"></script>
+<script type="text/javascript"
+	src="/iot_usermanager/jsPackage/web/design/ztree/jquery.ztree.all.js"></script>
+<script type="text/javascript"
+	src="/iot_usermanager/js/userCenter/user_role_relation.js"></script>
+<script type="text/html" id="titleTpl">
   	{{#  if(d.state==0){ }}
     		<input type="checkbox"  lay-skin="switch" lay-text="启用|未启用" checked  disabled>
   	{{#  } else {d.state==1 }}
    			<input type="checkbox"  lay-skin="switch" lay-text="启用|未启用" disabled>
   {{#  } }}
 </script>
-</div>
-</body>
+
+<script type="text/html" id="toolbar">
+	<button class="layui-btn layui-btn-sm add" lay-event="add">添加</button>
+	<button class="layui-btn layui-btn-sm update" lay-event="update">编辑</button>
+	<button class="layui-btn layui-btn-sm delete" lay-event="delete">删除</button>
+</script>
+
+
 </html>
