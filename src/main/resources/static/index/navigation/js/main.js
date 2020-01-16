@@ -288,6 +288,23 @@ layui.use(['layer', 'form', 'element', 'jquery', 'dialog'], function() {
 
 		return false;
 	});
+	
+	
+	/**
+	 * 接受字框架的postMessage
+	 */
+	window.onmessage = function(e){
+		var message = e.data;
+		console.log("message: "+message);
+		if(message.indexOf('close') >= 0){
+			element.tabDelete('tab', message.replace("close=", ''));
+			window.location.reload();
+		}else{
+			element.tabChange('tab', message);
+			element.render('tab', 'tab');
+		}
+	}
+	
 });
 
 /**
