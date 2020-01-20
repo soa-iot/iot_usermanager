@@ -75,15 +75,15 @@ public class UserController {
 	 * @return: void        
 	 */  
 	@GetMapping("/users/{usernum}")
-	public ResultJson<UserOrganization> getUserByNum( @PathVariable("usernum") String usernum ) {
+	public ResultJson<List<UserOrganization>> getUserByNum( @PathVariable("usernum") String usernum ) {
 		logger.debug("-----C------- 根据用户usernum查询用户   ---- usernum： " + usernum);
-		UserOrganization u = userService.getUsersByNum(usernum);
+		List<UserOrganization> u = userService.getUsersByNum(usernum);
 		if( u != null ) {
 			logger.debug( "---C---- 根据用户usernum查询用户成功------u：" + u );
-			return new ResultJson<UserOrganization>( 0, "查询用户成功", u ); 
+			return new ResultJson<List<UserOrganization>>( 0, "查询用户成功", u ); 
 		}
 		logger.debug( "---C---- 根据用户usernum查询用户失败------u：" + u );
-		return new ResultJson<UserOrganization>( 1, "查询用户失败", null ); 
+		return new ResultJson<List<UserOrganization>>( 1, "查询用户失败", null ); 
 	}
 	
 	

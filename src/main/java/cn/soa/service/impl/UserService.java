@@ -70,8 +70,8 @@ public class UserService implements UserServiceInter{
 	 * @return: UserOrganization        
 	 */  
 	@Override
-	public UserOrganization getUsersByNum( String usernum ) {
-		UserOrganization u = null;
+	public List<UserOrganization> getUsersByNum( String usernum ) {
+		List<UserOrganization> u = null;
 		try {
 			u = userMapper.findUsersByNum(usernum);
 		} catch (Exception e) {

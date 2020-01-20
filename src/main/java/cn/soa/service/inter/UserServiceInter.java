@@ -129,7 +129,7 @@ public interface UserServiceInter {
 	 * @Description: 根据用户唯一标识查询用户    
 	 * @return: UserOrganization        
 	 */  
-	UserOrganization getUsersByNum(String usernum);
+	List<UserOrganization> getUsersByNum(String usernum);
 
 
 	/**   
