@@ -298,8 +298,8 @@ $(function() {
 	function getUsersByNumSF(data) {
 		console.log('--------搜索请求成功回调函数--------');
 		// console.log( data );
-		var arr = [];
-		arr.push(data);
+		var arr = data;
+		//arr.push(data);
 		// 执行重载
 		$('#tableDiv')
 				.empty()
