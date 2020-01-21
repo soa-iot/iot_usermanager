@@ -75,15 +75,15 @@ public class UserController {
 	 * @return: void        
 	 */  
 	@GetMapping("/users/{usernum}")
-	public ResultJson<UserOrganization> getUserByNum( @PathVariable("usernum") String usernum ) {
+	public ResultJson<List<UserOrganization>> getUserByNum( @PathVariable("usernum") String usernum ) {
 		logger.debug("-----C------- 根据用户usernum查询用户   ---- usernum： " + usernum);
-		UserOrganization u = userService.getUsersByNum(usernum);
+		List<UserOrganization> u = userService.getUsersByNum(usernum);
 		if( u != null ) {
 			logger.debug( "---C---- 根据用户usernum查询用户成功------u：" + u );
-			return new ResultJson<UserOrganization>( 0, "查询用户成功", u ); 
+			return new ResultJson<List<UserOrganization>>( 0, "查询用户成功", u ); 
 		}
 		logger.debug( "---C---- 根据用户usernum查询用户失败------u：" + u );
-		return new ResultJson<UserOrganization>( 1, "查询用户失败", null ); 
+		return new ResultJson<List<UserOrganization>>( 1, "查询用户失败", null ); 
 	}
 	
 	
@@ -477,9 +477,10 @@ public class UserController {
 	@PostMapping("/users")
 	public ResultJson<UserOrganization> saveUserBackIdContr(
 			@RequestParam("usernum") String usernum, 
-			@RequestParam("name") String name  ){
+			@RequestParam("name") String name,
+			@RequestParam("password") String password){
 		logger.debug("-----C------- 增加用户   ---- usernum： " + usernum);
-		UserOrganization u = userService.saveUserBackId(usernum, name);
+		UserOrganization u = userService.saveUserBackId(usernum, name, password);
 		if( u != null ) {
 			logger.debug("-----C------- 增加用户成功   ----  " + u);
 			return new ResultJson<UserOrganization>( 0, "增加用户成功 ", u );

@@ -129,7 +129,7 @@ public interface UserServiceInter {
 	 * @Description: 根据用户唯一标识查询用户    
 	 * @return: UserOrganization        
 	 */  
-	UserOrganization getUsersByNum(String usernum);
+	List<UserOrganization> getUsersByNum(String usernum);
 
 
 	/**   
@@ -137,7 +137,7 @@ public interface UserServiceInter {
 	 * @Description:  根据id增加用户 ，返回id   
 	 * @return: int        
 	 */  
-	UserOrganization saveUserBackId(  String usernum, String name  );
+	UserOrganization saveUserBackId(  String usernum, String name, String password  );
 
 
 	/**   

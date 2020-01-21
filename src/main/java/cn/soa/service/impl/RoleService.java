@@ -216,11 +216,29 @@ public class RoleService implements RoleServiceInter{
 		return userRoleMapper.queryAllroles((page-1)*pageSize,page*pageSize);
 	}
 
+	/**
+	 * @Title: queryRolesByName 
+	 * @Description: 根据角色名称的角色信息分页查询  
+	 * @return List<UserRole>
+	 */
+	@Override
+	public List<UserRole> queryRolesByName(Integer page, Integer pageSize,String roleName) {
+		if(page==null || pageSize==null) {
+			page=0;
+			pageSize=0;
+		}
+		return userRoleMapper.queryRolesByName((page-1)*pageSize,page*pageSize,roleName);
+	}
 
 	@Override
 	public int countRoles() {
 		// TODO A.uto-generated method stub
 		return userRoleMapper.countRoles();
+	}
+	
+	@Override
+	public int countRolesByName(String roleName) {
+		return userRoleMapper.countRolesByName(roleName);
 	}
 
 
@@ -250,7 +268,8 @@ public class RoleService implements RoleServiceInter{
 		List<UserOrganization> orgs=userRoleMapper.queryAllorgnInfo();
 		logger.debug("---S-----queryUsersByRold----------:" + orgs );
 		List<UserOrganization> orgsByid=userRoleMapper.queryUsersByRold(ROLID);
-		System.out.println(orgsByid.toString());
+		logger.debug("---S-----orgsByid----------:" + orgsByid.toString() );
+		
 		List<Map<String ,Object>> lists=new ArrayList<Map<String ,Object>>();
 		for( UserOrganization org:orgs) {
 			Map<String,Object> map=new HashMap<>();
@@ -264,6 +283,7 @@ public class RoleService implements RoleServiceInter{
 			}
 			if( !orgsByid.isEmpty() ) {
 				for(int i=0;i<orgsByid.size();i++) {
+					//logger.debug("---S-----i----------:" + i );
 					if(org.getName().equals(orgsByid.get(i).getName())) {
 						map.put("checked", true);
 					};						
