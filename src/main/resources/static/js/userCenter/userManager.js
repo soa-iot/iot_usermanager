@@ -398,12 +398,13 @@ $(function() {
 										,
 										heightRemove : [".dHead", 10]// 不计算的高度,表格设定的是固定高度，此项不生效
 										,
-										height : '80%',
+										height : 845,
 										isFilter : false,
 										iconOpen : true// 是否显示图标【默认显示】
 										,
 										isOpenDefault : true// 节点默认是展开还是折叠【默认展开】
 										,
+										
 										loading : true,
 										method : 'get',
 										isPage : false,
@@ -413,18 +414,17 @@ $(function() {
 													type : 'radio'
 												}, {
 													field : 'name',
-													width : '50%',
+													width : '30%',
 													title : '人员组织名称',
 													edit : 'text'
 												}, {
 													field : 'usernum',
-													width : -1,
+													width : '30%',
 													title : 'id',
 													edit : 'text',
 													hide : true
 												}, {
 													field : 'parent_id',
-													width : -1,
 													title : 'pid',
 													hide : true
 												}]],
