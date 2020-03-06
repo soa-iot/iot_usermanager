@@ -1,66 +1,58 @@
-$(function(){
-	
+$(function() {
+
 	/**
 	 * 参数定义
 	 */
-	var table = layui.table,
-		layer = layui.layer,
-		getUsersUrl = "/iot_usermanager/user",
-		getUsersByNumUrl = "/iot_usermanager/user/users",
-		addUserUrl = "/iot_usermanager/user/users",
-		initOrganDataUrl = "/iot_usermanager/user/organ",
-		modifyUserParentUrl = "/iot_usermanager/user/organ",
-		modifyUserUrl = "/iot_usermanager/user/user",
-		deleteUserUrl = "/iot_usermanager/user";
-		
+	var table = layui.table, layer = layui.layer, getUsersUrl = "/iot_usermanager/user", getUsersByNumUrl = "/iot_usermanager/user/users", addUserUrl = "/iot_usermanager/user/users", initOrganDataUrl = "/iot_usermanager/user/organ", modifyUserParentUrl = "/iot_usermanager/user/organ", modifyUserUrl = "/iot_usermanager/user/user", deleteUserUrl = "/iot_usermanager/user";
 
 	/**
 	 * 页面初始化
 	 */
-	//表格初始化
-	ajax( 'get', getUsersUrl + "/users", {}, getUsersSF, false );
-	
+	// 表格初始化
+	ajax('get', getUsersUrl + "/users", {}, getUsersSF, false);
+
 	/*
 	 * 表格初始化请求成功回调函数
 	 */
-	function getUsersSF( data ){
-		console.log( '---------表格初始化请求成功回调函数----------' );
-//		console.log( data );
-		generateBTable( 'user_table', data );
+	function getUsersSF(data) {
+		console.log('---------表格初始化请求成功回调函数----------');
+		// console.log( data );
+		generateBTable('user_table', data);
 		hideElement();
 	}
 
 	/**
 	 * 事件绑定
 	 */
-	var active = { 
-		search: function(){
-			console.log( '---------搜索事件执行---------' );
+	var active = {
+		search : function() {
+			console.log('---------搜索事件执行---------');
 			var usernumValue = $('#search_value').val();
-			console.log( usernumValue );
-			if( !usernumValue ){
-				return ;
-			}else if( usernumValue == '-1'){
-				ajax( 'get', getUsersUrl + "/users", {}, getUsersSF, false );
-				return ;
-			} 
-			//查询
-			ajax( 'get', getUsersByNumUrl+"/"+usernumValue, {}, getUsersByNumSF, false );
+			console.log(usernumValue);
+			if (!usernumValue) {
+				return;
+			} else if (usernumValue == '-1') {
+				ajax('get', getUsersUrl + "/users", {}, getUsersSF, false);
+				return;
+			}
+			// 查询
+			ajax('get', getUsersByNumUrl + "/" + usernumValue, {},
+					getUsersByNumSF, false);
 			$('#userOrgan').hide();
-			
+
 		},
-		list: function(){
-			console.log( '---------展示全部用户---------' );
-			ajax( 'get', getUsersUrl + "/users", {}, getUsersSF, false );
+		list : function() {
+			console.log('---------展示全部用户---------');
+			ajax('get', getUsersUrl + "/users", {}, getUsersSF, false);
 			$('#userOrgan').hide();
 		},
-		add: function(){
-			console.log( '---------增加用户事件执行---------' );
+		add : function() {
+			console.log('---------增加用户事件执行---------');
 			layer.open({
-		        type: 1,
-		        title: '增加用户'
-		        ,area: ['400px','280px;']
-		        ,id: 'layerDemo'+ 1 //防止重复弹出
+		     	type : 1,
+		        title : '增加用户'
+		       	,area : ['400px','280px;']
+		       	,id : 'layerDemo'+ 1 //防止重复弹出
 		        ,content: $('#form_add_user')
 		        ,btn: ['提交', '取消']
 		        ,btnAlign: 'c' //按钮居中
