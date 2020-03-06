@@ -204,7 +204,7 @@ $(function() {
 		console.log(data);
 		layer.confirm('真的删除行么', function(index) {
 					// 后端删除
-					var url = deleteUserUrl + "/" + data.usernum, deleteData = {
+					var url = deleteUserUrl + "/" + data.orgid, deleteData = {
 						"orgid" : data.orgid,
 						"usernum" : data.usernum,
 						"name" : data.name

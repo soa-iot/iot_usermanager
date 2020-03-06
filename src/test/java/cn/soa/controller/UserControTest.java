@@ -39,12 +39,7 @@ public class UserControTest {
 	  * @Description:  根据usernum删除用户          
 	  * @return: void        
 	  */  
-	//@Test
-	public void deleteUserContro(){
-		String usernum = "134";
-		ResultJson<String> deleteUserContro = userController.deleteUserContro(usernum);
-		System.out.println(deleteUserContro);
-	}
+	
 	@Test
 	public void testGet() {
 		String userId = "liu";
