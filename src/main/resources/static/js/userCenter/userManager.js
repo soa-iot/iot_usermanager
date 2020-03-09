@@ -180,25 +180,27 @@ $(function() {
 		console.log( '--------删除按钮单击事件--------' );
 		console.log( obj );
 		var data = obj.data;
-		console.log( data );
-		layer.confirm( '真的删除行么', function(index){			   		
-    		//后端删除
-    		var url = deleteUserUrl + "/" + data.usernum,
-    			deleteData = {
-    				"orgid" : data.orgid,
-    				"usernum" : data.usernum,
-    				"name" : data.name
-    			};
-    		console.log( url );
-    		ajax( 'delete', url, deleteData, function( data ){
-    			console.log( '--------请求删除用户成功回调函数--------' );
-    			//刷新页面
-    			//查询
-    			ajax( 'get', getUsersUrl + "/users", {}, getUsersSF, false );	
-    			layer.msg('删除成功', {icon:1});
-    		} );
-    		layer.close(index);
-    	});		
+		console.log(data);
+		layer.confirm('真的删除行么', function(index) {
+					// 后端删除
+					var url = deleteUserUrl + "/" + data.orgid, deleteData = {
+						"orgid" : data.orgid,
+						"usernum" : data.usernum,
+						"name" : data.name
+					};
+					console.log(url);
+					ajax('delete', url, deleteData, function(data) {
+								console.log('--------请求删除用户成功回调函数--------');
+								// 刷新页面
+								// 查询
+								ajax('get', getUsersUrl + "/users", {},
+										getUsersSF, false);
+								layer.msg('删除成功', {
+											icon : 1
+										});
+							});
+					layer.close(index);
+				});
 	}
 
 	/*
