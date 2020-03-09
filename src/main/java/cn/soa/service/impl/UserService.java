@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.validation.constraints.NotBlank;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,14 +22,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
-import org.springframework.web.bind.annotation.PathVariable;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreType;
 
 import cn.soa.dao.IotUserModuleResourceMapper;
 import cn.soa.dao.UserInfoMapper;
 import cn.soa.dao.UserMapper;
-import cn.soa.entity.AuthInfo;
 import cn.soa.entity.IotUserModuleResource;
 import cn.soa.entity.UserInfo;
 import cn.soa.entity.UserOrganization;
@@ -70,8 +65,8 @@ public class UserService implements UserServiceInter{
 	 * @return: UserOrganization        
 	 */  
 	@Override
-	public UserOrganization getUsersByNum( String usernum ) {
-		UserOrganization u = null;
+	public List<UserOrganization> getUsersByNum( String usernum ) {
+		List<UserOrganization> u = null;
 		try {
 			u = userMapper.findUsersByNum(usernum);
 		} catch (Exception e) {
@@ -262,6 +257,7 @@ public class UserService implements UserServiceInter{
 	  */  
 	@Override
 	public String saveOrganServ(UserOrganization user) {
+		user.setState(1);
 		try {
 			int i = userMapper.saveOrganBackId(user);
 			//检查插入条数
@@ -403,6 +399,25 @@ public class UserService implements UserServiceInter{
 		}
 		return i;
 	}
+	
+	/**   
+	 * @Title: modifyUserStateById   
+	 * @Description: 根据用户id修改用户状态  
+	 * @return: int        
+	 */  
+	@Override
+	public int modifyUserStateById( String id) {
+		logger.debug("---S------根据id修改用户状态 ------");
+		int i ;
+		try {
+			i = userMapper.updateUserStateById(id);			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return -1;
+		}
+		
+		return i;
+	}
 
 	/**   
 	 * @Title: deleteUserInfoByNumServ   
@@ -439,6 +454,7 @@ public class UserService implements UserServiceInter{
 			 */
 			UserOrganization u = new UserOrganization();
 			u.setName(name);
+			u.setState(1);
 			u.setUsernum(usernum);
 			u.setUser_password(password);
 			u.setIs_parent(1);
@@ -499,6 +515,7 @@ public class UserService implements UserServiceInter{
 			UserOrganization u = new UserOrganization();
 			u.setUsernum(usernum);
 			u.setParent_id(parentId);
+			u.setState(1);
 			i = userMapper.modifyUserBynum(u);
 			return i;
 		} catch (Exception e) {
@@ -520,6 +537,7 @@ public class UserService implements UserServiceInter{
 			u.setOrgid(orgid);
 			u.setUsernum(usernum);
 			u.setName(name);
+			u.setState(1);
 			u.setUser_password(password);
 			i = userMapper.modifyUserById(u);
 		} catch (Exception e) {
