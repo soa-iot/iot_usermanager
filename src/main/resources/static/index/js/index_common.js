@@ -143,7 +143,7 @@ function load_table(data, height) {
 
 	var height = $('#todo_task').parent().height() * 0.95;
 
-	layui.use(['form', 'laypage', 'table', 'laydate', 'layer'], function() {
+	/*layui.use(['form', 'laypage', 'table', 'laydate', 'layer'], function() {
 				var table = layui.table;
 				var laydate = layui.laydate;
 				var layer = layui.layer;
@@ -188,7 +188,92 @@ function load_table(data, height) {
 									}]]
 						});
 
-			});
+			});*/
+	
+	layui.use(['layer', 'form', 'laydate', 'table', 'element'], function(){
+    	//加载layui内置模块
+		  var form = layui.form
+		  ,layer = layui.layer
+		  ,element = layui.element
+		  ,table = layui.table; //重点处,使用jQuery
+		  
+		  table.render({
+			    elem: '#pending'
+			    ,url: '/iot_inspection/temporarytask/show/list' //数据接口
+			    ,where:{
+			    	"executePerson": (getCookie("name")==null?null:getCookie("name").replace(/"/g,'')),
+			    	"taskState": "TODO",
+			    	"page": 1,
+			    	"limit": 5
+			    }
+			  ,parseData: function(res){ //res 即为原始返回的数据
+					var data = res.data;
+					
+					if(data != null){
+						if(data.list != null && data.list.length != 0){
+							for(var i=0;i<data.list.length;i++){
+								if(data.list[i].taskState === 'FINISHED'){
+									data.list[i].taskState = '已完成';
+								}else if(data.list[i].taskState === 'UNFINISHED'){
+									data.list[i].taskState = '未完成';
+								}else if(data.list[i].taskState === 'OVERFINISHED'){
+									data.list[i].taskState = '超期未完成';
+								}
+							}
+						}
+					}
+					
+					return {
+						"code": res.state,      //解析接口状态
+						"msg": res.message,        //解析提示文本
+						"count": data.count,   //解析数据长度
+						"data": data.list      //解析数据列表
+					};
+			    }
+		  		,skin:'line'
+			    ,cols: [[ //表头
+					{type:'numbers', title: '序号', align:'center', width:'8%'}
+					,{field: 'taskID', title: '任务ID',align:'center', hide:true}
+			      ,{field: 'taskName', title: '任务名称',align:'center',width:'22%'}
+			      ,{field: 'createPerson', title: '下达人', align:'center', width:'15%'}
+			      ,{field: 'requireFinishTime', title: '要求完成日期', align:'center', width:'20%'}
+			      ,{field: 'taskState', title: '是否超期', align:'center', width:'18%'}
+			      ,{fixed: 'right',title: '操作', width: '17%', align:'center', toolbar: '#barDemo'}
+			    ]]
+		  });
+		  
+		 //监听行工具事件
+		  table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+		    var data = obj.data //获得当前行数据
+		    ,layEvent = obj.event; //获得 lay-event 对应的值
+		    if(layEvent === 'edit'){
+		    	//根据属地判断跳转页面
+		    	var tab = window.parent.document.getElementById("layui-tab-title");
+		    	var content = window.parent.document.getElementById("layui-tab-content");
+		    	var href="/iot_inspection/html/temporary_task/temporary_task_handle.html?taskID="+data.taskID+"&executePerson="+(getCookie("name")==null?null:getCookie("name").replace(/"/g,''));
+		    	var title = '<li class="layui-icon" lay-id="'+data.taskID+'">临时任务</li>';
+		    	var iframe = '<div class="layui-tab-item" style="background: #f5f5f5;"> <iframe src="'+href+'" width="100%" height="100%" name="iframe"'+
+					'scrolling="auto" class="iframe" framborder="0"></iframe></div>';
+				$(content).append(iframe);
+				$(tab).append(title);
+				window.parent.postMessage(data.taskID, window.parent.origin);
+		    }
+		  }); 
+		  
+	    //更多任务
+        $("#taskList").click(function(){
+        	var tab = window.parent.document.getElementById("layui-tab-title");
+	    	var content = window.parent.document.getElementById("layui-tab-content");
+	    	var href="/iot_inspection/html/temporary_task/temporary_task_todo.html?executePerson="+(getCookie("name")==null?null:getCookie("name").replace(/"/g,''));
+	    	var title = '<li class="layui-icon" lay-id="task-list">代办任务列表</li>';
+	    	var iframe = '<div class="layui-tab-item" style="background: #f5f5f5;"> <iframe src="'+href+'" width="100%" height="100%" name="iframe"'+
+				'scrolling="auto" class="iframe" framborder="0"></iframe></div>';
+			$(tab).append(title);
+			$(content).append(iframe);
+			window.parent.postMessage("task-list", window.parent.origin);
+        })	
+  })
+	
 }
 
 /**
@@ -220,3 +305,17 @@ function load_notice(notice_list) {
 	$('#notice').html(html);
 
 }
+
+/**
+ * 获得cookie 的值
+ */
+function getCookie( name ){    
+   var cookieArray=document.cookie.split( "; " ); 
+   for ( var i=0; i<cookieArray.length; i++ ){    
+      var arr = cookieArray[i].split( "=" );       //将名和值分开    
+      if( arr[0] == name ) return decodeURI( arr[1] ); //如果是指定的cookie，则返回它的值    
+   } 
+   return ""; 
+
+} 
+//return decodeURI( arr[1] );

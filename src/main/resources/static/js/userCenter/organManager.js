@@ -163,11 +163,11 @@ layui.config({
             {type:'numbers'}
             ,{type:'radio'}
             ,{type:'checkbox'}
-            ,{field:'name', width:300, title: '人员组织名称',edit:'text'}
-            ,{field:'usernum',width:180, title: 'id',edit:'text'}
-            ,{field:'parent_id',width:150, title: 'pid'}
-            ,{field:'remark1',width:100, title: '状态',templet: '#userState'}
-            ,{width:300,title: '操作', align:'center'/*toolbar: '#barDemo'*/
+            ,{field:'name', minWidth:300, title: '人员组织名称',edit:'text'}
+            ,{field:'usernum',minWidth:180, title: 'id',edit:'text'}
+            ,{field:'parent_id',minWidth:150, title: 'pid'}
+            ,{field:'remark1',minWidth:100, title: '状态',templet: '#userState'}
+            ,{minWidth:300,title: '操作', align:'center'/*toolbar: '#barDemo'*/
                 ,templet: function(d){
                     var html='';
                     var addBtn='<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="add">添加</a>';

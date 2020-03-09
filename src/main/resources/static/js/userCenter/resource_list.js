@@ -1,3 +1,4 @@
+var add_layer;
 layui.config({
 			base : '/iot_usermanager/jsPackage/web/design/module/'
 		}).extend({
@@ -13,6 +14,10 @@ layui.config({
 	layer.load(2);
 	loadTable();
 
+	$("#menuIcon").blur(function() {
+		$("#preview_icon").html('<i class="' + $("#menuIcon").val() + '"></i>');
+	});
+
 	/**
 	 * 加载表格
 	 */
@@ -21,6 +26,7 @@ layui.config({
 					treeColIndex : 1,
 					treeSpid : -1,
 					treeIdName : 'modId',
+					toolbar : '#toolbar',
 					treePidName : 'parentId',
 					elem : '#resource_table',
 					url : '/iot_usermanager/resource/getAllResourceInfo',
@@ -34,6 +40,15 @@ layui.config({
 								minWidth : 200,
 								title : '资源名称'
 							}, {
+								field : 'menuIcon',
+								width : 60,
+								title : '图标',
+								templet : function(obj) {
+									return '<i style="font-size:18px;" class = "'
+											+ obj.menuIcon + '"></i>';
+
+								}
+							}, {
 								field : 'url',
 								title : '资源URL'
 							}, {
@@ -45,13 +60,10 @@ layui.config({
 							}, {
 								field : 'lastModifyTime',
 								title : '最后修改时间'
-							}, /*{
-								field:'',
-								title:'图标',
-								templ:function(d){
-									return '<i class = "layui-icon '+d.icon+'"><i>';
-								}
-							}, */{
+							}, /*
+								 * { field:'', title:'图标', templ:function(d){
+								 * return '<i class = "layui-icon '+d.icon+'"><i>'; } },
+								 */{
 								title : '操作',
 								fixed : 'right',
 								width : 118,
@@ -66,13 +78,6 @@ layui.config({
 				});
 
 	}
-	$('#btn-expand').click(function() {
-				treetable.expandAll('#resource_table');
-			});
-
-	$('#btn-fold').click(function() {
-				treetable.foldAll('#resource_table');
-			});
 
 	$('#btn-search').click(function() {
 		var keyword = $('#edt-search').val();
@@ -106,65 +111,84 @@ layui.config({
 		}
 	});
 
+	// 头工具栏事件
+	table.on('toolbar(resource_table)', function(obj) {
+		var checkStatus = table.checkStatus(obj.config.id);
+		console.log(">>>>>>>>>..");
+		switch (obj.event) {
+			case 'add' :
+				/**
+				 * 清除数据
+				 */
+
+				$("#parent_resource option").remove();
+				$("#resource_name").val(null);
+				$("#resource_url").val(null);
+				$("#resource_sort").val(null);
+				$("#resource_desc").val(null);
+				$("#btn_update").css("display", "none");
+				$("#btn_commit").css("display", "inline");
+				$("#menuIcon").val("fa fa-home");
+				$("#preview_icon").html('<i class="fa fa-home"></i>');
+
+				add_layer = layer.open({
+							title : '资源新增',
+							area : ['30%', '70%'], // 宽高
+							type : 1,
+							content : $('#resource_add'),
+							success : function(layero) {
+								var mask = $(".layui-layer-shade");
+								mask.appendTo(layero.parent());
+								// 其中：layero是弹层的DOM对象
+							},
+							end : function() {
+								hideElement();
+							}
+						});
+				$.ajax({
+					url : '/iot_usermanager/resource/getParentResource',
+					dataType : 'json',
+					success : function(data) {
+						// console.log(data);
+						var parent_resources = data.data;
+
+						var html = '<option value=""></option><option value="-1">无</option>';
+						parent_resources.forEach(function(currentValue, index,
+										arr) {
+									html += '<option value = "'
+											+ currentValue.MODID + '">'
+											+ currentValue.NAME + '</option>'
+
+								});
+						$("#parent_resource").append(html);
+						console.log(html);
+						form.render('select');
+					},
+					error : function() {
+
+					}
+				});
+				break;
+			case 'expand_all' :
+				treetable.expandAll('#resource_table');
+				break;
+			case 'fold_all' :
+				treetable.foldAll('#resource_table');
+				break;
+
+			// 自定义头工具栏右侧图标 - 提示
+			case 'LAYTABLE_TIPS' :
+				layer.alert('这是工具栏右侧自定义的一个图标按钮');
+				break;
+		};
+	});
+
 	/*
 	 * 隐藏弹出框
 	 */
 	function hideElement() {
 		$('#resource_add').hide();
 	}
-
-	// 监听“新增”按钮点击事件
-	var add_layer;
-	$('#btn-add').click(function() {
-		/**
-		 * 清除数据
-		 */
-
-		$("#parent_resource option").remove();
-		$("#resource_name").val(null);
-		$("#resource_url").val(null);
-		$("#resource_sort").val(null);
-		$("#resource_desc").val(null);
-		$("#btn_update").css("display", "none");
-		$("#btn_commit").css("display", "inline");
-
-		add_layer = layer.open({
-					title : '资源新增',
-					area : ['30%', '70%'], // 宽高
-					type : 1,
-					content : $('#resource_add'),
-					success : function(layero) {
-						var mask = $(".layui-layer-shade");
-						mask.appendTo(layero.parent());
-						// 其中：layero是弹层的DOM对象
-					},
-					end : function() {
-						hideElement();
-					}
-				});
-		$.ajax({
-			url : '/iot_usermanager/resource/getParentResource',
-			dataType : 'json',
-			success : function(data) {
-				// console.log(data);
-				var parent_resources = data.data;
-
-				var html = '<option value=""></option><option value="-1">无</option>';
-				parent_resources.forEach(function(currentValue, index, arr) {
-							html += '<option value = "' + currentValue.MODID
-									+ '">' + currentValue.NAME + '</option>'
-
-						});
-				$("#parent_resource").append(html);
-				console.log(html);
-				form.render('select');
-			},
-			error : function() {
-
-			}
-		});
-
-	});
 
 	// 监听更新数据按钮点击事件
 	form.on('submit(btn_update)', function(data) {
@@ -176,6 +200,7 @@ layui.config({
 				var resource_desc = $("#resource_desc").val();// 资源描述
 				var mod_id = $("#mod_id").val();
 				var resource_sort = $("#resource_sort").val();// 排序字段
+				var menuIcon = $("#menuIcon").val();
 
 				var fdata = {
 					name : resource_name,
@@ -184,7 +209,9 @@ layui.config({
 					url : resource_url,
 					describe : resource_desc,
 					modId : mod_id,
-					remark1 : resource_sort
+					remark1 : resource_sort,
+					menuIcon : menuIcon
+
 				};
 
 				layer.close(add_layer);
@@ -218,6 +245,7 @@ layui.config({
 				var resource_url = $("#resource_url").val();// 资源url
 				var resource_desc = $("#resource_desc").val();// 资源描述
 				var resource_sort = $("#resource_sort").val();// 排序字段
+				var menuIcon = $("#menuIcon").val();// 图标
 
 				var fdata = {
 					name : resource_name,
@@ -225,7 +253,8 @@ layui.config({
 					isParent : is_parent,
 					url : resource_url,
 					describe : resource_desc,
-					remark1 : resource_sort
+					remark1 : resource_sort,
+					menuIcon : menuIcon
 				};
 
 				layer.close(add_layer);
@@ -317,6 +346,9 @@ layui.config({
 			$("#resource_url").val(obj.data.url);
 			$("#resource_desc").val(obj.data.describe);
 			$("#resource_sort").val(obj.data.remark1);
+			$("#menuIcon").val(obj.data.menuIcon);
+			$("#preview_icon")
+					.html('<i class="' + obj.data.menuIcon + '"></i>');
 
 			add_layer = layer.open({
 						title : '资源编辑',
