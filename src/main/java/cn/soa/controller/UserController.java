@@ -14,6 +14,7 @@ package cn.soa.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -43,6 +44,7 @@ import cn.soa.entity.UserTest;
 import cn.soa.entity.headResult.ResultJson;
 import cn.soa.entity.headResult.UserTableJson;
 import cn.soa.service.inter.EstimatedProcessServiceInter;
+import cn.soa.service.inter.ModifyUserStateInter;
 import cn.soa.service.inter.RoleServiceInter;
 import cn.soa.service.inter.UserServiceInter;
 import cn.soa.util.GlobalUtil;
@@ -67,6 +69,9 @@ public class UserController {
 	
 	@Autowired
 	private EstimatedProcessServiceInter estimatedProcessServiceInter;
+	
+	@Autowired
+	private ModifyUserStateInter modifyUserState;
 	
 	/**   
 	 * @Title: getUserByNum   
@@ -336,19 +341,24 @@ public class UserController {
 	  * @Description: 根据usernum删除用户        
 	  * @return: ResultJson<String>        
 	  */  
-	@DeleteMapping("/{usernum}")
-	public ResultJson<String> deleteUserContro(@PathVariable("usernum") @NotBlank String usernum) {
-		logger.debug("-----C------- 删除用户   ---- usernum： " + usernum);
-		int i = userService.deleteUserByNum(usernum);
-		if( i < 0 ) {
-			logger.debug("C---- 删除用户 失败返回值 ---i---" + i);
-			return new ResultJson<String>(1, "未知错误，删除失败", i + "" );
-		}else if( i == 0) {
-			logger.debug("C---- 删除用户失败返回值 ---i---" + i);
-			return new ResultJson<String>(1, "删除用户失败 ，删除数据为0", i + "" );
-		}else {
-			logger.debug("C---- 删除用户成功返回值 ---i---" + i);
-			return new ResultJson<String>(0, "删除用户成功", i + "" );
+	@DeleteMapping("/{id}")
+	public ResultJson<String> deleteUserContro(@PathVariable("id") @NotBlank String id
+			,@RequestParam("name") String name) {
+		logger.info("-----C------- 删除用户   ---- id： " + id);
+		logger.info("-----C------- 删除用户   ---- name： " + name);
+		UserOrganization user = new UserOrganization();
+		user.setOrgid(id);
+		user.setName(name);
+		user.setRemark2(UUID.randomUUID().toString());//事务号
+		try {
+			boolean b = modifyUserState.sendUserToMQ(user);
+			if(b) {
+				return new ResultJson<String>(0, "删除用户成功", "删除用户成功" );
+			}
+			return new ResultJson<String>(1, "删除用户失败 ", "" );
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResultJson<String>(1, "删除用户失败 ", "" );
 		}
 	}
 	

@@ -44,6 +44,7 @@ public class UserOrganization implements Serializable{
 	 */  
 	private static final long serialVersionUID = 1L;
 	
+	//主键
 	private String orgid;
 	
 	@NotBlank(message="用户名不能为空")
@@ -57,9 +58,13 @@ public class UserOrganization implements Serializable{
 	@NotBlank(message="用户密码不能为空")
 	private String user_password;
 	private Integer is_parent; 
+	
+	//用户状态(1-在职；2-离职；)
 	private Integer state;
 	private String note;
 	private Integer remark1;
+	
+	//分布式事务id
 	private String remark2;
 	
 	public UserOrganization(String name, String parent_id, String usernum, String user_password, 

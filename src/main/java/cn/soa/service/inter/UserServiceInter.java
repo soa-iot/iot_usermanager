@@ -195,7 +195,10 @@ public interface UserServiceInter {
 	UserOrganization findUserSecondParentByName(String usernum);
 
 
-	UserOrganization findUserThirdParentByName(String usernum);		
+	UserOrganization findUserThirdParentByName(String usernum);
+
+
+	int modifyUserStateById(String id);		
 
 
 }

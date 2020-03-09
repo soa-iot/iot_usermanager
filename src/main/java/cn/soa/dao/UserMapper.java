@@ -188,4 +188,28 @@ public interface UserMapper {
 	 */  
 	public int modifyUserById( @Param("userOrgan") UserOrganization userOrgan );
 
+
+	/**   
+	 * @Title: updateUserStateById   
+	 * @Description:  根据用户id修改用户状态   
+	 * @return: int        
+	 */  
+	public int updateUserStateById(String id);
+
+
+	/**   
+	 * @Title: updateUserStateById   
+	 * @Description:  根据用户id修改用户状态 和事务号 
+	 * @return: void        
+	 */  
+	public void updateStateAndRemark2ById(@Param("orgid")String orgid, @Param("number")String number);
+
+
+	/**   
+	 * @Title: findRemark2ById   
+	 * @Description:   根据用户id查找事务号
+	 * @return: String        
+	 */  
+	public String findRemark2ById(String orgid);
+
 }

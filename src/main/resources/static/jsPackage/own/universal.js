@@ -74,6 +74,32 @@ var getFullLastMonthDate = function(seperator){
 			nowDate.getMonth() + seperator + nowDate.getDate();
 }
 
+/**
+ * 获取当前日期，标准的格式（YYYY-MM-DD）
+ */
+var getFullNowDate1 = function getNowDate(){
+	var nowDate = new Date()
+	,month = (nowDate.getMonth() + 1) > 9 ? nowDate.getMonth() : "0" + (nowDate.getMonth())
+	,now = (nowDate.getDate()) > 9 ? nowDate.getDate() : "0" + (nowDate.getDate());
+	return  nowDate.getFullYear() + "-" + 
+			month + "-" + now;
+}
+
+
+/**
+ * 判断当前月份有无31号(传入日期间隔符为-)
+ * 有返回对应的下标，没有返回-1
+ */
+var judgeMonthHas31 = function( currDate ){
+	var base = new Array("1","3","5","7","8","10","12")
+	,month = currDate.split("-")[1];
+	$.trim(month);
+	return $.inArray(month, base);
+}
+
+
+
+
 /*-----------------------------------
       url相关方法
 -----------------------------------*/
@@ -976,3 +1002,44 @@ function formToJson( data ) {
         if (r != null) return unescape(r[2]); return null;
     }
 })(jQuery);
+
+
+
+
+
+/*-----------------------------------
+           
+-----------------------------------*/
+/**
+ * 前端打印方法
+ */
+var p = function( info ){
+	console.log( info );
+}
+
+
+
+/*-----------------------------------
+                              前端生成Excel
+-----------------------------------*/
+/**
+* 前端导出报表
+*/
+function exportExcel( htmlId, name, buttonId ){
+console.log('导出报表按钮……');
+// 使用outerHTML属性获取整个table元素的HTML代码（包括<table>标签），然后包装成一个完整的HTML文档，
+// 设置charset为urf-8以防止中文乱码
+var html = "<html><head><meta charset='utf-8' /></head><body>" 
++ $( "#" + htmlId ).html() + "</body></html>";
+// 实例化一个Blob对象，其构造函数的第一个参数是包含文件内容的数组，第二个参数是包含文件类型属性的对象
+var blob = new Blob( [html], { type: "application/vnd.ms-excel" });
+$( 'body' ).append('<a id="aExport" style="display:none"></a>');
+var a = $( '#aExport' )[0];
+// 利用URL.createObjectURL()方法为a元素生成blob URL
+a.href = URL.createObjectURL(blob);
+// 设置文件名
+a.download = name + ".xls";
+document.getElementById(buttonId).click();
+//$( '#aExport' ).click();
+return false;
+}
