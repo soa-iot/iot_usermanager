@@ -188,8 +188,9 @@ $(function() {
 						"usernum" : data.usernum,
 						"name" : data.name
 					};
+					url = url+"?orgid="+$.trim(data.orgid)+"&name="+$.trim(data.name);
 					console.log(url);
-					ajax('delete', url, deleteData, function(data) {
+					ajax('delete', url, {}, function(data) {
 								console.log('--------请求删除用户成功回调函数--------');
 								// 刷新页面
 								// 查询
