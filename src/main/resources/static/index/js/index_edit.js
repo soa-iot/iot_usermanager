@@ -52,7 +52,7 @@ layui.use(['layer', 'jquery', 'table', 'form'], function() {
 										layer.close(sava_info);
 										layer.msg('保存成功');
 										/* load_index_page(true); */
-										window.location.reload();
+										//window.location.reload();
 									},
 									error : function() {
 									}

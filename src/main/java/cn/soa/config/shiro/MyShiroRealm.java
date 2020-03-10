@@ -67,7 +67,7 @@ public class MyShiroRealm extends AuthorizingRealm {
          */
         if ( user != null ) {
             // 用户为禁用状态
-            if (user.getState() != 0) {
+            if (user.getState() != 1) {
                 throw new DisabledAccountException();        
             }
             logger.debug("---------------- Shiro 凭证认证成功 ----------------------");
