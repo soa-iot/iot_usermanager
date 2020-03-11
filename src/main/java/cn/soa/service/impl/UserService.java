@@ -69,6 +69,7 @@ public class UserService implements UserServiceInter{
 		List<UserOrganization> u = null;
 		try {
 			u = userMapper.findUsersByNum(usernum);
+			logger.debug("---S---------查询所有用户非组织信息报错--------users" + u.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

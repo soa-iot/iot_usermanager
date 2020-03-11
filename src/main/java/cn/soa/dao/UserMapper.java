@@ -61,7 +61,7 @@ public interface UserMapper {
 	 * @Description:  根据用户唯一标识查询用户 
 	 * @return: UserOrganization        
 	 */  
-	public List<UserOrganization> findUsersByNum( String userNum );
+	public List<UserOrganization> findUsersByNum(@Param("userNum") String userNum );
 	
 	 /**   
 	  * @Title: findUserAll   
