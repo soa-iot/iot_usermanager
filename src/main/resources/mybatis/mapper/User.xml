@@ -31,7 +31,7 @@
 	<!-- 1.5、根据用户唯一标识查询用户 -->
 	<select id="findUsersByNum" parameterType="string" resultType="cn.soa.entity.UserOrganization">
 		select * from iot_user_organization
-		where usernum like concat(concat('%',#{userNum}),'%') and IS_PARENT = 1 and state = 1
+		where IS_PARENT = 1 and state = 1 and usernum like '%' || #{userNum} || '%'
 	</select>	
 	
 	<!-- 1.6、根据用户唯一标识查询用户上一级父组织 	-->
