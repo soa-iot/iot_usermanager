@@ -129,7 +129,7 @@ $(function() {
 		}
 	}
 
-	$('.demoTable .layui-btn').on('click', function() {
+	$('.layui-btn').on('click', function() {
 				var type = $(this).attr('id');
 				active[type] ? active[type].call(this) : '';
 			});
