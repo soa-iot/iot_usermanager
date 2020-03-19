@@ -3,8 +3,66 @@
 <head>
 <meta charset="UTF-8">
 <title>角色个性化首页</title>
+<link rel="stylesheet" type="text/css"
+	href="/iot_usermanager/index/layui/css/layui.css" />
+<style type="text/css">
+.layui-container {
+	width: 96%;
+}
+
+/* .layui-row {
+            margin-top: 20px;
+        } */
+.layui-form-item {
+	margin-bottom: 5px;
+}
+
+#key_word_search .layui-inline {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.layui-form-label {
+	width: 60px;
+}
+</style>
 </head>
 <body>
-
+	<div class="layui-container">
+		<div class="layui-row">
+			<div style="vertical-align: middle;">
+				<form class="layui-form" action=""
+					style="margin-top: 15px; background-color: #F2F2F2;">
+					<div class="layui-form-item" id="key_word_search">
+						<div class="layui-inline">
+							<label class="layui-form-label">角色名称</label>
+							<div class="layui-input-inline">
+								<input type="text" name="roleName" id="roleName"
+									placeholder="请输入角色名称" autocomplete="off" class="layui-input">
+							</div>
+						</div>
+						<div class="layui-inline" style="float: right;">
+							<button class="layui-btn" lay-submit id="search_button_search"
+								lay-filter="search_button_search">
+								<i class="layui-icon">&#xe615;</i>查询数据
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="layui-row" style="margin-top: 0px;">
+			<table id="personalized_index_table"
+				lay-filter="personalized_index_table"></table>
+		</div>
+	</div>
 </body>
+<script type="text/html" id="toolbar">
+    <button class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon">&#xe654;</i>新增</button>
+    <button class="layui-btn layui-btn-sm" lay-event="edit"><i class="layui-icon">&#xe642;</i>编辑</button>
+    <button class="layui-btn layui-btn-sm" lay-event="del"><i class="layui-icon">&#xe640;</i>删除</button>
+</script>
+<script src="/iot_usermanager/index/layui/layui.js"></script>
+<script src="/iot_usermanager/index/js/jquery-2.1.1.min.js"></script>
+<script src="/iot_usermanager/index/js/personalized_index.js"></script>
 </html>

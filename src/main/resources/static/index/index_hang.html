@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8" />
+<title>遂宁龙王庙天然气净化厂物联网平台-主页面</title>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/font-awesome.css" />
+<link rel="stylesheet" href="dist/gridstack.css" />
+<link rel="stylesheet" type="text/css" href="css/default.css">
+<link rel="stylesheet" type="text/css"
+	href="css/easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="css/easyui/themes/icon.css">
+<link rel="stylesheet" type="text/css" href="layui/css/layui.css" />
+<style type="text/css">
+.grid-stack-item-content::-webkit-scrollbar {
+	/*滚动条整体样式*/
+	width: 2px;
+	/*高宽分别对应横竖滚动条的尺寸*/
+	height: 1px;
+}
+
+.grid-stack-item-content::-webkit-scrollbar-thumb {
+	/*滚动条里面小方块*/
+	border-radius: 1px;
+	-webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+	background: #535353;
+}
+
+.grid-stack-item-content::-webkit-scrollbar-track {
+	/*滚动条里面轨道*/
+	-webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+	border-radius: 5x;
+	background: #EDEDED;
+}
+
+.align-ch>p {
+	font-size: 1vw;
+	color: white;
+}
+
+.align-ch>i {
+	font-size: 2em;
+	color: white;
+}
+
+body {
+	background: #E8E8EA;
+	padding-top: 20px;
+}
+
+.grid-stack-item-content {
+	color: #2c3e50;
+	text-align: center;
+	/* background-color: #18bc9c; */
+}
+
+.layui-row {
+	height: 100%;
+}
+
+.block-title {
+	background-color: #F6F6F6;
+	width: 100%;
+	height: 15%;
+}
+
+.block-content {
+	background-color: #FFFFFF;
+	width: 100%;
+	height: 85%;
+}
+
+.block-title-content {
+	height: 100%;
+}
+
+.block-title-link {
+	height: 100%;
+}
+
+.height-full {
+	height: 100%;
+}
+
+.height-half {
+	height: 50%;
+}
+
+.layui-col-xs4 { -
+	-border: #000000 1px solid;
+}
+
+.layui-table, .layui-table-view {
+	margin: 0 0;
+}
+
+.layui-table tbody tr:hover, .layui-table thead tr, .layui-table-click,
+	.layui-table-header, .layui-table-hover, .layui-table-mend,
+	.layui-table-patch, .layui-table-tool, .layui-table-total,
+	.layui-table-total tr, .layui-table[lay-even] tr:nth-child(even) {
+	background-color: white;
+}
+
+.quick-navigation-title {
+	background-color: #FFFFFF;
+}
+
+.quick-navigation-items {
+	background-color: #FFFFFF;
+}
+
+.align-fa {
+	display: flex;
+}
+
+.align-ch {
+	margin: auto;
+}
+
+.block-title-word {
+	margin-left: 30px;
+	font-weight: bolder;
+}
+
+.block-title-more {
+	margin-right: 5%;
+}
+
+.data>p {
+	font-size: 4vh;
+	font-weight: bolder;
+}
+
+.abnormal:last-child {
+	color: #f27201;
+}
+
+.alarm:last-child {
+	color: #eb0202;
+}
+
+.danger:last-child {
+	color: #22b804;
+}
+
+.completion:last-child {
+	color: #fff;
+}
+
+.need:last-child {
+	color: white;
+}
+
+.problem_rate:last-child {
+	color: white;
+}
+
+.data-block {
+	background-color: #FFFFFF;
+}
+
+.quick-navigation-title i, .quick-navigation-title p {
+	color: #2EA9BB;
+}
+
+.quick-navigation-items i, .quick-navigation-items p {
+	color: #7CB4CB;
+}
+
+.layui-col-space20>*{
+	padding: 0px 10px;
+}
+</style>
+<style type="text/css">
+#copyrightcontent {
+	height: 30px;
+	line-height: 29px;
+	overflow: hidden;
+	position: absolute;
+	top: 100%;
+	margin-top: -30px;
+	width: 100%;
+	background-color: #fff;
+	border: 1px solid #e6e6e6;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.dashboard-stats {
+	height: 100%;
+}
+.dashboard-stats-item {
+	position: relative;
+	overflow: hidden;
+	color: #fff;
+	cursor: pointer;
+	height: 100%;
+	padding: 10px 10px;
+}
+
+.dashboard-stats-item .m-top-none {
+	margin-top: 5px;
+}
+
+.dashboard-stats-item h2 {
+	font-size: 28px;
+	font-family: inherit;
+	line-height: 1.1;
+	font-weight: 500;
+	padding-left: 70px;
+}
+
+.dashboard-stats-item h2 span {
+	font-size: 12px;
+	padding-left: 5px;
+}
+
+.dashboard-stats-item h5 {
+	font-size: 12px;
+	font-family: inherit;
+	margin-top: 1px;
+	line-height: 1.1;
+	padding-left: 70px;
+}
+
+.dashboard-stats-item .stat-icon {
+	position: absolute;
+	top: 10px;
+	left: 20px;
+	font-size: 50px;
+	opacity: .3;
+}
+
+.dashboard-stats i.fa.stats-icon {
+	width: 50px;
+	padding: 20px;
+	font-size: 50px;
+	text-align: center;
+	color: #fff;
+	height: 50px;
+	border-radius: 10px;
+}
+
+.panel-default {
+	border: none;
+	border-radius: 0px;
+	margin-bottom: 0px;
+	box-shadow: none;
+	-webkit-box-shadow: none;
+}
+
+.panel-default>.panel-heading {
+	color: #777;
+	background-color: #fff;
+	border-color: #e6e6e6;
+	padding: 10px 10px;
+}
+
+.panel-default>.panel-body {
+	padding: 10px;
+	padding-bottom: 0px;
+}
+
+.panel-default>.panel-body ul {
+	overflow: hidden;
+	padding: 0;
+	margin: 0px;
+	margin-top: -5px;
+}
+
+.panel-default>.panel-body ul li {
+	line-height: 27px;
+	list-style-type: none;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.panel-default>.panel-body ul li .time {
+	color: #a1a1a1;
+	float: right;
+	padding-right: 5px;
+}
+
+.layui-table, .layui-table-view {
+	margin: 0px 0px;
+}
+</style>
+<script src="layui/layui.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+	<div class="grid-stack" data-gs-animate="turns animation on"
+		id="grid-stack">
+		<div class="grid-stack-item" data-gs-x="0" data-gs-y="0"
+			data-gs-width="2" data-gs-height="1">
+			<div class="grid-stack-item-content">
+				<div class="dashboard-stats">
+					<div class="dashboard-stats-item" style="background-color: #578ebe;">
+						<div class="stat-icon">
+							<i class="fa fa-clock-o"></i>
+						</div>
+						<h2 class="m-top-none">
+							17<span>个</span>
+						</h2>
+						<h5>待办未处理</h5>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="grid-stack-item" data-gs-x="2" data-gs-y="0"
+			data-gs-width="2" data-gs-height="1">
+			<div class="grid-stack-item-content">
+				<div class="dashboard-stats">
+					<div class="dashboard-stats-item" style="background-color: #e35b5a;">
+						<h2 class="m-top-none">
+							12<span>条</span>
+						</h2>
+						<h5>消息未读取</h5>
+						<div class="stat-icon">
+							<i class="fa fa-bell"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="grid-stack-item" data-gs-x="4" data-gs-y="0"
+			data-gs-width="2" data-gs-height="1">
+			<div class="grid-stack-item-content">
+				<div class="dashboard-stats">
+					<div class="dashboard-stats-item" style="background-color: #44b6ae;">
+						<h2 class="m-top-none">
+							17<span>个</span>
+						</h2>
+						<h5>巡检未完成</h5>
+						<div class="stat-icon">
+							<i class="fa fa-calendar-times-o"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="grid-stack-item" data-gs-x="0" data-gs-y="1"
+			data-gs-width="2" data-gs-height="1">
+			<div class="grid-stack-item-content">
+				<div class="dashboard-stats">
+					<div class="dashboard-stats-item" style="background-color: #f29503;">
+						<h2 class="m-top-none">
+							20<span>个</span>
+						</h2>
+						<h5>设备故障</h5>
+						<div class="stat-icon">
+							<i class="fa fa-exclamation-triangle"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="grid-stack-item" data-gs-x="2" data-gs-y="1"
+			data-gs-width="2" data-gs-height="1">
+			<div class="grid-stack-item-content">
+				<div class="dashboard-stats">
+					<div class="dashboard-stats-item" style="background-color: #14aae4; margin-bottom: 0px;">
+						<h2 class="m-top-none">
+							50<span>个</span>
+						</h2>
+						<h5>设备停用</h5>
+						<div class="stat-icon">
+							<i class="fa fa-times-circle-o"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="grid-stack-item" data-gs-x="4" data-gs-y="1"
+			data-gs-width="2" data-gs-height="1">
+			<div class="grid-stack-item-content">
+				<div class="dashboard-stats">
+					<div class="dashboard-stats-item" style="background-color: #949FB1; margin-bottom: 0px;">
+						<h2 class="m-top-none">
+							200<span>个</span>
+						</h2>
+						<h5>设备报废</h5>
+						<div class="stat-icon">
+							<i class="fa fa-trash"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 快捷导航 -->
+		<div class="grid-stack-item" data-gs-x="6" data-gs-y="0"
+			data-gs-width="3" data-gs-height="2">
+			<div class="grid-stack-item-content">
+				<div class="layui-row" style="height: 100%;margin: 0px 0px;">	
+					<div class="layui-col-xs12 layui-col-sm12 layui-col-md12 height-full">
+						<div class="layui-row block-title">
+							<div
+								class="layui-col-xs8 layui-col-sm8 layui-col-md8 block-title-content align-fa">
+								<i class="fa fa-pie-chart fa-lg" style="padding: 5px 5px;"></i>设备完好率
+							</div>
+						</div>
+						<div class="quick-navigation-title align-fa" style="height: 85%;">
+							<div class="align-ch" style="width: 100%;margin: 0px 0px;">
+								<div style="height: 135px; width: 100%;" id="equipment-rate"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="grid-stack-item" data-gs-x="9" data-gs-y="0"
+			data-gs-width="3" data-gs-height="2">
+			<div class="grid-stack-item-content">
+				<div class="layui-row" style="height: 100%;margin: 0px 0px;">	
+					<div class="layui-col-xs11 layui-col-sm11 layui-col-md12 height-full">
+						<div class="layui-row block-title">
+							<div
+								class="layui-col-xs8 layui-col-sm8 layui-col-md8 block-title-content align-fa">
+								<i class="fa fa-pie-chart fa-lg" style="padding: 5px 5px;"></i>设备数量统计(按状态）
+							</div>
+						</div>
+						<div class="quick-navigation-title align-fa" style="height: 85%;">
+							<div class="align-ch" style="width: 100%;margin-top: 0px;">
+								<div style="height: 135px; width: 100%;" id="equipment-count"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="grid-stack-item" data-gs-x="0" data-gs-y="2"
+			data-gs-width="6" data-gs-height="3">
+			<div class="grid-stack-item-content">
+				<div class="layui-row">
+					<div class="layui-row block-title">
+						<div
+							class="layui-col-xs8 layui-col-sm8 layui-col-md8 block-title-content align-fa">
+							<p class="align-ch block-title-word">待办任务</p>
+						</div>
+						<div
+							class="layui-col-xs4 layui-col-sm4 layui-col-md4 block-title-link more align-fa">
+							<a class="align-ch block-title-more"
+								href="http://192.168.18.22:10239/BPMOperationCenter/?UIID=Gtask"
+								title="更多待办任务">更多>></a>
+						</div>
+					</div>
+					<div class="layui-row block-content">
+						<table class="layui-table" style="width: 100%;margin-top: 0px;" lay-filter="process" id="pendingProcess"></table>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="grid-stack-item" data-gs-x="6" data-gs-y="2"
+			data-gs-width="6" data-gs-height="3">
+			<div class="grid-stack-item-content">
+				<div class="layui-row">
+					<div class="layui-row block-title">
+						<div
+							class="layui-col-xs8 layui-col-sm8 layui-col-md8 block-title-content align-fa">
+							<p class="align-ch block-title-word">问题完成情况统计</p>
+						</div>
+					</div>
+					<div class="layui-row block-content">
+						<div style="height: 220px; width: 100%;" id="problem-finish"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="grid-stack-item" data-gs-x="0" data-gs-y="5"
+			data-gs-width="4" data-gs-height="3">
+			<div class="grid-stack-item-content">
+				<div class="layui-row">
+					<div class="layui-row block-title">
+						<div
+							class="layui-col-xs12 layui-col-sm12 layui-col-md12 block-title-content align-fa">
+							<p class="align-ch block-title-word">净化气量</p>
+						</div>
+					</div>
+					<div class="layui-row block-content" style="font-size: 20px; font-weight: bolder; font-family: sans-serif; text-align: left;">
+							<div style="height: 60px; border:1px solid #e6e6e6; margin-bottom: 10px;padding: 0px 10px;">
+								<span style="line-height: 3;">当日净化气量</span> &nbsp; &nbsp;
+								<span>100.2 * 10<sup>4</sup> m<sup>3</sup></span>
+							</div>
+                           	<div style="height: 60px; border:1px solid #e6e6e6; margin-bottom: 10px;padding: 0px 10px;">
+								<span style="line-height: 3;">当月净化气量</span> &nbsp; &nbsp;
+								<span>3200 * 10<sup>4</sup> m<sup>3</sup></span>
+							</div>
+                           	<div style="height: 60px; border:1px solid #e6e6e6; padding: 0px 10px;">
+                           		<span style="line-height: 3;">当年净化气量</span> &nbsp; &nbsp;
+                           		<span>46000 * 10<sup>4</sup> m<sup>3</sup></span>
+                           	</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="grid-stack-item" data-gs-x="6" data-gs-y="5"
+			data-gs-width="8" data-gs-height="3">
+			<div class="grid-stack-item-content">
+				<div class="layui-row">
+					<div class="layui-row block-title">
+						<div
+							class="layui-col-xs12 layui-col-sm12 layui-col-md12 block-title-content align-fa">
+							<p class="align-ch block-title-word">能耗趋势</p>
+						</div>
+					</div>
+					<div class="layui-row block-content">
+						<div style="height: 220px; width: 100%;" id="eneger-analysis"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- <ul class="layui-fixbar">
+		<li class="layui-icon" lay-type="" style=""></li>
+		<button class="layui-btn layui-btn-sm" id="save-grid">
+			<i class="layui-icon">保存</i>
+		</button>
+		<button class="layui-btn layui-btn-sm" id="add-grid">
+			<i class="layui-icon">添加</i>
+		</button>
+	</ul> -->
+</body>
+<script src="js/drag/jquery.min.js"></script>
+<script src="js/drag/jquery-ui.min.js"></script>
+<script src="js/drag/bootstrap.min.js"></script>
+<script src="js/drag/lodash.min.js"></script>
+<script src="dist/gridstack.js"></script>
+<script type="text/html" id="deal">
+		<a style="color: #3B8FAE;" href="http://192.168.18.22:10239/BPMOperationCenter/?UIID=TaskDispose&PIID=${map.PRO_INST_ID }&TIID=${map.TASK_INST_ID }"
+				 data-click-href="rest/process/claimTask?userID=${sessionScope.userID}&userPwd=123456&task_owner=${sessionScope.userID}&PIID=${map.PRO_INST_ID }&TIID=${map.TASK_INST_ID }">
+					<i class="fa fa-pencil-square-o"></i> 处理
+		</a>
+</script>
+<script type="text/html" id="add-content">
+
+</script>
+<script type="text/html" id="barDemo1">
+ 	<a class="layui-btn layui-btn-xs" lay-event="edit" style="font-size:13px">&nbsp;处&nbsp;&nbsp;理&nbsp;</a>
+</script>
+<script src="../jsPackage/echart-4.2.0/echarts.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/index-echart.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/todo-task.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/index_common.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/index_edit.js" type="text/javascript" charset="utf-8"></script>
+</html>

@@ -14,6 +14,8 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import cn.soa.entity.Condition;
+import cn.soa.entity.IndexInfoRole;
 import cn.soa.entity.IndexTempInfo;
 import cn.soa.entity.IotIndexInfo;
 
@@ -45,5 +47,12 @@ public interface IndexServiceInter {
 	 * @return
 	 */
 	public List<IndexTempInfo> getIndexTempIndfo();
+
+	/**
+	 * 根据条件查询角色的个性化首页信息
+	 * @param condition
+	 * @return
+	 */
+	public List<IndexInfoRole> getRoleIndexInfo(Condition condition);
 
 }

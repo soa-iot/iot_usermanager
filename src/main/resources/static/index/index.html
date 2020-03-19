@@ -395,13 +395,13 @@ body {
 					<div class="layui-row block-title">
 						<div
 							class="layui-col-xs8 layui-col-sm8 layui-col-md8 block-title-content align-fa">
-							<p class="align-ch block-title-word">待办任务</p>
+							<p class="align-ch block-title-word">待办临时任务</p>
 						</div>
 						<div
 							class="layui-col-xs4 layui-col-sm4 layui-col-md4 block-title-link more align-fa">
 							<a class="align-ch block-title-more"
 								href="#" id="taskList"
-								title="更多待办任务">更多>></a>
+								title="更多待办临时任务">更多>></a>
 						</div>
 					</div>
 					<div class="layui-row block-content">
@@ -419,16 +419,22 @@ body {
 					<div class="layui-row block-title">
 						<div
 							class="layui-col-xs8 layui-col-sm8 layui-col-md8 block-title-content align-fa">
-							<p class="align-ch block-title-word">消息提醒</p>
+							<p class="align-ch block-title-word">待办流程任务</p>
 						</div>
 						<div
 							class="layui-col-xs4 layui-col-sm4 layui-col-md4 block-title-link more align-fa">
-							<a class="align-ch block-title-more"
+							<!-- <a class="align-ch block-title-more"
 								href="http://192.168.18.22:10239/BPMOperationCenter/?UIID=Gtask"
-								title="更多消息提醒">更多>></a>
+								title="更多消息提醒">更多>></a> -->
+								<a class="align-ch block-title-more"
+								href="/iot_usermanager/html/userCenter/test.html" 
+								title="更多待办流程任务">更多>></a>
 						</div>
 					</div>
-					<div class="layui-row block-content" id="notice"></div>
+					<!-- <div class="layui-row block-content" id="notice"></div> -->
+					<div class="layui-row block-content">
+						<table class="layui-table" style="background: white;" lay-filter="process" id="pendingProcess"></table>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -465,6 +471,9 @@ body {
 	<script type="text/html" id="barDemo">
  		 <a class="layui-btn layui-btn-xs" lay-event="edit" style="font-size:13px">&nbsp;处&nbsp;&nbsp;理&nbsp;</a>
 	</script>
+	<script type="text/html" id="barDemo1">
+ 		 <a class="layui-btn layui-btn-xs" lay-event="edit" style="font-size:13px">&nbsp;处&nbsp;&nbsp;理&nbsp;</a>
+	</script>
 </body>
 <script src="js/drag/jquery.min.js"></script>
 <script src="js/drag/jquery-ui.min.js"></script>
@@ -477,6 +486,7 @@ body {
 					<i class="fa fa-pencil-square-o"></i> 处理
 		</a>
 </script>
+<script src="js/todo-task.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/index_common.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/index.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/index_event.js" type="text/javascript" charset="utf-8"></script>
