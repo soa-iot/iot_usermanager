@@ -83,12 +83,31 @@ public class UserController {
 	public ResultJson<List<UserOrganization>> getUserByNum( @PathVariable("usernum") String usernum ) {
 		logger.debug("-----C------- 根据用户usernum查询用户   ---- usernum： " + usernum);
 		List<UserOrganization> u = userService.getUsersByNum(usernum);
-		if( u != null ) {
+		if( u != null && !u.isEmpty() ) {
 			logger.debug( "---C---- 根据用户usernum查询用户成功------u：" + u );
 			return new ResultJson<List<UserOrganization>>( 0, "查询用户成功", u ); 
 		}
 		logger.debug( "---C---- 根据用户usernum查询用户失败------u：" + u );
-		return new ResultJson<List<UserOrganization>>( 1, "查询用户失败", null ); 
+		return new ResultJson<List<UserOrganization>>( 1, "查询用户失败,用户不存在", null ); 
+	}
+	
+	
+	/**   
+	 * @Title: getUserByNum   
+	 * @Description:  根据用户usernum查询用户
+	 * @param: @param usernum      
+	 * @return: void        
+	 */  
+	@GetMapping("/users/usernum")
+	public ResultJson<List<UserOrganization>> getUserByNumC1( @RequestParam("usernum") String usernum ) {
+		logger.debug("-----C------- 根据用户usernum查询用户   ---- usernum： " + usernum);
+		List<UserOrganization> u = userService.getUsersByNum(usernum);
+		if( u != null && !u.isEmpty() ) {
+			logger.debug( "---C---- 根据用户usernum查询用户成功------u：" + u.toString() );
+			return new ResultJson<List<UserOrganization>>( 0, "查询用户成功", u ); 
+		}
+		logger.debug( "---C---- 根据用户usernum查询用户失败------u：" + u );
+		return new ResultJson<List<UserOrganization>>( 1, "查询用户失败,用户不存在", null ); 
 	}
 	
 	
@@ -343,14 +362,22 @@ public class UserController {
 	  */  
 	@DeleteMapping("/{id}")
 	public ResultJson<String> deleteUserContro(@PathVariable("id") @NotBlank String id
-			,@RequestParam("name") String name) {
+			,@RequestParam("name")  @NotBlank String name) {
 		logger.info("-----C------- 删除用户   ---- id： " + id);
 		logger.info("-----C------- 删除用户   ---- name： " + name);
 		UserOrganization user = new UserOrganization();
 		user.setOrgid(id);
 		user.setName(name);
-		user.setRemark2(UUID.randomUUID().toString());//事务号
+		user.setRemark2(UUID.randomUUID().toString());//事务号		
 		try {
+			//用户检查
+			List<UserOrganization> u = userService.getUsersByNum(name.trim());
+			if( u.size() == 0  ) {
+				logger.debug( "---C---- 根据用户usernum查询用户成功------u：" + u );
+				return new ResultJson<String>(1, "删除用户失败", "用户不存在" );
+			}
+			
+			//删除-修改状态
 			boolean b = modifyUserState.sendUserToMQ(user);
 			if(b) {
 				return new ResultJson<String>(0, "删除用户成功", "删除用户成功" );

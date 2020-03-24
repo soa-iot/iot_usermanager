@@ -45,7 +45,7 @@
 	
 	<!-- 根据角色查询对应的所有用户 -->
 	<select id="queryAllorgnInfo" resultType="cn.soa.entity.UserOrganization">
-		select * from IOT_USER_ORGANIZATION 
+		select * from IOT_USER_ORGANIZATION where state = 1
 	</select>
 	<!-- 1.1、根据用户角色id查询用户角色信息 -->
 	<select id="findUserRoleById" parameterType="string" resultType="cn.soa.entity.UserRole">
@@ -115,7 +115,7 @@
 	<!-- 查询出组织机构信息 -->
 	<select id="queryUsersByRold" resultType="cn.soa.entity.UserOrganization" parameterType="string">
 			select org.orgid,org.name,org.is_parent,org.usernum,org.parent_id from IOT_USER_USER_ROLE  ur left join IOT_USER_ORGANIZATION org  on ur.USERID=org.usernum
-			where ur.ROLID=#{ROLID}
+			where ur.ROLID=#{ROLID} and org.state = 1
 	</select>
 	
 	<!-- ===========================2、新增===============================  -->

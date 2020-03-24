@@ -129,7 +129,7 @@ $(function() {
 		}
 	}
 
-	$('.demoTable .layui-btn').on('click', function() {
+	$('.layui-btn').on('click', function() {
 				var type = $(this).attr('id');
 				active[type] ? active[type].call(this) : '';
 			});
@@ -137,6 +137,7 @@ $(function() {
 	// 监听工具条
 	table.on('tool(user_table)', function(obj) {
 				var data = obj.data;
+				
 				if (obj.event === 'detail') {
 					detail(data);
 				} else if (obj.event === 'del') {
@@ -272,6 +273,10 @@ $(function() {
 					done : function(res, curr, count) {
 					}
 				});
+		$('.layui-btn').on('click', function() {
+			var type = $(this).attr('id');
+			active[type] ? active[type].call(this) : '';
+		});
 	}
 
 	/*
@@ -283,9 +288,9 @@ $(function() {
 		var arr = data;
 		// arr.push(data);
 		// 执行重载
-		$('#tableDiv')
+		$('#user_table')
 				.empty()
-				.append(' <table class="layui-hide" id="user_table" lay-filter="user_table"></table>');
+				//.append(' <table class="layui-hide" id="user_table" lay-filter="user_table"></table>');
 		generateBTable('user_table', arr);
 	}
 
