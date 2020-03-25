@@ -23,6 +23,7 @@ import cn.soa.dao.IndexInfoRoleMapper;
 import cn.soa.dao.IndexMapper;
 import cn.soa.dao.IndexTempInfoMapper;
 import cn.soa.dao.UserRoleMapper;
+import cn.soa.entity.Condition;
 import cn.soa.entity.IndexInfoRole;
 import cn.soa.entity.IndexTempInfo;
 import cn.soa.entity.IotIndexInfo;
@@ -180,6 +181,15 @@ public class IndexService implements IndexServiceInter {
 	public List<IndexTempInfo> getIndexTempIndfo() {
 		
 		List<IndexTempInfo> result = indexTempInfoMapper.findAll();
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.soa.service.inter.IndexServiceInter#getRoleIndexInfo(cn.soa.entity.Condition)
+	 */
+	@Override
+	public List<IndexInfoRole> getRoleIndexInfo(Condition condition) {
+		List<IndexInfoRole> result = indexInfoRoleMapper.selectByCondition(condition);
 		return result;
 	}
 

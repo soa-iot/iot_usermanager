@@ -18,6 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+
+import cn.soa.entity.Condition;
+import cn.soa.entity.IndexInfoRole;
 import cn.soa.entity.IotIndexInfo;
 import cn.soa.entity.ResponseEntity;
 import cn.soa.entity.headResult.UserTableJson;
@@ -62,19 +67,48 @@ public class IndexController {
 
 		return resObj;
 	}
-	
+
 	/**
 	 * 获取当前用户角色的首页编辑信息
+	 * 
 	 * @return
 	 */
 	@RequestMapping("/getIndexEditData")
-	public ResponseEntity<List<IotIndexInfo>> getIndexEditData(){
-		
+	public ResponseEntity<List<IotIndexInfo>> getIndexEditData() {
+
 		List<IotIndexInfo> result = indexService.getIndexEditData();
-		ResponseEntity<List<IotIndexInfo>> resObj = new ResponseEntity<List<IotIndexInfo>>(0, "success", result.size(), result);
+		ResponseEntity<List<IotIndexInfo>> resObj = new ResponseEntity<List<IotIndexInfo>>(0, "success", result.size(),
+				result);
+
+		return resObj;
+
+	}
+
+	/**
+	 * 获取所有角色的个性化首页
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value="/getRoleIndexInfo",method=RequestMethod.POST,produces="application/json;chartset=UTF-8")
+	public ResponseEntity<List<IndexInfoRole>> getRoleIndexInfo(@RequestBody Condition condition) {
+		
+		PageHelper.startPage(condition.getPage(), condition.getLimit());
+		
+		ResponseEntity<List<IndexInfoRole>> resObj = new ResponseEntity<List<IndexInfoRole>>();
+
+		try {
+			List<IndexInfoRole> result = indexService.getRoleIndexInfo(condition);
+			resObj.setCode(0);
+			resObj.setCount(result.size());
+			resObj.setData(result);
+			resObj.setMsg("query data success");
+		} catch (Exception e) {
+			resObj.setCode(-1);
+			resObj.setMsg("query data failed >>>" + e.getMessage());
+		}
 		
 		return resObj;
-		
+
 	}
 
 }

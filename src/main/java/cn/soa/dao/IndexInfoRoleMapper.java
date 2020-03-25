@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import cn.soa.entity.Condition;
 import cn.soa.entity.IndexInfoRole;
 import cn.soa.entity.UserRole;
 
@@ -20,11 +21,15 @@ public interface IndexInfoRoleMapper {
     int updateByPrimaryKeySelective(IndexInfoRole record);
 
     int updateByPrimaryKey(IndexInfoRole record);
-    
-    /**
-     * 批量删除
-     * @param records
-     * @return
-     */
-    int deleteRecords(List<UserRole> records);
+
+	/**
+	 * @param userRoles
+	 */
+	int deleteRecords(List<UserRole> userRoles);
+
+	/**
+	 * @param condition
+	 * @return
+	 */
+	List<IndexInfoRole> selectByCondition(Condition condition);
 }

@@ -6,9 +6,12 @@
 		<id column="ID" jdbcType="VARCHAR" property="id" />
 		<result column="ROLE_ID" jdbcType="VARCHAR" property="roleId" />
 		<result column="PAGE_ID" jdbcType="VARCHAR" property="pageId" />
+		<result column="PAGE_NAME" jdbcType="VARCHAR"
+			property="pageName" />
+		<result column="NAME" jdbcType="VARCHAR" property="roleName" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		ID, ROLE_ID, PAGE_ID
+		ID, ROLE_ID, PAGE_ID, PAGE_NAME
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
@@ -17,6 +20,23 @@
 		from IOT_INDEX_INFO_ROLE
 		where ID = #{id,jdbcType=VARCHAR}
 	</select>
+	<!-- 根据条件查询 -->
+	<select id="selectByCondition"
+		parameterType="cn.soa.entity.Condition" resultMap="BaseResultMap">
+		select
+		t1.NAME,t1.ROLID, t2.PAGE_ID, t2.PAGE_NAME FROM IOT_USER_ROLE t1
+		LEFT
+		JOIN IOT_INDEX_INFO_ROLE t2
+		ON t1.ROLID = t2.ROLE_ID
+		<where>
+			<if test="roleName!=null and roleName != ''">
+				and t1.NAME like '%' || #{roleName,jdbcType=VARCHAR} ||
+				'%'
+			</if>
+		</where>
+	</select>
+
+
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
 		delete from
 		IOT_INDEX_INFO_ROLE
@@ -24,12 +44,12 @@
 	</delete>
 	<insert id="insert" parameterType="cn.soa.entity.IndexInfoRole">
 		insert into
-		IOT_INDEX_INFO_ROLE (ID, ROLE_ID, PAGE_ID
-		)
+		IOT_INDEX_INFO_ROLE (ID, ROLE_ID, PAGE_ID,
+		PAGE_NAME)
 		values
 		(#{id,jdbcType=VARCHAR}, #{roleId,jdbcType=VARCHAR},
-		#{pageId,jdbcType=VARCHAR}
-		)
+		#{pageId,jdbcType=VARCHAR},
+		#{pageName,jdbcType=VARCHAR})
 	</insert>
 	<insert id="insertSelective"
 		parameterType="cn.soa.entity.IndexInfoRole">
@@ -44,6 +64,9 @@
 			<if test="pageId != null">
 				PAGE_ID,
 			</if>
+			<if test="pageName != null">
+				PAGE_NAME,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -54,6 +77,9 @@
 			</if>
 			<if test="pageId != null">
 				#{pageId,jdbcType=VARCHAR},
+			</if>
+			<if test="pageName != null">
+				#{pageName,jdbcType=VARCHAR},
 			</if>
 		</trim>
 	</insert>
@@ -67,6 +93,9 @@
 			<if test="pageId != null">
 				PAGE_ID = #{pageId,jdbcType=VARCHAR},
 			</if>
+			<if test="pageName != null">
+				PAGE_NAME = #{pageName,jdbcType=VARCHAR},
+			</if>
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
@@ -75,9 +104,10 @@
 		update IOT_INDEX_INFO_ROLE
 		set ROLE_ID =
 		#{roleId,jdbcType=VARCHAR},
-		PAGE_ID = #{pageId,jdbcType=VARCHAR}
-		where
-		ID = #{id,jdbcType=VARCHAR}
+		PAGE_ID = #{pageId,jdbcType=VARCHAR},
+		PAGE_NAME = #{pageName,jdbcType=VARCHAR}
+		where ID =
+		#{id,jdbcType=VARCHAR}
 	</update>
 	<delete id="deleteRecords"
 		parameterType="cn.soa.entity.UserRole">

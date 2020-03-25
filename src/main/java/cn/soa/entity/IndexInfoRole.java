@@ -1,5 +1,14 @@
 package cn.soa.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class IndexInfoRole {
     private String id;
 
@@ -7,27 +16,7 @@ public class IndexInfoRole {
 
     private String pageId;
 
-    public String getId() {
-        return id;
-    }
+    private String pageName;
 
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
-    }
-
-    public String getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(String roleId) {
-        this.roleId = roleId == null ? null : roleId.trim();
-    }
-
-    public String getPageId() {
-        return pageId;
-    }
-
-    public void setPageId(String pageId) {
-        this.pageId = pageId == null ? null : pageId.trim();
-    }
+    private String roleName;
 }
