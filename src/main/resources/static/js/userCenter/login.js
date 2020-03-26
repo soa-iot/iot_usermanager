@@ -1,8 +1,8 @@
 /**
  * 全局变量
  */
-var loginUrl = "/iot_usermanager/user",
-	indexUrl = "/iot_usermanager/",
+var loginUrl = "/user",
+	indexUrl = "/",
 	indexSonWinIndex;
  
 /**

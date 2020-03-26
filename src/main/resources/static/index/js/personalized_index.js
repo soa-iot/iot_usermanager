@@ -10,7 +10,7 @@ layui.use(['layer', 'form', 'table'], function() {
 	personalized_index_table = table.render({
 				elem : '#personalized_index_table',
 				height : 'full-100',
-				url : '/iot_usermanager/index/getRoleIndexInfo',
+				url : '/index/getRoleIndexInfo',
 				method : 'post',
 				contentType : 'application/json',
 				where : {

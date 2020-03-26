@@ -137,7 +137,7 @@ function modifyRegStateCB( jsonData ){
  */
 var editObj=null,ptable=null,treeGrid=null,tableId='treeTable',layer=null;
 layui.config({
-    base: '/iot_usermanager/jsPackage/web/design/extend/'
+    base: '/jsPackage/web/design/extend/'
 }).use(['jquery','treeGrid','layer'], function(){
     var $=layui.jquery;
     treeGrid = layui.treeGrid;//很重要

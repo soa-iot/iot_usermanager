@@ -6,6 +6,13 @@ var usedId = [];
 // var user_name = getCookie('name').replace(/\%22/g, '');
 var user_name = decodeURI(getCookie('name')).replace(/\"/g, '');
 $('#user-name').html(user_name);
+/**
+ * 判断用户是否登录
+ */
+if (user_name == null || user_name == '') {
+	window.location.href="/html/userCenter/login.html";
+}
+
 /** layuiAdmin.std-v1.0.0 LPPL License By http://www.layui.com/admin/ */
 layui.use(['element'], function() {
 	var element = layui.element;
@@ -13,7 +20,7 @@ layui.use(['element'], function() {
 	 * 生成菜单
 	 */
 	$.ajax({
-		url : '/iot_usermanager/user/auths',
+		url : '/user/auths',
 		dataType : 'json',
 		type : 'get',
 		success : function(res) {
@@ -158,13 +165,17 @@ function getChildMenu(subMenu, num) {
 	num++;
 	var subStr = "";
 	if (subMenu.childMenus != null && subMenu.childMenus.length > 0) {
-		subStr += '	<dd><ul><li data-name="home" class="layui-nav-item"><a style="margin-Left:'+num*menuCell+'px" '
+		subStr += '	<dd><ul><li data-name="home" class="layui-nav-item"><a style="margin-Left:'
+				+ num
+				* menuCell
+				+ 'px" '
 				+ 'href="javascript:;" lay-tips="'
 				+ subMenu.name
 				+ '" lay-direction="2"><i class="'
 				+ (subMenu.menuIcon
 						? subMenu.menuIcon
-						: "layui-icon fa far-bars") + '"></i> <cite>'
+						: "layui-icon fa far-bars")
+				+ '"></i> <cite>'
 				+ subMenu.name + '</cite>' + '</a><dl class="layui-nav-child">';
 
 		/*
@@ -182,7 +193,10 @@ function getChildMenu(subMenu, num) {
 		subStr += '<dd data-name="'
 				+ subMenu.id
 				+ '" class="">'
-				+ '<a style="margin-Left:'+num*menuCell+'px" lay-href="'
+				+ '<a style="margin-Left:'
+				+ num
+				* menuCell
+				+ 'px" lay-href="'
 				+ subMenu.url
 				+ '"><i class="'
 				+ (subMenu.menuIcon

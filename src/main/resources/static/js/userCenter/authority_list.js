@@ -1,7 +1,7 @@
 var add_layer;
 layui.config({
 			// base : '../../module/'
-			base : '/iot_usermanager/jsPackage/web/design/module/'
+			base : '/jsPackage/web/design/module/'
 		}).extend({
 			treetable : 'treetable-lay/treetable'
 		}).use(['table', 'layer', 'treetable', 'form', 'tree', 'upload'],
@@ -26,7 +26,7 @@ layui.config({
 					toolbar : '#toolbar',
 					treePidName : 'parentId',
 					elem : '#auth-table',
-					url : '/iot_usermanager/roleAuthority/getAuthotityInfo',
+					url : '/roleAuthority/getAuthotityInfo',
 					page : false,
 					cols : [[/*
 								 * { type : 'numbers' },
@@ -123,7 +123,7 @@ layui.config({
 								});
 
 						$.ajax({
-							url : '/iot_usermanager/resource/getResourceInfoOfNode',
+							url : '/resource/getResourceInfoOfNode',
 							dataType : 'json',
 							success : function(data) {
 								// console.log(data.data);
@@ -238,7 +238,7 @@ layui.config({
 
 				layer.close(add_layer);
 				$.ajax({
-							url : '/iot_usermanager/roleAuthority/addAuthority',
+							url : '/roleAuthority/addAuthority',
 							type : 'post',
 							dataType : 'json',
 							data : authority,
@@ -279,7 +279,7 @@ layui.config({
 
 				layer.close(add_layer);
 				$.ajax({
-							url : '/iot_usermanager/roleAuthority/updateAuthority',
+							url : '/roleAuthority/updateAuthority',
 							type : 'post',
 							dataType : 'json',
 							data : authority,
@@ -319,7 +319,7 @@ layui.config({
 						 */
 						$.ajax({
 							method : "get",
-							url : "/iot_usermanager/roleAuthority/delAuthority",
+							url : "/roleAuthority/delAuthority",
 							data : {
 								autid : obj.data.autid
 							},
@@ -383,7 +383,7 @@ layui.config({
 								}
 							});
 					$.ajax({
-						url : '/iot_usermanager/resource/getResourceInfoOfNode',
+						url : '/resource/getResourceInfoOfNode',
 						dataType : 'json',
 						success : function(data) {
 							// console.log(data.data);
@@ -427,7 +427,7 @@ layui.config({
 
 							// 发送请求插入权限数据
 							$.ajax({
-								url : '/iot_usermanager/roleAuthority/changeToAuthority',
+								url : '/roleAuthority/changeToAuthority',
 								dataType : 'json',
 								type : 'post',
 								data : {
@@ -466,7 +466,7 @@ layui.config({
 					var roleIds;
 					// 发送请求获取已有权限
 					$.ajax({
-						url : '/iot_usermanager/roleAuthority/getRoleIdByAuthorityId',
+						url : '/roleAuthority/getRoleIdByAuthorityId',
 						dataType : 'json',
 						data : {
 							authorityId : obj.data.autid
@@ -483,7 +483,7 @@ layui.config({
 
 					// 发送请求获取角色列表
 					$.ajax({
-						url : '/iot_usermanager/role/roles',
+						url : '/role/roles',
 						dataType : 'json',
 						success : function(res) {
 							var roles_data = res.data;

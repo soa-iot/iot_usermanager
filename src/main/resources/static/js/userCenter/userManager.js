@@ -3,7 +3,7 @@ $(function() {
 	/**
 	 * 参数定义
 	 */
-	var table = layui.table, layer = layui.layer, getUsersUrl = "/iot_usermanager/user", getUsersByNumUrl = "/iot_usermanager/user/users", addUserUrl = "/iot_usermanager/user/users", initOrganDataUrl = "/iot_usermanager/user/organ", modifyUserParentUrl = "/iot_usermanager/user/organ", modifyUserUrl = "/iot_usermanager/user/user", deleteUserUrl = "/iot_usermanager/user";
+	var table = layui.table, layer = layui.layer, getUsersUrl = "/user", getUsersByNumUrl = "/user/users", addUserUrl = "/user/users", initOrganDataUrl = "/user/organ", modifyUserParentUrl = "/user/organ", modifyUserUrl = "/user/user", deleteUserUrl = "/user";
 
 	/**
 	 * 页面初始化
@@ -365,7 +365,7 @@ $(function() {
 				console.log('---------打开用户组织管理页面---------');
 				var editObj = null, ptable = null, treeGrid = null, tableId = 'treeTable';
 				layui.config({
-							base : '/iot_usermanager/jsPackage/web/design/extend/'
+							base : '/jsPackage/web/design/extend/'
 						}).extend({}).use(['jquery', 'treeGrid', 'layer'],
 						function() {
 							var $ = layui.jquery;
