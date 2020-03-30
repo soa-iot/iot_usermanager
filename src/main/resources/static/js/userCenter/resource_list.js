@@ -1,6 +1,6 @@
 var add_layer;
 layui.config({
-			base : '/iot_usermanager/jsPackage/web/design/module/'
+			base : '/jsPackage/web/design/module/'
 		}).extend({
 			treetable : 'treetable-lay/treetable'
 		}).use(['table', 'laydate', 'treetable', 'form'], function() {
@@ -29,7 +29,7 @@ layui.config({
 					toolbar : '#toolbar',
 					treePidName : 'parentId',
 					elem : '#resource_table',
-					url : '/iot_usermanager/resource/getAllResourceInfo',
+					url : '/resource/getAllResourceInfo',
 					page : false,
 					cols : [[{
 								field : 'modId',
@@ -146,7 +146,7 @@ layui.config({
 							}
 						});
 				$.ajax({
-					url : '/iot_usermanager/resource/getParentResource',
+					url : '/resource/getParentResource',
 					dataType : 'json',
 					success : function(data) {
 						// console.log(data);
@@ -216,7 +216,7 @@ layui.config({
 
 				layer.close(add_layer);
 				$.ajax({
-							url : '/iot_usermanager/resource/updateResource',
+							url : '/resource/updateResource',
 							data : fdata,
 							success : function(data) {
 
@@ -259,7 +259,7 @@ layui.config({
 
 				layer.close(add_layer);
 				$.ajax({
-							url : '/iot_usermanager/resource/addResource',
+							url : '/resource/addResource',
 							data : fdata,
 							success : function(data) {
 
@@ -298,7 +298,7 @@ layui.config({
 				 */
 				$.ajax({
 							method : "get",
-							url : "/iot_usermanager/resource/delResourceInfoById",
+							url : "/resource/delResourceInfoById",
 							data : {
 								modId : obj.data.modId,
 								parentId : obj.data.parentId
@@ -365,7 +365,7 @@ layui.config({
 						}
 					});
 			$.ajax({
-				url : '/iot_usermanager/resource/getParentResource',
+				url : '/resource/getParentResource',
 				dataType : 'json',
 				success : function(data) {
 					// console.log(data);

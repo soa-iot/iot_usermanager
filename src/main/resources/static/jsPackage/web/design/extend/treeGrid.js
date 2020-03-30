@@ -6,7 +6,7 @@
  在线demo：http://beijiyi.com/
  */
 layui.config({
-	base: '/iot_usermanager/jsPackage/web/design/extend/'
+	base: '/jsPackage/web/design/extend/'
 }).extend({
 	treeGrid:'treeGrid'
 }).define(['laytpl', 'laypage', 'layer', 'form'], function(exports){

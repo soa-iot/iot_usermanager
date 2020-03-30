@@ -7,7 +7,7 @@ function load_index_page(isEdit) {
 	 * 加载页面数据
 	 */
 	$.ajax({
-				url : '/iot_usermanager/index/getIndexEditData',
+				url : '/index/getIndexEditData',
 				type : 'post',
 				dataType : 'json',
 				data : {},
@@ -59,7 +59,7 @@ function load_index_page(isEdit) {
 					$('.grid-stack').gridstack(options);
 					// 请求页面数据
 					$.ajax({
-								url : '/iot_usermanager/index/getIndexData',
+								url : '/index/getIndexData',
 								type : 'get', // GET
 								async : true, // 或false,是否异步
 								data : {},

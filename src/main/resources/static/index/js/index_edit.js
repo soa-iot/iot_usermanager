@@ -42,7 +42,7 @@ layui.use(['layer', 'jquery', 'table', 'form'], function() {
 
 						// 发送请求，保存编辑信息到数据库
 						$.ajax({
-									url : '/iot_usermanager/index/saveIndexEditData',
+									url : '/index/saveIndexEditData',
 									type : 'post',
 									contentType : 'application/json;charset=utf-8',
 									dataType : 'json',
@@ -66,7 +66,7 @@ layui.use(['layer', 'jquery', 'table', 'form'], function() {
 					this.add_grid = function() {
 
 						$.ajax({
-									url : '/iot_usermanager/index/getIndexTempIndfo',
+									url : '/index/getIndexTempIndfo',
 									type : 'post',
 									dataType : 'json',
 									data : {},

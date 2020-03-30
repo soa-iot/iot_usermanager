@@ -22,7 +22,7 @@ layui.use(['layer', 'form', 'element', 'jquery', 'dialog'], function() {
 	 * 生成菜单
 	 */
 	$.ajax({
-		url : '/iot_usermanager/user/auths',
+		url : '/user/auths',
 		dataType : 'json',
 		type : 'get',
 		success : function(res) {
@@ -248,14 +248,14 @@ layui.use(['layer', 'form', 'element', 'jquery', 'dialog'], function() {
 
 		// 关闭链接请求
 		$.ajax({
-			url : '/iot_usermanager/user/logout',
+			url : '/user/logout',
 			type : 'post',
 			data : {},
 			dataType : 'json',
 			success : function(jsonData) {
 				// console.log(jsonData);
 				if (jsonData.state == 302) {
-					location.href = '/iot_usermanager/html/userCenter/login.html';
+					location.href = '/html/userCenter/login.html';
 				} else {
 					layer.msg("登出失败", {
 								icon : 2

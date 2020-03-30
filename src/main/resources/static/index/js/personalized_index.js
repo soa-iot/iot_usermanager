@@ -8,47 +8,49 @@ layui.use(['layer', 'form', 'table'], function() {
 	var table = layui.table;
 	// 执行渲染
 	personalized_index_table = table.render({
-				elem : '#personalized_index_table',
-				height : 'full-100',
-				url : '/iot_usermanager/index/getRoleIndexInfo',
-				method : 'post',
-				contentType : 'application/json',
-				where : {
+		elem : '#personalized_index_table',
+		height : 'full-100',
+		url : '/index/getRoleIndexInfo',
+		method : 'post',
+		contentType : 'application/json',
+		where : {
 
-	}			,
-				parseData : function(res) { // res 即为原始返回的数据
-					return res;
-				},
-				toolbar : '#toolbar',
-				cols : [[{
-							type : 'checkbox'
-						}, {
-							title : '序号',
-							type : 'numbers'
-						}, {
-							field : 'roleName',
-							title : '角色名称'
-						}, {
-							field : 'pageName',
-							title : '页面名称',
-							templet : function(obj) {
-								if (obj.pageName == null || obj.pageName == '') {
-									return '<span class="layui-btn layui-btn-sm layui-btn-danger">未配置</span>';
-								} else {
-									return obj.pageName
-								}
+	}	,
+		parseData : function(res) { // res 即为原始返回的数据
+			return res;
+		},
+		toolbar : '#toolbar',
+		cols : [[{
+					type : 'checkbox'
+				}, {
+					title : '序号',
+					type : 'numbers'
+				}, {
+					field : 'roleName',
+					title : '角色名称'
+				}, {
+					field : 'pageName',
+					title : '页面名称',
+					templet : function(obj) {
+						if (obj.pageName == null || obj.pageName == '') {
+							return '<span class="layui-btn layui-btn-sm layui-btn-danger">未配置</span>';
+						} else {
+							return obj.pageName
+						}
 
-							}
-						}, {
-							field : '',
-							title : '操作'
-						}]],
-				page : true,
-				loading : true,
-				limits : [30, 60, 90, 120, 150],
-				limit : 30
+					}
+				}, {
+					field : '',
+					width : 120,
+					title : '操作',
+					toolbar : '#operate'
+				}]],
+		page : true,
+		loading : true,
+		limits : [20,30, 60, 90, 120, 150],
+		limit : 20
 
-			});
+	});
 
 	/**
 	 * 监听提交按钮
