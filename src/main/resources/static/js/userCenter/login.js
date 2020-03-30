@@ -145,6 +145,6 @@ function loginCallBack( data ){
 }
 
 function openSwagger() {
-	  //打开swagger
+	     //打开swagger
 	window.open('/swagger-ui.html');
 }
