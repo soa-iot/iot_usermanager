@@ -1,0 +1,22 @@
+@charset "UTF-8";
+
+.layui-form .layui-form-item{
+	margin-bottom: 10px;
+}
+.layui-form .layui-form-label{
+	padding: 9px 7px;
+	width: 85px;
+}
+
+.layui-form .layui-input-block{
+	margin-left: 100px;
+}
+
+.layui-form .layui-btn1{
+	float: right;
+	margin: 0px 10px;
+}
+
+.layui-table-view{
+	margin: 20px 0px;
+}
