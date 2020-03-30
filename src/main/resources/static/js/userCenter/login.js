@@ -143,3 +143,8 @@ function loginCallBack( data ){
 	//跳转主页
 	window.location.href = indexUrl;
 }
+
+function openSwagger() {
+	     //打开swagger
+	window.open('/swagger-ui.html');
+}
