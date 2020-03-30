@@ -25,5 +25,9 @@ public class ResponseEntity<T> {
 	private int count;// 数据条数
 
 	private T data;// 数据
-
+	
+	public ResponseEntity(int code, String msg) {
+		this.code = code;
+		this.msg = msg;
+	}
 }
