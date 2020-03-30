@@ -69,9 +69,13 @@ public class UserManagementS implements UserManagementSI {
 	public Boolean setUserState(String usernum, Integer state) {
 		log.info("-----开始设置用户状态-----");
 		try {
-			umMapper.updateUserState(usernum, state);
-			umMapper.updateOrganState(usernum, state);
 			
+			String[] usernums = usernum.split(",");
+			for(String user : usernums) {
+				umMapper.updateUserState(user, state);
+				umMapper.updateOrganState(user, state);
+			}
+
 			log.info("-----设置用户状态成功-----");
 			return true;
 			

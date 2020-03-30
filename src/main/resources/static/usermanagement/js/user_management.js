@@ -115,32 +115,42 @@ layui.use(['layer', 'form', 'laydate', 'table'], function(){
 	table.on('toolbar(userList)', function(obj){
 		var checkStatus = table.checkStatus(obj.config.id);
 		console.log(checkStatus)
-	    if(obj.event === 'delete'){
+	    if(obj.event === 'lock'){
 	    	var data = checkStatus.data;
 	    	if(data != undefined && data.length != 0){
 	    		var usernum = null;
 	    		for(var i=0;i<data.length;i++){
 	    			if(usernum == null){
 	    				usernum = data[i].usernum;
+	    			}else{
+	    				usernum += ',' + data[i].usernum;
 	    			}
 	    		}
+	    		console.log(usernum);
+	    		//调用后台接口更新账号状态
+	    		$.ajax({
+		    		type: 'post',
+		    		url: '/iot_usermanager/user/management/state',
+		    		data: {
+		    			'usernum': usernum,
+		    			'state': 2
+		    		},
+		    		dataType: 'json',
+		    		success: function(json){
+		    			if(json.state == 0){
+		    				layer.msg("用户账号禁用成功！",{icon: 1, offset: '150px'});
+		    				reloadTable();
+		    			}else{
+		    				layer.msg("用户账号禁用失败！",{icon: 2, offset: '150px'});
+		    			}
+		    		},
+		    		error: function(){
+		    			layer.msg("连接服务器失败，请联系管理员！",{icon: 2, offset: '150px'});
+		    		}
+		    	})
 	    	}
 	    	
-	    	/*$.ajax({
-	    		type: 'post',
-	    		url: '/iot_usermanager/user/management/state',
-	    		data: {
-	    			'usernum': ,
-	    			'state': 
-	    		},
-	    		dataType: 'json',
-	    		success: function(json){
-	    			
-	    		},
-	    		error: function(){
-	    			
-	    		}
-	    	})*/
+	    	
 	    }
 	});
 })
