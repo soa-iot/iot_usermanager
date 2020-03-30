@@ -11,7 +11,11 @@
         
 package cn.soa.controller;
 
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -43,10 +47,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import cn.soa.config.MyLog;
+import cn.soa.entity.UserLog;
 import cn.soa.entity.UserOrganization;
 import cn.soa.entity.UserRole;
 import cn.soa.entity.headResult.ResultJson;
 import cn.soa.service.inter.RoleServiceInter;
+import cn.soa.service.inter.UserLogService;
 import cn.soa.service.inter.UserServiceInter;
 import cn.soa.util.GlobalUtil;
 
@@ -68,6 +75,8 @@ public class LoginController{
 	@Autowired
 	private RoleServiceInter roleService;
 	
+	@Autowired
+	private UserLogService logService;
 	
 	 /**   
 	  * @Title: loginContr   
@@ -110,6 +119,24 @@ public class LoginController{
 				GlobalUtil.addCookie( "organ", user.getParent_id() );
 			}
 			
+			//保存日志
+	        UserLog sysLog = new UserLog();
+	        sysLog.setOperation("登录");//保存获取的操作
+	        sysLog.setMethod("cn.soa.controller.LoginController.loginContr");
+	        sysLog.setParams("params");
+	        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        Date date = new Date();
+	        sysLog.setCreateDate(formatter.format(date));
+//	        String userName = GlobalUtil.getCookie("name").replaceAll("\"", "");
+	        logger.info("userName---"+userName);
+	        //获取用户名
+	        sysLog.setUserID(userName);
+	        sysLog.setUsername(userName);
+	        InetAddress ip4 = Inet4Address.getLocalHost();
+	        //获取用户ip地址
+	        sysLog.setIp(ip4.getHostAddress());
+			logService.save(sysLog);
+			
 			resultJson = new ResultJson<String>(0, "登录成功", subject.getSession().getId() + "");
 		} catch (IncorrectCredentialsException e) {
 			resultJson = new ResultJson<String>(1, "密码错误", null);
@@ -126,7 +153,7 @@ public class LoginController{
 		return resultJson;
 	}
 	
-	
+	@MyLog(value = "退出登录")  //这里添加了AOP的自定义注解
 	@PostMapping("/logout")
 	public ResultJson<String> logoutContr( HttpSession session ){
 		logger.info("-------C----------退出登陆-----------");

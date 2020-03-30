@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.soa.dao.UserLogMapper">
+	<resultMap id="BaseResultMap" type="cn.soa.entity.UserLog">
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="USERID" jdbcType="VARCHAR" property="userID" />
+		<result column="USERNAME" jdbcType="VARCHAR"
+			property="username" />
+		<result column="OPERATION" jdbcType="VARCHAR"
+			property="operation" />
+		<result column="METHOD" jdbcType="VARCHAR" property="method" />
+		<result column="PARAMS" jdbcType="VARCHAR" property="params" />
+		<result column="IP" jdbcType="VARCHAR" property="ip" />
+		<result column="CREATEDATE" jdbcType="VARCHAR"
+			property="createDate" />
+	</resultMap>
+	<select id="getUserLogList" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select * from iot_user_log where (operation='退出登录' or operation='登录')
+		<if test="username !=null and username !='' and username !='null' ">
+			and username = #{ username }
+		</if>
+		<if test="dateTime !=null and dateTime !='' and dateTime !='null'">
+			and substring(createDate, 1, 11) = #{ dateTime }
+		</if>
+	</select>
+
+	<select id="getLogCount" parameterType="java.lang.String"
+		resultType="Map">
+		select username,count(*) num from iot_user_log where operation='登录'
+		<if test="username !=null and username !='' and username !='null' ">
+			and username = #{ username }
+		</if>
+		<if test="dateTime !=null and dateTime !='' and dateTime !='null'">
+			and substring(createDate, 1, 11) = #{ dateTime }
+		</if>
+		group by username ORDER BY num desc
+	</select>
+
+	<select id="getLogCountDesc" parameterType="java.lang.String"
+		resultType="Map">
+		select * from (
+		select username,count(*) num from iot_user_log where
+		operation='登录'
+		<if test="username !=null and username !='' and username !='null' ">
+			and username = #{ username }
+		</if>
+		<if test="dateTime !=null and dateTime !='' and dateTime !='null'">
+			and substring(createDate, 1, 11) = #{ dateTime }
+		</if>
+		group by username ORDER BY num desc limit 10 ) 
+			<![CDATA[ where rownum <= 10 ]]>
+	</select>
+
+
+	<select id="getLogCountAsc" parameterType="java.lang.String"
+		resultType="Map">
+		select * from (
+		select usernum,nvl(b.num, 0) num from
+		iot_user_organization a
+		LEFT JOIN
+		(select username,count(*) num from iot_user_log where operation='登录' group by
+		username ) b
+		on a.usernum=b.username where 1=1 and a.IS_PARENT=1
+		<if test="username !=null and username !='' and username !='null' ">
+			and a.usernum = #{ username }
+		</if>
+		<if test="dateTime !=null and dateTime !='' and dateTime !='null'">
+			and substring(a.createDate, 1, 11) = #{ dateTime }
+		</if>
+		 ORDER BY b.num ASC ) 
+			<![CDATA[ where rownum <= 30 ]]>
+	</select>
+
+	<insert id="insert" parameterType="cn.soa.entity.UserLog">
+		INSERT INTO IOT_USER_LOG
+		(USERID, USERNAME,
+		OPERATION,METHOD,PARAMS,IP,CREATEDATE
+		)
+		VALUES (
+		#{userID,jdbcType=VARCHAR},
+		#{username,jdbcType=VARCHAR},
+		#{operation,jdbcType=VARCHAR},
+		#{method,jdbcType=VARCHAR},
+		#{params,jdbcType=VARCHAR},
+		#{ip,jdbcType=VARCHAR},
+		#{createDate,jdbcType=VARCHAR}
+		)
+	</insert>
+</mapper>
