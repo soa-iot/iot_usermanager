@@ -90,6 +90,37 @@ public class UserModuleResourceS implements UserModuleResourceSI {
 			return false;
 		}
 	}
+	
+	/**
+	 * 删除菜单资源信息
+	 * @param modId - 菜单资源id
+	 * 
+	 */
+	@Override
+	public Boolean removeModuleResource(String modId) {
+		log.info("-----开始删除菜单资源信息-----");
+		try {
+			//1.检查是否是父资源
+			List<IotUserModuleResource> list = umrMapper.findAllResources();
+			for(IotUserModuleResource resource : list) {
+				if(modId.equals(resource.getParentId())) {
+					log.info("-----该菜单资源属于父级资源，不能删除-----");
+					return false;
+				}
+			}
+			
+			//2. 不是父级资源，执行删除
+			umrMapper.deleteModuleResource(modId);
+			
+			log.info("-----删除菜单资源信息成功-----");
+			return true;
+			
+		}catch (Exception e) {
+			log.info("-----删除菜单资源信息发生错误-----");
+			log.info("--{}", e);
+			return null;
+		}
+	}
 
 
 

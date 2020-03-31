@@ -38,4 +38,11 @@ public interface UserModuleResourceSI {
 	 * 
 	 */
 	Boolean setModuleResource(IotUserModuleResource resource);
+	
+	/**
+	 * 删除菜单资源信息
+	 * @param modId - 菜单资源id
+	 * 
+	 */
+	Boolean removeModuleResource(String modId);
 }

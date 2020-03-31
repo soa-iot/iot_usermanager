@@ -37,4 +37,11 @@ public interface UserModuleResourceMapper {
 	 * 
 	 */
 	Integer updateModuleResource(@Param("resource") IotUserModuleResource resource);
+	
+	/**
+	 * 删除菜单资源信息
+	 * @param modId - 菜单资源id
+	 * 
+	 */
+	Integer deleteModuleResource(String modId);
 }

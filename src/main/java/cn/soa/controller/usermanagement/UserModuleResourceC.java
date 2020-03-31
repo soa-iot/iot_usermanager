@@ -3,6 +3,7 @@ package cn.soa.controller.usermanagement;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -113,5 +114,28 @@ public class UserModuleResourceC {
 			return new ResultJson<Boolean>(ResultJson.SUCCESS, "修改菜单资源信息成功", result);
 		}
 		return new ResultJson<Boolean>(ResultJson.ERROR, "修改菜单资源信息失败", result);
+	}
+	
+	/**
+	 * 删除菜单资源信息
+	 */
+	@MyLog(value = "删除菜单资源信息")
+	@ApiOperation(value = "删除菜单资源信息")
+	@ApiImplicitParams(value= {
+			@ApiImplicitParam(name="modId", value="资源主键ID", required=true, type="string")
+	})
+	@DeleteMapping("/resource/remove")
+	public ResultJson<Boolean> deleteModuleResource(@RequestParam String modId){
+		log.info("------进入接口UserModuleResourceC...deleteModuleResource------");
+		log.info("------菜单资源ID modId: {}", modId);
+		
+		Boolean result = userModuleResourceS.removeModuleResource(modId);
+		
+		if(result == null) {
+			return new ResultJson<Boolean>(ResultJson.ERROR, "删除菜单资源信息失败", result);
+		}else if(result){
+			return new ResultJson<Boolean>(ResultJson.SUCCESS, "删除菜单资源信息成功", result);
+		}
+		return new ResultJson<Boolean>(ResultJson.ERROR, "该菜单资源是父级资源，无法删除", result);
 	}
 }

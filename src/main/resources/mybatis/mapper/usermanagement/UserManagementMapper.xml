@@ -139,7 +139,7 @@
 			<if test="user.nname != null and user.nname != ''">
 				#{user.nname},
 			</if>
-			<if test="user.sex != null and user.sex != ''">
+			<if test="user.sex != null">
 				#{user.sex},
 			</if>
 			#{user.telephone, jdbcType=VARCHAR},

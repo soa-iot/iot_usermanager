@@ -1,5 +1,6 @@
 package cn.soa.service.impl.usermanagement;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -146,6 +147,8 @@ public class UserManagementS implements UserManagementSI {
 	public Boolean addUserInfo(UserInfoVO user, String rolid, String parentId) {
 		log.info("-----开始新增用户信息-----");
 		try {
+			user.setCreate_time(new Date());
+			user.setLast_modify_time(new Date());
 			umMapper.insertUserInfo(user);
 			rmMapper.insertUserRole(user.getUsernum(), rolid);
 			omMapper.insertUserOrgan(user.getUsernum(), user.getNname(), parentId);
@@ -169,6 +172,7 @@ public class UserManagementS implements UserManagementSI {
 	public Boolean setUserInfo(UserInfoVO user, String parentId) {
 		log.info("-----开始更新用户信息-----");
 		try {
+			user.setLast_modify_time(new Date());
 			umMapper.updatetUserInfo(user); 
 			omMapper.updateUserOrga(user.getUsernum(), user.getNname(), parentId);
 

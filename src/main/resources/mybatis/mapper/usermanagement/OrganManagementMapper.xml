@@ -20,8 +20,8 @@
 			<if test="organid != null and organid != ''">
 				#{organid},
 			</if>
-			<if test="NAME != null and NAME != ''">
-				#{NAME},
+			<if test="name != null and name != ''">
+				#{name},
 			</if>
 			<if test="parentId != null and parentId != ''">
 				#{parentId},

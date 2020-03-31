@@ -206,39 +206,52 @@ layui.use(['layer', 'form', 'laydate', 'table', 'tree'], function(){
     	        	var organ = $.trim($("#organ_").val());
     	        	var role = $.trim($("#role-list").val());
     	        	var note = $.trim($("#note_").val());
-    	        	var sex = form.val("create-window-form").sex;
+    	        	var sex = form.val("create-window-form").sex_;
     	        	
-    	        	console.log("usernum: ");
-    	        	console.log(usernum);
-    	        	console.log("nname: ");
-    	        	console.log(nname);
-    	        	console.log("password: ");
-    	        	console.log(password);
-    	        	console.log("telephone: ");
-    	        	console.log(telephone);
-    	        	console.log("organ: ");
-    	        	console.log(organ);
-    	        	console.log("role: ");
-    	        	console.log(role);
-    	        	console.log("note: ");
-    	        	console.log(note);
-    	        	console.log(form.val("create-window-form"));
+    	        	if(usernum == null || usernum == ''){
+    	        		layer.msg("用户账号不能为空",{icon: 7, offset: '150px'});
+    	        		return;
+    	        	}
+    	        	if(nname == null || nname == ''){
+    	        		layer.msg("用户姓名不能为空",{icon: 7, offset: '150px'});
+    	        		return;
+    	        	}
+    	        	if(password == null || password == ''){
+    	        		layer.msg("用户密码不能为空",{icon: 7, offset: '150px'});
+    	        		return;
+    	        	}
+    	        	if(organ == null || organ == ''){
+    	        		layer.msg("组织不能为空",{icon: 7, offset: '150px'});
+    	        		return;
+    	        	}
+    	        	if(role == null || role == ''){
+    	        		layer.msg("角色不能为空",{icon: 7, offset: '150px'});
+    	        		return;
+    	        	}
     	        	
-    	        	console.log("sex: "+ sex);
-    	        	console.log("usernum: ");
-    	        	
-    	        	/*$.ajax({
+    	        	$.ajax({
     	        		type: 'post',
     	        		url: '/iot_usermanager/user/management/create',
+    	        		data: {
+    	        			'usernum': usernum,
+    	        			'nname': nname,
+    	        			'password': password,
+    	        			'telephone': telephone,
+    	        			'parentId': organ,
+    	        			'rolid': role,
+    	        			'note': note,
+    	        			'sex': sex
+    	        		},
     	        		dataType: 'json',
     	        		success: function(json){
-    	        			if(json.code == 0){
-    	        				
+    	        			if(json.state == 0){
+    	        				layer.msg(json.message,{icon: 1, offset: '150px'});
+    	        				layer.close(index); 
+    	        			}else{
+    	        				layer.msg(json.message,{icon: 2, offset: '150px'});
     	        			}
     	        		}
-    	        	})*/
-    	        	
-    	            //layer.close(index); //如果设定了yes回调，需进行手工关闭
+    	        	})
     	        },
     	        success: function(layero, index){
     	        	//表单清空

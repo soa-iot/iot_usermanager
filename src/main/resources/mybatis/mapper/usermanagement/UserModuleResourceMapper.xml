@@ -112,7 +112,16 @@
 		WHERE
 			MODID = #{resource.modId, jdbcType=VARCHAR}
 	</update>
-
+	
+	<!-- ===========================4、删除===============================  -->
+	<!-- 4.1 删除菜单资源信息 -->
+	<!-- Integer deleteModuleResource(String modId); -->
+	<delete id="deleteModuleResource">
+		DELETE FROM
+			IOT_USER_MODULE_RESOURCE
+		WHERE
+			MODID = #{resource.modId, jdbcType=VARCHAR}
+	</delete>
 	
 </mapper>
  
