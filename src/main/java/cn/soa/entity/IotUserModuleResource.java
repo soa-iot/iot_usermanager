@@ -23,6 +23,8 @@ public class IotUserModuleResource {
 	private String url;
 
 	private String describe;
+	
+	private Integer type;
 
 	private Date createTime;
 
@@ -41,5 +43,6 @@ public class IotUserModuleResource {
 	private String standby3;
 
 	private String standby4;
+
 
 }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="cn.soa.dao.usermanagement.UserModuleResourceMapper">
+
+	<!-- ===========================1、查询===============================  -->
+	<!-- 1.1 查询所有的权限资源信息 -->
+	<!-- List<IotUserModuleResource> findAllResources(); -->
+	<resultMap type="cn.soa.entity.IotUserModuleResource" id="findAllResourcesMap">
+		<id column="MODID" property="modId"/>
+		<result column="NAME" property="name"/>
+		<result column="URL" property="url"/>
+		<result column="DESCRIBE" property="describe"/>
+		<result column="TYPE" property="type"/>
+		<result column="PARENT_ID" property="parentId"/>
+		<result column="IS_PARENT" property="isParent"/>
+		<result column="CREATE_TIME" property="createTime"/>
+		<result column="LAST_MODIFY_TIME" property="lastModifyTime"/>
+		<result column="REMARK1" property="remark1"/>
+		<result column="MENU_ICON" property="menuIcon"/>
+		<result column="STANDBY2" property="standby2"/>
+		<result column="STANDBY3" property="standby3"/>
+		<result column="STANDBY4" property="standby4"/>
+	</resultMap>
+	
+	<select id="findAllResources" resultMap="findAllResourcesMap">
+		SELECT
+			*
+		FROM
+			IOT_USER_MODULE_RESOURCE
+	</select>
+	
+	<!-- ===========================2、新增===============================  -->
+
+	
+	<!-- ===========================3、更新===============================  -->
+
+</mapper>
+ 
+
