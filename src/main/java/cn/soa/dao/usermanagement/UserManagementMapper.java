@@ -68,4 +68,10 @@ public interface UserManagementMapper {
 	 * @return Integer - 受影响的行数
 	 */
 	Integer updateUserPassword(@Param("usernum") String usernum, @Param("password") String password);
+	
+	/**
+	 * 查询用户账号是否已存在
+	 * @param usernum - 用户账号
+	 */
+	Integer findUserByUsernum(String nusernum);
 }

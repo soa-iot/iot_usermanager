@@ -115,6 +115,29 @@ public class UserManagementS implements UserManagementSI {
 	}
 	
 	/**
+	 * 检测用户账号是否已存在
+	 * @param usernum - 用户账号
+	 */
+	@Override
+	public Boolean checkUserExist(String usernum) {
+		log.info("-----开始检测用户账号是否已存在-----");
+		try {
+			Integer rows = umMapper.findUserByUsernum(usernum);
+			if(rows == 0) {
+				log.info("------用户账号不存在------");
+				return false;
+			}
+			log.info("------用户账号已存在------");
+			return true;
+			
+		}catch (Exception e) {
+			log.info("-----检测用户账号是否已存在发生错误-----");
+			log.info("--{}", e);
+			return null;
+		}
+	}
+	
+	/**
 	 * 新增用户信息
 	 * @param user - 用户信息对象
 	 */

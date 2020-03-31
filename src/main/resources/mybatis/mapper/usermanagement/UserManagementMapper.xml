@@ -113,7 +113,17 @@
 		</where>
 	</select>
 	
-	
+	<!-- 1.3 查询用户账号是否已存在 -->
+	<!-- Integer findUserByUsernum(String nusernum); -->
+	<select id="findUserByUsernum" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM
+			IOT_USER_INFO
+		WHERE
+			USERNUM = #{usernum, jdbcType=VARCHAR}
+	</select>
+
 	<!-- ===========================2、新增===============================  -->
 	<!-- 2.1 新增用户信息 -->
 	<!-- Integer insertUserInfo(@Param("user") UserInfoVO user); -->
@@ -139,8 +149,7 @@
 			<if test="user.password != null and user.password != ''">
 				#{user.password},
 			</if>
-			#{user.state, jdbcType=INTEGER},
-			#{user.picture, jdbcType=VARCHAR}
+			1, #{user.picture, jdbcType=VARCHAR}
 		)
 	</insert>
 	

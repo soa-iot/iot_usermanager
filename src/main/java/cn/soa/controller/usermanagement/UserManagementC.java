@@ -78,6 +78,12 @@ public class UserManagementC {
 		log.info("------角色ID rolid= {}", rolid);
 		log.info("------父ID parentId= {}", parentId);
 		
+		//检查用户账号是否已存在
+		Boolean result = userManagementS.checkUserExist(user.getUsernum());
+		if(result) {
+			return new ResultJson<Boolean>(ResultJson.ERROR, "用户账号已存在", false);
+		}
+		
 		try {
 			userManagementS.addUserInfo(user, rolid, parentId);
 			

@@ -49,4 +49,10 @@ public interface UserManagementSI {
 	 * @param user - 用户信息对象
 	 */
 	Boolean setUserInfo(UserInfoVO user, String parentId);
+	
+	/**
+	 * 检测用户账号是否已存在
+	 * @param usernum - 用户账号
+	 */
+	Boolean checkUserExist(String usernum);
 }

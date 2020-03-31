@@ -199,7 +199,46 @@ layui.use(['layer', 'form', 'laydate', 'table', 'tree'], function(){
     	        content: $("#create-window"),
     	        yes: function(index, layero){
     	        	
-    	            layer.close(index); //如果设定了yes回调，需进行手工关闭
+    	        	var usernum = $.trim($("#usernum_").val());
+    	        	var nname = $.trim($("#nname_").val());
+    	        	var password = $.trim($("#password_").val());
+    	        	var telephone = $.trim($("#telephone_").val());
+    	        	var organ = $.trim($("#organ_").val());
+    	        	var role = $.trim($("#role-list").val());
+    	        	var note = $.trim($("#note_").val());
+    	        	var sex = form.val("create-window-form").sex;
+    	        	
+    	        	console.log("usernum: ");
+    	        	console.log(usernum);
+    	        	console.log("nname: ");
+    	        	console.log(nname);
+    	        	console.log("password: ");
+    	        	console.log(password);
+    	        	console.log("telephone: ");
+    	        	console.log(telephone);
+    	        	console.log("organ: ");
+    	        	console.log(organ);
+    	        	console.log("role: ");
+    	        	console.log(role);
+    	        	console.log("note: ");
+    	        	console.log(note);
+    	        	console.log(form.val("create-window-form"));
+    	        	
+    	        	console.log("sex: "+ sex);
+    	        	console.log("usernum: ");
+    	        	
+    	        	/*$.ajax({
+    	        		type: 'post',
+    	        		url: '/iot_usermanager/user/management/create',
+    	        		dataType: 'json',
+    	        		success: function(json){
+    	        			if(json.code == 0){
+    	        				
+    	        			}
+    	        		}
+    	        	})*/
+    	        	
+    	            //layer.close(index); //如果设定了yes回调，需进行手工关闭
     	        },
     	        success: function(layero, index){
     	        	//表单清空
@@ -207,7 +246,7 @@ layui.use(['layer', 'form', 'laydate', 'table', 'tree'], function(){
     	        		  "usernum_": ""
     	        		  ,"nname_": ""
     	        		  ,"password_": ""
-    	        		  ,"telphone_": ""
+    	        		  ,"telephone_": ""
     	        		  ,"role-list": ""
     	        		  ,"organ_": ""
     	        		  ,"note_": ""
