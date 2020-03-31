@@ -1,6 +1,27 @@
-/*
- * 引入其他插件
+//全局通用配置信息
+var host = '192.168.18.114';
+var port = '80';
+var project = 'iot_equipment';
+var url = "http://" + host + ":" + port;
+// var BASE_WEB =  "/" + project + "/"; //正式服务器地址
+var BASE_WEB = url; //测试服务器地址
+
+var TABLE_H = document.documentElement.clientHeight;//获取窗体的高度
+/**
+ * Api接口
+ * @type {{}}
  */
+var api = {
+	resource: { 
+		getAllResourceInfo: BASE_WEB + '/resource/getAllResourceInfo' //菜单数据接口
+	},
+	role: { //角色
+		roles: BASE_WEB + '/role/roles' //角色列表信息
+	}
+};
+
+
+
 //document.write('<script type="text/javascript" src="/package/layui-v2.4.2/layui.all.js"></script>');
 //引入layui插件
 /**
