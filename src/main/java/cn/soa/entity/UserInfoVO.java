@@ -24,6 +24,7 @@ public class UserInfoVO implements Serializable {
 	
 	private String usernum;	           //用户账号
 	private String nname;              //用户姓名
+	private String password;           //用户密码
 	private Integer age;               //用户年龄
 	private Integer sex;               //用户性别
 	private String address;            
@@ -33,6 +34,7 @@ public class UserInfoVO implements Serializable {
 	private Date last_modify_time;     //最新修改时间时间
 	private Integer state;             //用户状态
 	private String picture;             //用户头像
+	private String note;                //用户备注
 	private UserOrganization organ;     //用户所属部门信息
 	private List<UserRole> roles;       //用户所属角色列表
 

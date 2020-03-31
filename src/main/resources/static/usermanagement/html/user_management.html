@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>用户管理</title>
-<link rel="stylesheet" href="../../jsPackage/layui-v2.4.5/css/layui.css">
+<link rel="stylesheet" href="../../jsPackage/layui/css/layui.css">
 <link rel="stylesheet" href="../css/user_management.css">
 </head>
 <body>
@@ -46,10 +46,70 @@
   </div>
 </div>
 
+<div id="create-window" style="display: none;">
+	<form class="layui-form" lay-filter="create-window-form" style="width: 400px;padding-top: 20px;">
+		<div class="layui-form-item">
+			<label class="layui-form-label">用户账号<i style="color: red;font-weight: bolder;">*</i></label>
+			<div class="layui-input-block">
+				<input type="text" id="usernum_" name="usernum_" autocomplete="off" placeholder="请输入" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">用户姓名<i style="color: red;font-weight: bolder;">*</i></label>
+			<div class="layui-input-block">
+				<input type="text" id="nname_" name="nname_" autocomplete="off" placeholder="请输入" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">用户密码<i style="color: red;font-weight: bolder;">*</i></label>
+			<div class="layui-input-block">
+				<input type="password" id="password_" name="password_" autocomplete="off" placeholder="请输入" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">手机号</label>
+			<div class="layui-input-block">
+				<input type="tel" id="telphone_" name="telphone_" autocomplete="off" placeholder="请输入" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">性别</label>
+			<div class="layui-input-block">
+				<input type="radio" name="sex_" value="1" title="男" checked="checked" class="layui-input">
+				<input type="radio" name="sex_" value="0" title="女" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">组织选择<i style="color: red;font-weight: bolder;">*</i></label>
+			<div class="layui-input-block">
+				<input type="tel" id="organ_" name="organ_" placeholder="请选择" readonly="readonly" class="layui-input" style="cursor: pointer;">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">角色选择<i style="color: red;font-weight: bolder;">*</i></label>
+			<div class="layui-input-block">
+				<select class="layui-input" id="role-list" name="role-list" lay-search="">
+					<option selected="selected" value="">请选择或输入搜索</option>
+				</select>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">备注</label>
+			<div class="layui-input-block">
+				<textarea placeholder="请输入内容" name="note_" class="layui-textarea"> </textarea>
+			</div>
+		</div>
+	</form>
+</div>
+
+<div id="organ-window" style="display: none;">
+	<div id="organ-tree"></div>
+</div>
+
 <script type="text/html" id="toolbar">
   	<a class="layui-btn layui-btn-sm" lay-event="create"><i class="layui-icon">&#xe61f;</i>添&nbsp;加</a>
 	<a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="lock"><i class="layui-icon">&#xe640;</i>禁&nbsp;用</a>
-<a class="layui-btn layui-btn-sm layui-btn-normal" lay-event="unlock"><i class="layui-icon">&#xe631;</i>恢&nbsp;复</a>
+	<a class="layui-btn layui-btn-sm layui-btn-normal" lay-event="unlock"><i class="layui-icon">&#xe631;</i>恢&nbsp;复</a>
 </script>
 
 <script type="text/html" id="barBtn">
@@ -57,7 +117,7 @@
   <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="reset"><i class="layui-icon">&#xe673;</i>重置密码</a>
 </script>
 <script type="text/javascript" src="../../jsPackage/jquery-3.3.1/jquery-3.3.1.min.js"></script>
-<script type="text/javascript" src="../../jsPackage/layui-v2.4.5/layui.js"></script>
+<script type="text/javascript" src="../../jsPackage/layui/layui.js"></script>
 <script type="text/javascript" src="../js/universal.js"></script>
 <script type="text/javascript" src="../js/user_management.js"></script>
 </body>

@@ -1,5 +1,6 @@
 package cn.soa.dao;
 
+import java.util.Date;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,5 +24,20 @@ public class UserManagementTest {
 		System.out.println("-------------------");
 		System.out.println(list.size());
 		System.out.println(list);
+	}
+	
+	@Test
+	public void adduser() {
+		UserInfoVO user = new UserInfoVO();
+		user.setUsernum("王一一");
+		user.setNname("王一一");
+		user.setTelephone("1234567890");
+		user.setPassword("123456");
+		user.setSex(1);
+		user.setNote("备注");
+		user.setCreate_time(new Date());
+		user.setLast_modify_time(new Date());
+		mapper.insertUserInfo(user);
+		
 	}
 }

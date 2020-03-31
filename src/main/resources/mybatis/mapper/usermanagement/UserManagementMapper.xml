@@ -115,7 +115,34 @@
 	
 	
 	<!-- ===========================2、新增===============================  -->
-	
+	<!-- 2.1 新增用户信息 -->
+	<!-- Integer insertUserInfo(@Param("user") UserInfoVO user); -->
+	<insert id="insertUserInfo" parameterType="cn.soa.entity.UserInfoVO">
+		INSERT INTO
+			IOT_USER_INFO
+			(USERNUM, NNAME, SEX, TELEPHONE, CREATE_TIME, 
+			LAST_MODIFY_TIME, NOTE, PASSWORD, STATE, PICTURE)
+		VALUES(
+			<if test="user.usernum != null and user.usernum != ''">
+				#{user.usernum},
+			</if>
+			<if test="user.nname != null and user.nname != ''">
+				#{user.nname},
+			</if>
+			<if test="user.sex != null and user.sex != ''">
+				#{user.sex},
+			</if>
+			#{user.telephone, jdbcType=VARCHAR},
+			#{user.create_time, jdbcType=DATE},
+			#{user.last_modify_time, jdbcType=DATE},
+			#{user.note, jdbcType=VARCHAR},
+			<if test="user.password != null and user.password != ''">
+				#{user.password},
+			</if>
+			#{user.state, jdbcType=INTEGER},
+			#{user.picture, jdbcType=VARCHAR}
+		)
+	</insert>
 	
 	<!-- ===========================3、更新===============================  -->
 	<!-- 3.1 更新用户在用户表状态 -->
@@ -146,6 +173,43 @@
 			USERNUM = #{usernum, jdbcType=VARCHAR}
 	</update>
 	
+	<!-- 3.2 更新用户信息 -->
+	<!-- Integer updatetUserInfo(@Param("user") UserInfoVO user); -->
+	<update id="updatetUserInfo">
+		UPDATE 
+			IOT_USER_INFO
+		<set>
+			<if test="user != null">
+				<if test="user.nname != null and user.nname != ''">
+					NNAME = #{user.nname},
+				</if>
+				<if test="user.sex != null and user.sex != ''">
+					SEX = #{user.sex},
+				</if>
+				TELEPHONE = #{user.telephone, jdbcType=VARCHAR},
+				LAST_MODIFY_TIME = #{user.last_modify_time, jdbcType=DATE},
+				NOTE = #{user.note, jdbcType=VARCHAR},
+				<if test="user.picture != null and user.picture != ''">
+					PICTURE = #{user.picture}
+				</if>
+			</if>
+		</set>
+		WHERE
+			USERNUM = #{user.usernum, jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 3.3 更新用户密码 -->
+	<!-- Integer updateUserPassword(@Param("usernum") String usernum, @Param("password") String password); -->
+	<update id="updateUserPassword">
+		UPDATE 
+			IOT_USER_INFO
+		SET
+			<if test="passowrd != null and password != ''">
+				PASSWORD = #{password}
+			</if>
+		WHERE
+			USERNUM = #{user.usernum, jdbcType=VARCHAR}
+	</update>
 	
 </mapper>
  

@@ -66,4 +66,67 @@ public class UserManagementC {
 		}
 
 	}
+	
+	/**
+	 * 添加用户账号信息
+	 * @param user - 用户账号信息
+	 */
+	@RequestMapping("/user/management/create")
+	public ResultJson<Boolean> addUserInfo(UserInfoVO user, String rolid, String parentId){
+		log.info("------进入接口UserManagementC...addUserInfo------");
+		log.info("------用户信息： {}", user);
+		log.info("------角色ID rolid= {}", rolid);
+		log.info("------父ID parentId= {}", parentId);
+		
+		try {
+			userManagementS.addUserInfo(user, rolid, parentId);
+			
+			return new ResultJson<Boolean>(ResultJson.SUCCESS, "添加用户账号信息成功", true);
+		}catch (Exception e) {
+			log.info("--{}", e);
+			return new ResultJson<Boolean>(ResultJson.ERROR, "添加用户账号信息失败", false);
+		}
+
+	}
+	
+	/**
+	 * 修改用户账号信息
+	 * @param user - 用户账号信息
+	 */
+	@RequestMapping("/user/management/edit")
+	public ResultJson<Boolean> modifyUserInfo(UserInfoVO user, @RequestParam String parentId){
+		log.info("------进入接口UserManagementC...modifyUserInfo------");
+		log.info("------用户信息： {}", user);
+		log.info("------父ID parentId= {}", parentId);
+		
+		try {
+			userManagementS.setUserInfo(user, parentId);
+			
+			return new ResultJson<Boolean>(ResultJson.SUCCESS, "修改用户账号信息成功", true);
+		}catch (Exception e) {
+			log.info("--{}", e);
+			return new ResultJson<Boolean>(ResultJson.ERROR, "修改用户账号信息失败", false);
+		}
+
+	}
+	
+	/**
+	 * 重置账号密码
+	 * @param usernum - 用户账号
+	 * @param password - 账号密码
+	 */
+	@RequestMapping("/user/password/reset")
+	public ResultJson<Boolean> resetPassword(@RequestParam String usernum, @RequestParam String password){
+		log.info("------进入接口UserManagementC...resetPassword------");
+		log.info("------用户账号 usernum= {}", usernum);
+		log.info("------账号密码 password= {}", password);
+		
+		Boolean result = userManagementS.setUserPassword(usernum, password);
+		
+		if(result) {
+			new ResultJson<Boolean>(ResultJson.SUCCESS, "重置账号密码成功", result);
+		}
+		return new ResultJson<Boolean>(ResultJson.ERROR, "重置账号密码失败", result);
+
+	}
 }

@@ -46,4 +46,26 @@ public interface UserManagementMapper {
 	 * @return Integer - 受影响的行数
 	 */
 	Integer updateOrganState(@Param("usernum") String usernum, @Param("state") Integer state);
+	
+	/**
+	 * 新增用户信息
+	 * @param user - 用户信息对象
+	 * @return Integer - 受影响的行数
+	 */
+	Integer insertUserInfo(@Param("user") UserInfoVO user);
+	
+	/**
+	 * 更新用户信息
+	 * @param user - 用户信息对象
+	 * @return Integer - 受影响的行数
+	 */
+	Integer updatetUserInfo(@Param("user") UserInfoVO user);
+	
+	/**
+	 * 更新用户密码
+	 * @param usernum - 用户账号
+	 * @param password - 用户密码
+	 * @return Integer - 受影响的行数
+	 */
+	Integer updateUserPassword(@Param("usernum") String usernum, @Param("password") String password);
 }

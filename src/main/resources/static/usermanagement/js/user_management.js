@@ -3,11 +3,12 @@
  */
 
 var userAccount = getCookie1("name").replace(/"/g, '');
-layui.use(['layer', 'form', 'laydate', 'table'], function(){
+layui.use(['layer', 'form', 'laydate', 'table', 'tree'], function(){
 	
 	var layer = layui.layer
 		,laydate = layui.laydate
 	    ,form = layui.form
+	    ,tree = layui.tree
 	    ,table = layui.table;
 	
 	/**
@@ -149,11 +150,205 @@ layui.use(['layer', 'form', 'laydate', 'table'], function(){
 		    		}
 		    	})
 	    	}
-	    	
-	    	
 	    }
+		if(obj.event === 'unlock'){
+	    	var data = checkStatus.data;
+	    	if(data != undefined && data.length != 0){
+	    		var usernum = null;
+	    		for(var i=0;i<data.length;i++){
+	    			if(usernum == null){
+	    				usernum = data[i].usernum;
+	    			}else{
+	    				usernum += ',' + data[i].usernum;
+	    			}
+	    		}
+	    		console.log(usernum);
+	    		//调用后台接口更新账号状态
+	    		$.ajax({
+		    		type: 'post',
+		    		url: '/iot_usermanager/user/management/state',
+		    		data: {
+		    			'usernum': usernum,
+		    			'state': 1
+		    		},
+		    		dataType: 'json',
+		    		success: function(json){
+		    			if(json.state == 0){
+		    				layer.msg("用户账号恢复成功！",{icon: 1, offset: '150px'});
+		    				reloadTable();
+		    			}else{
+		    				layer.msg("用户账号恢复失败！",{icon: 2, offset: '150px'});
+		    			}
+		    		},
+		    		error: function(){
+		    			layer.msg("连接服务器失败，请联系管理员！",{icon: 2, offset: '150px'});
+		    		}
+		    	})
+	    	}
+	    }
+		if(obj.event === 'create'){
+    		layer.open({
+    	    	title: '新增用户信息',
+    	    	type: 1,
+    	    	id: obj.event+1,
+    	    	btnAlign: 'c',
+    	    	btn: ['确定', '取消'],
+    	    	closeBtn: 0,
+    	    	offset: '10px',
+    	    	area: ['500px','570px'],
+    	        content: $("#create-window"),
+    	        yes: function(index, layero){
+    	        	
+    	            layer.close(index); //如果设定了yes回调，需进行手工关闭
+    	        },
+    	        success: function(layero, index){
+    	        	//表单清空
+    	        	form.val("create-window-form", { 
+    	        		  "usernum_": ""
+    	        		  ,"nname_": ""
+    	        		  ,"password_": ""
+    	        		  ,"telphone_": ""
+    	        		  ,"role-list": ""
+    	        		  ,"organ_": ""
+    	        		  ,"note_": ""
+    	        	});
+    	        	form.render();
+    	        }
+    		});
+    	}
 	});
+	
+	/**
+	 * 请求所有角色列表
+	 */
+	$.ajax({
+		type: 'get',
+		url: '/iot_usermanager/role/roles',
+		dataType: 'json',
+		success: function(json){
+			if(json.code == 0){
+				var data = json.data;	
+				if(data != null && data.length != 0){
+					for(var i=0;i<data.length;i++){
+						var option = "<option value='"+data[i].rolid+"'>"+data[i].name+"</option>";
+						$("#role-list").append(option);
+					}
+				}
+				form.render();
+			}
+		}
+	})
+	
+	
+	/**
+	 * 请求人员组织树
+	 */
+	var organTree = [], organId = null;
+	$.ajax({
+		type: 'post',
+		url: '/iot_usermanager/user/list',
+		dataType: 'json',
+		success: function(json){
+			if(json.code == 0){
+				var data = json.data;
+				if(data != null && data.length != 0){
+					for(var i=0;i<data.length;i++){
+						if(data[i].parent_id == null || data[i].parent_id == '' ){
+							var obj = {};
+							obj.title = data[i].name;
+							obj.id = data[i].orgid;
+							obj.children = [];
+							
+							if(i != 0){
+								var temp = data[0];
+								data[0] = data[i];
+								data[i] = temp;
+							}
+							//删除第一个元素
+							data.shift();
+							organTree.push(obj);
+							createTree(data, organTree);
+						}
+					}
+				}
+				//手风琴模式
+				tree.render({
+					elem: '#organ-tree'
+					,data: organTree
+					,accordion: true 
+					,click: function(obj){
+					    console.log(obj.data); //得到当前点击的节点数据
+					    organId = null;
+					    if(obj.data.children.length == 0){
+					    	organId = obj.data.id;
+					    	$("#organ_").val(obj.data.title);
+					    	layer.close(index_);
+					    }
+					  }
+				});
+				form.render();
+			}
+		}
+	})
+	
+	/**
+	 * 组织选择点击事件
+	 */
+	var index_ = null;
+	$("#organ_").click(function(){
+		layer.open({
+	    	title: '人员组织',
+	    	type: 1,
+	    	id: "organTree",
+	    	btnAlign: 'c',
+	    	btn: ['关闭'],
+	    	closeBtn: 0,
+	    	offset: '10px',
+	    	area: ['300px','350px'],
+	        content: $("#organ-window"),
+	        yes: function(index, layero){
+	        	
+	            layer.close(index); //如果设定了yes回调，需进行手工关闭
+	        },
+	        success: function(layero, index){
+	        	index_ = index;
+	        }
+		});
+	})
 })
+
+/**
+ * 递归生成人员组织树数据
+ */
+function createTree(data, parent){
+	var flag = false;
+	for(var i=0;i<data.length;i++){
+		for(var j=0;j<parent.length;j++){
+			if(data[i].parent_id == parent[j].title){
+				var obj = {};
+				obj.title = data[i].name;
+				obj.id = data[i].orgid;
+				obj.children = [];
+				
+				if(i != 0){
+					var temp = data[0];
+					data[0] = data[i];
+					data[i] = temp;
+				}
+				//删除第一个元素
+				data.shift();
+				flag = true;
+				parent[j].children.push(obj);
+				createTree(data, parent[j].children);
+			}
+		}
+		if(flag){
+			flag = false;
+			i=-1;
+		}
+	}
+}
+
 
 
 var fieldMapping = {

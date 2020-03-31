@@ -30,4 +30,23 @@ public interface UserManagementSI {
 	 * @param state - 用户状态码： 1-正常，2-禁用
 	 */
 	Boolean setUserState(String usernum, Integer state);
+	
+	/**
+	 * 更新用户密码
+	 * @param usernum - 用户账号
+	 * @param password - 用户密码
+	 */
+	Boolean setUserPassword(String usernum, String password);
+	
+	/**
+	 * 新增用户信息
+	 * @param user - 用户信息对象
+	 */
+	Boolean addUserInfo(UserInfoVO user, String rolid, String parentId);
+	
+	/**
+	 * 更新用户信息
+	 * @param user - 用户信息对象
+	 */
+	Boolean setUserInfo(UserInfoVO user, String parentId);
 }

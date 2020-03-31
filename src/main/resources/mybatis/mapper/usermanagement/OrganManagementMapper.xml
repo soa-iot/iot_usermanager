@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="cn.soa.dao.usermanagement.OrganManagementMapper">
+
+	<!-- ===========================1、查询===============================  -->
+	
+	<!-- ===========================2、新增===============================  -->
+	<!-- 2.1 添加人员组织关系 -->
+	<!-- Integer insertUserOrgan(@Param("usernum") String usernum, @Param("name") String name, @Param("parentId") String parentId); -->
+	<insert id="insertUserOrgan">
+		<selectKey order="BEFORE" resultType="string" keyProperty="organid">
+			SELECT sys_guid() FROM dual;
+		</selectKey>
+		INSERT INTO
+			IOT_USER_ORGANIZATION
+			(ORGID, NAME, PARENT_ID, USERNUM, STATE, IS_PARENT, NOTE)
+		VALUES(
+			<if test="organid != null and organid != ''">
+				#{organid},
+			</if>
+			<if test="NAME != null and NAME != ''">
+				#{NAME},
+			</if>
+			<if test="parentId != null and parentId != ''">
+				#{parentId},
+			</if>
+			<if test="usernum != null and usernum != ''">
+				#{usernum},
+			</if>
+			1, 1, '用户'
+		)
+	</insert>
+	
+	<!-- ===========================3、更新===============================  -->
+	<!-- 3.1 添加人员组织关系 -->
+	<!-- Integer updateUserOrga(@Param("usernum") String usernum, @Param("name") String name,  @Param("parentId") String parentId); -->
+	<update id="updateUserOrga">
+		UPDATE
+			IOT_USER_ORGANIZATION
+		<set>
+			<if test="parentId != null and parentId != ''">
+				PARENT_ID = #{parentId},
+			</if>
+			<if test="name != null and name != ''">
+				NAME = #{name}
+			</if>
+		</set>
+		WHERE
+			USERNUM = #{usernum, jdbcType=VARCHAR}
+	</update>
+</mapper>
+ 
+

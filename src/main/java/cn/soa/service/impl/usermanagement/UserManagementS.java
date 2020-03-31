@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import cn.soa.dao.usermanagement.OrganManagementMapper;
+import cn.soa.dao.usermanagement.RoleManagementMapper;
 import cn.soa.dao.usermanagement.UserManagementMapper;
 import cn.soa.entity.UserInfoVO;
 import cn.soa.entity.UserQueryCondition;
@@ -25,6 +27,10 @@ public class UserManagementS implements UserManagementSI {
 	
 	@Autowired
 	private UserManagementMapper umMapper;
+	@Autowired
+	private RoleManagementMapper rmMapper;
+	@Autowired
+	private OrganManagementMapper omMapper;
 	
 	/**
 	 * 根据条件获取用户信息列表
@@ -83,6 +89,73 @@ public class UserManagementS implements UserManagementSI {
 			log.info("-----设置用户状态发生错误-----");
 			log.info("--{}", e);
 			throw new RuntimeException("设置用户状态发生异常");
+		}
+	}
+	
+	/**
+	 * 更新用户密码
+	 * @param usernum - 用户账号
+	 * @param password - 用户密码
+	 */
+	@Override
+	public Boolean setUserPassword(String usernum, String password) {
+		log.info("-----开始更新用户密码-----");
+		try {
+			
+			umMapper.updateUserPassword(usernum, password);
+
+			log.info("-----更新用户密码成功-----");
+			return true;
+			
+		}catch (Exception e) {
+			log.info("-----更新用户密码发生错误-----");
+			log.info("--{}", e);
+			return false;
+		}
+	}
+	
+	/**
+	 * 新增用户信息
+	 * @param user - 用户信息对象
+	 */
+	@Override
+	@Transactional
+	public Boolean addUserInfo(UserInfoVO user, String rolid, String parentId) {
+		log.info("-----开始新增用户信息-----");
+		try {
+			umMapper.insertUserInfo(user);
+			rmMapper.insertUserRole(user.getUsernum(), rolid);
+			omMapper.insertUserOrgan(user.getUsernum(), user.getNname(), parentId);
+
+			log.info("-----新增用户信息成功-----");
+			return true;
+			
+		}catch (Exception e) {
+			log.info("-----新增用户信息发生错误-----");
+			log.info("--{}", e);
+			throw new RuntimeException("新增用户信息发生错误");
+		}
+	}
+	
+	/**
+	 * 更新用户信息
+	 * @param user - 用户信息对象
+	 */
+	@Override
+	@Transactional
+	public Boolean setUserInfo(UserInfoVO user, String parentId) {
+		log.info("-----开始更新用户信息-----");
+		try {
+			umMapper.updatetUserInfo(user); 
+			omMapper.updateUserOrga(user.getUsernum(), user.getNname(), parentId);
+
+			log.info("-----更新用户信息成功-----");
+			return true;
+			
+		}catch (Exception e) {
+			log.info("-----更新用户信息发生错误-----");
+			log.info("--{}", e);
+			throw new RuntimeException("更新用户信息发生错误");
 		}
 	};
 }

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="cn.soa.dao.usermanagement.RoleManagementMapper">
+
+	<!-- ===========================1、查询===============================  -->
+	
+	<!-- ===========================2、新增===============================  -->
+	<!-- 2.1 添加用户角色 -->
+	<!-- Integer insertUserRole(@Param("usernum") String usernum, @Param("rolid") String rolid); -->
+	<insert id="insertUserRole">
+		<selectKey order="BEFORE" resultType="string" keyProperty="urid">
+			SELECT sys_guid() FROM dual;
+		</selectKey>
+	
+		INSERT INTO
+			IOT_USER_USER_ROLE
+			(USER_ROL_ID, USERID, ROLID)
+		VALUES(
+			<if test="urid != null and urid != ''">
+				#{urid},
+			</if>
+			<if test="usernum != null and usernum != ''">
+				#{usernum},
+			</if>
+			<if test="rolid != null and rolid != ''">
+				#{rolid}
+			</if>
+		)
+	</insert>
+	
+	<!-- ===========================3、更新===============================  -->
+
+	
+</mapper>
+ 
+
