@@ -1,5 +1,6 @@
 package cn.soa.service.impl.usermanagement;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +55,8 @@ public class UserModuleResourceS implements UserModuleResourceSI {
 	public Boolean addModuleResource(IotUserModuleResource resource) {
 		log.info("-----开始添加菜单资源信息-----");
 		try {
-			
+			resource.setCreateTime(new Date());
+			resource.setLastModifyTime(new Date());
 			umrMapper.insertModuleResource(resource);
 			
 			log.info("-----添加菜单资源信息成功-----");
@@ -62,6 +64,28 @@ public class UserModuleResourceS implements UserModuleResourceSI {
 			
 		}catch (Exception e) {
 			log.info("-----添加菜单资源信息发生错误-----");
+			log.info("--{}", e);
+			return false;
+		}
+	}
+	
+	/**
+	 * 更新菜单资源信息
+	 * @param resource - 菜单资源信息对象
+	 * 
+	 */
+	@Override
+	public Boolean setModuleResource(IotUserModuleResource resource) {
+		log.info("-----开始更新菜单资源信息-----");
+		try {
+			resource.setLastModifyTime(new Date());
+			umrMapper.updateModuleResource(resource);
+			
+			log.info("-----更新菜单资源信息成功-----");
+			return true;
+			
+		}catch (Exception e) {
+			log.info("-----更新菜单资源信息发生错误-----");
 			log.info("--{}", e);
 			return false;
 		}

@@ -85,4 +85,33 @@ public class UserModuleResourceC {
 		}
 		return new ResultJson<Boolean>(ResultJson.ERROR, "添加菜单资源信息失败", result);
 	}
+	
+	/**
+	 * 修改菜单资源信息
+	 */
+	@MyLog(value = "修改菜单资源信息")
+	@ApiOperation(value = "修改菜单资源信息")
+	@ApiImplicitParams(value= {
+			@ApiImplicitParam(name="modId", value="资源主键ID", required=true, type="string"),
+			@ApiImplicitParam(name="name", value="资源名称", type="string"),
+			@ApiImplicitParam(name="url", value="资源URL", type="string"),
+			@ApiImplicitParam(name="describe", value="资源描述", type="string"),
+			@ApiImplicitParam(name="type", value="资源类型", allowableValues="1, 2, 3", type="int"),
+			@ApiImplicitParam(name="remark1", value="资源排序号",  type="int"),
+			@ApiImplicitParam(name="parentId", value="资源父ID", type="string"),
+			@ApiImplicitParam(name="isParent", value="是否是父资源", allowableValues="0, 1", type="int"),
+			@ApiImplicitParam(name="menuIcon", value="资源图标", type="string")
+	})
+	@PostMapping("/resource/edit")
+	public ResultJson<Boolean> modifyModuleResource(IotUserModuleResource resource){
+		log.info("------进入接口UserModuleResourceC...modifyModuleResource------");
+		log.info("------菜单资源信息 resource: {}", resource);
+		
+		Boolean result = userModuleResourceS.setModuleResource(resource);
+		
+		if(result) {
+			return new ResultJson<Boolean>(ResultJson.SUCCESS, "修改菜单资源信息成功", result);
+		}
+		return new ResultJson<Boolean>(ResultJson.ERROR, "修改菜单资源信息失败", result);
+	}
 }

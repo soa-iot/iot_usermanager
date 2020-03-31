@@ -78,7 +78,42 @@
 	
 	
 	<!-- ===========================3、更新===============================  -->
+	<!-- 3.1 更新菜单资源信息 -->
+	<!-- Integer updateModuleResource(@Param("resource") IotUserModuleResource resource); -->
+	<update id="updateModuleResource" parameterType="cn.soa.entity.IotUserModuleResource">
+		UPDATE
+			IOT_USER_MODULE_RESOURCE
+		<set>
+			<if test="resource != null">
+				<if test="resource.name != null and resource.name != ''">
+					NAME = #{resource.name},
+				</if>
+				#{resource.url, jdbcType=VARCHAR},
+				#{resource.describe, jdbcType=VARCHAR},
+				<if test="resource.type != null">
+					TYPE = #{resource.type},
+				</if>
+				<if test="resource.parentId != null and resource.parentId != ''">
+					PARENT_ID = #{resource.parentId},
+				</if>
+				<if test="resource.isParent != null and resource.isParent != ''">
+					IS_PARENT = #{resource.isParent},
+				</if>
+				LAST_MODIFY_TIME = #{resource.lastModifyTime, jdbcType=DATE},
+				<if test="resource.remark1 != null and resource.remark1 != ''">
+					REMARK1 = #{resource.remark1},
+				</if>
+				MENU_ICON = #{resource.menuIcon, jdbcType=VARCHAR},
+				STANDBY2 = #{resource.standby2, jdbcType=VARCHAR},
+				STANDBY3 = #{resource.standby3, jdbcType=VARCHAR},
+				STANDBY4 = #{resource.standby4, jdbcType=VARCHAR}
+			</if>
+		</set>
+		WHERE
+			MODID = #{resource.modId, jdbcType=VARCHAR}
+	</update>
 
+	
 </mapper>
  
 

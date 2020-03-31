@@ -30,4 +30,11 @@ public interface UserModuleResourceMapper {
 	 * 
 	 */
 	Integer insertModuleResource(@Param("resource") IotUserModuleResource resource);
+	
+	/**
+	 * 更新菜单资源信息
+	 * @param resource - 菜单资源信息对象
+	 * 
+	 */
+	Integer updateModuleResource(@Param("resource") IotUserModuleResource resource);
 }
