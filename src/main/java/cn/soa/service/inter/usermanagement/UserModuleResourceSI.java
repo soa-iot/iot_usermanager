@@ -25,4 +25,11 @@ public interface UserModuleResourceSI {
 	 */
 	List<IotUserModuleResource> getAllResources();
 	
+	/**
+	 * 添加菜单资源信息
+	 * @param resource - 菜单资源信息对象
+	 * 
+	 */
+	Boolean addModuleResource(IotUserModuleResource resource);
+	
 }

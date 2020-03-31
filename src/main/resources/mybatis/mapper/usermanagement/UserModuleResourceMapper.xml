@@ -32,7 +32,50 @@
 	</select>
 	
 	<!-- ===========================2、新增===============================  -->
-
+	<!-- 2.1 添加菜单资源信息 -->
+	<!-- Integer insertModuleResource(@Param("resource") IotUserModuleResource resource); -->
+	<insert id="insertModuleResource" parameterType="cn.soa.entity.IotUserModuleResource">
+		<selectKey order="BEFORE" resultType="string" keyProperty="modId">
+			SELECT sys_guid() from dual
+		</selectKey>
+		
+		INSERT INTO
+			IOT_USER_MODULE_RESOURCE
+			(MODID, NAME, URL, DESCRIBE, TYPE, PARENT_ID, IS_PARENT, CREATE_TIME, LAST_MODIFY_TIME,
+			REMARK1, MENU_ICON, STANDBY2, STANDBY3, STANDBY4
+			)
+		VALUES(
+			<if test="resource != null">
+				<if test="modId != null and modId != ''">
+					#{modId},
+				</if>
+				<if test="resource.name != null and resource.name != ''">
+					#{resource.name},
+				</if>
+				#{resource.url, jdbcType=VARCHAR},
+				#{resource.describe, jdbcType=VARCHAR},
+				<if test="resource.type != null">
+					#{resource.type},
+				</if>
+				<if test="resource.parentId != null and resource.parentId != ''">
+					#{resource.parentId},
+				</if>
+				<if test="resource.isParent != null and resource.isParent != ''">
+					#{resource.isParent},
+				</if>
+				#{resource.createTime, jdbcType=DATE},
+				#{resource.lastModifyTime, jdbcType=DATE},
+				<if test="resource.remark1 != null and resource.remark1 != ''">
+					#{resource.remark1},
+				</if>
+				#{resource.menuIcon, jdbcType=VARCHAR},
+				#{resource.standby2, jdbcType=VARCHAR},
+				#{resource.standby3, jdbcType=VARCHAR},
+				#{resource.standby4, jdbcType=VARCHAR}
+			</if>
+		)
+	</insert>
+	
 	
 	<!-- ===========================3、更新===============================  -->
 

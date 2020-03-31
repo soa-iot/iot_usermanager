@@ -44,6 +44,28 @@ public class UserModuleResourceS implements UserModuleResourceSI {
 			return null;
 		}
 	}
+	
+	/**
+	 * 添加菜单资源信息
+	 * @param resource - 菜单资源信息对象
+	 * 
+	 */
+	@Override
+	public Boolean addModuleResource(IotUserModuleResource resource) {
+		log.info("-----开始添加菜单资源信息-----");
+		try {
+			
+			umrMapper.insertModuleResource(resource);
+			
+			log.info("-----添加菜单资源信息成功-----");
+			return true;
+			
+		}catch (Exception e) {
+			log.info("-----添加菜单资源信息发生错误-----");
+			log.info("--{}", e);
+			return false;
+		}
+	}
 
 
 

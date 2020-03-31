@@ -10,17 +10,21 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import cn.soa.IotUsermanagerApplication;
 import cn.soa.dao.usermanagement.UserManagementMapper;
+import cn.soa.dao.usermanagement.UserModuleResourceMapper;
+import cn.soa.entity.IotUserModuleResource;
 import cn.soa.entity.UserInfoVO;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = IotUsermanagerApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class UserManagementTest {
 	@Autowired
-	public UserManagementMapper mapper;
+	public UserManagementMapper umapper;
+	@Autowired
+	public UserModuleResourceMapper rmapper;
 	
 	@Test
 	public void findusers() {
-		List<UserInfoVO> list = mapper.findUsersByCondition(null);
+		List<UserInfoVO> list = umapper.findUsersByCondition(null);
 		System.out.println("-------------------");
 		System.out.println(list.size());
 		System.out.println(list);
@@ -37,7 +41,25 @@ public class UserManagementTest {
 		user.setNote("备注");
 		user.setCreate_time(new Date());
 		user.setLast_modify_time(new Date());
-		mapper.insertUserInfo(user);
+		umapper.insertUserInfo(user);
 		
+	}
+	
+	@Test
+	public void addResources() {
+		
+		IotUserModuleResource resource = new IotUserModuleResource();
+		resource.setName("1");
+		resource.setUrl("/1/1/1/1");
+		resource.setDescribe("2");
+		resource.setType(3);
+		resource.setCreateTime(new Date());
+		resource.setLastModifyTime(new Date());
+		resource.setRemark1("4");
+		resource.setParentId("111");
+		resource.setIsParent("0");
+		resource.setMenuIcon("icon");
+		
+		rmapper.insertModuleResource(resource);
 	}
 }
