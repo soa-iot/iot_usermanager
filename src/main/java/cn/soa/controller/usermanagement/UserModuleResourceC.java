@@ -124,7 +124,7 @@ public class UserModuleResourceC {
 	@ApiImplicitParams(value= {
 			@ApiImplicitParam(name="modId", value="资源主键ID", required=true, type="string")
 	})
-	@DeleteMapping("/resource/remove")
+	@PostMapping("/resource/remove")
 	public ResultJson<Boolean> deleteModuleResource(@RequestParam String modId){
 		log.info("------进入接口UserModuleResourceC...deleteModuleResource------");
 		log.info("------菜单资源ID modId: {}", modId);
