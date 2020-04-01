@@ -8,16 +8,13 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<link rel="stylesheet" href="../../jsPackage/layui-v2.4.5/css/layui.css">
+		<link rel="stylesheet" type="text/css" href="../../index/font-awesome-4.7.0/css/font-awesome.css">
 		<link rel="stylesheet" href="../../css/config.css">
 	</head>
 	<body>
 		<div class="layui-container">
 			<div class="layui-row layui-col-space12" style="height: 100%">
 				<div class="layui-col-xs10 layui-col-sm10 layui-col-md12 equipment_list">
-					<div class="layui-row">
-						<div class="layui-col-md12 " id="equipment_list">
-						</div>
-					</div>
 					<div class="layui-row">
 
 						<div class="layui-fluid " style="overflow: visible">
@@ -34,7 +31,7 @@
 
 												<div class="layui-inline">
 
-													<label class="layui-form-label">备件编号</label>
+													<label class="layui-form-label">菜单名称</label>
 
 													<div class="layui-input-inline">
 
@@ -43,28 +40,6 @@
 													</div>
 												</div>
 
-												<div class="layui-inline">
-
-													<label class="layui-form-label">备件名称</label>
-
-													<div class="layui-input-inline">
-
-														<input name="spName" id="spName" class="layui-input" placeholder="请输入">
-
-													</div>
-
-												</div>
-												<div class="layui-inline">
-
-													<label class="layui-form-label">类别</label>
-
-													<div class="layui-input-inline">
-
-														<input name="types" id="types" class="layui-input" placeholder="请输入">
-
-													</div>
-
-												</div>
 												<div class="layui-inline" id="btn-group">
 
 													<button class="layui-btn layui-btn-normal" type="button" lay-submit id="search_button_search" lay-filter="search_button_search">
@@ -103,19 +78,21 @@
 
 					</div>
 				</div>
-
 			</div>
-
 		</div>
-		
 		<script type="text/html" id="toolbar">
-		    <button class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon">&#xe654;</i>新增</button>
-			<button class="layui-btn layui-btn-sm" lay-event="del_all"><i class="layui-icon">&#xe619;</i>删除</button>
+		    <button class="layui-btn layui-btn-sm" lay-event="add">新增</button>
+			<!-- <button class="layui-btn layui-btn-sm" lay-event="del_all"><i class="layui-icon">&#xe619;</i>删除</button> -->
 		</script>
 		<script type="text/html" id="barDemo">
-		  		<a class="layui-btn layui-btn-xs" lay-event="edit">新增</a>
-				<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-		 	 	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+			{{#  if(d.type == 2){ }}
+					<a style="background-color: #00aaff;" class="layui-btn layui-btn-xs" lay-event="editMenu">编辑</a>
+					<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delMenu">删除</a>
+				{{#  } else { }}
+				<a class="layui-btn layui-btn-xs" lay-event="addMenu">新增</a>
+				<a style="background-color: #00aaff;" class="layui-btn layui-btn-xs" lay-event="editMenu">编辑</a>
+				<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delMenu">删除</a>
+				{{#  } }}
 			</script>
 	
 		
@@ -129,16 +106,16 @@
 						    <div class="layui-inline">
 						      <label class="layui-form-label">名称</label>
 						      <div class="layui-input-inline">
-						        <input type="tel" name="phone" lay-verify="required|phone" autocomplete="off" class="layui-input">
+								   <input type="text" name="name" id="name" lay-verify="required" lay-reqtext="用户名是必填项，岂能为空？" placeholder="请输入" autocomplete="off" class="layui-input">
 						      </div>
 						    </div>
 						  </div>
 						  
-						  <div class="layui-form-item">
+						  <div class="layui-form-item" id="icon">
 						    <div class="layui-inline">
 						      <label class="layui-form-label">图标选择</label>
 						      <div class="layui-input-inline">
-						        <input type="tel" name="phone" lay-verify="required|phone" autocomplete="off" class="layui-input">
+								  <input type="text" id="iconPicker" lay-filter="iconPicker" class="layui-input">
 						      </div>
 						    </div>
 						  </div>
@@ -147,16 +124,16 @@
 						    <div class="layui-inline">
 						      <label class="layui-form-label">权限标识</label>
 						      <div class="layui-input-inline">
-						        <input type="tel" name="phone" lay-verify="required|phone" autocomplete="off" class="layui-input">
+						        <input type="text" name="standby2" id="standby2" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input">
 						      </div>
 						    </div>
 						  </div>
 						  
-						  <div class="layui-form-item">
+						  <div class="layui-form-item" id="url" style="display: none;">
 						    <div class="layui-inline">
 						      <label class="layui-form-label">连接地址</label>
 						      <div class="layui-input-inline">
-						        <input type="tel" name="phone" lay-verify="required|phone" autocomplete="off" class="layui-input">
+						        <input type="text" name="address" id="address" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input">
 						      </div>
 						    </div>
 						  </div>
@@ -165,7 +142,7 @@
 						    <div class="layui-inline">
 						      <label class="layui-form-label">排序号</label>
 						      <div class="layui-input-inline">
-						        <input type="tel" name="phone" lay-verify="required|phone" autocomplete="off" class="layui-input">
+						          <input type="text" name="remark1" id="remark1" lay-verify="required" lay-reqtext="用户名是必填项，岂能为空？" placeholder="请输入" autocomplete="off" class="layui-input">
 						      </div>
 						    </div>
 						  </div>
@@ -173,14 +150,27 @@
 						  <div class="layui-form-item">
 						    <label class="layui-form-label">类型</label>
 						    <div class="layui-input-block">
-						      <input type="radio" name="sex" value="目录" title="目录" checked="">
-						      <input type="radio" name="sex" value="菜单" title="菜单">
-						      <input type="radio" name="sex" value="按钮" title="按钮">
+								<span  id="directory">
+									<input type="radio" name="type" lay-filter="erweima" value="0" title="目录" >
+								</span>
+								<span  id="menu">
+									<input type="radio"  name="type" lay-filter="erweima" value="1" title="菜单">
+								</span>
+								<span  id="button">
+									<input type="radio"  name="type" lay-filter="erweima" value="2" title="按钮" checked="">
+								</span>
 						    </div>
 						  </div>
+						  <div class="layui-form-item layui-form-text">
+						      <label class="layui-form-label">描述</label>
+						      <div class="layui-input-block">
+						        <textarea placeholder="请输入内容" id="describe" class="layui-textarea"></textarea>
+						      </div>
+						    </div>
+						  
 						  <div class="layui-form-item">
 						    <div class="layui-input-block">
-						      <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+						      <button type="button" class="layui-btn" lay-submit="" id="addmenus" lay-filter="addmenus">立即提交</button>
 						      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
 						    </div>
 						  </div>
@@ -191,13 +181,6 @@
 		
 	</body>
 	
-	<script type="text/html" id="toolbar">
-		<div class="layui-btn-container">
-	    <button class="layui-btn layui-btn-sm" lay-event="getCheckData">新增</button>
-	    <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">编辑</button>
-	    <button class="layui-btn layui-btn-sm" lay-event="isAll">删除</button>
-	  </div>
-	</script>
 	<script src="../../jsPackage/jquery-3.3.1/jquery-3.3.1.min.js"></script>
 	<script src="../../jsPackage/layui-v2.4.5/layui.js"></script>
 	<script src="../../jsPackage/own/universal.js"></script>
