@@ -18,6 +18,7 @@
 		<result column="create_time" property="create_time"></result>
 		<result column="last_modify_time" property="last_modify_time"></result>
 		<result column="state" property="state"></result>
+		<result column="note" property="note"></result>
 		<result column="picture" property="picture"></result>
 		<association property="organ" javaType="cn.soa.entity.UserOrganization">
 			<id column="orgid" property="orgid"></id>

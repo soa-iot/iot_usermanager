@@ -12,7 +12,7 @@ layui.use(['layer', 'form', 'laydate', 'table', 'tree'], function(){
 	    ,table = layui.table;
 	
 	/**
-	 * 临时任务表格
+	 * 用户表格
 	 */
 	var userTable = table.render({
 	    elem: '#userList'
@@ -246,6 +246,7 @@ layui.use(['layer', 'form', 'laydate', 'table', 'tree'], function(){
     	        		success: function(json){
     	        			if(json.state == 0){
     	        				layer.msg(json.message,{icon: 1, offset: '150px'});
+    	        				reloadTable();
     	        				layer.close(index); 
     	        			}else{
     	        				layer.msg(json.message,{icon: 2, offset: '150px'});
@@ -263,6 +264,94 @@ layui.use(['layer', 'form', 'laydate', 'table', 'tree'], function(){
     	        		  ,"role-list": ""
     	        		  ,"organ_": ""
     	        		  ,"note_": ""
+    	        	});
+    	        	form.render();
+    	        }
+    		});
+    	}
+	});
+	
+	/**
+	 * 监听每一行工具按钮事件
+	 */
+	table.on('tool(userList)', function(obj){
+		var data = obj.data;
+		
+		console.log(data)
+		if(obj.event === 'edit'){
+    		layer.open({
+    	    	title: '编辑用户信息',
+    	    	type: 1,
+    	    	id: obj.event+1,
+    	    	btnAlign: 'c',
+    	    	btn: ['确定', '取消'],
+    	    	closeBtn: 0,
+    	    	offset: '10px',
+    	    	area: ['500px','570px'],
+    	        content: $("#edit-window"),
+    	        yes: function(index, layero){
+    	        	
+    	        	var usernum = $.trim($("#usernum_1").val());
+    	        	var nname = $.trim($("#nname_1").val());
+    	        	var telephone = $.trim($("#telephone_1").val());
+    	        	var organ = $.trim($("#organ_1").val());
+    	        	var note = $.trim($("#note_1").val());
+    	        	var sex = form.val("edit-window-form").sex_1;
+    	        	
+    	        	if(usernum == null || usernum == ''){
+    	        		layer.msg("用户账号不能为空",{icon: 7, offset: '150px'});
+    	        		return;
+    	        	}
+    	        	if(nname == null || nname == ''){
+    	        		layer.msg("用户姓名不能为空",{icon: 7, offset: '150px'});
+    	        		return;
+    	        	}
+    	        	if(organ == null || organ == ''){
+    	        		layer.msg("组织不能为空",{icon: 7, offset: '150px'});
+    	        		return;
+    	        	}
+    	        	
+    	        	$.ajax({
+    	        		type: 'post',
+    	        		url: '/iot_usermanager/user/management/edit',
+    	        		data: {
+    	        			'usernum': usernum,
+    	        			'nname': nname,
+    	        			'telephone': telephone,
+    	        			'parentId': organ,
+    	        			'note': note,
+    	        			'sex': sex
+    	        		},
+    	        		dataType: 'json',
+    	        		success: function(json){
+    	        			if(json.state == 0){
+    	        				layer.msg(json.message,{icon: 1, offset: '150px'});
+    	        				reloadTable();
+    	        				layer.close(index); 
+    	        			}else{
+    	        				layer.msg(json.message,{icon: 2, offset: '150px'});
+    	        			}
+    	        		}
+    	        	})
+    	        },
+    	        success: function(layero, index){
+    	        	//表单清空
+    	        	form.val("edit-window-form", { 
+  	        		  "usernum_1": ""
+  	        		  ,"nname_1": ""
+  	        		  ,"telephone_1": ""
+  	        		  ,"sex_1": ""
+  	        		  ,"organ_1": ""
+  	        		  ,"note_1": ""
+  	        	    });
+    	        	//附初始值
+    	        	form.val("edit-window-form", { 
+    	        		  "usernum_1": data.usernum
+    	        		  ,"nname_1": data.nname
+    	        		  ,"telephone_1": data.telephone
+    	        		  ,"sex_1": data.sex
+    	        		  ,"organ_1": data.organName
+    	        		  ,"note_1": data.note
     	        	});
     	        	form.render();
     	        }
@@ -334,6 +423,7 @@ layui.use(['layer', 'form', 'laydate', 'table', 'tree'], function(){
 					    if(obj.data.children.length == 0){
 					    	organId = obj.data.id;
 					    	$("#organ_").val(obj.data.title);
+					    	$("#organ_1").val(obj.data.title);
 					    	layer.close(index_);
 					    }
 					  }
@@ -352,6 +442,27 @@ layui.use(['layer', 'form', 'laydate', 'table', 'tree'], function(){
 	    	title: '人员组织',
 	    	type: 1,
 	    	id: "organTree",
+	    	btnAlign: 'c',
+	    	btn: ['关闭'],
+	    	closeBtn: 0,
+	    	offset: '10px',
+	    	area: ['300px','350px'],
+	        content: $("#organ-window"),
+	        yes: function(index, layero){
+	        	
+	            layer.close(index); //如果设定了yes回调，需进行手工关闭
+	        },
+	        success: function(layero, index){
+	        	index_ = index;
+	        }
+		});
+	})
+	
+	$("#organ_1").click(function(){
+		layer.open({
+	    	title: '人员组织',
+	    	type: 1,
+	    	id: "organTree1",
 	    	btnAlign: 'c',
 	    	btn: ['关闭'],
 	    	closeBtn: 0,
