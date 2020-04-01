@@ -1,5 +1,6 @@
 package cn.soa.controller.usermanagement;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -155,5 +156,31 @@ public class UserModuleResourceC {
 			return new ResultJson<Boolean>(ResultJson.SUCCESS, "删除菜单资源信息成功", result);
 		}
 		return new ResultJson<Boolean>(ResultJson.ERROR, "该菜单资源是父级资源，无法删除", result);
+	}
+	
+	/**
+	 * 通过角色ID查询其拥有的菜单资源ID
+	 */
+	//@MyLog(value = "查询所有的权限资源信息")
+	@ApiOperation(value = "查询角色拥有的菜单资源ID")
+	@ApiImplicitParams(value= {
+			@ApiImplicitParam(name="rolid", value="角色ID", required=true, type="string")
+	})
+	@GetMapping("/resource/role/ids")
+	public ResponseEntity<List<String>> getRoleResourceId(String rolid){
+		log.info("------进入接口UserModuleResourceC...getRoleResourceId------");
+		log.info("------角色ID rolid: {}", rolid);
+		
+		List<IotUserModuleResource> result = userModuleResourceS.getResources(rolid);
+		
+		if(result != null) {
+			List<String> resourceIds = new LinkedList<String>();
+			for(IotUserModuleResource resource : result) {
+				resourceIds.add(resource.getModId());
+			}
+			return new ResponseEntity<>(0, "获取角色拥有的菜单资源成功", resourceIds.size(), resourceIds);
+		}
+		
+		return new ResponseEntity<>(1, "获取角色拥有的菜单资源失败");
 	}
 }

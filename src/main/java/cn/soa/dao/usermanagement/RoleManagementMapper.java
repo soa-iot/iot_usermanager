@@ -50,4 +50,5 @@ public interface RoleManagementMapper {
 	 * @param rolid - 角色id
 	 */
 	Integer deleteRoleType(String rolid);
+
 }

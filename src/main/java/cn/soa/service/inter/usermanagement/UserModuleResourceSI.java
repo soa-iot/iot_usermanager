@@ -53,4 +53,10 @@ public interface UserModuleResourceSI {
 	 * 
 	 */
 	Boolean removeModuleResource(String modId);
+	
+	/**
+	 * 通过角色ID查询其拥有的资源
+	 * @param rolid - 角色id
+	 */
+	List<IotUserModuleResource> getResources(String rolid);
 }

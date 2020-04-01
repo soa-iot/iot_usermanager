@@ -180,5 +180,25 @@ public class UserModuleResourceS implements UserModuleResourceSI {
 			}
 		}
 	}
+	
+	/**
+	 * 通过角色ID查询其拥有的菜单资源
+	 * @param rolid - 角色id
+	 */
+	@Override
+	public List<IotUserModuleResource> getResources(String rolid) {
+		log.info("-----开始通过角色ID查询其拥有的菜单资源-----");
+		try {
+			List<IotUserModuleResource> list = umrMapper.findResourcesByRolid(rolid);
+			
+			log.info("-----通过角色ID查询其拥有的菜单资源成功-----");
+			return list;
+			
+		}catch (Exception e) {
+			log.info("-----通过角色ID查询其拥有的菜单资源发生错误-----");
+			log.info("--{}", e);
+			return null;
+		}
+	}
 
 }

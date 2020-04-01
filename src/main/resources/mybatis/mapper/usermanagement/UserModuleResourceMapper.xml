@@ -32,6 +32,18 @@
 		ORDER BY TO_NUMBER(REMARK1) 
 	</select>
 	
+	<!-- 1.2 通过角色ID查询其拥有的资源 -->
+	<!-- List<IotUserModuleResource> findResourcesByRolid(String rolid); -->
+	<select id="findResourcesByRolid" resultMap="findAllResourcesMap">
+		SELECT
+			res.*
+		FROM
+			IOT_USER_MODULE_RESOURCE res JOIN IOT_USER_AUTHORITY aut ON res.modid = aut.resourceid
+			JOIN IOT_USER_ROLE_AUTH ura ON aut.autid = ura.autid
+		WHERE
+			ura.ROLID = #{rolid, jdbcType=VARCHAR}
+	</select>
+	
 	<!-- ===========================2、新增===============================  -->
 	<!-- 2.1 添加菜单资源信息 -->
 	<!-- Integer insertModuleResource(@Param("resource") IotUserModuleResource resource); -->

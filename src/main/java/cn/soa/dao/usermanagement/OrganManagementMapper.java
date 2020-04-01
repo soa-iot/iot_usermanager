@@ -1,7 +1,11 @@
 package cn.soa.dao.usermanagement;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import cn.soa.entity.UserOrganization;
 
 
 /**
@@ -26,4 +30,10 @@ public interface OrganManagementMapper {
 	 * @param orgid - 人员组织ID
 	 */
 	Integer updateUserOrga(@Param("usernum") String usernum, @Param("name") String name,  @Param("parentId") String parentId);
+	
+	
+	/**
+	 * 查询所有人员组织信息
+	 */
+	List<UserOrganization> findAllOrgans();
 }

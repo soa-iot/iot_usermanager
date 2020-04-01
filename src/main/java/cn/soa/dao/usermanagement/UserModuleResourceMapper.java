@@ -44,4 +44,10 @@ public interface UserModuleResourceMapper {
 	 * 
 	 */
 	Integer deleteModuleResource(String modId);
+	
+	/**
+	 * 通过角色ID查询其拥有的资源
+	 * @param rolid - 角色id
+	 */
+	List<IotUserModuleResource> findResourcesByRolid(String rolid);
 }

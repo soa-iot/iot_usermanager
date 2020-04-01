@@ -5,6 +5,14 @@
 <mapper namespace="cn.soa.dao.usermanagement.OrganManagementMapper">
 
 	<!-- ===========================1、查询===============================  -->
+	<!-- 1.1 查询所有人员组织信息 -->
+	<!-- List<UserOrganization> findAllOrgans(); -->
+	<select id="findAllOrgans" resultType="cn.soa.entity.UserOrganization">
+		SELECT
+			*
+		FROM
+			IOT_USER_ORGANIZATION
+	</select>
 	
 	<!-- ===========================2、新增===============================  -->
 	<!-- 2.1 添加人员组织关系 -->
