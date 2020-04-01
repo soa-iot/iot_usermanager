@@ -9,10 +9,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import cn.soa.IotUsermanagerApplication;
+import cn.soa.dao.usermanagement.RoleManagementMapper;
 import cn.soa.dao.usermanagement.UserManagementMapper;
 import cn.soa.dao.usermanagement.UserModuleResourceMapper;
 import cn.soa.entity.IotUserModuleResource;
 import cn.soa.entity.UserInfoVO;
+import cn.soa.entity.UserRoleVO;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = IotUsermanagerApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
@@ -21,6 +23,8 @@ public class UserManagementTest {
 	public UserManagementMapper umapper;
 	@Autowired
 	public UserModuleResourceMapper rmapper;
+	@Autowired
+	public RoleManagementMapper rmMapper;
 	
 	@Test
 	public void findusers() {
@@ -61,5 +65,13 @@ public class UserManagementTest {
 		resource.setMenuIcon("icon");
 		
 		rmapper.insertModuleResource(resource);
+	}
+	
+	@Test
+	public void findRoles() {
+		List<UserRoleVO> list = rmMapper.findUserRoles(null);
+		System.out.println("-------------------");
+		System.out.println(list.size());
+		System.out.println(list);
 	}
 }

@@ -1,7 +1,11 @@
 package cn.soa.dao.usermanagement;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import cn.soa.entity.UserRoleVO;
 
 
 /**
@@ -20,4 +24,10 @@ public interface RoleManagementMapper {
 	 */
 	Integer insertUserRole(@Param("usernum") String usernum, @Param("rolid") String rolid);
 	
+	/**
+	 * 条件查询角色列表
+	 * @param roleName - 角色名字
+	 * @param List<UserRoleVO> - 角色列表
+	 */
+	List<UserRoleVO> findUserRoles(String roleName);
 }

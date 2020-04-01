@@ -5,6 +5,55 @@
 <mapper namespace="cn.soa.dao.usermanagement.RoleManagementMapper">
 
 	<!-- ===========================1、查询===============================  -->
+	<!-- 1.1 条件查询角色列表 -->
+	<!-- List<UserRoleVO> findUserRoles(String roleName); -->
+	<resultMap type="cn.soa.entity.UserRoleVO" id="findUserRolesMap">
+		<id column="rolid" property="rolid"/>
+		<result column="name" property="name"/>
+		<result column="state" property="state"/>
+		<result column="create_time" property="create_time"/>
+		<result column="last_modify_time" property="last_modify_time"/>
+		<result column="note" property="note"/>
+		<collection property="resources" column="rolid" ofType="cn.soa.entity.IotUserModuleResource" select="selectRoleResource">
+			<id column="MODID" property="modId"/>
+			<result column="NAME" property="name"/>
+			<result column="URL" property="url"/>
+			<result column="DESCRIBE" property="describe"/>
+			<result column="TYPE" property="type"/>
+			<result column="PARENT_ID" property="parentId"/>
+			<result column="IS_PARENT" property="isParent"/>
+			<result column="CREATE_TIME" property="createTime"/>
+			<result column="LAST_MODIFY_TIME" property="lastModifyTime"/>
+			<result column="REMARK1" property="remark1"/>
+			<result column="MENU_ICON" property="menuIcon"/>
+			<result column="STANDBY2" property="standby2"/>
+			<result column="STANDBY3" property="standby3"/>
+			<result column="STANDBY4" property="standby4"/>
+		</collection>
+	</resultMap>
+	
+	<select id="findUserRoles" resultMap="findUserRolesMap">
+		SELECT
+			*
+		FROM
+			IOT_USER_ROLE
+		<where>
+			<if test="roleName != null and roleName != ''">
+				NAME LIKE '%${roleName}%'
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectRoleResource" resultType="cn.soa.entity.IotUserModuleResource">
+		SELECT
+			res.*
+		FROM
+			IOT_USER_MODULE_RESOURCE res JOIN IOT_USER_AUTHORITY aut ON res.modid = aut.resourceid
+			JOIN IOT_USER_ROLE_AUTH ura ON aut.autid = ura.autid
+		WHERE
+			ura.ROLID = #{rolid, jdbcType=VARCHAR}
+		ORDER BY res.REMARK1 ASC
+	</select>
 	
 	<!-- ===========================2、新增===============================  -->
 	<!-- 2.1 添加用户角色 -->
