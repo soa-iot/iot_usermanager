@@ -214,11 +214,11 @@
 		UPDATE 
 			IOT_USER_INFO
 		SET
-			<if test="passowrd != null and password != ''">
+			<if test="password != null and password != ''">
 				PASSWORD = #{password}
 			</if>
 		WHERE
-			USERNUM = #{user.usernum, jdbcType=VARCHAR}
+			USERNUM = #{usernum, jdbcType=VARCHAR}
 	</update>
 	
 </mapper>

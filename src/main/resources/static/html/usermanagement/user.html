@@ -148,6 +148,23 @@
 	<div id="organ-tree"></div>
 </div>
 
+<div id="reset-window" style="display: none;">
+	<form class="layui-form" lay-filter="reset-window-form" style="width: 400px;padding-top: 30px;">
+		<div class="layui-form-item">
+			<label class="layui-form-label">用户账号</label>
+			<div class="layui-input-block">
+				<input type="text" id="usernum_2" name="usernum_2" disabled="disabled" class="layui-input" style="background-color:#f2f2f2; ">
+			</div>
+		</div>
+		<div class="layui-form-item" style="margin-top: 50px;">
+			<label class="layui-form-label">新密码<i style="color: red;font-weight: bolder;">*</i></label>
+			<div class="layui-input-block">
+				<input type="password" id="password_2" name="password_2" autocomplete="off" placeholder="请输入" class="layui-input">
+			</div>
+		</div>
+	</form>
+</div>
+
 <script type="text/html" id="toolbar">
   	<a class="layui-btn layui-btn-sm" lay-event="create"><i class="layui-icon">&#xe61f;</i>添&nbsp;加</a>
 	<a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="lock"><i class="layui-icon">&#xe640;</i>禁&nbsp;用</a>

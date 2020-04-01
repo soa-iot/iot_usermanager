@@ -45,7 +45,7 @@ public class UserModuleResourceC {
 	/**
 	 * 查询所有的权限资源信息
 	 */
-	@MyLog(value = "查询所有的权限资源信息")
+	//@MyLog(value = "查询所有的权限资源信息")
 	@ApiOperation(value = "查询所有的权限资源信息")
 	@GetMapping("/resource/list/all")
 	public ResponseEntity<List<IotUserModuleResource>> getAllResources(){
@@ -62,7 +62,7 @@ public class UserModuleResourceC {
 	/**
 	 * 添加菜单资源信息
 	 */
-	@MyLog(value = "添加菜单资源信息")
+	//@MyLog(value = "添加菜单资源信息")
 	@ApiOperation(value = "添加菜单资源信息")
 	@ApiImplicitParams(value= {
 			@ApiImplicitParam(name="name", value="资源名称", required=true, type="string"),
@@ -90,7 +90,7 @@ public class UserModuleResourceC {
 	/**
 	 * 修改菜单资源信息
 	 */
-	@MyLog(value = "修改菜单资源信息")
+	//@MyLog(value = "修改菜单资源信息")
 	@ApiOperation(value = "修改菜单资源信息")
 	@ApiImplicitParams(value= {
 			@ApiImplicitParam(name="modId", value="资源主键ID", required=true, type="string"),
@@ -119,7 +119,7 @@ public class UserModuleResourceC {
 	/**
 	 * 删除菜单资源信息
 	 */
-	@MyLog(value = "删除菜单资源信息")
+	//@MyLog(value = "删除菜单资源信息")
 	@ApiOperation(value = "删除菜单资源信息")
 	@ApiImplicitParams(value= {
 			@ApiImplicitParam(name="modId", value="资源主键ID", required=true, type="string")

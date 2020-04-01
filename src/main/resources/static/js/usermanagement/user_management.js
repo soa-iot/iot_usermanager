@@ -357,6 +357,54 @@ layui.use(['layer', 'form', 'laydate', 'table', 'tree'], function(){
     	        }
     		});
     	}
+		
+		if(obj.event === 'reset'){
+			layer.open({
+    	    	title: '重置用户密码',
+    	    	type: 1,
+    	    	id: obj.event+1,
+    	    	btnAlign: 'c',
+    	    	btn: ['确定', '取消'],
+    	    	closeBtn: 0,
+    	    	offset: '100px',
+    	    	area: ['500px','300px'],
+    	        content: $("#reset-window"),
+    	        yes: function(index, layero){
+    	        	
+    	        	var usernum = $.trim($("#usernum_2").val());
+    	        	var password = $.trim($("#password_2").val());
+    	        	
+    	        	if(password == null || password == ''){
+    	        		layer.msg("新密码不能为空",{icon: 7, offset: '150px'});
+    	        		return;
+    	        	}
+    	        	
+    	        	$.ajax({
+    	        		type: 'post',
+    	        		url: '/iot_usermanager/user/password/reset',
+    	        		data: {
+    	        			'usernum': usernum,
+    	        			'password': password,
+    	        		},
+    	        		dataType: 'json',
+    	        		success: function(json){
+    	        			if(json.state == 0){
+    	        				layer.msg(json.message,{icon: 1, offset: '150px'});
+    	        				reloadTable();
+    	        				layer.close(index); 
+    	        			}else{
+    	        				layer.msg(json.message,{icon: 2, offset: '150px'});
+    	        			}
+    	        		}
+    	        	})
+    	        },
+    	        success: function(layero, index){
+    	        	$("#usernum_2").val('');
+    	        	$("#password_2").val('');
+    	        	$("#usernum_2").val(data.usernum);
+    	        }
+			})
+		}
 	});
 	
 	/**

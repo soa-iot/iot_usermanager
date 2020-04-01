@@ -130,7 +130,7 @@ public class UserManagementC {
 		Boolean result = userManagementS.setUserPassword(usernum, password);
 		
 		if(result) {
-			new ResultJson<Boolean>(ResultJson.SUCCESS, "重置账号密码成功", result);
+			return new ResultJson<Boolean>(ResultJson.SUCCESS, "重置账号密码成功", result);
 		}
 		return new ResultJson<Boolean>(ResultJson.ERROR, "重置账号密码失败", result);
 
