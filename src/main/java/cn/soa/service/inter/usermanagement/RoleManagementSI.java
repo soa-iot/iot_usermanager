@@ -9,6 +9,7 @@ import cn.soa.entity.IotUserModuleResource;
 import cn.soa.entity.ResponseEntity;
 import cn.soa.entity.UserInfoVO;
 import cn.soa.entity.UserQueryCondition;
+import cn.soa.entity.UserRole;
 import cn.soa.entity.UserRoleVO;
 
 /**
@@ -25,4 +26,23 @@ public interface RoleManagementSI {
 	 * @param List<UserRoleVO> - 角色列表
 	 */
 	List<UserRoleVO> getUserRoles(String roleName);
+	
+	/**
+	 * 更新角色的状态
+	 * @param rolid - 角色id
+	 * @param state - 角色状态
+	 */
+	Boolean setRoleState(String rolid, Integer state);
+	
+	/**
+	 * 添加新角色类型
+	 * @param role - 角色信息对象
+	 */
+	Boolean addNewRole(UserRole role);
+	
+	/**
+	 * 删除角色类型
+	 * @param rolid - 角色id
+	 */
+	Boolean removeRoleType(String rolid);
 }

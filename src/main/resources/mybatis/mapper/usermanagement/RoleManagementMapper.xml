@@ -14,22 +14,6 @@
 		<result column="create_time" property="create_time"/>
 		<result column="last_modify_time" property="last_modify_time"/>
 		<result column="note" property="note"/>
-		<collection property="resources" column="rolid" ofType="cn.soa.entity.IotUserModuleResource" select="selectRoleResource">
-			<id column="MODID" property="modId"/>
-			<result column="NAME" property="name"/>
-			<result column="URL" property="url"/>
-			<result column="DESCRIBE" property="describe"/>
-			<result column="TYPE" property="type"/>
-			<result column="PARENT_ID" property="parentId"/>
-			<result column="IS_PARENT" property="isParent"/>
-			<result column="CREATE_TIME" property="createTime"/>
-			<result column="LAST_MODIFY_TIME" property="lastModifyTime"/>
-			<result column="REMARK1" property="remark1"/>
-			<result column="MENU_ICON" property="menuIcon"/>
-			<result column="STANDBY2" property="standby2"/>
-			<result column="STANDBY3" property="standby3"/>
-			<result column="STANDBY4" property="standby4"/>
-		</collection>
 	</resultMap>
 	
 	<select id="findUserRoles" resultMap="findUserRolesMap">
@@ -42,17 +26,6 @@
 				NAME LIKE '%${roleName}%'
 			</if>
 		</where>
-	</select>
-	
-	<select id="selectRoleResource" resultType="cn.soa.entity.IotUserModuleResource">
-		SELECT
-			res.*
-		FROM
-			IOT_USER_MODULE_RESOURCE res JOIN IOT_USER_AUTHORITY aut ON res.modid = aut.resourceid
-			JOIN IOT_USER_ROLE_AUTH ura ON aut.autid = ura.autid
-		WHERE
-			ura.ROLID = #{rolid, jdbcType=VARCHAR}
-		ORDER BY res.REMARK1 ASC
 	</select>
 	
 	<!-- ===========================2、新增===============================  -->
@@ -79,8 +52,63 @@
 		)
 	</insert>
 	
+	<!-- 2.2 添加新角色类型 -->
+	<!-- Integer insertNewRole(@Param("role") UserRole role);-->
+	<insert id="insertNewRole" parameterType="cn.soa.entity.UserRole">
+		<selectKey order="BEFORE" resultType="string" keyProperty="rolid">
+			SELECT sys_guid() FROM dual
+		</selectKey>
+		
+		INSRT INTO
+			IOT_USER_ROLE
+			(ROLID, NAME, STATE, CREATE_TIME, LAST_MODIFY_TIME, NOTE, REMARK1, REMARK2)
+		VALUES(
+			<if test="role != null">
+				<if test="rolid != null and rolid != ''">
+					#{rolid},
+				</if>
+				<if test="role.name != null and role.name != ''">
+					#{role.name},
+				</if>
+				0,
+				<if test="role.create_time != null and role.create_time != ''">
+					#{role.create_time},
+				</if>
+				<if test="role.last_modify_time != null and role.last_modify_time != ''">
+					#{role.last_modify_time},
+				</if>
+				#{role.note, jdbcType=VARCHAR},
+				#{role.remark1, jdbcType=VARCHAR},
+				#{role.remark2, jdbcType=VARCHAR}
+			</if>
+		)
+	</insert>
+	
 	<!-- ===========================3、更新===============================  -->
-
+	<!-- 3.1 更新角色的状态 -->
+	<!-- Integer updateRoleState(@Param("rolid")String rolid, @Param("state")Integer state); -->
+	<update id="updateRoleState">
+		UPDATE 
+			IOT_USER_ROLE
+		<set>
+			<if test="state != null">
+				STATE = ${state}
+			</if>
+		</set>
+		WHERE
+			ROLID = #{rolid, jdbcType=VARCHAR}
+	</update>
+	
+	
+	<!-- ===========================4、删除===============================  -->
+	<!-- 4.1 删除角色类型 -->
+	<!-- Integer deleteRoleType(String rolid); -->
+	<delete id="deleteRoleType" parameterType="string">
+		DELETE FROM
+			IOT_USER_ROLE
+		WHERE
+			ROLID = #{rolid, jdbcType=VARCHAR}
+	</delete>
 	
 </mapper>
  

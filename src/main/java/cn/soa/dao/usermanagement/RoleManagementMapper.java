@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import cn.soa.entity.UserRole;
 import cn.soa.entity.UserRoleVO;
 
 
@@ -18,7 +19,7 @@ import cn.soa.entity.UserRoleVO;
 public interface RoleManagementMapper {
 	
 	/**
-	 * 添加用户角色
+	 * 添加用户角色关系
 	 * @param usernum - 用户账号
 	 * @param rolid - 角色ID
 	 */
@@ -30,4 +31,23 @@ public interface RoleManagementMapper {
 	 * @param List<UserRoleVO> - 角色列表
 	 */
 	List<UserRoleVO> findUserRoles(String roleName);
+	
+	/**
+	 * 更新角色的状态
+	 * @param rolid - 角色id
+	 * @param state - 角色状态
+	 */
+	Integer updateRoleState(@Param("rolid")String rolid, @Param("state")Integer state);
+	
+	/**
+	 * 添加新角色类型
+	 * @param role - 角色信息对象
+	 */
+	Integer insertNewRole(@Param("role") UserRole role);
+	
+	/**
+	 * 删除角色类型
+	 * @param rolid - 角色id
+	 */
+	Integer deleteRoleType(String rolid);
 }

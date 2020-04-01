@@ -1,6 +1,8 @@
 package cn.soa.service.impl.usermanagement;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import cn.soa.dao.usermanagement.UserModuleResourceMapper;
 import cn.soa.entity.IotUserModuleResource;
+import cn.soa.entity.ResourceTree;
 import cn.soa.service.inter.usermanagement.UserModuleResourceSI;
 import lombok.extern.slf4j.Slf4j;
 /**
@@ -121,7 +124,61 @@ public class UserModuleResourceS implements UserModuleResourceSI {
 			return null;
 		}
 	}
+	
+	/**
+	 * 获取资源信息树
+	 * 
+	 * @return ResourceTree - 权限资源信息树
+	 */
+	@Override
+	public List<ResourceTree> getResourceTree() {
+		log.info("-----开始获取资源信息树-----");
+		try {
+			//1.获取所有资源信息列表
+			List<IotUserModuleResource> list = umrMapper.findAllResources();
+			
+			//2. 列表转换成树
+			List<ResourceTree> tree = new LinkedList<ResourceTree>();
+			for(IotUserModuleResource resource : list) {
+				if("-1".equals(resource.getParentId()) || "0".equals(resource.getParentId())) {
+					//一级资源
+					ResourceTree head = new ResourceTree();
+					head.setId(resource.getModId());
+					head.setTitle(resource.getName());
+					//递归转换树
+					listParseTree(list, head);
+					
+					tree.add(head);
+				}
+			}
+			
+			log.info("-----获取资源信息树成功-----");
+			return tree;
+			
+		}catch (Exception e) {
+			log.info("-----获取资源信息树发生错误-----");
+			log.info("--{}", e);
+			return null;
+		}
+	}
 
-
+	/**
+	 * 递归将列表转换成树
+	 * @param list - 资源列表
+	 * @param parent - 资源父节点对象
+	 */
+	private void listParseTree(List<IotUserModuleResource> list, ResourceTree parent) {
+		for(IotUserModuleResource resource : list) {
+			if(parent.getId().equals(resource.getParentId())) {
+				ResourceTree sub = new ResourceTree();
+				sub.setId(resource.getModId());
+				sub.setTitle(resource.getName());
+				//添加子节点
+				parent.getChildren().add(sub);
+				//递归调用
+				listParseTree(list, sub);
+			}
+		}
+	}
 
 }

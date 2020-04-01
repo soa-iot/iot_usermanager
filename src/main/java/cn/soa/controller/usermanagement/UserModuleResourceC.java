@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cn.soa.config.MyLog;
 import cn.soa.entity.IotUserModuleResource;
+import cn.soa.entity.ResourceTree;
 import cn.soa.entity.ResponseEntity;
 import cn.soa.entity.UserInfoVO;
 import cn.soa.entity.UserQueryCondition;
@@ -57,6 +58,23 @@ public class UserModuleResourceC {
 			return new ResponseEntity<>(1, "查询权限资源信息失败");
 		}
 		return new ResponseEntity<>(0, "查询权限资源信息成功", result.size(), result);
+	}
+	
+	/**
+	 * 获取菜单资源信息树
+	 */
+	//@MyLog(value = "查询所有的权限资源信息")
+	@ApiOperation(value = "获取菜单资源信息树")
+	@GetMapping("/resource/tree")
+	public ResponseEntity<List<ResourceTree>> getResourceTree(){
+		log.info("------进入接口UserModuleResourceC...getResourceTree------");
+		
+		List<ResourceTree> result = userModuleResourceS.getResourceTree();
+		
+		if(result.size() != 0) {
+			return new ResponseEntity<>(0, "获取菜单资源信息成功", result.size(), result);
+		}
+		return new ResponseEntity<>(1, "获取菜单资源信息失败");
 	}
 	
 	/**

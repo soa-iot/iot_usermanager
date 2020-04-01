@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import cn.soa.entity.IotUserModuleResource;
+import cn.soa.entity.ResourceTree;
 import cn.soa.entity.ResponseEntity;
 import cn.soa.entity.UserInfoVO;
 import cn.soa.entity.UserQueryCondition;
@@ -24,6 +25,13 @@ public interface UserModuleResourceSI {
 	 * @return List<IotUserModuleResource> - 权限资源信息列表
 	 */
 	List<IotUserModuleResource> getAllResources();
+	
+	/**
+	 * 获取资源信息树
+	 * 
+	 * @return List<ResourceTree> - 权限资源信息树
+	 */
+	List<ResourceTree> getResourceTree();
 	
 	/**
 	 * 添加菜单资源信息
