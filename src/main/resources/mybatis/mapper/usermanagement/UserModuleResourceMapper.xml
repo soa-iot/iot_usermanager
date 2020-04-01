@@ -29,7 +29,7 @@
 			*
 		FROM
 			IOT_USER_MODULE_RESOURCE
-		ORDER BY REMARK1 
+		ORDER BY TO_NUMBER(REMARK1) 
 	</select>
 	
 	<!-- ===========================2、新增===============================  -->
