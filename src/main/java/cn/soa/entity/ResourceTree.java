@@ -32,7 +32,8 @@ public class ResourceTree implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private String id;                 //资源ID
+	private String id;                 //权限ID
+	private String rid;                //资源ID
 	private String title;               //资源名称
 	private boolean spread = true;     //资源是否展开
 	private List<ResourceTree> children = new LinkedList<ResourceTree>();     //子节点

@@ -162,6 +162,7 @@ public class UserModuleResourceS implements UserModuleResourceSI {
 					//一级资源
 					ResourceTree head = new ResourceTree();
 					head.setId(resource.getAuthId());
+					head.setRid(resource.getModId());
 					head.setTitle(resource.getName());
 					//递归转换树
 					listParseTree(list, head);
@@ -187,9 +188,10 @@ public class UserModuleResourceS implements UserModuleResourceSI {
 	 */
 	private void listParseTree(List<IotUserModuleResource> list, ResourceTree parent) {
 		for(IotUserModuleResource resource : list) {
-			if(parent.getId().equals(resource.getParentId())) {
+			if(parent.getRid().equals(resource.getParentId())) {
 				ResourceTree sub = new ResourceTree();
 				sub.setId(resource.getAuthId());
+				sub.setRid(resource.getModId());
 				sub.setTitle(resource.getName());
 				//添加子节点
 				parent.getChildren().add(sub);
