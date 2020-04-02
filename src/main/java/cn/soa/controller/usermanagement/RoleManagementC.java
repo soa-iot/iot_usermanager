@@ -149,7 +149,7 @@ public class RoleManagementC {
 			@ApiImplicitParam(name="authIds", value="权限id数组",  required=true, type="string[]")
 	})
 	@PostMapping("/role/add/resource")
-	public ResultJson<Boolean> addRoleResource(@RequestBody String rolid, @RequestBody String[] authIds) {
+	public ResultJson<Boolean> addRoleResource(String rolid, String[] authIds) {
 		log.info("------进入接口RoleManagementC...addRoleResource------");
 		log.info("------角色ID rolid： {}", rolid);
 		log.info("------权限ID authIds： {}", rolid);
@@ -175,7 +175,7 @@ public class RoleManagementC {
 			@ApiImplicitParam(name="userids", value="人员id数组",  required=true, type="string[]")
 	})
 	@PostMapping("/role/add/organ")
-	public ResultJson<Boolean> addUserRole(@RequestBody String rolid, @RequestBody String[] userids) {
+	public ResultJson<Boolean> addUserRole(String rolid, String[] userids) {
 		log.info("------进入接口RoleManagementC...addUserRole------");
 		log.info("------角色ID rolid： {}", rolid);
 		log.info("------权限ID userids： {}", rolid);
