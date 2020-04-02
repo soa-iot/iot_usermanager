@@ -3,8 +3,8 @@ var host = 'localhost';
 var port = '80';
 var project = 'iot_usermanager';
 var url = "http://" + host + ":" + port;
-var BASE_WEB = url+ "/" + project; //正式服务器地址
-// var BASE_WEB = url; //测试服务器地址
+//var BASE_WEB = url+ "/" + project; //正式服务器地址
+ var BASE_WEB =''; //测试服务器地址
 
 var TABLE_H = document.documentElement.clientHeight;//获取窗体的高度
 /**
