@@ -1,236 +1,97 @@
-layui.config({
-			base : '../../jsPackage/web/design/module/'
-		}).extend({
-			treetable : 'treetable-lay/treetable'
-		}).use(['table', 'laydate', 'treetable', 'form','tree', 'util'], function() {
-	var table = layui.table,treetable = layui.treetable,form = layui.form,laydate = layui.laydate,tree  = layui.tree ,util = layui.util;
-
-var data=[{
-    title: '一级1'
-    ,id: 1
-    ,field: 'name1'
-    ,checked: true
-    ,spread: true
-    ,children: [{
-      title: '二级1-1 可允许跳转'
-      ,id: 3
-      ,field: 'name11'
-      ,href: 'https://www.layui.com/'
-      ,children: [{
-        title: '三级1-1-3'
-        ,id: 23
-        ,field: ''
-        ,children: [{
-          title: '四级1-1-3-1'
-          ,id: 24
-          ,field: ''
-          ,children: [{
-            title: '五级1-1-3-1-1'
-            ,id: 30
-            ,field: ''
-          },{
-            title: '五级1-1-3-1-2'
-            ,id: 31
-            ,field: ''
-          }]
-        }]
-      },{
-        title: '三级1-1-1'
-        ,id: 7
-        ,field: ''
-        ,children: [{
-          title: '四级1-1-1-1 可允许跳转'
-          ,id: 15
-          ,field: ''
-          ,href: 'https://www.layui.com/doc/'
-        }]
-      },{
-        title: '三级1-1-2'
-        ,id: 8
-        ,field: ''
-        ,children: [{
-          title: '四级1-1-2-1'
-          ,id: 32
-          ,field: ''
-        }]
-      }]
-    },{
-      title: '二级1-2'
-      ,id: 4
-      ,spread: true
-      ,children: [{
-        title: '三级1-2-1'
-        ,id: 9
-        ,field: ''
-        ,disabled: true
-      },{
-        title: '三级1-2-2'
-        ,id: 10
-        ,field: ''
-      }]
-    },{
-      title: '二级1-3'
-      ,id: 20
-      ,field: ''
-      ,children: [{
-        title: '三级1-3-1'
-        ,id: 21
-        ,field: ''
-      },{
-        title: '三级1-3-2'
-        ,id: 22
-        ,field: ''
-      }]
-    }]
-  },{
-    title: '一级2'
-    ,id: 2
-    ,field: ''
-    ,spread: true
-    ,children: [{
-      title: '二级2-1'
-      ,id: 5
-      ,field: ''
-      ,spread: true
-      ,children: [{
-        title: '三级2-1-1'
-        ,id: 11
-        ,field: ''
-      },{
-        title: '三级2-1-2'
-        ,id: 12
-        ,field: ''
-      }]
-    },{
-      title: '二级2-2'
-      ,id: 6
-      ,field: ''
-      ,children: [{
-        title: '三级2-2-1'
-        ,id: 13
-        ,field: ''
-      },{
-        title: '三级2-2-2'
-        ,id: 14
-        ,field: ''
-        ,disabled: true
-      }]
-    }]
-  },{
-    title: '一级3'
-    ,id: 16
-    ,field: ''
-    ,children: [{
-      title: '二级3-1'
-      ,id: 17
-      ,field: ''
-      ,fixed: true
-      ,children: [{
-        title: '三级3-1-1'
-        ,id: 18
-        ,field: ''
-      },{
-        title: '三级3-1-2'
-        ,id: 19
-        ,field: ''
-      }]
-    },{
-      title: '二级3-2'
-      ,id: 27
-      ,field: ''
-      ,children: [{
-        title: '三级3-2-1'
-        ,id: 28
-        ,field: ''
-      },{
-        title: '三级3-2-2'
-        ,id: 29
-        ,field: ''
-      }]
-    }]
-  }];
+layui.use(['table', 'laydate','form','tree', 'util'], function() {
+	var table = layui.table,form = layui.form,laydate = layui.laydate,tree  = layui.tree ,util = layui.util,rolid='';
 
 				getTableList();//加载角色列表
 				menuTree();//菜单树列表
+				 userTree();//用户树
+				function getTableList(){
+					$.get(api.role.list, null, function(results) {
+							if(results.code==0){
+								 setTableList(results.data)
+					}
+					});
+				}
 				
-				function getTableList() {
+				function setTableList(data) {
+					console.log(data)
 					var cols=[[
 					      {type: 'checkbox', fixed: 'left'}
 					      ,{field:'name', title:'角色名称', fixed: 'left'}
-					      ,{field:'state', title:'状态'}
-						  ,{fixed : 'right', width : 165,align : 'center',toolbar : '#table_role'}
+						  ,{field:'state', title:'状态', width:100, templet: '#switchTpl', unresize: true}
+						  ,{fixed : 'right', width : 200,align : 'center',toolbar : '#table_role'}
 					    ]];
 					table.render({
 								elem : '#role_list',
 								toolbar : '#toolbar_role',
-								height:'full-80',
-								url : api.role.roles,
+								height : TABLE_H-100,
+								data : data,
 								loading : true,
 								page : true,
+								limits : [30, 60, 90, 120, 150],
+								limit : 30,
 								cols : cols
 							});
 				}
 				
+				 //监听性别操作
+				  form.on('switch(sexDemo)', function(obj){
+				    layer.tips(this.value + ' ' + this.name + '：'+ obj.elem.checked, obj.othis);
+				  });
+				
 				function menuTree(){
-				var cols=[[
-					{type: 'numbers'}
-				  ,{type: 'checkbox'}
-				  ,{field: 'modId',title: 'id',hide: true}
-				  , {field: 'name',minWidth: 200,title: '菜单名称'}
-				  , {field: 'url',title: '类型'}
-				  , {field: 'url',title: '资源URL'}
-				  , {field: 'createTime',title: '排序号'}
-						]];
-					
-					treetable.render({
-						treeColIndex: 1,
-						treeSpid: -1,
-						height : TABLE_H-105,
-						treeIdName: 'modId',
-						toolbar: '#toolbar',
-						treeDefaultClose:false,
-						treePidName: 'parentId',
-						elem: '#menu_tree',
-						url: api.resource.getAllResourceInfo,
-						page: false,
-						cols:cols ,
-						done: function() {
-							layer.closeAll('loading');
-						}
+					$("#menu_tree").height(TABLE_H-100);	
+					$.get(api.resource.tree, {}, function(results) {
+						tree.render({
+						  elem: '#menu_tree'
+						  ,data: results.data
+						  ,showCheckbox: true  //是否显示复选框
+						  ,id: 'menuid'
+						  ,isJump: true //是否允许点击节点时弹出新窗口跳转
+						  ,click: function(obj){
+						    var data = obj.data;  //获取当前点击的节点数据
+						    layer.msg('状态：'+ obj.state + '<br>节点数据：' + JSON.stringify(data));
+						  }
+						});
+						
 					});
 				}
 				
 				function userTree(){
-					tree.render({
-					  elem: '#user_tree'
-					  ,data: data
-					  ,showCheckbox: true  //是否显示复选框
-					  ,id: 'demoId1'
-					  ,isJump: true //是否允许点击节点时弹出新窗口跳转
-					  ,click: function(obj){
-					    var data = obj.data;  //获取当前点击的节点数据
-					    layer.msg('状态：'+ obj.state + '<br>节点数据：' + JSON.stringify(data));
-					  }
+					//借鉴他的数据封装
+					$.get(api.resource.tree, {}, function(results) {
+						console.log(results)
+						tree.render({
+						  elem: '#user_tree'
+						  ,data: results.data
+						  ,showCheckbox: true  //是否显示复选框
+						  ,id: 'demoId1'
+						  ,isJump: true //是否允许点击节点时弹出新窗口跳转
+						  ,click: function(obj){
+						    var data = obj.data;  //获取当前点击的节点数据
+						    layer.msg('状态：'+ obj.state + '<br>节点数据：' + JSON.stringify(data));
+						  }
+						});
 					});
 				}
 				
 				//头工具栏事件
-				 table.on('toolbar(resource_table)', function(obj){
+				 table.on('toolbar(role_list)', function(obj){
 				   var checkStatus = table.checkStatus(obj.config.id);
 				   switch(obj.event){
-				     case 'add':
-					openHtml('目录新增');
+				     case 'addRole':
+					 //新增
+					 alert(1111)
 				     break;
-				     case 'del_all':
-				      var a=layer.confirm('确定删除？', {
-				        btn: ['确定','取消'] //按钮
-				      }, function(){
-				      		  dataList=SoaIot.removeAaary(dataList,checkStatus.data);
-				      		  setEqOrSpList();
-				      			layer.close(a);
-				      }, function(){
-				      });
+				     case 'editRole':
+					 
+					 
 				     break;
+					 case 'delRole':
+					  var a=layer.confirm('确定删除？', {
+					    btn: ['确定','取消'] //按钮
+					  }, function(){
+					  });
+					 break;
 				   };
 				 });
 				
@@ -239,29 +100,35 @@ var data=[{
 				  table.on('tool(role_list)', function(obj){
 					  setColor(obj);
 				    var data = obj.data;
+					console.log(data)
 				    //console.log(obj)
 				    if(obj.event === 'userSel'){
-					  userTree();
-					  layer.open({
-					        type    : 1,
-					        offset  : 'r',
-					        area    : ['600px', '100%'],
-					        title   : '用户选择',
-					        shade   : 0,
-					        anim   : -1,
-					        skin:'layer-anim-07',
-					        move    : false,
-					        content:$('#selUser_window'),
-					        cancel  : function (index) {
-					          var $layero = $('#layui-layer' + index);
-					          $layero.animate({
-					            left : $layero.offset().left + $layero.width()
-					          }, 300, function () {
-					            layer.close(index);
-					          });
-					          return false;
-					        }
-					      });
+					  $.get(api.resource.ids, {rolid:data.rolid}, function(results) {
+						  console.log(results)
+					  	tree.setChecked('demoId', results.data); //批量勾选 id 为 2、3 的节点
+						
+						layer.open({
+						      type    : 1,
+						      offset  : 'r',
+						      area    : ['50%', '100%'],
+						      title   : '用户选择',
+						      shade   : 0,
+						      anim   : -1,
+						      skin:'layer-anim-07',
+						      move    : false,
+						      content:$('#selUser_window'),
+						      cancel  : function (index) {
+						        var $layero = $('#layui-layer' + index);
+						        $layero.animate({
+						          left : $layero.offset().left + $layero.width()
+						        }, 300, function () {
+						          layer.close(index);
+						        });
+						        return false;
+						      }
+						    });
+						
+					  });
 				    } 
 				  });
 				
@@ -269,7 +136,15 @@ var data=[{
 				var tmpobj=null;
 				  //监听行单击事件（双击事件为：rowDouble）
 				  table.on('row(role_list)', function(obj){
-				setColor(obj);
+					   var data = obj.data;
+						setColor(obj);
+				// //勾选
+				$.get(api.resource.ids, {rolid:data.rolid}, function(results) {
+										  tree.reload('menuid', {
+										    //新的参数
+										  });
+					tree.setChecked('menuid', results.data); //批量勾选 id 为 2、3 的节点
+				});
 				  });
 				
 				function setColor(obj){
@@ -290,6 +165,76 @@ var data=[{
 					// var query_data={eqId:eqId};
 					// 	getEqOrSpData(query_data);
 				}
+			
+			//添加角色
+			function addRoles(data){
+				$.post(api.resource.add, data, function(results) {
+					openCon(results.state,results.message);
+				});
+			}
+			//修改菜单
+			function editRoles(data){
+				$.post(api.resource.edit, data, function(results) {
+				openCon(results.state,results.message);
+				});
+			}
+			//删除菜单
+			function delRoles(data){
+				$.post(api.resource.remove, data, function(results) {
+				openCon(results.state,results.message);
+				});
+			}
+			
+			function openCon(state,message){
+				if(state==0){
+							//询问框
+							layer.confirm(message, {
+								icon: 6,
+							  btn: ['确定'] //按钮
+							}, function(){
+								layer.closeAll(); 
+								location.reload();
+							});
+				}else{
+				var a=layer.confirm(message, {
+					icon: 5,
+				  btn: ['确定'] //按钮
+				}, function(){
+					// location.reload();
+					layer.close(a); 
+					});
+				}	
+			}
+			
+				//菜单关系添加
+				$(document).on('click','#getMenuIDList',function(){
+					
+					if(rolid==''){
+						layer.alert('请输入先选择角色', {icon: 5});
+					}else{
+						//获得选中的节点
+						var checkedData = tree.getChecked('menuid');
+						var a=getTreeIdarr(checkedData);
+						console.log(a)
+						// $.post(api.resource.remove, data, function(results) {
+						// openCon(results.state,results.message);
+						// });
+					}
+				});
 				
+				//用户关系添加
+				
+				$(document).on('click','#getUserList',function(){
+					// if(rolid==''){
+					// 	layer.alert('请输入先选择角色', {icon: 5});
+					// }else{
+						//获得选中的节点
+						var checkedData = tree.getChecked('menuid');
+						var a=getTreeIdarr(checkedData);
+						$.post(api.resource.remove, data, function(results) {
+						openCon(results.state,results.message);
+						});
+					// }
+				});
 				
 	});

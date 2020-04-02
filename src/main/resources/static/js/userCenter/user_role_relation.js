@@ -71,21 +71,8 @@ $(function() {
 		}
 	}
 	// 监听表单提交事件
-
-	form.on('submit(formSubmit)', function(data) {
-				$.ajax({
-							url : '/role/addOrUpdateRole',
-							data : $('.role-form').serialize(),
-							dataType : 'json',
-							success : function(data) {
-								$(".layui-laypage-btn")[0].click();
-								layer.closeAll();
-								$('#popUpdateTest').hide();
-							},
-							error : function() {
-								layer.msg("角色管理异常");
-							}
-						});
+	form.on('submit(addmenus)', function(data) {
+		console.log(data)
 				return false;
 			})
 

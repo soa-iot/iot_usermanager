@@ -18,7 +18,7 @@
 						<form class="layui-form">
 							 <div class="layui-form-item">
 							    <div class="layui-inline"> 
-							      <label class="text-font layui-form-label" style="width: 70px;">设备名称</label>
+							      <label class="text-font layui-form-label" style="width: 70px;">角色名称</label>
 							      <div class="layui-input-inline" style="width: 140px;">
 							        <input type="text" id="name" class="layui-input layui-input-one" autocomplete="off">
 							      </div>
@@ -33,40 +33,36 @@
 				    	<table id="role_list" class="layui-hide" lay-filter="role_list"> </table>
 		   			</div>
 					<script type="text/html" id="toolbar_role">
-					    <button class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon">&#xe654;</i>新增</button>
-						<button class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon">&#xe654;</i>编辑</button>
-						<button class="layui-btn layui-btn-sm" lay-event="del_all"><i class="layui-icon">&#xe619;</i>删除</button>
+					    <button class="layui-btn layui-btn-sm" lay-event="addRole">新增</button>
+						<button class="layui-btn layui-btn-sm" lay-event="editRole">编辑</button>
+						<button class="layui-btn layui-btn-sm" lay-event="delRole">删除</button>
 					</script>
 					<script type="text/html" id="table_role">
-						<button class="layui-btn layui-btn-sm" lay-event="userSel"><i class="layui-icon">&#xe619;</i>用户选择</button>
+						<button class="layui-btn layui-btn-sm" lay-event="userSel">用户选择</button>
+					</script>
+					
+					<script type="text/html" id="switchTpl">
+					  <!-- 这里的 checked 的状态只是演示 -->
+					  <input type="checkbox" name="state" value="{{d.state}}" lay-skin="switch" lay-text="启用|停用" lay-filter="sexDemo" {{ d.state == 0 ? 'checked' : '' }}>
 					</script>
 					
 					<!-- 菜单树 -->
 		   			<div class="layui-col-xs12 layui-col-sm5 layui-col-md5 layui-col-md-offset1 layui-col-sm-offset1">
 						<form class="layui-form">
 							 <div class="layui-form-item">
-							    <div class="layui-inline"> 
-							      <label class="text-font layui-form-label" style="width: 70px;">设备名称</label>
-							      <div class="layui-input-inline" style="width: 140px;">
-							        <input type="text" id="name" class="layui-input layui-input-one" autocomplete="off">
-							      </div>
-							    </div>
-							    <div class="layui-inline layui-inline-btn1"> 
-							    	<button type="button" class="layui-btn layui-btn-xs layui-btn-normal" id="query-equipment">
-										<i class="layui-icon">&#xe615;</i>提交
+							    <div class="layui-inline layui-inline-btn1" style="margin: 10px 0 0 0;"> 
+							    	<button type="button" class="layui-btn layui-btn-xs layui-btn-normal" id="getMenuIDList">
+										提交
 									</button> 
 							    </div>
 							 </div>
 						</form>
-						
 						<div class="layui-row">
-						
 							<div class="layui-col-md12 ">
-						
-								<div class="component_container" id="menu_tree" lay-filter="menu_tree"></div>
-						
+						<div style="background-color: #F2F2F2;">
+							<div id="menu_tree" class="demo-tree demo-tree-box" style="width: 100%; height: 300px; overflow: scroll;"></div>
+						</div>
 							</div>
-						
 						</div>
 		   			</div>
 				</div>
@@ -74,9 +70,17 @@
 		 	
 		 	<!-- 用户选择弹窗 -->
 		 	<div id="selUser_window" style="display: none;padding-top: 15px;">
-		 		<div id="user_tree" class="demo-tree-more"></div>
+				<form class="layui-form">
+					 <div class="layui-form-item">
+					    <div class="layui-inline layui-inline-btn1"> 
+					    	<button type="button" class="layui-btn layui-btn-xs layui-btn-normal" id="getUserList">
+								提交
+							</button> 
+					    </div>
+					 </div>
+				</form>
+				<div id="user_tree" class="demo-tree demo-tree-box" style="width: 100%; height: 100%; overflow: scroll;"></div>
 		 	</div>
-			
 			
 	<script src="../../jsPackage/jquery-3.3.1/jquery-3.3.1.min.js"></script>
 	<script src="../../jsPackage/layui-v2.4.5/layui.js"></script>

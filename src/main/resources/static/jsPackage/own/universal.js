@@ -1,23 +1,31 @@
 //全局通用配置信息
-var host = '192.168.18.114';
+var host = 'localhost';
 var port = '80';
-var project = 'iot_equipment';
+var project = 'iot_usermanager';
 var url = "http://" + host + ":" + port;
-// var BASE_WEB =  "/" + project + "/"; //正式服务器地址
-var BASE_WEB = url; //测试服务器地址
+var BASE_WEB = url+ "/" + project; //正式服务器地址
+// var BASE_WEB = url; //测试服务器地址
 
 var TABLE_H = document.documentElement.clientHeight;//获取窗体的高度
 /**
  * Api接口
  * @type {{}}
  */
+
+
 var api = {
 	resource: { 
-		getAllResourceInfo: BASE_WEB + '/resource/getAllResourceInfo' //菜单数据接口
+		add: BASE_WEB + '/resource/add' ,//添加菜单资源信息
+		edit: BASE_WEB + '/resource/edit' ,//修改菜单资源信息
+		all: BASE_WEB + '/resource/list/all' ,//查询所有的权限资源信息
+		remove: BASE_WEB + '/resource/remove' ,//查询所有的权限资源信息
+		tree: BASE_WEB + '/resource/tree' ,//获取菜单资源信息树
+		ids: BASE_WEB + '/resource/role/ids' //查询角色拥有的菜单资源ID
 	},
 	role: { //角色
-		roles: BASE_WEB + '/role/roles' //角色列表信息
-	}
+		list: BASE_WEB + '/role/list' ,//查询角色列表信息
+		queryUsersByRold: BASE_WEB + '/role/queryUsersByRold' //查询角色列表信息
+	},
 };
 
 
@@ -1064,3 +1072,27 @@ document.getElementById(buttonId).click();
 //$( '#aExport' ).click();
 return false;
 }
+
+
+
+// 获取子节点ID
+			var idArray = new Array();
+function getTreeIdarr(checkedData){
+	idArray = new Array();
+	for (var i = 0; i < checkedData.length; i++) {
+	idArray.push(checkedData[i].id);
+	if (checkedData[i].children.length > 0) {
+	getTreeIds(checkedData[i].children);
+	}
+	}
+	return idArray;
+}
+	
+		function getTreeIds(obj) {
+		for (var i = 0; i < obj.length; i++) {
+		idArray.push(obj[i].id);
+		if (obj[i].children) {
+		getTreeIds(obj[i].children);
+		}
+		}
+		}	
