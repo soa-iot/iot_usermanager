@@ -7,6 +7,7 @@ layui.config({
 	var table = layui.table,treetable = layui.treetable,form = layui.form,laydate = layui.laydate,iconPicker = layui.iconPicker,menudata=null,parentId='-1',modId=null;
 	
 
+var insTb=null;
 	//图标选择
 	 iconPicker.render({
 	                // 选择器，推荐使用input
@@ -54,13 +55,12 @@ function getTreeList(){
 					  , {field: 'remark1',title: '排序号',width: 100}
 					  , {title: '操作',fixed: 'right',width: 210,align: 'center',toolbar: '#barDemo'}
 							]];
-					treetable.render({
+					insTb=treetable.render({
 						treeColIndex: 1,
 						treeSpid: -1,
 						height : TABLE_H-100,
 						treeIdName: 'modId',
 						toolbar: '#toolbar',
-						treeDefaultClose:true,
 						treePidName: 'parentId',
 						elem: '#resource_table',
 						data: data,
@@ -85,8 +85,8 @@ function getTreeList(){
 					 });
 					 $('#standby2').val('');
 					 $('#describe').val('');
-					 $('#name').val('');
-					 $('#url').val('');
+					 $('#menuname').val('');
+					 $('#address').val('');
 					 
 					 $('#remark1').val(is+1);
 					 parentId='-1';
@@ -112,10 +112,10 @@ function getTreeList(){
 					$('#directory').show();
 					$('#menu').show();
 					$('#button').show();
-					if(type==0){//目录、菜单
+					if(type==0||type==1){//目录、菜单
 					//隐藏按钮（单选）
 					$('#button').hide();
-					}else if(type==1){
+					}else if(type==2){
 					$('#menu').hide();
 					$('#directory').hide();	
 					}
@@ -147,23 +147,25 @@ function getTreeList(){
 				 $(":radio[name='type'][value='0']").prop("checked", "checked");
 				 $('#standby2').val('');
 				 $('#describe').val('');
-				 $('#name').val('');
-				 $('#url').val('');
+				 $('#menuname').val('');
+				 $('#address').val('');
 				 modId='';
 				 $('#remark1').val(is+1);
 				 iconPicker.checkIcon('iconPicker', 'fa fa-bars');
 				 //当前数据的类型
 				openHtml(data.type,'新增');
 		    } else if(obj.event === 'editMenu'){
-				modId=data.modId;
-				$('#name').val(data.name);
+				showhide(data.type);
 				iconPicker.checkIcon('iconPicker', data.menuIcon);
-				$('#url').val(data.url);
+				modId=data.modId;
+				$('#menuname').val(data.name);
+				$('#address').val(data.url);
 				$(":radio[name='type'][value='"+data.type+"']").prop("checked", "checked");
 				 $('#remark1').val(data.remark1);
 				$('#standby2').val(data.standby2);
 				$('#describe').val(data.describe);
 				openHtml(data.type,'修改');
+				
 		    }else if(obj.event === 'delMenu'){
 				var a=layer.confirm('确定删除？', {
 				  btn: ['确定','取消'] //按钮
@@ -176,24 +178,24 @@ function getTreeList(){
 		
 		var tmpobj=null;
 		  //监听行单击事件（双击事件为：rowDouble）
-		  table.on('row(resource_table)', function(obj){
-			setColor(obj);
-		  });
+		 //  table.on('row(resource_table)', function(obj){
+			// setColor(obj);
+		 //  });
 		
 		function setColor(obj){
-			if (tmpobj!=null){
-			 tmpobj.tr[0].style='background-color: #ffffff;';
-			 if (tmpobj.tr[1]){
-			 tmpobj.tr[1].style='background-color: #ffffff;';
-			 }
-			 }
-			 tmpobj=obj;
-			 obj.tr[0].style='background-color: #00801c61;';
-			 if (obj.tr[1]){
-			 obj.tr[1].style='background-color: #00801c61;';
-			 }
-			var data= obj.data;
-			eqId=data.equId;
+			// if (tmpobj!=null){
+			//  tmpobj.tr[0].style='background-color: #ffffff;';
+			//  if (tmpobj.tr[1]){
+			//  tmpobj.tr[1].style='background-color: #ffffff;';
+			//  }
+			//  }
+			//  tmpobj=obj;
+			//  obj.tr[0].style='background-color: #00801c61;';
+			//  if (obj.tr[1]){
+			//  obj.tr[1].style='background-color: #00801c61;';
+			//  }
+			// var data= obj.data;
+			// eqId=data.equId;
 			
 			// var query_data={eqId:eqId};
 			// 	getEqOrSpData(query_data);
@@ -202,6 +204,10 @@ function getTreeList(){
 		$('#url').hide();
 	form.on('radio(erweima)', function (data) {
 		var val=data.value;
+		showhide(val);
+	});
+	
+	function showhide(val){
 		$('#icon').show();
 		if(val=='0'){
 			//隐藏url
@@ -214,12 +220,24 @@ function getTreeList(){
 		 $('#url').show();
 		}
 		form.render();
-	});
+	}
+	
+	//菜单查询
+	$(document).on('click','#button_search',function(){
+	 var keyword = $('#menuname').val();
+	 
+	 var keywords = $('#edtSearch').val();
+	 if (keywords) {
+	     insTb.filterData(keywords);
+	 } else {
+	     insTb.clearFilter();
+	 }
+	    });
 	
 	//提交
 	$(document).on('click','#addmenus',function(){
 		var data={};
-		var name = $('#name').val();
+		var name = $('#menuname').val();
 		var menuIcon =$('#iconPicker').val();
 		var type=$("input[type='radio']:checked").val();
 		var url = $('#address').val();
@@ -232,8 +250,6 @@ function getTreeList(){
 		if(describe.length<=0){
 			layer.alert('请输入说明', {icon: 5});
 		}else{
-							data.modId=modId;
-							data.parentId=parentId;
 							data.name=name;
 							data.url=url;
 							data.type=type;
@@ -242,7 +258,13 @@ function getTreeList(){
 							data.remark1=remark1;
 							data.describe=describe;
 		  data.standby2=standby2;
-		 addMenu(data);	
+		  if(modId==''){
+			  data.parentId=parentId;
+			  addMenu(data);	
+		  }else{
+			  data.modId=modId;
+			 editMenu(data);	 
+		  }
 		}
 	});
 	
@@ -274,7 +296,8 @@ function getTreeList(){
 					  btn: ['确定'] //按钮
 					}, function(){
 						layer.closeAll(); 
-						location.reload();
+						getTreeList();
+						// location.reload();
 					});
 		}else{
 		var a=layer.confirm(message, {

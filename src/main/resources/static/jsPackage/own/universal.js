@@ -3,8 +3,8 @@ var host = 'localhost';
 var port = '80';
 var project = 'iot_usermanager';
 var url = "http://" + host + ":" + port;
-var BASE_WEB = url+ "/" + project; //正式服务器地址
-// var BASE_WEB = url; //测试服务器地址
+//var BASE_WEB = url+ "/" + project; //正式服务器地址
+ var BASE_WEB =''; //测试服务器地址
 
 var TABLE_H = document.documentElement.clientHeight;//获取窗体的高度
 /**
@@ -22,11 +22,18 @@ var api = {
 		tree: BASE_WEB + '/resource/tree' ,//获取菜单资源信息树
 		ids: BASE_WEB + '/resource/role/ids' //查询角色拥有的菜单资源ID
 	},
-	role: { //角色
+	role: { //角色   
+		add: BASE_WEB + '/role/add' ,//添加新角色
+		deletes: BASE_WEB + '/role/delete' ,//删除角色
 		list: BASE_WEB + '/role/list' ,//查询角色列表信息
-		queryUsersByRold: BASE_WEB + '/role/queryUsersByRold' //查询角色列表信息
-	},
+		update: BASE_WEB + '/role/state/update' ,//更新角色状态
+		resource: BASE_WEB + '/role/add/resource' ,//给角色添加资源
+		organ: BASE_WEB + '/role/add/organ' //角色关联人员组织
+	},user: { //角色   
+		list: BASE_WEB + '/user/organ/list' //获取人员组织树
+	}
 };
+
 
 
 
@@ -1077,22 +1084,48 @@ return false;
 
 // 获取子节点ID
 			var idArray = new Array();
-function getTreeIdarr(checkedData){
+		function getTreeIdarr(checkedData){
+			idArray = new Array();
+			for (var i = 0; i < checkedData.length; i++) {
+				idArray.push(checkedData[i].id);
+			if (checkedData[i].children.length > 0) {
+			getTreeIds(checkedData[i].children);
+			}
+			}
+			return idArray;
+		}
+			
+				function getTreeIds(obj) {
+				for (var i = 0; i < obj.length; i++) {
+				idArray.push(obj[i].id);
+				if (obj[i].children) {
+				getTreeIds(obj[i].children);
+				}
+				}
+				}		
+			
+			
+			
+function getTreeIdarruser(checkedData){
 	idArray = new Array();
 	for (var i = 0; i < checkedData.length; i++) {
-	idArray.push(checkedData[i].id);
+		if(!checkedData[i].isParent==0){
+		idArray.push(checkedData[i].id);
+		}
 	if (checkedData[i].children.length > 0) {
-	getTreeIds(checkedData[i].children);
+	getTreeIdsuser(checkedData[i].children);
 	}
 	}
 	return idArray;
 }
 	
-		function getTreeIds(obj) {
+		function getTreeIdsuser(obj) {
 		for (var i = 0; i < obj.length; i++) {
+			if(!obj[i].isParent==0){
 		idArray.push(obj[i].id);
+		}
 		if (obj[i].children) {
-		getTreeIds(obj[i].children);
+		getTreeIdsuser(obj[i].children);
 		}
 		}
 		}	

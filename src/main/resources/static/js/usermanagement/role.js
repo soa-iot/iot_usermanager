@@ -1,11 +1,11 @@
 layui.use(['table', 'laydate','form','tree', 'util'], function() {
 	var table = layui.table,form = layui.form,laydate = layui.laydate,tree  = layui.tree ,util = layui.util,rolid='';
 
-				getTableList();//加载角色列表
+				getTableList({});//加载角色列表
 				menuTree();//菜单树列表
 				 userTree();//用户树
-				function getTableList(){
-					$.get(api.role.list, null, function(results) {
+				function getTableList(data){
+					$.get(api.role.list, data, function(results) {
 							if(results.code==0){
 								 setTableList(results.data)
 					}
@@ -33,14 +33,26 @@ layui.use(['table', 'laydate','form','tree', 'util'], function() {
 							});
 				}
 				
-				 //监听性别操作
+				 //监听状态操作
 				  form.on('switch(sexDemo)', function(obj){
-				    layer.tips(this.value + ' ' + this.name + '：'+ obj.elem.checked, obj.othis);
+					   var rolid = obj.value;
+						console.log();
+					  var i=1;
+					  if(obj.elem.checked){
+						 i=0; 
+					  }
+					var datas={};
+					datas.rolid=rolid;
+					datas.state =i;
+					$.post(api.role.update, datas, function(results) {
+						 layer.tips( results.message, obj.othis);
+					});
 				  });
 				
 				function menuTree(){
 					$("#menu_tree").height(TABLE_H-100);	
 					$.get(api.resource.tree, {}, function(results) {
+						console.log(results)
 						tree.render({
 						  elem: '#menu_tree'
 						  ,data: results.data
@@ -49,7 +61,6 @@ layui.use(['table', 'laydate','form','tree', 'util'], function() {
 						  ,isJump: true //是否允许点击节点时弹出新窗口跳转
 						  ,click: function(obj){
 						    var data = obj.data;  //获取当前点击的节点数据
-						    layer.msg('状态：'+ obj.state + '<br>节点数据：' + JSON.stringify(data));
 						  }
 						});
 						
@@ -58,17 +69,16 @@ layui.use(['table', 'laydate','form','tree', 'util'], function() {
 				
 				function userTree(){
 					//借鉴他的数据封装
-					$.get(api.resource.tree, {}, function(results) {
+					$.get(api.user.list,{}, function(results) {
 						console.log(results)
 						tree.render({
 						  elem: '#user_tree'
 						  ,data: results.data
 						  ,showCheckbox: true  //是否显示复选框
-						  ,id: 'demoId1'
+						  ,id: 'userid'
 						  ,isJump: true //是否允许点击节点时弹出新窗口跳转
 						  ,click: function(obj){
 						    var data = obj.data;  //获取当前点击的节点数据
-						    layer.msg('状态：'+ obj.state + '<br>节点数据：' + JSON.stringify(data));
 						  }
 						});
 					});
@@ -80,16 +90,44 @@ layui.use(['table', 'laydate','form','tree', 'util'], function() {
 				   switch(obj.event){
 				     case 'addRole':
 					 //新增
-					 alert(1111)
+					 layer.prompt({title: '输入角色名称', formType: 3}, function(pass, index){
+						 var data={};
+						 data.name =pass;
+						 data.state =0;
+						addRoles(data);
+					 });
 				     break;
 				     case 'editRole':
-					 
-					 
+					 var arr=checkStatus.data;
+					 if(arr.length<=0){
+						 layer.alert('请勾选需要编辑的角色', {icon: 5});
+					 }else if(arr.length>1){
+						layer.alert('请勾选一条需要编辑的角色', {icon: 5}); 
+					 }else{
+						//编辑
+						layer.prompt({title: '输入角色名称',value:arr[0].name, formType: 3}, function(pass, index){
+												var datas={};
+						  						datas.name =pass;
+												datas.rolid=arr[0].rolid;
+											 editRoles(datas);
+						}); 
+					 }
 				     break;
 					 case 'delRole':
+					 var arr=checkStatus.data;
 					  var a=layer.confirm('确定删除？', {
 					    btn: ['确定','取消'] //按钮
 					  }, function(){
+						  if(arr.length<=0){
+						  						 layer.alert('请勾选需要删除的角色', {icon: 5});
+						  }else{
+							  var arrdata=[];
+							  $.each(arr,function(i,t){
+							  							  console.log(t)
+							  							  arrdata.push(t.rolid);
+							  });
+							  delRoles(arrdata);
+						  }
 					  });
 					 break;
 				   };
@@ -103,9 +141,9 @@ layui.use(['table', 'laydate','form','tree', 'util'], function() {
 					console.log(data)
 				    //console.log(obj)
 				    if(obj.event === 'userSel'){
-					  $.get(api.resource.ids, {rolid:data.rolid}, function(results) {
-						  console.log(results)
-					  	tree.setChecked('demoId', results.data); //批量勾选 id 为 2、3 的节点
+					  // $.get(api.resource.ids, {rolid:data.rolid}, function(results) {
+						 //  console.log(results)
+					  // 	tree.setChecked('userid', results.data); //批量勾选 id 为 2、3 的节点
 						
 						layer.open({
 						      type    : 1,
@@ -128,7 +166,7 @@ layui.use(['table', 'laydate','form','tree', 'util'], function() {
 						      }
 						    });
 						
-					  });
+					  // });
 				    } 
 				  });
 				
@@ -138,11 +176,10 @@ layui.use(['table', 'laydate','form','tree', 'util'], function() {
 				  table.on('row(role_list)', function(obj){
 					   var data = obj.data;
 						setColor(obj);
+						rolid=data.rolid;
 				// //勾选
-				$.get(api.resource.ids, {rolid:data.rolid}, function(results) {
-										  tree.reload('menuid', {
-										    //新的参数
-										  });
+				$.get(api.resource.ids, {rolid:rolid}, function(results) {
+										  tree.reload('menuid', {});
 					tree.setChecked('menuid', results.data); //批量勾选 id 为 2、3 的节点
 				});
 				  });
@@ -161,28 +198,41 @@ layui.use(['table', 'laydate','form','tree', 'util'], function() {
 					 }
 					var data= obj.data;
 					eqId=data.equId;
-					
 					// var query_data={eqId:eqId};
 					// 	getEqOrSpData(query_data);
 				}
 			
 			//添加角色
 			function addRoles(data){
-				$.post(api.resource.add, data, function(results) {
+				$.post(api.role.add, data, function(results) {
 					openCon(results.state,results.message);
 				});
 			}
 			//修改菜单
 			function editRoles(data){
-				$.post(api.resource.edit, data, function(results) {
+				$.post(api.role.update, data, function(results) {
 				openCon(results.state,results.message);
 				});
 			}
 			//删除菜单
 			function delRoles(data){
-				$.post(api.resource.remove, data, function(results) {
-				openCon(results.state,results.message);
-				});
+				
+				console.log(JSON.stringify(data))
+				$.ajax({
+								url : api.role.deletes,
+								type : 'post',
+								data : JSON.stringify(data),
+								dataType : 'json',
+								contentType : 'application/json',
+								success : function(results) {
+									openCon(results.state,results.message);
+								},
+								error : function() {
+									layer.msg('数据保存失败，请联系管理员！！！', {
+												icon : 2
+											});
+								}
+							});
 			}
 			
 			function openCon(state,message){
@@ -206,33 +256,81 @@ layui.use(['table', 'laydate','form','tree', 'util'], function() {
 				}	
 			}
 			
+			//角色查询
+			$(document).on('click','#selrole',function(){
+				var name=$('#name').val();//角色名称
+				var state=$("#state option:selected").val();//状态
+				var data={};
+				data.roleName=name;
+				data.state=state;
+				getTableList(data);
+			});
+			
 				//菜单关系添加
 				$(document).on('click','#getMenuIDList',function(){
-					
 					if(rolid==''){
 						layer.alert('请输入先选择角色', {icon: 5});
 					}else{
 						//获得选中的节点
 						var checkedData = tree.getChecked('menuid');
-						var a=getTreeIdarr(checkedData);
-						console.log(a)
-						// $.post(api.resource.remove, data, function(results) {
-						// openCon(results.state,results.message);
-						// });
+						var arr=getTreeIdarr(checkedData);
+						var qure_data={};
+						qure_data.rolid =rolid ;
+						qure_data.authIds =arr;
+						$.post(api.role.resource, qure_data, function(results) {
+							if(results.state==0){
+										//询问框
+										layer.confirm(results.message, {
+											icon: 6,
+										  btn: ['确定'] //按钮
+										}, function(){
+											layer.closeAll(); 
+										});
+							}else{
+							var a=layer.confirm(results.message, {
+								icon: 5,
+							  btn: ['确定'] //按钮
+							}, function(){
+								// location.reload();
+								layer.close(a); 
+								});
+							}	
+							
+						});
 					}
 				});
 				
-				//用户关系添加
 				
+				//用户关系添加
 				$(document).on('click','#getUserList',function(){
 					// if(rolid==''){
 					// 	layer.alert('请输入先选择角色', {icon: 5});
 					// }else{
 						//获得选中的节点
-						var checkedData = tree.getChecked('menuid');
-						var a=getTreeIdarr(checkedData);
-						$.post(api.resource.remove, data, function(results) {
-						openCon(results.state,results.message);
+						var checkedData = tree.getChecked('userid');
+						var arr=getTreeIdarruser(checkedData);
+						var qure_data={};
+						qure_data.rolid =rolid ;
+						qure_data.userids =arr;
+						$.post(api.role.organ, qure_data, function(results) {
+							if(results.state==0){
+										//询问框
+										var b=layer.confirm(results.message, {
+											icon: 6,
+										  btn: ['确定'] //按钮
+										}, function(){
+											layer.close(b); 
+										});
+							}else{
+							var a=layer.confirm(results.message, {
+								icon: 5,
+							  btn: ['确定'] //按钮
+							}, function(){
+								// location.reload();
+								layer.close(a); 
+								});
+							}	
+							
 						});
 					// }
 				});

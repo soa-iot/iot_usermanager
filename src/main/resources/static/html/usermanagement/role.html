@@ -23,10 +23,26 @@
 							        <input type="text" id="name" class="layui-input layui-input-one" autocomplete="off">
 							      </div>
 							    </div>
+								
+								<div class="layui-inline">
+								  <label class="text-font layui-form-label" style="width: 70px;">状态</label>
+								  <div class="layui-input-inline" style="width: 140px;">
+									   
+									   <select name="state" id="state" lay-filter="aihao">
+									          <option value="">请选择状态</option>
+									          <option value="0">启用</option>
+									          <option value="1">停用</option>
+									        </select>
+								  </div>
+								</div>
+								
 							    <div class="layui-inline layui-inline-btn1"> 
-							    	<button type="button" class="layui-btn layui-btn-xs layui-btn-normal" id="query-equipment">
+							    	<button type="button" class="layui-btn layui-btn-xs layui-btn-normal" id="selrole">
 										<i class="layui-icon">&#xe615;</i>查&nbsp;&nbsp;&nbsp;询
 									</button> 
+									<button type="reset" class="layui-btn layui-btn-xs layui-btn-normal">
+										<i class="layui-icon layui-icon-refresh"></i> 重置
+									</button>
 							    </div>
 							 </div>
 				    	</form>
@@ -43,7 +59,7 @@
 					
 					<script type="text/html" id="switchTpl">
 					  <!-- 这里的 checked 的状态只是演示 -->
-					  <input type="checkbox" name="state" value="{{d.state}}" lay-skin="switch" lay-text="启用|停用" lay-filter="sexDemo" {{ d.state == 0 ? 'checked' : '' }}>
+					  <input type="checkbox" name="state" value="{{d.rolid}}" lay-skin="switch" lay-text="启用|停用" lay-filter="sexDemo" {{ d.state == 0 ? 'checked' : '' }}>
 					</script>
 					
 					<!-- 菜单树 -->
