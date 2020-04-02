@@ -125,6 +125,15 @@
 			USERNUM = #{usernum, jdbcType=VARCHAR}
 	</select>
 
+	<!-- 1.4 获取所有的人员组织信息 -->
+	<!-- List<UserOrganization> findAllOrgans(); -->
+	<select id="findAllOrgans" resultType="cn.soa.entity.UserOrganization">
+		SELECT
+			*
+		FROM
+			IOT_USER_ORGANIZATION
+	</select>
+
 	<!-- ===========================2、新增===============================  -->
 	<!-- 2.1 新增用户信息 -->
 	<!-- Integer insertUserInfo(@Param("user") UserInfoVO user); -->

@@ -16,6 +16,7 @@ import cn.soa.dao.usermanagement.UserManagementMapper;
 import cn.soa.dao.usermanagement.UserModuleResourceMapper;
 import cn.soa.entity.IotUserModuleResource;
 import cn.soa.entity.UserInfoVO;
+import cn.soa.entity.UserOrganization;
 import cn.soa.entity.UserRole;
 import cn.soa.entity.UserRoleVO;
 import cn.soa.service.inter.usermanagement.RoleManagementSI;
@@ -31,6 +32,9 @@ public class UserManagementTest {
 	public RoleManagementMapper rmMapper;
 	@Autowired
 	private RoleManagementSI roleS;
+	
+	@Autowired
+	private UserMapper uMapper;
 	
 	@Test
 	public void findusers() {
@@ -87,5 +91,13 @@ public class UserManagementTest {
 		role.setName("王一一");
 		
 		roleS.addNewRole(role);
+	}
+	
+	@Test
+	public void getOrgans() {
+		List<UserOrganization> list = uMapper.findUsersAll();
+		System.out.println("-------------------");
+		System.out.println(list.size());
+		System.out.println(list);
 	}
 }

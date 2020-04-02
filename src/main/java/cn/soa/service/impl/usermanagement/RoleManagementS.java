@@ -1,7 +1,5 @@
 package cn.soa.service.impl.usermanagement;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
@@ -11,11 +9,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.soa.dao.IotUserRoleAuthMapper;
+import cn.soa.dao.UserRoleMapper;
 import cn.soa.dao.usermanagement.RoleManagementMapper;
-import cn.soa.dao.usermanagement.UserModuleResourceMapper;
-import cn.soa.entity.IotUserAuthority;
 import cn.soa.entity.IotUserRoleAuth;
 import cn.soa.entity.UserRole;
+import cn.soa.entity.UserRoleRelation;
 import cn.soa.entity.UserRoleVO;
 import cn.soa.service.inter.usermanagement.RoleManagementSI;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +32,8 @@ public class RoleManagementS implements RoleManagementSI {
 	private RoleManagementMapper roleManagementMapper;
 	@Autowired
 	private IotUserRoleAuthMapper authMapper;
+	@Autowired
+	private UserRoleMapper roleMapper;
 	
 	/**
 	 * 条件查询角色列表
@@ -62,13 +62,14 @@ public class RoleManagementS implements RoleManagementSI {
 	 * 更新角色的状态
 	 * @param rolid - 角色id
 	 * @param state - 角色状态
+	 * @param name - 角色名称
 	 */
 	@Override
-	public Boolean setRoleState(String rolid, Integer state) {
+	public Boolean setRoleState(String rolid, Integer state, String name) {
 		log.info("-----开始更新角色的状态-----");
 		try {
 			
-			roleManagementMapper.updateRoleState(rolid, state);
+			roleManagementMapper.updateRoleState(rolid, state, name);
 			
 			log.info("-----更新角色的状态成功-----");
 			return true;
@@ -89,11 +90,10 @@ public class RoleManagementS implements RoleManagementSI {
 		log.info("-----开始添加新角色类型-----");
 		try {
 			
-			SimpleDateFormat sdf = new SimpleDateFormat("YYYY-mm-DD HH:MM:SS");
-			String dateStr = sdf.format(new Date());
-			
-			role.setCreate_time(dateStr);
-			role.setLast_modify_time(dateStr);
+			//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			//String dateStr = sdf.format(new Date());
+			//role.setCreate_time(dateStr);
+			//role.setLast_modify_time(dateStr);
 			roleManagementMapper.insertNewRole(role);
 			
 			log.info("-----添加新角色类型成功-----");
@@ -111,12 +111,14 @@ public class RoleManagementS implements RoleManagementSI {
 	 * @param rolid - 角色id
 	 */
 	@Override
-	public Boolean removeRoleType(String rolid) {
+	public Boolean removeRoleType(String[] rolid) {
 		log.info("-----开始删除角色类型-----");
 		try {
 			
-			roleManagementMapper.deleteRoleType(rolid);
-			roleManagementMapper.deleteRoleAuth(rolid);
+			for(String id : rolid) {
+				roleManagementMapper.deleteRoleType(id);
+				roleManagementMapper.deleteRoleAuth(id);
+			}
 			
 			log.info("-----删除角色类型成功-----");
 			return true;
@@ -158,7 +160,41 @@ public class RoleManagementS implements RoleManagementSI {
 		}catch (Exception e) {
 			log.info("-----给角色添加资源发生错误-----");
 			log.info("--{}", e);
-			return false;
+			throw new RuntimeException("给角色添加资源发生错误");
+		}
+	}
+	
+	/**
+	 * 角色关联人员组织
+	 * @param rolid - 角色id
+	 * @param userids - 人员id
+	 * @return
+	 */
+	@Override
+	@Transactional
+	public Boolean insertUserRole(String rolid, String[] userids) {
+		log.info("-----开始角色关联人员组织-----");
+		try {
+			//先清除角色和人员的关系
+			roleMapper.deleteUserUserAndRolebyId(rolid);
+			
+			//再插入角色人员组织关联
+			List<UserRoleRelation> list = new LinkedList<>();
+			for(String id : userids) {
+				UserRoleRelation relation = new UserRoleRelation();
+				relation.setRolid(rolid);
+				relation.setUserid(id);
+				list.add(relation);
+			}
+			roleMapper.saveUserUserRoleInBatch(list);
+			
+			log.info("-----角色关联人员组织成功-----");
+			return true;
+			
+		}catch (Exception e) {
+			log.info("-----角色关联人员组织发生错误-----");
+			log.info("--{}", e);
+			throw new RuntimeException("角色关联人员组织发生错误");
 		}
 	}
 

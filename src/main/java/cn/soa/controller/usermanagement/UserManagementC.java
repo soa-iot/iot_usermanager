@@ -7,11 +7,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import cn.soa.entity.OrganTree;
 import cn.soa.entity.ResponseEntity;
 import cn.soa.entity.UserInfoVO;
 import cn.soa.entity.UserQueryCondition;
 import cn.soa.entity.headResult.ResultJson;
 import cn.soa.service.inter.usermanagement.UserManagementSI;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -22,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @RestController
 @Slf4j
+@Api(value = "人员信息管理", tags="人员信息管理")
 public class UserManagementC {
 	
 	@Autowired
@@ -133,6 +137,23 @@ public class UserManagementC {
 			return new ResultJson<Boolean>(ResultJson.SUCCESS, "重置账号密码成功", result);
 		}
 		return new ResultJson<Boolean>(ResultJson.ERROR, "重置账号密码失败", result);
+
+	}
+	
+	/**
+	 * 获取人员组织树
+	 */
+	@ApiOperation(value = "获取人员组织树")
+	@RequestMapping("/user/organ/list")
+	public ResponseEntity<List<OrganTree>> getUserOrganList(){
+		log.info("------进入接口UserManagementC...getUserOrganList------");
+		
+		List<OrganTree> result = userManagementS.getOrganTree();
+		
+		if(result != null) {
+			return new ResponseEntity<>(ResultJson.SUCCESS, "获取人员组织树成功", result.size(), result);
+		}
+		return new ResponseEntity<>(ResultJson.ERROR, "获取人员组织树失败", 0, result);
 
 	}
 }

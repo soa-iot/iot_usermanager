@@ -87,8 +87,7 @@
 	<insert id="insert"
 		parameterType="cn.soa.entity.IotUserAuthority">
 		insert into IOT_USER_AUTHORITY (AUTID, RESOURCEID, TYPE,
-		NAME, NOTE, "REMARK1 "
-		)
+		NAME, NOTE, REMARK1)
 		values (#{autid,jdbcType=VARCHAR},
 		#{resourceid,jdbcType=VARCHAR},
 		#{type,jdbcType=DECIMAL},

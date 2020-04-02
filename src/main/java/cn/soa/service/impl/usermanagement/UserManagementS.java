@@ -1,6 +1,7 @@
 package cn.soa.service.impl.usermanagement;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,10 @@ import cn.soa.dao.usermanagement.OrganManagementMapper;
 import cn.soa.dao.usermanagement.RoleManagementMapper;
 import cn.soa.dao.usermanagement.UserManagementMapper;
 import cn.soa.entity.UserInfoVO;
+import cn.soa.entity.UserOrganization;
 import cn.soa.entity.UserQueryCondition;
 import cn.soa.service.inter.usermanagement.UserManagementSI;
+import cn.soa.entity.OrganTree;
 import cn.soa.entity.ResponseEntity;
 import lombok.extern.slf4j.Slf4j;
 
@@ -184,5 +187,63 @@ public class UserManagementS implements UserManagementSI {
 			log.info("--{}", e);
 			throw new RuntimeException("更新用户信息发生错误");
 		}
-	};
+	}
+	
+	/**
+	 * 获取人员组织信息树
+	 * 
+	 * @return List<ResourceTree> - 人员组织信息树
+	 */
+	@Override
+	public List<OrganTree> getOrganTree() {
+		log.info("-----开始获取人员组织信息树-----");
+		try {
+			//1.获取所有人员组织信息列表
+			List<UserOrganization> list = umMapper.findAllOrgans();
+			
+			//2. 列表转换成树
+			List<OrganTree> tree = new LinkedList<OrganTree>();
+			for(UserOrganization organ : list) {
+				if(organ.getParent_id() == null || organ.getName().contains("净化厂")) {
+					//一级组织
+					OrganTree head = new OrganTree();
+					head.setId(organ.getUsernum());
+					head.setIsParent(organ.getIs_parent());
+					head.setTitle(organ.getName());
+					//递归转换树
+					listParseTree(list, head);
+					
+					tree.add(head);
+				}
+			}
+			
+			log.info("-----获取人员组织信息树成功-----");
+			return tree;
+			
+		}catch (Exception e) {
+			log.info("-----获取人员组织信息树发生错误-----");
+			log.info("--{}", e);
+			return null;
+		}
+	}
+	
+	/**
+	 * 递归将列表转换成树
+	 * @param list - 人员组织列表
+	 * @param parent - 人员组织父节点对象
+	 */
+	private void listParseTree(List<UserOrganization> list, OrganTree parent) {
+		for(UserOrganization organ : list) {
+			if(parent.getId().equals(organ.getParent_id())) {
+				OrganTree sub = new OrganTree();
+				sub.setId(organ.getUsernum());
+				sub.setIsParent(organ.getIs_parent());
+				sub.setTitle(organ.getName());
+				//添加子节点
+				parent.getChildren().add(sub);
+				//递归调用
+				listParseTree(list, sub);
+			}
+		}
+	}
 }

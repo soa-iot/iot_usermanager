@@ -36,8 +36,9 @@ public interface RoleManagementMapper {
 	 * 更新角色的状态
 	 * @param rolid - 角色id
 	 * @param state - 角色状态
+	 * @param name - 角色名称
 	 */
-	Integer updateRoleState(@Param("rolid")String rolid, @Param("state")Integer state);
+	Integer updateRoleState(@Param("rolid")String rolid, @Param("state")Integer state, @Param("name")String name);
 	
 	/**
 	 * 添加新角色类型

@@ -111,8 +111,8 @@
 				<if test="resource.name != null and resource.name != ''">
 					NAME = #{resource.name},
 				</if>
-				#{resource.url, jdbcType=VARCHAR},
-				#{resource.describe, jdbcType=VARCHAR},
+				URL = #{resource.url, jdbcType=VARCHAR},
+				DESCRIBE = #{resource.describe, jdbcType=VARCHAR},
 				<if test="resource.type != null">
 					TYPE = #{resource.type},
 				</if>

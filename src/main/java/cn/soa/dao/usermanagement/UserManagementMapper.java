@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import cn.soa.entity.UserInfoVO;
+import cn.soa.entity.UserOrganization;
 import cn.soa.entity.UserQueryCondition;
 
 /**
@@ -74,4 +75,10 @@ public interface UserManagementMapper {
 	 * @param usernum - 用户账号
 	 */
 	Integer findUserByUsernum(String nusernum);
+	
+	/**
+	 * 获取所有的人员组织信息
+	 * @return List<UserOrganization>
+	 */
+	List<UserOrganization> findAllOrgans();
 }

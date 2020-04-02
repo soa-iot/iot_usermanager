@@ -74,12 +74,8 @@
 					#{role.name},
 				</if>
 				0,
-				<if test="role.create_time != null and role.create_time != ''">
-					#{role.create_time},
-				</if>
-				<if test="role.last_modify_time != null and role.last_modify_time != ''">
-					#{role.last_modify_time},
-				</if>
+				CURRENT_DATE,
+				CURRENT_DATE,
 				#{role.note, jdbcType=VARCHAR},
 				#{role.remark1, jdbcType=VARCHAR},
 				#{role.remark2, jdbcType=VARCHAR}
@@ -89,14 +85,18 @@
 	
 	<!-- ===========================3、更新===============================  -->
 	<!-- 3.1 更新角色的状态 -->
-	<!-- Integer updateRoleState(@Param("rolid")String rolid, @Param("state")Integer state); -->
+	<!-- Integer updateRoleState(@Param("rolid")String rolid, @Param("state")Integer state, @Param("name")String name); -->
 	<update id="updateRoleState">
 		UPDATE 
 			IOT_USER_ROLE
 		<set>
 			<if test="state != null">
-				STATE = ${state}
+				STATE = ${state},
 			</if>
+			<if test="name != null and name != ''">
+				NAME = ${name},
+			</if>
+			LAST_MODIFY_TIME = CURRENT_DATE
 		</set>
 		WHERE
 			ROLID = #{rolid, jdbcType=VARCHAR}

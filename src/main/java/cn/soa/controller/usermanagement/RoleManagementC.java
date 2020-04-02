@@ -1,5 +1,6 @@
 package cn.soa.controller.usermanagement;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,15 +67,17 @@ public class RoleManagementC {
 	@ApiOperation(value = "更新角色状态")
 	@ApiImplicitParams(value= {
 			@ApiImplicitParam(name="rolid", value="角色ID",  required=true, type="string"),
-			@ApiImplicitParam(name="state", value="角色状态", required=true, type="int", allowableValues="0,1")
+			@ApiImplicitParam(name="state", value="角色状态", type="int", allowableValues="0,1"),
+			@ApiImplicitParam(name="name", value="角色名称", type="string")
 	})
 	@PostMapping("/role/state/update")
-	public ResultJson<Boolean> modifyRoleState(@RequestParam String rolid, @RequestParam  Integer state){
+	public ResultJson<Boolean> modifyRoleState(@RequestParam String rolid, Integer state, String name){
 		log.info("------进入接口RoleManagementC...modifyRoleState------");
 		log.info("------角色ID rolid： {}", rolid);
 		log.info("------状态  state： {}", state);
+		log.info("------角色名称  name： {}", name);
 		
-		Boolean result = roleManagementS.setRoleState(rolid, state);
+		Boolean result = roleManagementS.setRoleState(rolid, state, name);
 		
 		if(result) {
 			return new ResultJson<Boolean>(ResultJson.SUCCESS, "更新角色状态成功", result);
@@ -116,12 +119,12 @@ public class RoleManagementC {
 	 */
 	@ApiOperation(value = "删除角色")
 	@ApiImplicitParams(value= {
-			@ApiImplicitParam(name="rolid", value="角色ID",  required=true, type="string")
+			@ApiImplicitParam(name="rolid", value="角色ID列表",  required=true, type="string[]")
 	})
 	@PostMapping("/role/delete")
-	public ResultJson<Boolean> removeRoleType(String rolid){
+	public ResultJson<Boolean> removeRoleType(@RequestBody String[] rolid){
 		log.info("------进入接口RoleManagementC...removeRoleType------");
-		log.info("------角色ID rolid： {}", rolid);
+		log.info("------角色ID rolid： {}", Arrays.toString(rolid));
 		
 		try {
 			Boolean result = roleManagementS.removeRoleType(rolid);
@@ -157,6 +160,32 @@ public class RoleManagementC {
 		}catch (Exception e) {
 			log.info("--{}", e);
 			return new ResultJson<Boolean>(ResultJson.ERROR, "给角色添加资源失败", false);
+		}
+	}
+	
+	/**
+	 * 角色关联人员组织
+	 * @param rolid - 角色id
+	 * @param userids - 人员id
+	 * @return
+	 */
+	@ApiOperation(value = "角色关联人员组织")
+	@ApiImplicitParams(value= {
+			@ApiImplicitParam(name="rolid", value="角色ID",  required=true, type="string"),
+			@ApiImplicitParam(name="userids", value="人员id数组",  required=true, type="string[]")
+	})
+	@PostMapping("/role/add/organ")
+	public ResultJson<Boolean> addUserRole(@RequestBody String rolid, @RequestBody String[] userids) {
+		log.info("------进入接口RoleManagementC...addUserRole------");
+		log.info("------角色ID rolid： {}", rolid);
+		log.info("------权限ID userids： {}", rolid);
+		
+		try {
+			Boolean result = roleManagementS.insertUserRole(rolid, userids);
+			return new ResultJson<Boolean>(ResultJson.SUCCESS, "角色关联人员组织成功", result);
+		}catch (Exception e) {
+			log.info("--{}", e);
+			return new ResultJson<Boolean>(ResultJson.ERROR, "角色关联人员组织失败", false);
 		}
 	}
 }

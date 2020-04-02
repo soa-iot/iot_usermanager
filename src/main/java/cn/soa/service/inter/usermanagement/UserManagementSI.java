@@ -1,10 +1,7 @@
 package cn.soa.service.inter.usermanagement;
 
 import java.util.List;
-
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-
+import cn.soa.entity.OrganTree;
 import cn.soa.entity.ResponseEntity;
 import cn.soa.entity.UserInfoVO;
 import cn.soa.entity.UserQueryCondition;
@@ -55,4 +52,11 @@ public interface UserManagementSI {
 	 * @param usernum - 用户账号
 	 */
 	Boolean checkUserExist(String usernum);
+	
+	/**
+	 * 获取人员组织信息树
+	 * 
+	 * @return List<OrganTree> - 人员组织信息树
+	 */
+	List<OrganTree> getOrganTree();
 }

@@ -32,8 +32,9 @@ public interface RoleManagementSI {
 	 * 更新角色的状态
 	 * @param rolid - 角色id
 	 * @param state - 角色状态
+	 * @param name - 角色名称
 	 */
-	Boolean setRoleState(String rolid, Integer state);
+	Boolean setRoleState(String rolid, Integer state, String name);
 	
 	/**
 	 * 添加新角色类型
@@ -45,7 +46,7 @@ public interface RoleManagementSI {
 	 * 删除角色类型
 	 * @param rolid - 角色id
 	 */
-	Boolean removeRoleType(String rolid);
+	Boolean removeRoleType(String[] rolid);
 	
 	/**
 	 * 给角色添加资源
@@ -54,4 +55,12 @@ public interface RoleManagementSI {
 	 * @return
 	 */
 	Boolean insertRoleResource(String rolid, String[] authIds);
+	
+	/**
+	 * 角色关联人员组织
+	 * @param rolid - 角色id
+	 * @param userids - 人员id
+	 * @return
+	 */
+	Boolean insertUserRole(String rolid, String[] userids);
 }
