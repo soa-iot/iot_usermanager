@@ -35,14 +35,14 @@
 
 													<div class="layui-input-inline">
 
-														<input name="spEncoding" id="spEncoding" class="layui-input" placeholder="请输入">
+														<input name="name" id="name" class="layui-input" placeholder="请输入">
 
 													</div>
 												</div>
 
 												<div class="layui-inline" id="btn-group">
 
-													<button class="layui-btn layui-btn-normal" type="button" lay-submit id="search_button_search" lay-filter="search_button_search">
+													<button class="layui-btn layui-btn-normal" type="button" lay-submit id="button_search" lay-filter="button_search">
 
 														<i class="layui-icon">&#xe615;</i>查询
 
@@ -101,16 +101,14 @@
 			<div class="layui-row">
 				<div class="layui-col-md12 ">
 						<form class="layui-form" action="">
-							
-						  <div class="layui-form-item">
-						    <div class="layui-inline">
-						      <label class="layui-form-label">名称</label>
-						      <div class="layui-input-inline">
-								   <input type="text" name="name" id="name" lay-verify="required" lay-reqtext="用户名是必填项，岂能为空？" placeholder="请输入" autocomplete="off" class="layui-input">
-						      </div>
-						    </div>
-						  </div>
-						  
+							<div class="layui-form-item">
+							  <div class="layui-inline">
+							    <label class="layui-form-label">名称</label>
+							    <div class="layui-input-inline">
+							      <input type="text" name="menuname" id="menuname" lay-verify="title" autocomplete="off"  class="layui-input">
+							    </div>
+							  </div>
+							</div>
 						  <div class="layui-form-item" id="icon">
 						    <div class="layui-inline">
 						      <label class="layui-form-label">图标选择</label>
@@ -124,7 +122,7 @@
 						    <div class="layui-inline">
 						      <label class="layui-form-label">权限标识</label>
 						      <div class="layui-input-inline">
-						        <input type="text" name="standby2" id="standby2" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input">
+						        <input type="text" name="standby2" id="standby2" lay-verify="title" autocomplete="off"  class="layui-input">
 						      </div>
 						    </div>
 						  </div>
@@ -133,7 +131,7 @@
 						    <div class="layui-inline">
 						      <label class="layui-form-label">连接地址</label>
 						      <div class="layui-input-inline">
-						        <input type="text" name="address" id="address" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input">
+						        <input type="text" name="address" id="address" lay-verify="title" autocomplete="off"  class="layui-input">
 						      </div>
 						    </div>
 						  </div>

@@ -29,6 +29,7 @@ layui.config({
 					toolbar : '#toolbar',
 					treePidName : 'parentId',
 					elem : '#resource_table',
+					treeDefaultClose: true,
 					url : '/resource/getAllResourceInfo',
 					page : false,
 					cols : [[{
