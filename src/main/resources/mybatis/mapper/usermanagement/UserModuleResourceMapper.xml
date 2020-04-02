@@ -9,6 +9,7 @@
 	<!-- List<IotUserModuleResource> findAllResources(); -->
 	<resultMap type="cn.soa.entity.IotUserModuleResource" id="findAllResourcesMap">
 		<id column="MODID" property="modId"/>
+		<result column="autid" property="authId"/>
 		<result column="NAME" property="name"/>
 		<result column="URL" property="url"/>
 		<result column="DESCRIBE" property="describe"/>
@@ -26,17 +27,18 @@
 	
 	<select id="findAllResources" resultMap="findAllResourcesMap">
 		SELECT
-			*
+			res.*, aut.autid autid
 		FROM
-			IOT_USER_MODULE_RESOURCE
-		ORDER BY TO_NUMBER(REMARK1) 
+			IOT_USER_MODULE_RESOURCE res JOIN IOT_USER_AUTHORITY aut ON res.modid = aut.resourceid
+		ORDER BY TO_NUMBER(res.REMARK1) 
 	</select>
+	
 	
 	<!-- 1.2 通过角色ID查询其拥有的资源 -->
 	<!-- List<IotUserModuleResource> findResourcesByRolid(String rolid); -->
 	<select id="findResourcesByRolid" resultMap="findAllResourcesMap">
 		SELECT
-			res.*
+			res.*, aut.autid autid
 		FROM
 			IOT_USER_MODULE_RESOURCE res JOIN IOT_USER_AUTHORITY aut ON res.modid = aut.resourceid
 			JOIN IOT_USER_ROLE_AUTH ura ON aut.autid = ura.autid
@@ -44,14 +46,22 @@
 			ura.ROLID = #{rolid, jdbcType=VARCHAR}
 	</select>
 	
+	<!-- 1.2 通过资源ID查询权限ID -->
+	<!-- String findAuthorityId(String resourceId); -->
+	<select id="findAuthorityId" resultType="string">
+		SELECT
+			AUTID
+		FROM
+			IOT_USER_AUTHORITY
+		WHERE
+			RESOURCEID = #{resourceId, jdbcType=VARCHAR}
+	</select>
+
 	<!-- ===========================2、新增===============================  -->
 	<!-- 2.1 添加菜单资源信息 -->
 	<!-- Integer insertModuleResource(@Param("resource") IotUserModuleResource resource); -->
 	<insert id="insertModuleResource" parameterType="cn.soa.entity.IotUserModuleResource">
-		<selectKey order="BEFORE" resultType="string" keyProperty="modId">
-			SELECT sys_guid() from dual
-		</selectKey>
-		
+
 		INSERT INTO
 			IOT_USER_MODULE_RESOURCE
 			(MODID, NAME, URL, DESCRIBE, TYPE, PARENT_ID, IS_PARENT, CREATE_TIME, LAST_MODIFY_TIME,
@@ -59,8 +69,8 @@
 			)
 		VALUES(
 			<if test="resource != null">
-				<if test="modId != null and modId != ''">
-					#{modId},
+				<if test="resource.modId != null and resource.modId != ''">
+					#{resource.modId},
 				</if>
 				<if test="resource.name != null and resource.name != ''">
 					#{resource.name},
@@ -88,7 +98,7 @@
 			</if>
 		)
 	</insert>
-	
+
 	
 	<!-- ===========================3、更新===============================  -->
 	<!-- 3.1 更新菜单资源信息 -->

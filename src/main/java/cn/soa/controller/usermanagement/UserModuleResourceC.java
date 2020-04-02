@@ -98,12 +98,14 @@ public class UserModuleResourceC {
 		log.info("------进入接口UserModuleResourceC...addModuleResource------");
 		log.info("------菜单资源信息 resource: {}", resource);
 		
-		Boolean result = userModuleResourceS.addModuleResource(resource);
-		
-		if(result) {
+		try {
+			Boolean result = userModuleResourceS.addModuleResource(resource);
 			return new ResultJson<Boolean>(ResultJson.SUCCESS, "添加菜单资源信息成功", result);
+		}catch (Exception e) {
+			log.info("--{}", e);
+			return new ResultJson<Boolean>(ResultJson.ERROR, "添加菜单资源信息失败", false);
 		}
-		return new ResultJson<Boolean>(ResultJson.ERROR, "添加菜单资源信息失败", result);
+		
 	}
 	
 	/**
@@ -176,7 +178,7 @@ public class UserModuleResourceC {
 		if(result != null) {
 			List<String> resourceIds = new LinkedList<String>();
 			for(IotUserModuleResource resource : result) {
-				resourceIds.add(resource.getModId());
+				resourceIds.add(resource.getAuthId());
 			}
 			return new ResponseEntity<>(0, "获取角色拥有的菜单资源成功", resourceIds.size(), resourceIds);
 		}

@@ -30,7 +30,7 @@ public interface RoleManagementMapper {
 	 * @param roleName - 角色名字
 	 * @param List<UserRoleVO> - 角色列表
 	 */
-	List<UserRoleVO> findUserRoles(String roleName);
+	List<UserRoleVO> findUserRoles(@Param("roleName") String roleName,@Param("state") String state);
 	
 	/**
 	 * 更新角色的状态
@@ -51,4 +51,10 @@ public interface RoleManagementMapper {
 	 */
 	Integer deleteRoleType(String rolid);
 
+	/**
+	 * 删除角色的权限
+	 * @param rolid - 角色id
+	 */
+	Integer deleteRoleAuth(String rolid);
+	
 }

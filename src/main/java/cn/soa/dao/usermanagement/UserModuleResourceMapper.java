@@ -32,6 +32,14 @@ public interface UserModuleResourceMapper {
 	Integer insertModuleResource(@Param("resource") IotUserModuleResource resource);
 	
 	/**
+	 * 通过资源ID查询权限ID
+	 * @param resourceId - 资源ID
+	 * @return 权限ID
+	 */
+	String findAuthorityId(String resourceId);
+	
+	
+	/**
 	 * 更新菜单资源信息
 	 * @param resource - 菜单资源信息对象
 	 * 

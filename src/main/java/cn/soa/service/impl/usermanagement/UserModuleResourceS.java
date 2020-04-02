@@ -1,14 +1,17 @@
 package cn.soa.service.impl.usermanagement;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import cn.soa.dao.IotUserAuthorityMapper;
 import cn.soa.dao.usermanagement.UserModuleResourceMapper;
+import cn.soa.entity.IotUserAuthority;
 import cn.soa.entity.IotUserModuleResource;
 import cn.soa.entity.ResourceTree;
 import cn.soa.service.inter.usermanagement.UserModuleResourceSI;
@@ -25,6 +28,8 @@ public class UserModuleResourceS implements UserModuleResourceSI {
 	
 	@Autowired
 	private UserModuleResourceMapper umrMapper;
+	@Autowired
+	private IotUserAuthorityMapper authMapper;
 	
 	/**
 	 * 查询所有的权限资源信息
@@ -55,12 +60,25 @@ public class UserModuleResourceS implements UserModuleResourceSI {
 	 * 
 	 */
 	@Override
+	@Transactional
 	public Boolean addModuleResource(IotUserModuleResource resource) {
 		log.info("-----开始添加菜单资源信息-----");
 		try {
 			resource.setCreateTime(new Date());
 			resource.setLastModifyTime(new Date());
+			String modId = UUID.randomUUID().toString().replace("-", "");
+			resource.setModId(modId);
 			umrMapper.insertModuleResource(resource);
+			
+			//插入权限与资源关系记录
+			IotUserAuthority auth = new IotUserAuthority();
+			auth.setAutid(UUID.randomUUID().toString().replace("-", ""));
+			auth.setResourceid(modId);
+			auth.setType((short) 1);
+			auth.setName(resource.getName());
+			auth.setNote(resource.getName());
+			
+			authMapper.insert(auth);
 			
 			log.info("-----添加菜单资源信息成功-----");
 			return true;
@@ -68,7 +86,7 @@ public class UserModuleResourceS implements UserModuleResourceSI {
 		}catch (Exception e) {
 			log.info("-----添加菜单资源信息发生错误-----");
 			log.info("--{}", e);
-			return false;
+			throw new RuntimeException("添加菜单资源信息发生错误");
 		}
 	}
 	
@@ -143,7 +161,7 @@ public class UserModuleResourceS implements UserModuleResourceSI {
 				if("-1".equals(resource.getParentId()) || "0".equals(resource.getParentId())) {
 					//一级资源
 					ResourceTree head = new ResourceTree();
-					head.setId(resource.getModId());
+					head.setId(resource.getAuthId());
 					head.setTitle(resource.getName());
 					//递归转换树
 					listParseTree(list, head);
@@ -171,7 +189,7 @@ public class UserModuleResourceS implements UserModuleResourceSI {
 		for(IotUserModuleResource resource : list) {
 			if(parent.getId().equals(resource.getParentId())) {
 				ResourceTree sub = new ResourceTree();
-				sub.setId(resource.getModId());
+				sub.setId(resource.getAuthId());
 				sub.setTitle(resource.getName());
 				//添加子节点
 				parent.getChildren().add(sub);

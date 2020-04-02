@@ -6,7 +6,7 @@
 
 	<!-- ===========================1、查询===============================  -->
 	<!-- 1.1 条件查询角色列表 -->
-	<!-- List<UserRoleVO> findUserRoles(String roleName); -->
+	<!-- List<UserRoleVO> findUserRoles(@Param("roleName") String roleName,@Param("state") String state); -->
 	<resultMap type="cn.soa.entity.UserRoleVO" id="findUserRolesMap">
 		<id column="rolid" property="rolid"/>
 		<result column="name" property="name"/>
@@ -24,6 +24,9 @@
 		<where>
 			<if test="roleName != null and roleName != ''">
 				NAME LIKE '%${roleName}%'
+			</if>
+			<if test="state != null and state != ''">
+				STATE = ${state}
 			</if>
 		</where>
 	</select>
@@ -59,7 +62,7 @@
 			SELECT sys_guid() FROM dual
 		</selectKey>
 		
-		INSRT INTO
+		INSERT INTO
 			IOT_USER_ROLE
 			(ROLID, NAME, STATE, CREATE_TIME, LAST_MODIFY_TIME, NOTE, REMARK1, REMARK2)
 		VALUES(
@@ -106,6 +109,15 @@
 	<delete id="deleteRoleType" parameterType="string">
 		DELETE FROM
 			IOT_USER_ROLE
+		WHERE
+			ROLID = #{rolid, jdbcType=VARCHAR}
+	</delete>
+	
+	<!-- 4.2 删除角色的权限 -->
+	<!-- Integer deleteRoleAuth(String rolid); -->
+	<delete id="deleteRoleAuth" parameterType="string">
+		DELETE FROM
+			IOT_USER_ROLE_AUTH
 		WHERE
 			ROLID = #{rolid, jdbcType=VARCHAR}
 	</delete>

@@ -74,9 +74,7 @@
 
 	<insert id="insert"
 		parameterType="cn.soa.entity.IotUserRoleAuth">
-		insert into IOT_USER_ROLE_AUTH (ROL_AUT_ID, ROLID,
-		"AUTID "
-		)
+		insert into IOT_USER_ROLE_AUTH (ROL_AUT_ID, ROLID, AUTID)
 		values (#{rolAutId,jdbcType=VARCHAR},
 		#{rolid,jdbcType=VARCHAR},
 		#{autid,jdbcType=VARCHAR}

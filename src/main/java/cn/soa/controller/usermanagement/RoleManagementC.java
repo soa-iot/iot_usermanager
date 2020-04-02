@@ -3,8 +3,10 @@ package cn.soa.controller.usermanagement;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,13 +41,16 @@ public class RoleManagementC {
 	//@MyLog(value = "查询所有的权限资源信息")
 	@ApiOperation(value = "查询角色列表信息")
 	@ApiImplicitParams(value= {
-			@ApiImplicitParam(name="roleName", value="角色名称", type="string")
+			@ApiImplicitParam(name="roleName", value="角色名称", type="string"),
+			@ApiImplicitParam(name="state", value="角色状态", type="int")
 	})
 	@GetMapping("/role/list")
-	public ResponseEntity<List<UserRoleVO>> getUserRoles(String roleName){
+	public ResponseEntity<List<UserRoleVO>> getUserRoles(String roleName, String state){
 		log.info("------进入接口RoleManagementC...getUserRoles------");
+		log.info("------角色名称 roleName: {}", roleName);
+		log.info("------角色状态 state: {}", state);
 		
-		List<UserRoleVO> result = roleManagementS.getUserRoles(roleName);
+		List<UserRoleVO> result = roleManagementS.getUserRoles(roleName, state);
 		
 		if(result == null) {
 			return new ResponseEntity<>(1, "查询角色列表信息失败");
@@ -118,12 +123,40 @@ public class RoleManagementC {
 		log.info("------进入接口RoleManagementC...removeRoleType------");
 		log.info("------角色ID rolid： {}", rolid);
 		
-		Boolean result = roleManagementS.removeRoleType(rolid);
-		
-		if(result) {
+		try {
+			Boolean result = roleManagementS.removeRoleType(rolid);
 			return new ResultJson<Boolean>(ResultJson.SUCCESS, "删除角色成功", result);
+		}catch (Exception e) {
+			log.info("--{}", e);
+			return new ResultJson<Boolean>(ResultJson.ERROR, "删除角色失败", false);
 		}
-		return new ResultJson<Boolean>(ResultJson.ERROR, "删除角色失败", result);
 
+	}
+	
+	
+	/**
+	 * 给角色添加资源
+	 * @param rolid - 角色id
+	 * @param resourceIds - 资源id列表
+	 * @return
+	 */
+	@ApiOperation(value = "给角色添加资源")
+	@ApiImplicitParams(value= {
+			@ApiImplicitParam(name="rolid", value="角色ID",  required=true, type="string"),
+			@ApiImplicitParam(name="authIds", value="权限id数组",  required=true, type="string[]")
+	})
+	@PostMapping("/role/add/resource")
+	public ResultJson<Boolean> addRoleResource(@RequestBody String rolid, @RequestBody String[] authIds) {
+		log.info("------进入接口RoleManagementC...addRoleResource------");
+		log.info("------角色ID rolid： {}", rolid);
+		log.info("------权限ID authIds： {}", rolid);
+		
+		try {
+			Boolean result = roleManagementS.insertRoleResource(rolid, authIds);
+			return new ResultJson<Boolean>(ResultJson.SUCCESS, "给角色添加资源成功", result);
+		}catch (Exception e) {
+			log.info("--{}", e);
+			return new ResultJson<Boolean>(ResultJson.ERROR, "给角色添加资源失败", false);
+		}
 	}
 }

@@ -17,6 +17,8 @@ import lombok.experimental.Accessors;
 public class IotUserModuleResource {
 	
 	private String modId;
+	
+	private String authId;
 
 	private String name;
 

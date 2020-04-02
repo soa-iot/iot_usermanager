@@ -2,6 +2,8 @@ package cn.soa.dao;
 
 import java.util.Date;
 import java.util.List;
+
+import org.apache.tomcat.jni.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,9 @@ import cn.soa.dao.usermanagement.UserManagementMapper;
 import cn.soa.dao.usermanagement.UserModuleResourceMapper;
 import cn.soa.entity.IotUserModuleResource;
 import cn.soa.entity.UserInfoVO;
+import cn.soa.entity.UserRole;
 import cn.soa.entity.UserRoleVO;
+import cn.soa.service.inter.usermanagement.RoleManagementSI;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = IotUsermanagerApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
@@ -25,6 +29,8 @@ public class UserManagementTest {
 	public UserModuleResourceMapper rmapper;
 	@Autowired
 	public RoleManagementMapper rmMapper;
+	@Autowired
+	private RoleManagementSI roleS;
 	
 	@Test
 	public void findusers() {
@@ -69,9 +75,17 @@ public class UserManagementTest {
 	
 	@Test
 	public void findRoles() {
-		List<UserRoleVO> list = rmMapper.findUserRoles(null);
+		List<UserRoleVO> list = rmMapper.findUserRoles(null, null);
 		System.out.println("-------------------");
 		System.out.println(list.size());
 		System.out.println(list);
+	}
+	
+	@Test
+	public void insertRole() {
+		UserRole role = new UserRole();
+		role.setName("王一一");
+		
+		roleS.addNewRole(role);
 	}
 }

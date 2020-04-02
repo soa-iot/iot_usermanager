@@ -23,9 +23,10 @@ public interface RoleManagementSI {
 	/**
 	 * 条件查询角色列表
 	 * @param roleName - 角色名字
+	 * @param state - 角色状态
 	 * @param List<UserRoleVO> - 角色列表
 	 */
-	List<UserRoleVO> getUserRoles(String roleName);
+	List<UserRoleVO> getUserRoles(String roleName, String state);
 	
 	/**
 	 * 更新角色的状态
@@ -45,4 +46,12 @@ public interface RoleManagementSI {
 	 * @param rolid - 角色id
 	 */
 	Boolean removeRoleType(String rolid);
+	
+	/**
+	 * 给角色添加资源
+	 * @param rolid - 角色id
+	 * @param authIds - 权限id列表
+	 * @return
+	 */
+	Boolean insertRoleResource(String rolid, String[] authIds);
 }
