@@ -1,5 +1,6 @@
 package cn.soa.service.impl.usermanagement;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
@@ -94,6 +95,12 @@ public class RoleManagementS implements RoleManagementSI {
 			//String dateStr = sdf.format(new Date());
 			//role.setCreate_time(dateStr);
 			//role.setLast_modify_time(dateStr);
+			//查询角色名是否已存在
+			Integer count = roleManagementMapper.findRoleByName(role.getName());
+			if(count != 0) {
+				log.info("-----该角色名已存在------");
+				return null;
+			}
 			roleManagementMapper.insertNewRole(role);
 			
 			log.info("-----添加新角色类型成功-----");
@@ -195,6 +202,53 @@ public class RoleManagementS implements RoleManagementSI {
 			log.info("-----角色关联人员组织发生错误-----");
 			log.info("--{}", e);
 			throw new RuntimeException("角色关联人员组织发生错误");
+		}
+	}
+	
+	/**
+	 * 根据角色ID查询人员列表
+	 * @param rolid - 角色id
+	 */
+	@Override
+	public List<String> getUserByRolid(String rolid) {
+		log.info("-----开始根据角色ID查询人员列表-----");
+		try {
+			
+			List<String> list = roleManagementMapper.findUserByRolid(rolid);
+			if(list == null) {
+				list = new ArrayList<String>();
+			}
+			
+			log.info("-----根据角色ID查询人员列表成功-----");
+			return list;
+			
+		}catch (Exception e) {
+			log.info("-----根据角色ID查询人员列表发生错误-----");
+			log.info("--{}", e);
+			return null;
+		}
+	}
+	
+	/**
+	 * 查询角色类型是否存在
+	 * @param roleName - 角色名称
+	 */
+	@Override
+	public Boolean isExistRoleName(String roleName) {
+		log.info("-----开始查询角色类型是否存在-----");
+		try {
+			
+			Integer count = roleManagementMapper.findRoleByName(roleName);
+			log.info("-----查询角色类型是否存在成功-----");
+			if(count == 0) {
+				return false;
+			}
+
+			return true;
+		}catch (Exception e) {
+			log.info("-----查询角色类型是否存在发生错误-----");
+			log.info("--{}", e);
+			return null;
 		}
 	}
 

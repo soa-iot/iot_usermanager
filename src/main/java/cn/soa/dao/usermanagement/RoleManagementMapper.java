@@ -58,4 +58,16 @@ public interface RoleManagementMapper {
 	 */
 	Integer deleteRoleAuth(String rolid);
 	
+	/**
+	 * 根据角色ID查询人员列表
+	 * @param rolid - 角色id
+	 */
+	List<String> findUserByRolid(String rolid);
+	
+	/**
+	 * 查询角色类型是否存在
+	 * @param roleName - 角色名称
+	 */
+	Integer findRoleByName(String roleName);
+	
 }

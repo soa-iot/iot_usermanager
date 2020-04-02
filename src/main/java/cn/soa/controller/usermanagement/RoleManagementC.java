@@ -106,7 +106,9 @@ public class RoleManagementC {
 		
 		Boolean result = roleManagementS.addNewRole(role);
 		
-		if(result) {
+		if(result == null) {
+			return new ResultJson<Boolean>(ResultJson.ERROR, "该角色名已存在", null);
+		}else if(result) {
 			return new ResultJson<Boolean>(ResultJson.SUCCESS, "添加新角色成功", result);
 		}
 		return new ResultJson<Boolean>(ResultJson.ERROR, "添加新角色失败", result);
@@ -187,5 +189,26 @@ public class RoleManagementC {
 			log.info("--{}", e);
 			return new ResultJson<Boolean>(ResultJson.ERROR, "角色关联人员组织失败", false);
 		}
+	}
+	
+	/**
+	 * 根据角色ID查询人员列表
+	 */
+	@ApiOperation(value = "根据角色ID查询人员列表")
+	@ApiImplicitParams(value= {
+			@ApiImplicitParam(name="rolid", value="角色ID", type="string")
+	})
+	@PostMapping("/role/user/list")
+	public ResponseEntity<List<String>> getUsersByRolid(@RequestParam String rolid){
+		log.info("------进入接口RoleManagementC...getUsersByRolid------");
+		log.info("------角色id rolid： {}", rolid);
+		
+		List<String> result = roleManagementS.getUserByRolid(rolid);
+		
+		if(result != null) {
+			return new ResponseEntity<>(ResultJson.SUCCESS, "获取人员列表成功", result.size(), result);
+		}
+		return new ResponseEntity<>(ResultJson.ERROR, "获取人员列表失败", 0, result);
+
 	}
 }
