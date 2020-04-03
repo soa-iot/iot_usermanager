@@ -14,6 +14,7 @@
 		<result column="URL" property="url"/>
 		<result column="DESCRIBE" property="describe"/>
 		<result column="TYPE" property="type"/>
+		<result column="ICON_COLOR" property="iconColor"/>
 		<result column="PARENT_ID" property="parentId"/>
 		<result column="IS_PARENT" property="isParent"/>
 		<result column="CREATE_TIME" property="createTime"/>
@@ -80,7 +81,7 @@
 		INSERT INTO
 			IOT_USER_MODULE_RESOURCE
 			(MODID, NAME, URL, DESCRIBE, TYPE, PARENT_ID, IS_PARENT, CREATE_TIME, LAST_MODIFY_TIME,
-			REMARK1, MENU_ICON, STANDBY2, STANDBY3, STANDBY4
+			REMARK1, MENU_ICON, ICON_COLOR, STANDBY2, STANDBY3, STANDBY4
 			)
 		VALUES(
 			<if test="resource != null">
@@ -107,6 +108,7 @@
 					#{resource.remark1},
 				</if>
 				#{resource.menuIcon, jdbcType=VARCHAR},
+				#{resource.iconColor, jdbcType=VARCHAR},
 				#{resource.standby2, jdbcType=VARCHAR},
 				#{resource.standby3, jdbcType=VARCHAR},
 				#{resource.standby4, jdbcType=VARCHAR}
@@ -142,6 +144,7 @@
 					REMARK1 = #{resource.remark1},
 				</if>
 				MENU_ICON = #{resource.menuIcon, jdbcType=VARCHAR},
+				ICON_COLOR = #{resource.iconColor, jdbcType=VARCHAR},
 				STANDBY2 = #{resource.standby2, jdbcType=VARCHAR},
 				STANDBY3 = #{resource.standby3, jdbcType=VARCHAR},
 				STANDBY4 = #{resource.standby4, jdbcType=VARCHAR}

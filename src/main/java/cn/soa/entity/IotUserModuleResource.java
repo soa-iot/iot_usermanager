@@ -27,6 +27,8 @@ public class IotUserModuleResource {
 	private String describe;
 	
 	private Integer type;
+	
+	private String iconColor;
 
 	private Date createTime;
 
