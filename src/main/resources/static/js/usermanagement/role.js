@@ -5,7 +5,9 @@ layui.use(['table', 'laydate','form','tree', 'util'], function() {
 				menuTree();//菜单树列表
 				 userTree();//用户树
 				function getTableList(data){
+					var b=layer.load(1);
 					$.get(api.role.list, data, function(results) {
+						layer.close(b); 
 							if(results.code==0){
 								 setTableList(results.data)
 					}
@@ -44,15 +46,18 @@ layui.use(['table', 'laydate','form','tree', 'util'], function() {
 					var datas={};
 					datas.rolid=rolid;
 					datas.state =i;
+					var b=layer.load(1);
 					$.post(api.role.update, datas, function(results) {
+						layer.close(b); 
 						 layer.tips( results.message, obj.othis);
 					});
 				  });
 				
 				function menuTree(){
 					$("#menu_tree").height(TABLE_H-100);	
+					var b=layer.load(1);
 					$.get(api.resource.tree, {}, function(results) {
-						console.log(results)
+						layer.close(b); 
 						tree.render({
 						  elem: '#menu_tree'
 						  ,data: results.data
@@ -63,14 +68,15 @@ layui.use(['table', 'laydate','form','tree', 'util'], function() {
 						    var data = obj.data;  //获取当前点击的节点数据
 						  }
 						});
-						
 					});
 				}
 				
 				function userTree(){
+					$("#user_tree").height(TABLE_H-100);	
+					var b=layer.load(1);
 					//借鉴他的数据封装
 					$.get(api.user.list,{}, function(results) {
-						console.log(results)
+						layer.close(b); 
 						tree.render({
 						  elem: '#user_tree'
 						  ,data: results.data
@@ -138,17 +144,17 @@ layui.use(['table', 'laydate','form','tree', 'util'], function() {
 				  table.on('tool(role_list)', function(obj){
 					  setColor(obj);
 				    var data = obj.data;
-					console.log(data)
-				    //console.log(obj)
 				    if(obj.event === 'userSel'){
-					  // $.get(api.resource.ids, {rolid:data.rolid}, function(results) {
-						 //  console.log(results)
-					  // 	tree.setChecked('userid', results.data); //批量勾选 id 为 2、3 的节点
+						var b=layer.load(1);
+					  $.post(api.role.user_list, {rolid:data.rolid}, function(results) {
+						 layer.close(b); 
+						   tree.reload('userid', {});
+					  	tree.setChecked('userid', results.data); //批量勾选 id 为 2、3 的节点
 						
 						layer.open({
 						      type    : 1,
 						      offset  : 'r',
-						      area    : ['50%', '100%'],
+						      area    : ['35%', '103%'],
 						      title   : '用户选择',
 						      shade   : 0,
 						      anim   : -1,
@@ -166,7 +172,7 @@ layui.use(['table', 'laydate','form','tree', 'util'], function() {
 						      }
 						    });
 						
-					  // });
+					  });
 				    } 
 				  });
 				
@@ -177,8 +183,10 @@ layui.use(['table', 'laydate','form','tree', 'util'], function() {
 					   var data = obj.data;
 						setColor(obj);
 						rolid=data.rolid;
+						var b=layer.load(1);
 				// //勾选
 				$.get(api.resource.ids, {rolid:rolid}, function(results) {
+					layer.close(b); 
 										  tree.reload('menuid', {});
 					tree.setChecked('menuid', results.data); //批量勾选 id 为 2、3 的节点
 				});
@@ -204,19 +212,23 @@ layui.use(['table', 'laydate','form','tree', 'util'], function() {
 			
 			//添加角色
 			function addRoles(data){
+				var b=layer.load(1);
 				$.post(api.role.add, data, function(results) {
+					layer.close(b); 
 					openCon(results.state,results.message);
 				});
 			}
 			//修改菜单
 			function editRoles(data){
+var b=layer.load(1);
 				$.post(api.role.update, data, function(results) {
+					layer.close(b); 
 				openCon(results.state,results.message);
 				});
 			}
 			//删除菜单
 			function delRoles(data){
-				
+				var b=layer.load(1);
 				console.log(JSON.stringify(data))
 				$.ajax({
 								url : api.role.deletes,
@@ -225,6 +237,7 @@ layui.use(['table', 'laydate','form','tree', 'util'], function() {
 								dataType : 'json',
 								contentType : 'application/json',
 								success : function(results) {
+									layer.close(b); 
 									openCon(results.state,results.message);
 								},
 								error : function() {
@@ -277,7 +290,10 @@ layui.use(['table', 'laydate','form','tree', 'util'], function() {
 						var qure_data={};
 						qure_data.rolid =rolid ;
 						qure_data.authIds =arr;
+						//加载层-风格2
+						var b=layer.load(1);
 						$.post(api.role.resource, qure_data, function(results) {
+							layer.close(b); 
 							if(results.state==0){
 										//询问框
 										layer.confirm(results.message, {
@@ -287,6 +303,7 @@ layui.use(['table', 'laydate','form','tree', 'util'], function() {
 											layer.closeAll(); 
 										});
 							}else{
+								
 							var a=layer.confirm(results.message, {
 								icon: 5,
 							  btn: ['确定'] //按钮
@@ -312,14 +329,17 @@ layui.use(['table', 'laydate','form','tree', 'util'], function() {
 						var qure_data={};
 						qure_data.rolid =rolid ;
 						qure_data.userids =arr;
+						//加载层-风格2
+						var b=layer.load(1);
 						$.post(api.role.organ, qure_data, function(results) {
+							layer.close(b); 
 							if(results.state==0){
 										//询问框
-										var b=layer.confirm(results.message, {
+										var c=layer.confirm(results.message, {
 											icon: 6,
 										  btn: ['确定'] //按钮
 										}, function(){
-											layer.close(b); 
+											layer.close(c); 
 										});
 							}else{
 							var a=layer.confirm(results.message, {

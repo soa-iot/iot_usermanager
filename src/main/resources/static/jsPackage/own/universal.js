@@ -4,7 +4,7 @@ var port = '80';
 var project = 'iot_usermanager';
 var url = "http://" + host + ":" + port;
 //var BASE_WEB = url+ "/" + project; //正式服务器地址
- var BASE_WEB =''; //测试服务器地址
+  var BASE_WEB =''; //测试服务器地址
 
 var TABLE_H = document.documentElement.clientHeight;//获取窗体的高度
 /**
@@ -28,7 +28,8 @@ var api = {
 		list: BASE_WEB + '/role/list' ,//查询角色列表信息
 		update: BASE_WEB + '/role/state/update' ,//更新角色状态
 		resource: BASE_WEB + '/role/add/resource' ,//给角色添加资源
-		organ: BASE_WEB + '/role/add/organ' //角色关联人员组织
+		organ: BASE_WEB + '/role/add/organ' ,//角色关联人员组织
+		user_list: BASE_WEB + '/role/user/list' //根据角色ID查询人员列表
 	},user: { //角色   
 		list: BASE_WEB + '/user/organ/list' //获取人员组织树
 	}
