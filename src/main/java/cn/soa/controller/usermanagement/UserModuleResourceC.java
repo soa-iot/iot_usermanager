@@ -143,21 +143,24 @@ public class UserModuleResourceC {
 	//@MyLog(value = "删除菜单资源信息")
 	@ApiOperation(value = "删除菜单资源信息")
 	@ApiImplicitParams(value= {
-			@ApiImplicitParam(name="modId", value="资源主键ID", required=true, type="string")
+			@ApiImplicitParam(name="modId", value="资源ID", required=true, type="string"),
+			@ApiImplicitParam(name="parentId", value="父资源ID", required=true, type="string")
 	})
 	@PostMapping("/resource/remove")
-	public ResultJson<Boolean> deleteModuleResource(@RequestParam String modId){
+	public ResultJson<Boolean> deleteModuleResource(@RequestParam String modId, @RequestParam String parentId){
 		log.info("------进入接口UserModuleResourceC...deleteModuleResource------");
 		log.info("------菜单资源ID modId: {}", modId);
+		log.info("------父资源ID parentId: {}", parentId);
 		
-		Boolean result = userModuleResourceS.removeModuleResource(modId);
-		
-		if(result == null) {
-			return new ResultJson<Boolean>(ResultJson.ERROR, "删除菜单资源信息失败", result);
-		}else if(result){
-			return new ResultJson<Boolean>(ResultJson.SUCCESS, "删除菜单资源信息成功", result);
+		try {
+			Boolean result = userModuleResourceS.removeModuleResource(modId, parentId);
+			if(result){
+				return new ResultJson<Boolean>(ResultJson.SUCCESS, "删除资源信息成功", result);
+			}
+			return new ResultJson<Boolean>(ResultJson.ERROR, "该资源是父级资源，无法删除", result);
+		}catch (Exception e) {
+			return new ResultJson<Boolean>(ResultJson.ERROR, "删除资源信息失败", false);
 		}
-		return new ResultJson<Boolean>(ResultJson.ERROR, "该菜单资源是父级资源，无法删除", result);
 	}
 	
 	/**

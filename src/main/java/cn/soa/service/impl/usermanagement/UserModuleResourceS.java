@@ -70,6 +70,9 @@ public class UserModuleResourceS implements UserModuleResourceSI {
 			resource.setModId(modId);
 			umrMapper.insertModuleResource(resource);
 			
+			//更改父资源IS_PARENT状态为0
+			umrMapper.updateResourceState(resource.getParentId(), 0);
+			
 			//插入权限与资源关系记录
 			IotUserAuthority auth = new IotUserAuthority();
 			auth.setAutid(UUID.randomUUID().toString().replace("-", ""));
@@ -115,23 +118,29 @@ public class UserModuleResourceS implements UserModuleResourceSI {
 	/**
 	 * 删除菜单资源信息
 	 * @param modId - 菜单资源id
+	 * @param parentId - 父资源id
 	 * 
 	 */
 	@Override
-	public Boolean removeModuleResource(String modId) {
+	@Transactional
+	public Boolean removeModuleResource(String modId, String parentId) {
 		log.info("-----开始删除菜单资源信息-----");
 		try {
 			//1.检查是否是父资源
-			List<IotUserModuleResource> list = umrMapper.findAllResources();
-			for(IotUserModuleResource resource : list) {
-				if(modId.equals(resource.getParentId())) {
-					log.info("-----该菜单资源属于父级资源，不能删除-----");
-					return false;
-				}
+			List<IotUserModuleResource> list = umrMapper.findResourceByParentId(modId);
+			if(list != null && list.size() > 0) {
+				log.info("-----该菜单资源属于父级资源，不能删除-----");
+				return false;
 			}
 			
 			//2. 不是父级资源，执行删除
 			umrMapper.deleteModuleResource(modId);
+			
+			//3.删除后，检查其父资源是否没有子节点了
+			List<IotUserModuleResource> subList = umrMapper.findResourceByParentId(parentId);
+			if(subList == null || subList.size() == 0) {
+				umrMapper.updateResourceState(parentId, 1);
+			}
 			
 			log.info("-----删除菜单资源信息成功-----");
 			return true;
@@ -139,7 +148,7 @@ public class UserModuleResourceS implements UserModuleResourceSI {
 		}catch (Exception e) {
 			log.info("-----删除菜单资源信息发生错误-----");
 			log.info("--{}", e);
-			return null;
+			throw new RuntimeException("删除菜单资源信息发生错误");
 		}
 	}
 	
@@ -209,7 +218,7 @@ public class UserModuleResourceS implements UserModuleResourceSI {
 	public List<IotUserModuleResource> getResources(String rolid) {
 		log.info("-----开始通过角色ID查询其拥有的菜单资源-----");
 		try {
-			List<IotUserModuleResource> list = umrMapper.findResourcesByRolid(rolid);
+			List<IotUserModuleResource> list = umrMapper.findResourcesByRolid(rolid, 1);
 			
 			log.info("-----通过角色ID查询其拥有的菜单资源成功-----");
 			return list;

@@ -35,7 +35,7 @@
 	
 	
 	<!-- 1.2 通过角色ID查询其拥有的资源 -->
-	<!-- List<IotUserModuleResource> findResourcesByRolid(String rolid); -->
+	<!-- List<IotUserModuleResource> findResourcesByRolid(@Param("rolid")String rolid, @Param("isParent")Integer isParent); -->
 	<select id="findResourcesByRolid" resultMap="findAllResourcesMap">
 		SELECT
 			res.*, aut.autid autid
@@ -43,10 +43,13 @@
 			IOT_USER_MODULE_RESOURCE res JOIN IOT_USER_AUTHORITY aut ON res.modid = aut.resourceid
 			JOIN IOT_USER_ROLE_AUTH ura ON aut.autid = ura.autid
 		WHERE
-			ura.ROLID = #{rolid, jdbcType=VARCHAR}
+			ura.ROLID = #{rolid, jdbcType=VARCHAR} 
+			<if test="isParent != null">
+				AND res.IS_PARENT = ${isParent}
+			</if>
 	</select>
 	
-	<!-- 1.2 通过资源ID查询权限ID -->
+	<!-- 1.3 通过资源ID查询权限ID -->
 	<!-- String findAuthorityId(String resourceId); -->
 	<select id="findAuthorityId" resultType="string">
 		SELECT
@@ -56,6 +59,18 @@
 		WHERE
 			RESOURCEID = #{resourceId, jdbcType=VARCHAR}
 	</select>
+	
+	<!-- 1.4 通过父id查询子资源列表 -->
+	<!-- List<IotUserModuleResource> findResourceByParentId(String parentId); -->
+	<select id="findResourceByParentId" resultMap="findAllResourcesMap">
+		SELECT
+			*
+		FROM
+			IOT_USER_MODULE_RESOURCE
+		WHERE
+			PARENT_ID = #{parentId, jdbcType=VARCHAR}
+	</select>
+	
 
 	<!-- ===========================2、新增===============================  -->
 	<!-- 2.1 添加菜单资源信息 -->
@@ -135,6 +150,22 @@
 		WHERE
 			MODID = #{resource.modId, jdbcType=VARCHAR}
 	</update>
+	
+	<!-- 4.1 更改菜单资源IS_PARENT状态 -->
+	<!-- Integer updateResourceState(@Param("modId") String modId, @Param("state") Integer state); -->
+	<update id="updateResourceState">
+		UPDATE
+			IOT_USER_MODULE_RESOURCE
+		<set>
+			<if test="state != null">
+				IS_PARENT = ${state},
+			</if>
+			LAST_MODIFY_TIME = CURRENT_DATE
+		</set>
+		WHERE
+			MODID = #{modId, jdbcType=VARCHAR}
+	</update>
+	
 	
 	<!-- ===========================4、删除===============================  -->
 	<!-- 4.1 删除菜单资源信息 -->

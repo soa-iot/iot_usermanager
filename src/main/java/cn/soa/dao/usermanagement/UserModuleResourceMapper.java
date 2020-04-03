@@ -38,6 +38,13 @@ public interface UserModuleResourceMapper {
 	 */
 	String findAuthorityId(String resourceId);
 	
+	/**
+	 * 通过父id查询子资源列表
+	 * @param parentId - 父id
+	 * @return List<IotUserModuleResource> - 子资源列表
+	 */
+	List<IotUserModuleResource> findResourceByParentId(String parentId);
+	
 	
 	/**
 	 * 更新菜单资源信息
@@ -56,6 +63,15 @@ public interface UserModuleResourceMapper {
 	/**
 	 * 通过角色ID查询其拥有的资源
 	 * @param rolid - 角色id
+	 * @param isParent - 状态 0-父节点 ， 1-子节点
 	 */
-	List<IotUserModuleResource> findResourcesByRolid(String rolid);
+	List<IotUserModuleResource> findResourcesByRolid(@Param("rolid")String rolid, @Param("isParent")Integer isParent);
+	
+	/**
+	 * 更改菜单资源IS_PARENT状态
+	 * @param modId - 菜单资源id
+	 * @param state - 状态 0-父节点 ， 1-子节点
+	 */
+	Integer updateResourceState(@Param("modId") String modId, @Param("state") Integer state);
+	
 }

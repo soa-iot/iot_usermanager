@@ -50,9 +50,9 @@ public interface UserModuleResourceSI {
 	/**
 	 * 删除菜单资源信息
 	 * @param modId - 菜单资源id
-	 * 
+	 * @param parentId - 父资源id
 	 */
-	Boolean removeModuleResource(String modId);
+	Boolean removeModuleResource(String modId, String parentId);
 	
 	/**
 	 * 通过角色ID查询其拥有的资源
