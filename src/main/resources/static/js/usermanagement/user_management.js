@@ -16,7 +16,7 @@ layui.use(['layer', 'form', 'laydate', 'table', 'tree'], function(){
 	 */
 	var userTable = table.render({
 	    elem: '#userList'
-	    ,url: '/iot_usermanager/user/management/query'
+	    ,url: '/user/management/query'
 	    ,toolbar: '#toolbar'
 	    ,page: true //开启分页
 	    ,loading: true
@@ -131,7 +131,7 @@ layui.use(['layer', 'form', 'laydate', 'table', 'tree'], function(){
 	    		//调用后台接口更新账号状态
 	    		$.ajax({
 		    		type: 'post',
-		    		url: '/iot_usermanager/user/management/state',
+		    		url: '/user/management/state',
 		    		data: {
 		    			'usernum': usernum,
 		    			'state': 2
@@ -166,7 +166,7 @@ layui.use(['layer', 'form', 'laydate', 'table', 'tree'], function(){
 	    		//调用后台接口更新账号状态
 	    		$.ajax({
 		    		type: 'post',
-		    		url: '/iot_usermanager/user/management/state',
+		    		url: '/user/management/state',
 		    		data: {
 		    			'usernum': usernum,
 		    			'state': 1
@@ -231,7 +231,7 @@ layui.use(['layer', 'form', 'laydate', 'table', 'tree'], function(){
     	        	
     	        	$.ajax({
     	        		type: 'post',
-    	        		url: '/iot_usermanager/user/management/create',
+    	        		url: '/user/management/create',
     	        		data: {
     	        			'usernum': usernum,
     	        			'nname': nname,
@@ -313,7 +313,7 @@ layui.use(['layer', 'form', 'laydate', 'table', 'tree'], function(){
     	        	
     	        	$.ajax({
     	        		type: 'post',
-    	        		url: '/iot_usermanager/user/management/edit',
+    	        		url: '/user/management/edit',
     	        		data: {
     	        			'usernum': usernum,
     	        			'nname': nname,
@@ -381,7 +381,7 @@ layui.use(['layer', 'form', 'laydate', 'table', 'tree'], function(){
     	        	
     	        	$.ajax({
     	        		type: 'post',
-    	        		url: '/iot_usermanager/user/password/reset',
+    	        		url: '/user/password/reset',
     	        		data: {
     	        			'usernum': usernum,
     	        			'password': password,
@@ -412,7 +412,7 @@ layui.use(['layer', 'form', 'laydate', 'table', 'tree'], function(){
 	 */
 	$.ajax({
 		type: 'get',
-		url: '/iot_usermanager/role/roles',
+		url: '/role/roles',
 		dataType: 'json',
 		success: function(json){
 			if(json.code == 0){
@@ -435,7 +435,7 @@ layui.use(['layer', 'form', 'laydate', 'table', 'tree'], function(){
 	var organTree = [], organId = null;
 	$.ajax({
 		type: 'post',
-		url: '/iot_usermanager/user/list',
+		url: '/user/list',
 		dataType: 'json',
 		success: function(json){
 			if(json.code == 0){

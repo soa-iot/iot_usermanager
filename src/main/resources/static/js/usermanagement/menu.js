@@ -31,7 +31,7 @@ function getTreeList(){
 		$.get(api.resource.all, null, function(results) {
 			if(results.code==0){
 		menudata=results.data;	
-				 setTreeLists(menudata)
+				 setTreeLists(menudata);
 	}
 	});
 }
@@ -58,9 +58,10 @@ function getTreeList(){
 					insTb=treetable.render({
 						treeColIndex: 1,
 						treeSpid: -1,
-						height : TABLE_H-100,
+						height : TABLE_H-25,
 						treeIdName: 'modId',
 						toolbar: '#toolbar',
+						treeDefaultClose: true,
 						treePidName: 'parentId',
 						elem: '#resource_table',
 						data: data,
@@ -112,10 +113,10 @@ function getTreeList(){
 					$('#directory').show();
 					$('#menu').show();
 					$('#button').show();
-					if(type==0||type==1){//目录、菜单
+					if(type==0){//目录、菜单
 					//隐藏按钮（单选）
 					$('#button').hide();
-					}else if(type==2){
+					}else if(type==1){
 					$('#menu').hide();
 					$('#directory').hide();	
 					}
@@ -144,13 +145,15 @@ function getTreeList(){
 						is++; 
 					 }
 				 });
-				 $(":radio[name='type'][value='0']").prop("checked", "checked");
+				  $(":radio[name='type'][value='"+(data.type+1)+"']").prop("checked", "checked");
+				 showhide(data.type+1);
 				 $('#standby2').val('');
 				 $('#describe').val('');
 				 $('#menuname').val('');
 				 $('#address').val('');
 				 modId='';
 				 $('#remark1').val(is+1);
+				
 				 iconPicker.checkIcon('iconPicker', 'fa fa-bars');
 				 //当前数据的类型
 				openHtml(data.type,'新增');
@@ -170,7 +173,10 @@ function getTreeList(){
 				var a=layer.confirm('确定删除？', {
 				  btn: ['确定','取消'] //按钮
 				}, function(){
-						delMenu({'modId':data.modId});
+					var quer_data={};
+					quer_data.modId=data.modId;
+					quer_data.parentId= data.parentId;
+						delMenu(quer_data);
 				}, function(){
 				});
 		    }
@@ -214,6 +220,7 @@ function getTreeList(){
 			$('#url').hide();
 		}
 		if(val=='2'){
+			$('#url').hide();
 		  $('#icon').hide();
 		}
 		if(val=='1'){
@@ -253,12 +260,12 @@ function getTreeList(){
 							data.name=name;
 							data.url=url;
 							data.type=type;
-							data.isParent=0;
 							data.menuIcon=menuIcon;
 							data.remark1=remark1;
 							data.describe=describe;
 		  data.standby2=standby2;
 		  if(modId==''){
+			  data.isParent=1;
 			  data.parentId=parentId;
 			  addMenu(data);	
 		  }else{
