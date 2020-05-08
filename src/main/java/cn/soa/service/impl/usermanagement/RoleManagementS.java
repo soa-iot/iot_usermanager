@@ -118,6 +118,7 @@ public class RoleManagementS implements RoleManagementSI {
 	 * @param rolid - 角色id
 	 */
 	@Override
+	@Transactional
 	public Boolean removeRoleType(String[] rolid) {
 		log.info("-----开始删除角色类型-----");
 		try {
@@ -125,6 +126,7 @@ public class RoleManagementS implements RoleManagementSI {
 			for(String id : rolid) {
 				roleManagementMapper.deleteRoleType(id);
 				roleManagementMapper.deleteRoleAuth(id);
+				roleManagementMapper.deleteRoleUser(id);
 			}
 			
 			log.info("-----删除角色类型成功-----");

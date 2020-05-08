@@ -18,6 +18,7 @@ layui.use(['layer', 'form', 'laydate', 'table', 'tree'], function(){
 	    elem: '#userList'
 	    ,url: '/user/management/query'
 	    ,toolbar: '#toolbar'
+	    ,height: window.innerHeight - 100
 	    ,page: true //开启分页
 	    ,loading: true
 	    ,parseData: function(res){ //res 即为原始返回的数据
@@ -195,7 +196,7 @@ layui.use(['layer', 'form', 'laydate', 'table', 'tree'], function(){
     	    	btn: ['确定', '取消'],
     	    	closeBtn: 0,
     	    	offset: '10px',
-    	    	area: ['500px','570px'],
+    	    	area: ['530px','600px'],
     	        content: $("#create-window"),
     	        yes: function(index, layero){
     	        	
@@ -287,7 +288,7 @@ layui.use(['layer', 'form', 'laydate', 'table', 'tree'], function(){
     	    	btn: ['确定', '取消'],
     	    	closeBtn: 0,
     	    	offset: '10px',
-    	    	area: ['500px','570px'],
+    	    	area: ['530px','600px'],
     	        content: $("#edit-window"),
     	        yes: function(index, layero){
     	        	
@@ -494,7 +495,7 @@ layui.use(['layer', 'form', 'laydate', 'table', 'tree'], function(){
 	    	btn: ['关闭'],
 	    	closeBtn: 0,
 	    	offset: '10px',
-	    	area: ['300px','350px'],
+	    	area: ['400px','450px'],
 	        content: $("#organ-window"),
 	        yes: function(index, layero){
 	        	
@@ -515,7 +516,7 @@ layui.use(['layer', 'form', 'laydate', 'table', 'tree'], function(){
 	    	btn: ['关闭'],
 	    	closeBtn: 0,
 	    	offset: '10px',
-	    	area: ['300px','350px'],
+	    	area: ['400px','450px'],
 	        content: $("#organ-window"),
 	        yes: function(index, layero){
 	        	

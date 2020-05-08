@@ -144,6 +144,15 @@
 			ROLID = #{rolid, jdbcType=VARCHAR}
 	</delete>
 	
+	<!-- 4.3 删除角色人员关系 -->
+	<!-- Integer deleteRoleUser(String rolid); -->
+	<delete id="deleteRoleUser" parameterType="string">
+		DELETE FROM
+			IOT_USER_USER_ROLE
+		WHERE
+			ROLID = #{rolid, jdbcType=VARCHAR}
+	</delete>
+	
 </mapper>
  
 

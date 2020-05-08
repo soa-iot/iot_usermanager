@@ -56,7 +56,7 @@ public class UserModuleResourceC {
 		List<IotUserModuleResource> result = userModuleResourceS.getAllResources();
 		
 		if(result == null) {
-			return new ResponseEntity<>(1, "查询权限资源信息失败");
+			return new ResponseEntity<>(1, "查询权限资源信息失败", 0, null);
 		}
 		return new ResponseEntity<>(0, "查询权限资源信息成功", result.size(), result);
 	}
@@ -75,7 +75,7 @@ public class UserModuleResourceC {
 		if(result.size() != 0) {
 			return new ResponseEntity<>(0, "获取菜单资源信息成功", result.size(), result);
 		}
-		return new ResponseEntity<>(1, "获取菜单资源信息失败");
+		return new ResponseEntity<>(1, "获取菜单资源信息失败", 0, null);
 	}
 	
 	/**
@@ -186,6 +186,6 @@ public class UserModuleResourceC {
 			return new ResponseEntity<>(0, "获取角色拥有的菜单资源成功", resourceIds.size(), resourceIds);
 		}
 		
-		return new ResponseEntity<>(1, "获取角色拥有的菜单资源失败");
+		return new ResponseEntity<>(1, "获取角色拥有的菜单资源失败", 0, null);
 	}
 }

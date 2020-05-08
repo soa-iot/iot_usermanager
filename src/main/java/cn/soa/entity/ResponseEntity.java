@@ -26,8 +26,8 @@ public class ResponseEntity<T> {
 
 	private T data;// 数据
 	
-	public ResponseEntity(int code, String msg) {
+	/*public ResponseEntity(int code, String msg) {
 		this.code = code;
 		this.msg = msg;
-	}
+	}*/
 }

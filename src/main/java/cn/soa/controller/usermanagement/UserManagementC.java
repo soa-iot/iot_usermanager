@@ -43,7 +43,7 @@ public class UserManagementC {
 		
 		ResponseEntity<List<UserInfoVO>> result = userManagementS.getUsersByCondition(query);
 		if(result == null) {
-			return new ResponseEntity<>(1, "查询用户信息失败");
+			return new ResponseEntity<>(1, "查询用户信息失败", 0, null);
 		}
 		return result;
 	}
