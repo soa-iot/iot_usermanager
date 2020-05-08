@@ -56,7 +56,7 @@ public class UserManagementS implements UserManagementSI {
 			}
 			//查询用户信息列表
 			List<UserInfoVO> list = umMapper.findUsersByCondition(query);
-			log.info("--{}", list);
+			//log.info("--{}", list);
 			log.info("-----条件查询用户信息列表成功-----");
 			info.setCount(count);
 			info.setData(list);
