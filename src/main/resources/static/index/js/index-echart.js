@@ -159,7 +159,7 @@ enegerChart.setOption(option);
  */
  // 基于准备好的dom，初始化echarts实例
 var problemChart = echarts.init(document.getElementById('problem-finish'));
-/*$.ajax({
+$.ajax({
 	type: 'get',
 	url: '/iot_process/report/finish/record',
 	data: {},
@@ -172,7 +172,7 @@ var problemChart = echarts.init(document.getElementById('problem-finish'));
 	error: function(){
 		
 	}
-})*/
+})
 
 function initEchart(data){
 	console.log("-----initEchart-----");

@@ -15,6 +15,17 @@ function getCookie( name ){
 
 } 
 
+/**
+ * 数组排序函数
+ * @returns
+ */
+function sortTask(a, b){
+	var aDate = new Date(a.reporttime);
+	var bDate = new Date(b.reporttime);
+	
+	return bDate - aDate;
+}
+
 layui.use(['layer', 'form', 'laydate', 'table', 'element'], function(){
     	//加载layui内置模块
 		  var form = layui.form
@@ -32,10 +43,59 @@ layui.use(['layer', 'form', 'laydate', 'table', 'element'], function(){
           ,skin:'line'
 		  ,parseData: function(res){ //res 即为原始返回的数据
 				var data = res.data;
-				
-				if(data != null && data.length > 5){
-					data.length = 5;
+				if(data == null || data == undefined){
+					data = new Array();
 				}
+				/*if(data != null && data.length > 5){
+					data.length = 5;
+				}*/
+				
+				//获取临时任务列表
+				$.ajax({
+					async: false,
+					type: 'GET',
+					url: '/iot_inspection/temporarytask/show/list',
+					data: {
+						"executePerson": (getCookie("name")==null?null:getCookie("name").replace(/"/g,'')),
+						"taskState": 'TODO',
+				    	"page": 1,
+				    	"limit": 5
+					},
+					dataType: 'JSON',
+					success: function(json){
+						var list = json.data.list;
+						
+						if(list != null && list.length != 0){
+							for(var i=0;i<list.length;i++){
+								var obj = {
+										'reportperson': list[i].createPerson,
+										'reporttime': list[i].createTime,
+										'currentnode': '临时任务',
+										'name': '临时任务',
+										'taskID': list[i].taskID
+								}
+								if(list[i].taskState === 'UNFINISHED'){
+									obj.tip = '未超时';								
+								}else if(list[i].taskState === 'OVERFINISHED'){
+									obj.tip = '已超时';
+								}
+								
+								data.push(obj);
+							}
+						}
+						
+						//取前五条数据
+						if(data.length > 4){
+							data = data.sort(sortTask);
+							data.length = 4;
+						}
+						
+					},
+					error: function(){
+						
+					}
+				})
+				
 				
 				return {
 					"code": res.code,      //解析接口状态
@@ -49,7 +109,7 @@ layui.use(['layer', 'form', 'laydate', 'table', 'element'], function(){
 				{type:'numbers', title: '序号', align:'center', width:'8%'}
 				,{field: 'name', title: '任务名',align:'center', width:'19%'}
 		      ,{field: 'reportperson', title: '上报人',align:'center',width:'18%'}
-		      ,{field: 'reporttime', title: '问题上报时间', align:'center', width:'22%'}
+		      ,{field: 'reporttime', title: '上报时间', align:'center', width:'22%'}
 		      ,{field: 'tip', title: '任务超期', align:'center', width:'18%'}
 		      ,{fixed: 'right',title: '操作', width: '15.3%', align:'center', toolbar: '#barDemo1'}
 		    ]]
@@ -62,9 +122,12 @@ layui.use(['layer', 'form', 'laydate', 'table', 'element'], function(){
         	if(layEvent === 'edit'){
         		//根据属地判断跳转页面
         		console.log(data.currentnode);
-        		var  toHtml={"问题上报":'report.html',"问题评估":"estimate-team-leader.html","作业安排":"assign-task.html","作业接收":"receive-task.html","作业完成":"finish-task.html","作业验收":"acceptance.html","生产办评估":"estimate-pure.html","问题分配":"estimate-pure.html","领导审核":"estimate.html"};
+        		var  toHtml={"临时任务":'temporary_task_handle.html',"问题上报":'report.html',"问题评估":"estimate-team-leader.html","作业安排":"assign-task.html","作业接收":"receive-task.html","作业完成":"finish-task.html","作业验收":"acceptance.html","生产办评估":"estimate-pure.html","问题分配":"estimate-pure.html","领导审核":"estimate.html"};
         		html=toHtml[data.currentnode];
 				var href="/iot_process/html/"+html+"?piid="+data.piid+"&area="+data.area;
+				if(data.currentnode == '临时任务'){
+					href = "/iot_inspection/html/temporary_task/temporary_task_handle.html?taskID="+data.taskID;
+				}
 				console.log(href);
 				window.open(href);
         	}
