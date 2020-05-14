@@ -116,7 +116,7 @@
 				STATE = ${state},
 			</if>
 			<if test="name != null and name != ''">
-				NAME = ${name},
+				NAME = #{name},
 			</if>
 			LAST_MODIFY_TIME = CURRENT_DATE
 		</set>

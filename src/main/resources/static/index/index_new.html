@@ -290,14 +290,14 @@ body {
 	<div class="grid-stack" data-gs-animate="turns animation on">
 		<div class="grid-stack-item" data-gs-x="0" data-gs-y="0"
 			data-gs-width="2" data-gs-height="1">
-			<div class="grid-stack-item-content">
+			<div class="grid-stack-item-content" id="todo-task">
 				<div class="dashboard-stats">
 					<div class="dashboard-stats-item" style="background-color: #578ebe;">
 						<div class="stat-icon">
 							<i class="fa fa-clock-o"></i>
 						</div>
 						<h2 class="m-top-none">
-							17<span>个</span>
+							<span id="todo-count" style="font-size:28px;"></span><span>个</span>
 						</h2>
 						<h5>待办未处理</h5>
 					</div>
@@ -547,6 +547,7 @@ body {
 <script src="../jsPackage/echart-4.2.0/echarts.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/index-echart.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/todo-task.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/index_new.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/index_common.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/index_edit.js" type="text/javascript" charset="utf-8"></script>
 </html>

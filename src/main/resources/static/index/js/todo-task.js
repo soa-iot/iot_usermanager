@@ -83,6 +83,8 @@ layui.use(['layer', 'form', 'laydate', 'table', 'element'], function(){
 								data.push(obj);
 							}
 						}
+						$("#todo-count").text('');
+						$("#todo-count").text(data.length);
 						
 						//取前五条数据
 						if(data.length > 4){
