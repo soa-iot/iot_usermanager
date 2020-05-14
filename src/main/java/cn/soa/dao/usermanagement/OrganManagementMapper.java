@@ -29,7 +29,7 @@ public interface OrganManagementMapper {
 	 * @param usernum - 用户账号
 	 * @param orgid - 人员组织ID
 	 */
-	Integer updateUserOrga(@Param("usernum") String usernum, @Param("name") String name,  @Param("parentId") String parentId);
+	Integer updateUserOrga(@Param("usernum") String usernum, @Param("name") String name,  @Param("parentId") String parentId,  @Param("password") String password);
 	
 	
 	/**

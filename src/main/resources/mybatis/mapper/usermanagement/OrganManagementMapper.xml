@@ -46,7 +46,7 @@
 	
 	<!-- ===========================3、更新===============================  -->
 	<!-- 3.1 添加人员组织关系 -->
-	<!-- Integer updateUserOrga(@Param("usernum") String usernum, @Param("name") String name,  @Param("parentId") String parentId); -->
+	<!-- Integer updateUserOrga(@Param("usernum") String usernum, @Param("name") String name,  @Param("parentId") String parentId,  @Param("password") String password); -->
 	<update id="updateUserOrga">
 		UPDATE
 			IOT_USER_ORGANIZATION
@@ -55,8 +55,11 @@
 				PARENT_ID = #{parentId},
 			</if>
 			<if test="name != null and name != ''">
-				NAME = #{name}
+				NAME = #{name},
 			</if>
+			<if test="password != null and password != ''">
+                USER_PASSWORD = #{password}
+            </if>
 		</set>
 		WHERE
 			USERNUM = #{usernum, jdbcType=VARCHAR}

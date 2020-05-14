@@ -107,7 +107,8 @@ public class UserManagementS implements UserManagementSI {
 		try {
 			
 			umMapper.updateUserPassword(usernum, password);
-
+			omMapper.updateUserOrga(usernum, null, null, password);
+			
 			log.info("-----更新用户密码成功-----");
 			return true;
 			
@@ -177,7 +178,7 @@ public class UserManagementS implements UserManagementSI {
 		try {
 			user.setLast_modify_time(new Date());
 			umMapper.updatetUserInfo(user); 
-			omMapper.updateUserOrga(user.getUsernum(), user.getNname(), parentId);
+			omMapper.updateUserOrga(user.getUsernum(), user.getNname(), parentId, null);
 
 			log.info("-----更新用户信息成功-----");
 			return true;
