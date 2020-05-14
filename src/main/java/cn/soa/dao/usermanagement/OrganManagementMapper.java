@@ -22,7 +22,7 @@ public interface OrganManagementMapper {
 	 * @param usernum - 用户账号
 	 * @param orgid - 人员组织ID
 	 */
-	Integer insertUserOrgan(@Param("usernum") String usernum, @Param("name") String name, @Param("parentId") String parentId);
+	Integer insertUserOrgan(@Param("usernum") String usernum, @Param("name") String name, @Param("parentId") String parentId, @Param("password") String password);
 	
 	/**
 	 * 更新人员组织关系

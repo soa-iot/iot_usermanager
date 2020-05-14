@@ -154,7 +154,7 @@ public class UserManagementS implements UserManagementSI {
 			user.setLast_modify_time(new Date());
 			umMapper.insertUserInfo(user);
 			rmMapper.insertUserRole(user.getUsernum(), rolid);
-			omMapper.insertUserOrgan(user.getUsernum(), user.getNname(), parentId);
+			omMapper.insertUserOrgan(user.getUsernum(), user.getNname(), parentId, user.getPassword());
 
 			log.info("-----新增用户信息成功-----");
 			return true;

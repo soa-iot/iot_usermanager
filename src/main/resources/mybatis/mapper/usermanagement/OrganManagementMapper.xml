@@ -16,14 +16,14 @@
 	
 	<!-- ===========================2、新增===============================  -->
 	<!-- 2.1 添加人员组织关系 -->
-	<!-- Integer insertUserOrgan(@Param("usernum") String usernum, @Param("name") String name, @Param("parentId") String parentId); -->
+	<!-- Integer insertUserOrgan(@Param("usernum") String usernum, @Param("name") String name, @Param("parentId") String parentId, @Param("password") String password); -->
 	<insert id="insertUserOrgan">
 		<selectKey order="BEFORE" resultType="string" keyProperty="organid">
 			SELECT sys_guid() FROM dual
 		</selectKey>
 		INSERT INTO
 			IOT_USER_ORGANIZATION
-			(ORGID, NAME, PARENT_ID, USERNUM, STATE, IS_PARENT, NOTE)
+			(ORGID, NAME, PARENT_ID, USERNUM, USER_PASSWORD, STATE, IS_PARENT, NOTE)
 		VALUES(
 			<if test="organid != null and organid != ''">
 				#{organid},
@@ -37,6 +37,9 @@
 			<if test="usernum != null and usernum != ''">
 				#{usernum},
 			</if>
+			<if test="password != null and password != ''">
+                #{password},
+            </if>
 			1, 1, '用户'
 		)
 	</insert>
