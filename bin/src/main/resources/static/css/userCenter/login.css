@@ -1,0 +1,51 @@
+blockquote {
+	margin: 0px;
+}
+
+.layui-fluid {
+	height: calc( 100vh - 63px);
+	margin: 0;
+	padding: 0;
+	overflow: auto;
+	/*background-color: white;*/
+	background-image: url('../../img/iot_login.jpg');
+}
+input {
+	height: 80px;	
+}
+
+label {
+	margin: 0;
+	padding: 0;
+}
+
+div[class^="layui-col-"] {
+	/*border: 1px white solid; */
+	line-height: 80px;
+}
+
+.layui-row {
+	/*border: 1px white solid; */
+	height: 80px;
+	text-align: center;
+}
+
+.positionDiv {
+	height: 150px;
+}
+
+.layui-form-item{
+	line-height: 80px;
+}
+
+#login {
+	width: 80px;
+	margin-left: 100px;
+}
+
+#register {
+	width: 80px;
+}
+
+#form {
+}

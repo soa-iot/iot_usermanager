@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.soa.dao.IndexMapper">
+	<!-- 消息提醒详情 -->
+	<resultMap id="notice_info" type="cn.soa.entity.NoticeInfo">
+		<id column="TASK_TYPE" jdbcType="VARCHAR" property="taskType" />
+		<result column="TASK_CLASS" jdbcType="VARCHAR"
+			property="taskClass" />
+		<result column="TASK_NAME" jdbcType="VARCHAR"
+			property="taskName" />
+		<result column="EXECUTOR" jdbcType="VARCHAR"
+			property="executor" />
+		<result column="STARTTIME" jdbcType="VARCHAR"
+			property="startTime" />
+		<result column="PLANNED_COMPLETION_TIME" jdbcType="VARCHAR"
+			property="plannedCompletionTime" />
+		<result column="OVERTIME" jdbcType="VARCHAR"
+			property="overTime" />
+		<result column="PIID" jdbcType="VARCHAR" property="piid" />
+	</resultMap>
+
+
+	<!-- 待办任务详情 -->
+	<resultMap id="todo_task" type="cn.soa.entity.TodoTask">
+		<id column="TASK_INST_NAME" jdbcType="VARCHAR"
+			property="taskInstName" />
+		<result column="STARTER" jdbcType="VARCHAR" property="starter" />
+		<result column="ARRIVE_DATE" jdbcType="VARCHAR"
+			property="arriveDate" />
+		<result column="PRO_INST_ID" jdbcType="VARCHAR"
+			property="proInstId" />
+		<result column="TASK_INST_POTENTIAL_OWNER" jdbcType="TIMESTAMP"
+			property="taskInstPotentialOwner" />
+		<result column="TASK_INST_ID" jdbcType="TIMESTAMP"
+			property="taskInstId" />
+		<result column="TASK_STATE" jdbcType="VARCHAR"
+			property="taskState" />
+	</resultMap>
+
+
+
+	<!-- 查询代办数量 -->
+	<select id="getTodoCount" parameterType="String"
+		resultType="Map">
+		select count(1) TOTAL from v_soabpm_task
+		where
+		TASK_INST_NAME != '问题闭环'
+		and task_state in ('1','2') and pro_inst_state
+		in ('1','6')
+		and instr('|' || task_inst_owner || '|'
+		||TASK_INST_POTENTIAL_OWNER,
+		'|' || #{userName,jdbcType=VARCHAR} ||
+		'|') &gt; 0
+	</select>
+
+	<!-- 统计设备异常数量 -->
+	<select id="getEquExceptionCount" resultType="Map">
+		SELECT COUNT(1)
+		TOTAL FROM CZ_PROCESS_EQUIPMENT
+		A,CZ_TASK_PROBLEM_REPORT B
+		WHERE
+		A.T_PROBLEM_REP_ID = B.T_PROBLEM_REP_ID
+		AND (B.PROBLEMSTATE &lt;&gt;
+		'FINISHED' OR B.PROBLEMSTATE IS NULL)
+	</select>
+
+	<!-- 查询隐患问题数量 -->
+	<select id="getProblemWarnCount" resultType="Map">
+		SELECT COUNT(1)
+		TOTAL FROM CZ_TASK_PROBLEM_REPORT WHERE SP_ID='是'
+	</select>
+
+	<!-- 查询警告数量 -->
+	<select id="getWarnInfoCount" resultType="Map">
+		SELECT COUNT(1) TOTAL
+		FROM CZ_NOTICE_WARN WHERE STATUS = 'FALSE' or STATUS is NULL
+	</select>
+
+	<!-- 统计任务完成率 -->
+	<select id="getTaskFinishedRate" resultType="Map">
+		SELECT
+		TO_CHAR((((SELECT count(TASK_STATE) FROM CZ_TASK_INSPECTION WHERE
+		TASK_STATE='FINISHED')+(SELECT count(TASK_STATE) FROM
+		CZ_TASK_ASSAY_SCHEME WHERE TASK_STATE='FINISHED')+(SELECT
+		count(TASK_STATE) FROM CZ_TASK_ROUTINE WHERE
+		TASK_STATE='FINISHED')+(SELECT count(STATE) FROM
+		CZ_TASK_SUPERVISION_PROCESS WHERE STATE='FINISHED')+(SELECT
+		count(STATE) FROM CZ_TASK_TEMPORARY WHERE STATE='FINISHED')
+		)/(
+		(SELECT
+		count(TASK_STATE) FROM CZ_TASK_INSPECTION)+(SELECT count(TASK_STATE)
+		FROM CZ_TASK_ASSAY_SCHEME)+(SELECT count(TASK_STATE) FROM
+		CZ_TASK_ROUTINE)+(SELECT count(STATE) FROM
+		CZ_TASK_SUPERVISION_PROCESS)+(SELECT count(STATE) FROM
+		CZ_TASK_TEMPORARY)
+		))*100,'FM9999999990.00')||'%' ONEVAL
+		FROM dual
+	</select>
+
+	<!-- 统计问题整改率 -->
+	<select id="getProblemRectifyRate" resultType="Map">
+		SELECT
+		TO_CHAR(((SELECT COUNT(1) FROM CZ_TASK_PROBLEM_REPORT WHERE
+		PROBLEMSTATE = 'FINISHED')/ (SELECT COUNT(1) FROM
+		CZ_TASK_PROBLEM_REPORT)) * 100 , 'FM9999999990.00') || '%' RATE
+		FROM
+		dual
+	</select>
+
+	<!-- 查询待办任务详细数据 -->
+
+	<select id="getTodoTaskList" parameterType="String"
+		resultMap="todo_task">
+		select t.* from (
+		select
+		x.TASK_INST_NAME,x.STARTER,x.ARRIVE_DATE,
+		x.PRO_INST_ID,x.TASK_INST_POTENTIAL_OWNER,x.TASK_INST_ID,
+		(case when
+		x.PRO_INST_URGENCY = '1' then '紧急'
+		when x.PRO_INST_URGENCY = '2' then
+		'一般'
+		else x.PRO_INST_URGENCY end) as TASK_STATE
+		from (select * from (
+		select * from v_soabpm_task where task_state = '1' or task_state = '2'
+		)t
+		where t.pro_inst_state = '1' or t.pro_inst_state = '6') x
+		where
+		(x.task_inst_owner = #{userName,jdbcType=VARCHAR}
+		or
+		x.TASK_INST_POTENTIAL_OWNER like '%' || #{userName,jdbcType=VARCHAR}
+		|| '%') order by arrive_date
+		desc) t
+		where rownum &lt;= 5
+	</select>
+
+	<!-- 查询消息提醒详细数据 -->
+	<select id="getNoticeInfo" resultMap="notice_info">
+		SELECT * FROM CZ_TASK_OVERDUE_VIEW
+		WHERE rownum &lt; 21
+		ORDER BY OVERTIME DESC
+	</select>
+
+
+
+
+
+</mapper>

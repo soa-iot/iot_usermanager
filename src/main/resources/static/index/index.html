@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8" />
+<title>遂宁龙王庙天然气净化厂物联网平台-主页面</title>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/font-awesome.css" />
+<link rel="stylesheet" href="dist/gridstack.css" />
+<link rel="stylesheet" type="text/css" href="css/default.css">
+<link rel="stylesheet" type="text/css"
+	href="css/easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="css/easyui/themes/icon.css">
+<link rel="stylesheet" type="text/css" href="layui/css/layui.css" />
+<style type="text/css">
+.grid-stack-item-content::-webkit-scrollbar {
+	/*滚动条整体样式*/
+	width: 2px;
+	/*高宽分别对应横竖滚动条的尺寸*/
+	height: 1px;
+}
+
+.grid-stack-item-content::-webkit-scrollbar-thumb {
+	/*滚动条里面小方块*/
+	border-radius: 1px;
+	-webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+	background: #535353;
+}
+
+.grid-stack-item-content::-webkit-scrollbar-track {
+	/*滚动条里面轨道*/
+	-webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+	border-radius: 5x;
+	background: #EDEDED;
+}
+
+.align-ch>p {
+	font-size: 1vw;
+	color: white;
+}
+
+.align-ch>i {
+	font-size: 2em;
+	color: white;
+}
+
+body {
+	background: #E8E8EA;
+	padding-top: 20px;
+}
+
+.grid-stack-item-content {
+	color: #2c3e50;
+	text-align: center;
+	/* background-color: #18bc9c; */
+}
+
+.layui-row {
+	height: 100%;
+}
+
+.block-title {
+	background-color: #F6F6F6;
+	width: 100%;
+	height: 15%;
+}
+
+.block-content {
+	background-color: #FFFFFF;
+	width: 100%;
+	height: 85%;
+}
+
+.block-title-content {
+	height: 100%;
+}
+
+.block-title-link {
+	height: 100%;
+}
+
+.height-full {
+	height: 100%;
+}
+
+.height-half {
+	height: 50%;
+}
+
+.layui-col-xs4 { -
+	-border: #000000 1px solid;
+}
+
+.layui-table, .layui-table-view {
+	margin: 0 0;
+}
+
+.layui-table tbody tr:hover, .layui-table thead tr, .layui-table-click,
+	.layui-table-header, .layui-table-hover, .layui-table-mend,
+	.layui-table-patch, .layui-table-tool, .layui-table-total,
+	.layui-table-total tr, .layui-table[lay-even] tr:nth-child(even) {
+	background-color: white;
+}
+
+.quick-navigation-title {
+	background-color: #FFFFFF;
+}
+
+.quick-navigation-items {
+	background-color: #FFFFFF;
+}
+
+.align-fa {
+	display: flex;
+}
+
+.align-ch {
+	margin: auto;
+}
+
+.block-title-word {
+	margin-left: 30px;
+	font-weight: bolder;
+}
+
+.block-title-more {
+	margin-right: 5%;
+}
+
+.data>p {
+	font-size: 4vh;
+	font-weight: bolder;
+}
+
+.abnormal:last-child {
+	color: #f27201;
+}
+
+.alarm:last-child {
+	color: #eb0202;
+}
+
+.danger:last-child {
+	color: #22b804;
+}
+
+.completion:last-child {
+	color: #fff;
+}
+
+.need:last-child {
+	color: white;
+}
+
+.problem_rate:last-child {
+	color: white;
+}
+
+.data-block {
+	background-color: #FFFFFF;
+}
+
+.quick-navigation-title i, .quick-navigation-title p {
+	color: #2EA9BB;
+}
+
+.quick-navigation-items i, .quick-navigation-items p {
+	color: #7CB4CB;
+}
+
+.layui-table-main .layui-table-cell{
+	height: 25px;
+}
+</style>
+<script src="layui/layui.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+<!-- id="grid-stack"  -->
+	<div class="grid-stack" data-gs-animate="turns animation on"
+		>
+		<div class="grid-stack-item" data-gs-x="0" data-gs-y="0"
+			data-gs-width="2" data-gs-height="1">
+			<div class="grid-stack-item-content">
+				<div class="height-full abnormal link_block data-block"
+					data-url="deviceExceptionDetails.html"
+					data-id="deviceExceptionDetails" data-text="设备异常">
+					<div
+						class="layui-col-xs5 layui-col-sm5 layui-col-md5 height-full align-fa">
+						<div class="align-ch">
+							<i class="fa fa-calendar" style="color: #F8BB74;"></i>
+							<p style="color: #F8BB74;">设备异常</p>
+						</div>
+					</div>
+					<div
+						class="layui-col-xs7 layui-col-sm7 layui-col-md7  data height-full align-fa">
+						<p class="align-ch" id="total_PROBLEM"></p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="grid-stack-item" data-gs-x="2" data-gs-y="0"
+			data-gs-width="2" data-gs-height="1">
+			<div class="grid-stack-item-content">
+				<div class="height-full alarm link_block data-block"
+					data-url="noticeWarn.html" data-id="noticeWarn" data-text="预警">
+					<div
+						class="layui-col-xs5 layui-col-sm5 layui-col-md5 height-full align-fa">
+						<div class="align-ch">
+							<i class="fa fa-bell" style="color: #86D2EE;"></i>
+							<p class="align-ch" style="color: #86D2EE;">预警</p>
+						</div>
+					</div>
+					<div
+						class="layui-col-xs7 layui-col-sm7 layui-col-md7 height-full data align-fa">
+						<p class="align-ch" id="total_WARN" style="color: #86D2EE;"></p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="grid-stack-item" data-gs-x="4" data-gs-y="0"
+			data-gs-width="2" data-gs-height="1">
+			<div class="grid-stack-item-content">
+				<div class="height-full danger link_block data-block"
+					data-url="question_traking.html?type=warn"
+					data-id="question_traking" data-text='隐患问题'>
+					<div
+						class="layui-col-xs5 layui-col-sm5 layui-col-md5 height-full align-fa">
+						<div class="align-ch">
+							<i class="fa fa-warning" style="color: #94E0E1;"></i>
+							<p class="align-ch" style="color: #94E0E1;">隐患问题</p>
+						</div>
+					</div>
+					<div
+						class="layui-col-xs7 layui-col-sm7 layui-col-md7 height-full data align-fa">
+						<p class="align-ch" id="total_PROBLEM_WARN"
+							style="color: #94E0E1;"></p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="grid-stack-item" data-gs-x="0" data-gs-y="1"
+			data-gs-width="2" data-gs-height="1">
+			<div class="grid-stack-item-content">
+				<div class="height-full completion link_block data-block"
+					data-url="index.action?type=3&column=taskbi"
+					data-id="task_finish_rate" data-text="任务完成率">
+					<div
+						class="layui-col-xs5 layui-col-sm5 layui-col-md5 align-fa height-full">
+						<div class="align-ch">
+							<i class="fa fa-pencil-square-o" style="color: #53B687;"></i>
+							<p class="align-ch" style="color: #53B687;">任务完成率</p>
+						</div>
+					</div>
+					<div
+						class="layui-col-xs7 layui-col-sm7 layui-col-md7 height-full data align-fa">
+						<p class="align-ch" id="total_TASK_RATE" style="color: #53B687;"></p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="grid-stack-item" data-gs-x="2" data-gs-y="1"
+			data-gs-width="2" data-gs-height="1">
+			<div class="grid-stack-item-content">
+				<div class="height-full need link_block data-block"
+					data-url="http://192.168.18.22:10239/BPMOperationCenter/?UIID=Gtask"
+					data-id="need" data-text="待办数量">
+					<div
+						class="layui-col-xs5 layui-col-sm5 layui-col-md5 align-fa height-full">
+						<div class="align-ch">
+							<i class="fa fa-calendar-check-o" style="color: #6C9996;"></i>
+							<p class="align-ch" style="color: #6C9996;">待办数量</p>
+						</div>
+					</div>
+					<div
+						class="layui-col-xs7 layui-col-sm7 layui-col-md7 height-full data align-fa">
+						<p class="align-ch" id="total_TODO" style="color: #6C9996;"></p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="grid-stack-item" data-gs-x="4" data-gs-y="1"
+			data-gs-width="2" data-gs-height="1">
+			<div class="grid-stack-item-content">
+				<div class="height-full problem_rate link_block data-block"
+					data-url="index.action?type=3&column=problembi"
+					data-id="problem_rate" data-text="问题整改率">
+					<div
+						class="layui-col-xs5 layui-col-sm5 layui-col-md5 align-fa height-full">
+						<div class="align-ch">
+							<i class="fa fa-hourglass-o" style="color: #FFBFA7;"></i>
+							<p class="align-ch" style="color: #FFBFA7;">问题整改率</p>
+						</div>
+					</div>
+					<div
+						class="layui-col-xs7 layui-col-sm7 layui-col-md7 height-full data align-fa">
+						<p class="align-ch" id="total_PROBLEMRECTIFYRATE"
+							style="color: #FFBFA7;"></p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 快捷导航 -->
+		<div class="grid-stack-item" data-gs-x="6" data-gs-y="0"
+			data-gs-width="6" data-gs-height="2">
+			<div class="grid-stack-item-content">
+				<div class="layui-row">
+					<div class="layui-col-xs2 layui-col-sm2 layui-col-md2 height-full">
+						<div class="height-full quick-navigation-title align-fa">
+							<div class="align-ch">
+								<i class="fa fa-hand-o-right"></i>
+								<p>快捷导航</p>
+							</div>
+						</div>
+					</div>
+					<div
+						class="layui-col-xs10 layui-col-sm10 layui-col-md10 height-full quick-navigation-items">
+						<div class="layui-row height-half">
+							<div
+								class="layui-col-xs4 layui-col-sm4 layui-col-md4 height-full link_block"
+								data-url='https://www.baidu.com' data-id="闭环管理" data-text="闭环管理">
+								<div class="height-full quick-navigation-item align-fa">
+									<div class="align-ch">
+										<i class="fa fa-calendar"></i>
+										<p>闭环管理</p>
+									</div>
+								</div>
+							</div>
+							<div
+								class="layui-col-xs4 layui-col-sm4 layui-col-md4 height-full link_block"
+								data-url='https://www.baidu.com' data-id="生产报表" data-text="生产报表">
+								<div class="height-full quick-navigation-item align-fa">
+									<div class="align-ch">
+										<i class="fa fa-flask"></i>
+										<p>生产报表</p>
+									</div>
+								</div>
+							</div>
+							<div
+								class="layui-col-xs4 layui-col-sm4 layui-col-md4 height-full link_block"
+								data-url='https://www.baidu.com' data-id="辅助决策" data-text="辅助决策">
+								<div class="height-full quick-navigation-item align-fa">
+									<div class="align-ch">
+										<i class="fa fa-podcast"></i>
+										<p>辅助决策</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="layui-row height-half">
+							<div
+								class="layui-col-xs4 layui-col-sm4 layui-col-md4 height-full link_block"
+								data-url='https://www.baidu.com' data-id="任务管理" data-text="任务管理">
+								<div class="height-full quick-navigation-item align-fa">
+									<div class="align-ch">
+										<i class="fa fa-bar-chart"></i>
+										<p>任务管理</p>
+									</div>
+								</div>
+							</div>
+							<div
+								class="layui-col-xs4 layui-col-sm4 layui-col-md4 height-full link_block"
+								data-url='https://www.baidu.com' data-id="任务跟踪" data-text="任务跟踪">
+								<div class="height-full quick-navigation-item align-fa">
+									<div class="align-ch">
+										<i class="fa fa-line-chart"></i>
+										<p>任务跟踪</p>
+									</div>
+								</div>
+							</div>
+							<div
+								class="layui-col-xs4 layui-col-sm4 layui-col-md4 height-full link_block"
+								data-url='https://www.baidu.com' data-id="应知应会" data-text="应知应会">
+								<div class="height-full quick-navigation-item align-fa">
+									<div class="align-ch">
+										<i class="fa fa-search"></i>
+										<p>应知应会</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="grid-stack-item" data-gs-x="0" data-gs-y="2"
+			data-gs-width="6" data-gs-height="3">
+			<div class="grid-stack-item-content" style="overflow: hidden;">
+				<div class="layui-row">
+					<div class="layui-row block-title">
+						<div
+							class="layui-col-xs8 layui-col-sm8 layui-col-md8 block-title-content align-fa">
+							<p class="align-ch block-title-word">待办临时任务</p>
+						</div>
+						<div
+							class="layui-col-xs4 layui-col-sm4 layui-col-md4 block-title-link more align-fa">
+							<a class="align-ch block-title-more"
+								href="#" id="taskList"
+								title="更多待办临时任务">更多>></a>
+						</div>
+					</div>
+					<div class="layui-row block-content">
+						<!-- <table id="todo_task" lay-filter="test"></table> -->
+						<table class="layui-table" lay-filter="test" id="pending"></table>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="grid-stack-item" data-gs-x="6" data-gs-y="2"
+			data-gs-width="6" data-gs-height="3">
+			<div class="grid-stack-item-content">
+				<div class="layui-row">
+					<div class="layui-row block-title">
+						<div
+							class="layui-col-xs8 layui-col-sm8 layui-col-md8 block-title-content align-fa">
+							<p class="align-ch block-title-word">待办流程任务</p>
+						</div>
+						<div
+							class="layui-col-xs4 layui-col-sm4 layui-col-md4 block-title-link more align-fa">
+							<!-- <a class="align-ch block-title-more"
+								href="http://192.168.18.22:10239/BPMOperationCenter/?UIID=Gtask"
+								title="更多消息提醒">更多>></a> -->
+								<a class="align-ch block-title-more"
+								href="/html/userCenter/test.html" 
+								title="更多待办流程任务">更多>></a>
+						</div>
+					</div>
+					<!-- <div class="layui-row block-content" id="notice"></div> -->
+					<div class="layui-row block-content">
+						<table class="layui-table" style="background: white;" lay-filter="process" id="pendingProcess"></table>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="grid-stack-item" data-gs-x="0" data-gs-y="5"
+			data-gs-width="6" data-gs-height="3">
+			<div class="grid-stack-item-content">
+				<div class="layui-row">
+					<div class="layui-row block-title">
+						<div
+							class="layui-col-xs12 layui-col-sm12 layui-col-md12 block-title-content align-fa">
+							<p class="align-ch block-title-word">任务完成情况</p>
+						</div>
+					</div>
+					<div class="layui-row block-content"></div>
+				</div>
+			</div>
+		</div>
+		<div class="grid-stack-item" data-gs-x="6" data-gs-y="5"
+			data-gs-width="6" data-gs-height="3">
+			<div class="grid-stack-item-content">
+				<div class="layui-row">
+					<div class="layui-row block-title">
+						<div
+							class="layui-col-xs12 layui-col-sm12 layui-col-md12 block-title-content align-fa">
+							<p class="align-ch block-title-word">问题发现及解决情况</p>
+						</div>
+					</div>
+					<div class="layui-row block-content"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/html" id="barDemo">
+ 		 <a class="layui-btn layui-btn-xs" lay-event="edit" style="font-size:13px">&nbsp;处&nbsp;&nbsp;理&nbsp;</a>
+	</script>
+	<script type="text/html" id="barDemo1">
+ 		 <a class="layui-btn layui-btn-xs" lay-event="edit" style="font-size:13px">&nbsp;处&nbsp;&nbsp;理&nbsp;</a>
+	</script>
+</body>
+<script src="js/drag/jquery.min.js"></script>
+<script src="js/drag/jquery-ui.min.js"></script>
+<script src="js/drag/bootstrap.min.js"></script>
+<script src="js/drag/lodash.min.js"></script>
+<script src="dist/gridstack.js"></script>
+<script type="text/html" id="deal">
+		<a style="color: #3B8FAE;" href="http://192.168.18.22:10239/BPMOperationCenter/?UIID=TaskDispose&PIID=${map.PRO_INST_ID }&TIID=${map.TASK_INST_ID }"
+				 data-click-href="rest/process/claimTask?userID=${sessionScope.userID}&userPwd=123456&task_owner=${sessionScope.userID}&PIID=${map.PRO_INST_ID }&TIID=${map.TASK_INST_ID }">
+					<i class="fa fa-pencil-square-o"></i> 处理
+		</a>
+</script>
+<script src="js/todo-task.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/index_common.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/index_event.js" type="text/javascript" charset="utf-8"></script>
+</html>

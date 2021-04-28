@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>用户管理</title>
+<link rel="stylesheet" href="../../jsPackage/layui/css/layui.css">
+<link rel="stylesheet" href="../../css/usermanagement/user_management.css">
+</head>
+<body>
+<div class="layui-container" style="margin-top: 10px;padding-right: 0px; width: 90%;">
+  <form class="layui-form" style="background-color: #f2f2f2; border: 1px solid #e6e6e6; padding-top: 10px;">
+  	<div class="layui-row">
+	  	<div class="layui-form-item">
+	  		<div class="layui-col-sm3 layui-col-md3" style="margin-left: -20px;">
+			    <label class="layui-form-label">用户账号</label>
+			    <div class="layui-input-block">
+			       <input type="text" id="usernum"  autocomplete="off" placeholder="请输入" class="layui-input">
+			    </div>
+		    </div>
+		    <div class="layui-col-sm3 layui-col-md3">
+		    	<label class="layui-form-label">用户姓名</label>
+			    <div class="layui-input-block">
+			       <input type="text" id="nname" autocomplete="off" placeholder="请输入" class="layui-input">
+			    </div>
+		   </div>
+		   <div class="layui-col-sm3 layui-col-md3">
+		    	<label class="layui-form-label">用户状态</label>
+			    <div class="layui-input-block">
+			       <select class="layui-input" id="state">
+			       		<option selected value="">请选择</option>
+			       		<option value="1">正&nbsp;常</option>
+			       		<option value="2">禁&nbsp;用</option>
+			       </select>
+			    </div>
+		   </div>
+		   <div class="layui-col-sm3 layui-col-md3">
+			    <button type="reset" class="layui-btn layui-btn1 layui-btn-normal"><i class="layui-icon">&#xe666;</i>重置</button>
+			    <button type="button" id="queryBtn" class="layui-btn layui-btn1 layui-btn-normal"><i class="layui-icon">&#xe615;</i>查询</button>
+		   </div>
+	  	</div>
+  	</div>
+   </form>
+
+  <div>
+  	<table id="userList" lay-filter="userList"></table>
+  </div>
+</div>
+
+<div id="create-window" style="display: none;">
+	<form class="layui-form" lay-filter="create-window-form" style="width: 400px;padding-top: 20px;">
+		<div class="layui-form-item">
+			<label class="layui-form-label">用户账号<i style="color: red;font-weight: bolder;">*</i></label>
+			<div class="layui-input-block">
+				<input type="text" id="usernum_" name="usernum_" autocomplete="off" placeholder="请输入" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">用户姓名<i style="color: red;font-weight: bolder;">*</i></label>
+			<div class="layui-input-block">
+				<input type="text" id="nname_" name="nname_" autocomplete="off" placeholder="请输入" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">用户密码<i style="color: red;font-weight: bolder;">*</i></label>
+			<div class="layui-input-block">
+				<input type="password" id="password_" name="password_" autocomplete="off" placeholder="请输入" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">手机号</label>
+			<div class="layui-input-block">
+				<input type="tel" id="telephone_" name="telephone_" autocomplete="off" placeholder="请输入" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">性别</label>
+			<div class="layui-input-block">
+				<input type="radio" name="sex_" value="1" title="男" checked="checked" class="layui-input">
+				<input type="radio" name="sex_" value="0" title="女" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">组织选择<i style="color: red;font-weight: bolder;">*</i></label>
+			<div class="layui-input-block">
+				<input type="tel" id="organ_" name="organ_" placeholder="请选择" readonly="readonly" class="layui-input" style="cursor: pointer;">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">角色选择<i style="color: red;font-weight: bolder;">*</i></label>
+			<div class="layui-input-block">
+				<select class="layui-input" id="role-list" name="role-list" lay-search="">
+					<option selected="selected" value="">请选择或输入搜索</option>
+				</select>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">备注</label>
+			<div class="layui-input-block">
+				<textarea placeholder="请输入内容" id="note_" name="note_" class="layui-textarea"> </textarea>
+			</div>
+		</div>
+	</form>
+</div>
+
+<div id="edit-window" style="display: none;">
+	<form class="layui-form" lay-filter="edit-window-form" style="width: 400px;padding-top: 20px;">
+		<div class="layui-form-item">
+			<label class="layui-form-label">用户账号</label>
+			<div class="layui-input-block">
+				<input type="text" id="usernum_1" name="usernum_1" disabled="disabled" class="layui-input" style="background-color:#f2f2f2; ">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">用户姓名<i style="color: red;font-weight: bolder;">*</i></label>
+			<div class="layui-input-block">
+				<input type="text" id="nname_1" name="nname_1" autocomplete="off" placeholder="请输入" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">手机号</label>
+			<div class="layui-input-block">
+				<input type="tel" id="telephone_1" name="telephone_1" autocomplete="off" placeholder="请输入" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">性别</label>
+			<div class="layui-input-block">
+				<input type="radio" name="sex_1" value="1" title="男" checked="checked" class="layui-input">
+				<input type="radio" name="sex_1" value="0" title="女" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">组织选择<i style="color: red;font-weight: bolder;">*</i></label>
+			<div class="layui-input-block">
+				<input type="tel" id="organ_1" name="organ_1" placeholder="请选择" readonly="readonly" class="layui-input" style="cursor: pointer;">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">备注</label>
+			<div class="layui-input-block">
+				<textarea placeholder="请输入内容" id="note_1" name="note_1" class="layui-textarea"> </textarea>
+			</div>
+		</div>
+	</form>
+</div>
+
+<div id="organ-window" style="display: none;">
+	<div id="organ-tree"></div>
+</div>
+
+<div id="reset-window" style="display: none;">
+	<form class="layui-form" lay-filter="reset-window-form" style="width: 400px;padding-top: 30px;">
+		<div class="layui-form-item">
+			<label class="layui-form-label">用户账号</label>
+			<div class="layui-input-block">
+				<input type="text" id="usernum_2" name="usernum_2" disabled="disabled" class="layui-input" style="background-color:#f2f2f2; ">
+			</div>
+		</div>
+		<div class="layui-form-item" style="margin-top: 50px;">
+			<label class="layui-form-label">新密码<i style="color: red;font-weight: bolder;">*</i></label>
+			<div class="layui-input-block">
+				<input type="password" id="password_2" name="password_2" autocomplete="off" placeholder="请输入" class="layui-input">
+			</div>
+		</div>
+	</form>
+</div>
+
+<script type="text/html" id="toolbar">
+  	<a class="layui-btn layui-btn-sm" lay-event="create"><i class="layui-icon">&#xe61f;</i>添&nbsp;加</a>
+	<a class="layui-btn layui-btn-sm" lay-event="lock"><i class="layui-icon">&#xe640;</i>禁&nbsp;用</a>
+	<a class="layui-btn layui-btn-sm" lay-event="unlock"><i class="layui-icon">&#xe631;</i>恢&nbsp;复</a>
+</script>
+
+<script type="text/html" id="barBtn">
+  <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="layui-icon">&#xe642;</i>编&nbsp;辑</a>
+  <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="reset"><i class="layui-icon">&#xe673;</i>重置密码</a>
+</script>
+<script type="text/javascript" src="../../jsPackage/jquery-3.3.1/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../../jsPackage/layui/layui.js"></script>
+<script type="text/javascript" src="../../js/usermanagement/universal.js"></script>
+<script type="text/javascript" src="../../js/usermanagement/user_management.js"></script>
+</body>
+</html>

@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="cn.soa.dao.UserRoleMapper">
+	<sql id="userRoleFiled">
+	last_modify_time,	name, create_time,create_time,state, note, remark1 , remark2,rolid
+	</sql>
+
+
+	<!-- ===========================1、查询===============================  -->
+	
+	<!-- 分页查询角色信息 -->
+	<select id="queryAllroles" resultType="cn.soa.entity.UserRole" >
+		select <include refid="userRoleFiled"> </include> from 
+		(select ROWNUM num, role.* from  iot_user_role role order by rolid) a 
+		<if test="first >= 0  and last!= 0  ">	
+  	   where <![CDATA[ 
+        num >#{first} and num<=#{last}
+     ]]>  
+     </if>
+     
+	</select>
+	
+	<!-- 分页查询角色信息根据角色名称 -->
+	<select id="queryRolesByName" resultType="cn.soa.entity.UserRole" >
+		select <include refid="userRoleFiled"> </include> from 
+		(select ROWNUM num, role.* from  iot_user_role role where name like CONCAT(CONCAT('%',#{roleName}),'%') order by rolid) a 
+		<if test="first >= 0  and last!= 0  ">	
+  	   where <![CDATA[ 
+        num >#{first} and num<=#{last}
+     ]]>  
+     </if>
+     
+	</select>
+	<!-- 统计数据 -->
+		<select id="countRoles" resultType="int" >
+		select count(*) from iot_user_role
+	</select>
+	
+	<!-- 统计数据 -->
+	<select id="countRolesByName" resultType="int" >
+		select count(*) from iot_user_role where name like CONCAT(CONCAT('%',#{roleName}),'%')
+	</select>
+	
+	<!-- 根据角色查询对应的所有用户 -->
+	<select id="queryAllorgnInfo" resultType="cn.soa.entity.UserOrganization">
+		select * from IOT_USER_ORGANIZATION where state = 1
+	</select>
+	<!-- 1.1、根据用户角色id查询用户角色信息 -->
+	<select id="findUserRoleById" parameterType="string" resultType="cn.soa.entity.UserRole">
+		select * from IOT_USER_ROLE
+		where rolid = #{rolid}
+	</select>
+	
+	<!-- 1.2、根据用户id查询用户角色信息 -->
+	<select id="findUserRoleByNum" parameterType="string" resultType="cn.soa.entity.UserRole">
+		select r.* 
+		from IOT_user_organization o left join IOT_USER_USER_ROLE ur on o.usernum = ur.userid
+								left join IOT_USER_ROLE r on ur.rolid = r.rolid
+		where o.usernum = #{usernum}
+	</select>
+	
+	<!-- 1.2.1、根据用户id查询用户菜单角色信息 -->
+	<select id="findUsermenoRoleByNum" parameterType="string" resultType="cn.soa.entity.UserRole">
+		select r.* 
+		from IOT_user_organization o left join IOT_USER_USER_ROLE ur on o.usernum = ur.userid
+								left join IOT_USER_ROLE r on ur.rolid = r.rolid
+		where o.usernum = #{usernum} <!-- and r.name like '菜单_%' -->
+	</select>
+	
+	<!-- 1.3、根据用户角色id查询用户具有的权限 -->
+	<select id="findAuthByRolid" parameterType="string" resultType="cn.soa.entity.IotUserModuleResource">
+		select 
+			iumr.MODID as modId	,	
+			iumr.NAME as name,
+			iumr.URL as url,
+			iumr.DESCRIBE as describe,
+			iumr.CREATE_TIME as createTime,
+			iumr.LAST_MODIFY_TIME as lastModifyTime,
+			iumr.REMARK1 as remark1,
+			iumr.PARENT_ID as parentId,
+			iumr.IS_PARENT as isParent,
+			iumr.MENU_ICON AS menuIcon,
+			iumr.STANDBY2 AS standby2,
+			iumr.STANDBY3 AS standby3,
+			iumr.STANDBY3 AS standby4
+		from IOT_USER_ROLE iur left join IOT_USER_ROLE_AUTH iura on iur.ROLID = iura.ROLID
+						       left join IOT_USER_AUTHORITY iua on  iura.AUTID = iua.AUTID
+							   left join IOT_USER_MODULE_RESOURCE iumr on iumr.MODID = iua.RESOURCEID
+		where iur.ROLID = #{rolid} and ( iua.type = 0 or iua.type =1 ) 
+		order by iumr.remark1
+	</select>
+	
+	<!-- 1.4、根据角色id查询对应的所有用户 -->
+	<select id="findUsersById" parameterType="string" resultType="cn.soa.entity.UserOrganization">
+		SELECT o.* FROM IOT_USER_ROLE r 
+			LEFT JOIN IOT_USER_USER_ROLE ur  on r.ROLID = ur.ROLID
+		  	LEFT JOIN IOT_USER_ORGANIZATION o on ur.USERID = o.USERNUM
+		WHERE r.ROLID = #{param1};
+	</select>
+	
+	<!-- 1.5、根据角色名称查询对应的所有用户 -->
+	<select id="findUsersByName" parameterType="string" resultType="cn.soa.entity.UserOrganization">
+		SELECT o.* FROM IOT_USER_ROLE r 
+			LEFT JOIN IOT_USER_USER_ROLE ur  on r.ROLID = ur.ROLID
+		  	LEFT JOIN IOT_USER_ORGANIZATION o on ur.USERID = o.USERNUM
+		WHERE r.NAME = #{rolename}
+	</select>
+	
+	<!-- 根据角色查询对应的所有用户 -->
+	<select id="findUsersByRolename" resultType="cn.soa.entity.UserOrganization">
+		select * from IOT_USER_ORGANIZATION 
+	</select>
+	<!-- 查询出组织机构信息 -->
+	<select id="queryUsersByRold" resultType="cn.soa.entity.UserOrganization" parameterType="string">
+			select org.orgid,org.name,org.is_parent,org.usernum,org.parent_id from IOT_USER_USER_ROLE  ur left join IOT_USER_ORGANIZATION org  on ur.USERID=org.usernum
+			where ur.ROLID=#{ROLID} and org.state = 1
+	</select>
+	
+	<!-- ===========================2、新增===============================  -->
+	
+	<!-- 2.1、增加用户角色信息 -->
+	<insert id="saveUserRole" parameterType="cn.soa.entity.UserRole">
+		insert into IOT_USER_ROLE
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userRole.name != null and '' != userRole.name ">
+				name,
+			</if>
+			<if test="userRole.state != null">
+				state,
+			</if>
+			<if test="userRole.note != null">
+				note,
+			</if>
+			<if test="userRole.remark1 != null">
+				remark1,
+			</if>
+			<if test="userRole.remark2 != null">
+				remark2
+			</if>
+		</trim>
+		values
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userRole.name != null and '' != userRole.name ">
+				#{userRole.name,jdbcType=VARCHAR},
+			</if>
+			<if test="userRole.state != null">
+				#{userRole.state,jdbcType=INTEGER},
+			</if>
+			<if test="userRole.note != null">
+				#{userRole.note,jdbcType=VARCHAR},
+			</if>
+			<if test="userRole.remark1 != null">
+				#{userRole.remark1,jdbcType=INTEGER},
+			</if>
+			<if test="userRole.remark2 != null">
+				#{userRole.remark2,jdbcType=VARCHAR}
+			</if>
+		</trim>
+	</insert>
+	
+	<!-- 2.2、批量增加用户角色信息 --><!-- 对象以下属性值不能为null -->
+	<insert id="saveUserRoleInBatch" parameterType="list">
+		insert into IOT_USER_ROLE
+		<include refid="userRoleFiled"/>
+		values
+		<foreach collection="userRoles" separator="," item="item">
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+				#{item.name,jdbcType=VARCHAR}, #{item.state,jdbcType=INTEGER},
+				#{item.note,jdbcType=VARCHAR}, #{item.remark1,jdbcType=INTEGER},
+				#{item.remark2,jdbcType=VARCHAR}
+			</trim>
+		</foreach>
+	</insert>
+	<!-- 2.3、批量增加用户角色关系信息 --><!-- 对象以下属性值不能为null -->
+		<insert id="saveUserUserRoleInBatch" parameterType="list" useGeneratedKeys="false">
+		insert all
+		<foreach collection="lists" separator="" item="item" index="index">
+			into IOT_USER_USER_ROLE(userid,rolid) values (#{item.userid},#{item.rolid})	
+		</foreach>
+		SELECT 1 FROM DUAL
+	</insert>
+	
+	<!-- ===========================3、修改===============================  -->
+	
+	<!-- 根据角色id修改用户角色信息 -->
+	<update id="modifyUserRoleById" parameterType="cn.soa.entity.UserRole">
+		update IOT_USER_ROLE
+		set
+		<trim suffixOverrides=",">
+			<if test="userRole.name != null and '' != userRole.name ">
+				name =  #{ userRole.name,jdbcType=VARCHAR },
+			</if>
+			<if test="userRole.state != null">
+				state= #{userRole.state,jdbcType=INTEGER},
+			</if>
+			<if test="userRole.note != null">
+				note = #{userRole.note,jdbcType=VARCHAR},
+			</if>
+			<if test="userRole.remark1 != null">
+				remark1 = #{userRole.remark1,jdbcType=INTEGER},
+			</if>
+			<if test="userRole.remark2 != null">
+				remark2 = #{userRole.remark2,jdbcType=VARCHAR}
+			</if>
+		</trim>
+		where rolid = #{ userRole.rolid }			
+	</update>
+	
+	<!-- 根据角色id删除用户角色信息 -->
+	<delete id="deleteUserRoleById" parameterType="string">
+		delete from IOT_USER_ROLE
+		where rolid = #{ rolid }	
+	</delete>
+	<!-- 批量删除角色 -->
+		<delete id="deleteRolesInIds" parameterType="string">
+		delete from IOT_USER_ROLE
+		where rolid  in
+		<foreach collection="ids" item="rolid" open="(" close=")" separator=",">
+			 #{ rolid }	
+		</foreach>	
+	</delete>
+	<!-- 根据用户id、用户角色id，增加关联关系 -->
+	<insert id="saveUserAndRoleById"  parameterType="string">
+		insert into IOT_USER_USER_ROLE
+		( userid, rolid )
+		values
+		( #{userid}, #{rolid} )
+	</insert>
+	
+	<!-- 根据用户对象、用户角色对象，增加关联关系 -->
+	<insert id="saveUserAndRoleByObjects">
+		insert into IOT_USER_USER_ROLE
+		( userid, rolid )
+		values
+		( #{user.userid,jdbcType=INTEGER}, #{userRole.rolid,jdbcType=INTEGER})
+	</insert>
+	
+	<!-- 根据用户id、用户角色id，删除关联关系 -->
+	<delete id="deleteUserAndRoleById">
+		delete from IOT_USER_USER_ROLE
+		where userid = #{userid} and rolid = #{rolid}
+	</delete>
+	
+	<!-- 根据用户对象、用户角色对象，删除关联关系 -->
+	<delete id="deleteUserAndRoleByObjects">
+		delete from IOT_USER_USER_ROLE
+		where userid = #{user.userid} and rolid = #{userRole.rolid}
+	</delete>
+	<!--  -->
+	<delete id="deleteUserUserAndRolebyId">
+		delete from IOT_USER_USER_ROLE
+		where rolid=#{rolid} 
+	</delete>
+	
+	<!-- 根据用户角色id查找角色名称 -->
+	<select id="findUserRoleByRoleName" resultType="cn.soa.entity.UserRole">
+		select * from iot_user_role
+		where rolid = #{rolid}
+	</select>
+	
+</mapper>
+ 
+

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="../jquery.js"></script>
+<body>
+<div id="parent">parent
+    　　点击事件
+</div>
+
+</body>
+<script>
+    $("#parent").on('click',function (e) {
+       console.log("sdfsdfsf");
+       return false;
+    });
+
+    $("#parent").on('click',function (e) {
+        console.log("3333333333");
+        return false;
+    });
+
+</script>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>操作资源列表</title>
+<link rel="stylesheet" href="../../jsPackage/layui-v2.4.5/css/layui.css">
+<link rel="stylesheet" href="../../css/userCenter/resource_list.css" />
+<style>
+input {
+	height: 33px;
+	line-height: 33px;
+	padding: 0 7px;
+	border: 1px solid #ccc;
+	border-radius: 2px;
+	margin-bottom: -2px;
+	outline: none;
+}
+
+input:focus {
+	border-color: #009E94;
+}
+
+.layui-form-item {
+	margin-top: 10px;
+}
+</style>
+</head>
+<body>
+	<table id="resource_table" class="layui-table"
+		lay-filter="resource_table"></table>
+	<script src="../../jsPackage/layui-v2.4.5/layui.js"></script>
+	<script type="text/javascript">
+		layui
+				.use(
+						[ 'table', 'form', 'laypage', 'layedit', 'laydate',
+								'jquery', 'layer' ],
+						function() {
+							// 插件加载
+							var form = layui.form, table = layui.table, laypage = layui.laypage, layer = layui.layer, layedit = layui.layedit, laydate = layui.laydate, $ = layui.jquery;
+
+							$.ajax({
+
+								url : '/resource/getAllResourceInfo',
+								dataType : 'json',
+								success : function(data) {
+									console.log(data);
+									table_render(data.data);
+								},
+								error : function() {
+
+								}
+							});
+							// 初始化加载
+							function table_render(data_table) {
+								table.render({
+									elem : '#resource_table',
+									height : '400ox',
+									data : data_table,
+									page : true,
+									even : true // 开启隔行背景
+									,
+									autoSort : false,
+									count : data_table.lehgth,
+									curr : 0,
+									limit : 10,
+									limits : [ 10, 13, 20, 25, 30 ],
+									layout : [ 'prev', 'page', 'next', 'skip',
+											'count', 'limit' ],
+									cellMinWidth : 40 // 全局定义常规单元格的最小宽度，layui 2.2.1 新增
+									,
+									cols : [ [/*
+									 * { type : 'numbers' },
+									 */{
+										field : 'modId',
+										title : 'id',
+										hide : true
+									}, {
+										field : 'name',
+										minWidth : 200,
+										title : '资源名称'
+									}, {
+										field : 'url',
+										title : '资源URL'
+									}, {
+										field : 'describe',
+										title : '资源描述'
+									}, {
+										field : 'createTime',
+										title : '创建时间'
+									}, {
+										field : 'lastModifyTime',
+										title : '最后修改时间'
+									}, {
+										title : '操作',
+										fixed : 'right',
+										width : 118,
+										align : 'center',
+										toolbar : '#barDemo'
+									}
+
+									] ],
+									done : function(res, curr, count) {
+										/* $('tr').css({
+											'background-color' : '#0E4276',
+											'color' : 'white'
+										});
+										$('a').css({
+											'color' : 'white'
+										});
+										$('span').css({
+											'color' : 'white'
+										}); */
+									}
+								});
+							}
+
+						});
+	</script>
+
+</body>
+</html>

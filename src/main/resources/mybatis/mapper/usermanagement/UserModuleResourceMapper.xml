@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="cn.soa.dao.usermanagement.UserModuleResourceMapper">
+
+	<!-- ===========================1、查询===============================  -->
+	<!-- 1.1 查询所有的权限资源信息 -->
+	<!-- List<IotUserModuleResource> findAllResources(); -->
+	<resultMap type="cn.soa.entity.IotUserModuleResource" id="findAllResourcesMap">
+		<id column="MODID" property="modId"/>
+		<result column="autid" property="authId"/>
+		<result column="NAME" property="name"/>
+		<result column="URL" property="url"/>
+		<result column="DESCRIBE" property="describe"/>
+		<result column="TYPE" property="type"/>
+		<result column="ICON_COLOR" property="iconColor"/>
+		<result column="PARENT_ID" property="parentId"/>
+		<result column="IS_PARENT" property="isParent"/>
+		<result column="CREATE_TIME" property="createTime"/>
+		<result column="LAST_MODIFY_TIME" property="lastModifyTime"/>
+		<result column="REMARK1" property="remark1"/>
+		<result column="MENU_ICON" property="menuIcon"/>
+		<result column="STANDBY2" property="standby2"/>
+		<result column="STANDBY3" property="standby3"/>
+		<result column="STANDBY4" property="standby4"/>
+	</resultMap>
+	
+	<select id="findAllResources" resultMap="findAllResourcesMap">
+		SELECT
+			res.*, aut.autid autid
+		FROM
+			IOT_USER_MODULE_RESOURCE res JOIN IOT_USER_AUTHORITY aut ON res.modid = aut.resourceid
+		ORDER BY TO_NUMBER(res.REMARK1) 
+	</select>
+	
+	
+	<!-- 1.2 通过角色ID查询其拥有的资源 -->
+	<!-- List<IotUserModuleResource> findResourcesByRolid(@Param("rolid")String rolid, @Param("isParent")Integer isParent); -->
+	<select id="findResourcesByRolid" resultMap="findAllResourcesMap">
+		SELECT
+			res.*, aut.autid autid
+		FROM
+			IOT_USER_MODULE_RESOURCE res JOIN IOT_USER_AUTHORITY aut ON res.modid = aut.resourceid
+			JOIN IOT_USER_ROLE_AUTH ura ON aut.autid = ura.autid
+		WHERE
+			ura.ROLID = #{rolid, jdbcType=VARCHAR} 
+			<if test="isParent != null">
+				AND res.IS_PARENT = ${isParent}
+			</if>
+	</select>
+	
+	<!-- 1.3 通过资源ID查询权限ID -->
+	<!-- String findAuthorityId(String resourceId); -->
+	<select id="findAuthorityId" resultType="string">
+		SELECT
+			AUTID
+		FROM
+			IOT_USER_AUTHORITY
+		WHERE
+			RESOURCEID = #{resourceId, jdbcType=VARCHAR}
+	</select>
+	
+	<!-- 1.4 通过父id查询子资源列表 -->
+	<!-- List<IotUserModuleResource> findResourceByParentId(String parentId); -->
+	<select id="findResourceByParentId" resultMap="findAllResourcesMap">
+		SELECT
+			*
+		FROM
+			IOT_USER_MODULE_RESOURCE
+		WHERE
+			PARENT_ID = #{parentId, jdbcType=VARCHAR}
+	</select>
+	
+
+	<!-- ===========================2、新增===============================  -->
+	<!-- 2.1 添加菜单资源信息 -->
+	<!-- Integer insertModuleResource(@Param("resource") IotUserModuleResource resource); -->
+	<insert id="insertModuleResource" parameterType="cn.soa.entity.IotUserModuleResource">
+
+		INSERT INTO
+			IOT_USER_MODULE_RESOURCE
+			(MODID, NAME, URL, DESCRIBE, TYPE, PARENT_ID, IS_PARENT, CREATE_TIME, LAST_MODIFY_TIME,
+			REMARK1, MENU_ICON, ICON_COLOR, STANDBY2, STANDBY3, STANDBY4
+			)
+		VALUES(
+			<if test="resource != null">
+				<if test="resource.modId != null and resource.modId != ''">
+					#{resource.modId},
+				</if>
+				<if test="resource.name != null and resource.name != ''">
+					#{resource.name},
+				</if>
+				#{resource.url, jdbcType=VARCHAR},
+				#{resource.describe, jdbcType=VARCHAR},
+				<if test="resource.type != null">
+					#{resource.type},
+				</if>
+				<if test="resource.parentId != null and resource.parentId != ''">
+					#{resource.parentId},
+				</if>
+				<if test="resource.isParent != null and resource.isParent != ''">
+					#{resource.isParent},
+				</if>
+				#{resource.createTime, jdbcType=DATE},
+				#{resource.lastModifyTime, jdbcType=DATE},
+				<if test="resource.remark1 != null and resource.remark1 != ''">
+					#{resource.remark1},
+				</if>
+				#{resource.menuIcon, jdbcType=VARCHAR},
+				#{resource.iconColor, jdbcType=VARCHAR},
+				#{resource.standby2, jdbcType=VARCHAR},
+				#{resource.standby3, jdbcType=VARCHAR},
+				#{resource.standby4, jdbcType=VARCHAR}
+			</if>
+		)
+	</insert>
+
+	
+	<!-- ===========================3、更新===============================  -->
+	<!-- 3.1 更新菜单资源信息 -->
+	<!-- Integer updateModuleResource(@Param("resource") IotUserModuleResource resource); -->
+	<update id="updateModuleResource" parameterType="cn.soa.entity.IotUserModuleResource">
+		UPDATE
+			IOT_USER_MODULE_RESOURCE
+		<set>
+			<if test="resource != null">
+				<if test="resource.name != null and resource.name != ''">
+					NAME = #{resource.name},
+				</if>
+				URL = #{resource.url, jdbcType=VARCHAR},
+				DESCRIBE = #{resource.describe, jdbcType=VARCHAR},
+				<if test="resource.type != null">
+					TYPE = #{resource.type},
+				</if>
+				<if test="resource.parentId != null and resource.parentId != ''">
+					PARENT_ID = #{resource.parentId},
+				</if>
+				<if test="resource.isParent != null and resource.isParent != ''">
+					IS_PARENT = #{resource.isParent},
+				</if>
+				LAST_MODIFY_TIME = #{resource.lastModifyTime, jdbcType=DATE},
+				<if test="resource.remark1 != null and resource.remark1 != ''">
+					REMARK1 = #{resource.remark1},
+				</if>
+				MENU_ICON = #{resource.menuIcon, jdbcType=VARCHAR},
+				ICON_COLOR = #{resource.iconColor, jdbcType=VARCHAR},
+				STANDBY2 = #{resource.standby2, jdbcType=VARCHAR},
+				STANDBY3 = #{resource.standby3, jdbcType=VARCHAR},
+				STANDBY4 = #{resource.standby4, jdbcType=VARCHAR}
+			</if>
+		</set>
+		WHERE
+			MODID = #{resource.modId, jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 4.1 更改菜单资源IS_PARENT状态 -->
+	<!-- Integer updateResourceState(@Param("modId") String modId, @Param("state") Integer state); -->
+	<update id="updateResourceState">
+		UPDATE
+			IOT_USER_MODULE_RESOURCE
+		<set>
+			<if test="state != null">
+				IS_PARENT = ${state},
+			</if>
+			LAST_MODIFY_TIME = CURRENT_DATE
+		</set>
+		WHERE
+			MODID = #{modId, jdbcType=VARCHAR}
+	</update>
+	
+	
+	<!-- ===========================4、删除===============================  -->
+	<!-- 4.1 删除菜单资源信息 -->
+	<!-- Integer deleteModuleResource(String modId); -->
+	<delete id="deleteModuleResource">
+		DELETE FROM
+			IOT_USER_MODULE_RESOURCE
+		WHERE
+			MODID = #{resource.modId, jdbcType=VARCHAR}
+	</delete>
+	
+</mapper>
+ 
+

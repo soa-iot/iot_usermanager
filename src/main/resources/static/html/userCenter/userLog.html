@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>操作日志</title>
+<link rel="stylesheet"
+	href="../../jsPackage/layui-v2.4.5/css/layui.css">
+<link rel="stylesheet"
+	href="../../css/userCenter/resource_list.css" />
+<style>
+input {
+	height: 33px;
+	line-height: 33px;
+	padding: 0 7px;
+	border: 1px solid #ccc;
+	border-radius: 2px;
+	margin-bottom: -2px;
+	outline: none;
+}
+
+input:focus {
+	border-color: #009E94;
+}
+
+.layui-form-item {
+	margin-top: 10px;
+}
+</style>
+</head>
+<body>
+<form class="layui-form" action="">
+   <div class="layui-form-item">
+    <div class="layui-inline">
+      <label class="layui-form-label">用户名</label>
+      <div class="layui-input-inline">
+        <input type="tel" name="username" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-inline">
+      <label class="layui-form-label">操作日期</label>
+       <div class="layui-input-inline">
+        <input type="text" name="date" id="date"  placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+      <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+  </div>
+  
+</form> 
+
+ <div class="layui-row">
+    <div class="layui-col-xs12 layui-col-md7">
+      <div class="grid-demo grid-demo-bg1">
+    <!-- 统计列表 -->
+      <table class="layui-hide" lay-filter="testdata" id="testdata"></table>
+      </div>
+    </div>
+    <div class="layui-col-xs6 layui-col-md5">
+      <div class="grid-demo">
+    <!-- 登录次数最多的 -->
+      	<div id="container" style="height: 300px"></div>
+      </div>
+    </div>
+    <div class="layui-col-xs6 layui-col-md12">
+      <div class="grid-demo grid-demo-bg2">
+       <!-- 登录次数最多的 -->
+    	<div id="viewAsc" style="height: 300px"></div>
+      </div>
+    </div>
+  </div>
+	
+	<script type="text/html" id="barDemo">
+  	<a class="layui-btn layui-btn-xs" lay-event="edit">详情</a>
+	</script>
+	
+		<script src="../../jsPackage/web/design/layui.js"></script>
+		<script type="text/javascript"
+			src="../../jsPackage/echart-4.2.0/echarts.min.js"></script>
+		<script type="text/javascript"
+			src="../../js/userCenter/userLog.js"></script>
+		<script type="text/javascript"
+			src="../../js/micro_userManager.js"></script>
+</body>
+</html>

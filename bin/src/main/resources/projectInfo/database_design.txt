@@ -1,0 +1,179 @@
+/*
+ * 原型图设计
+ */
+ 
+/*
+ * 架构设计
+ */
+
+/*
+ * mysql数据库设计
+ */
+ //库
+ create database if not exists microservice_userManager default charset utf8
+ 
+ //用户管理系统数据库设计
+ 1.用户信息基础表
+	create table `user_info`(
+		`userid` int primary key ,			
+		`nname` varchar(16) not null default '' comment '用户昵称',
+		`age` smallint not null default 0 comment '用户年龄',
+		`sex` tinyint not null default 0 comment '用户性别,0-男 1-女',
+		`address` varchar(38) not null default '' comment '用户地址',
+		`telephone` int not null default 0 comment '用户电话',
+		`email` varchar(38) not null default '' comment '用户邮箱',
+		`create_time` timestamp not null default current_timestamp comment '用户创建时间',
+		`last_modify_time` timestamp not null default current_timestamp  on update current_timestamp comment '用户修改时间',
+		`state` tinyint not null default 0 comment '用户状态， 0-启用 1-停用',
+		`note` varchar(38) not null default '' comment '用户备注',
+		`remark1` int comment '备用字段1',
+		`remark2` varchar(8) comment '备用字段2'
+	)engine=InnoDB default charset=utf8 comment='用户信息表'
+	
+ 2.用户组织机构表
+	create table `user_organization`(
+		`orgid` int auto_increment primary key ,
+		`name` varchar(16) not null unique comment '组织机构名称',
+		`parent_id` int  comment '父节点id',
+		//`userid` int not null comment '用户id主键',
+		`usernum` int not null unique comment '用户唯一标识',
+		//`username` varchar(12) not null  comment '用户名称',	
+		`user_password` varchar(18) not null default '123' comment '用户密码',
+		`is_parent` tinyint not null default 1 comment '是否为父节点 0_不是 1_是',
+		`note` varchar(38) not null default '' comment '用户组织结构备注',
+		`remark1` int comment '备用字段1',
+		`remark2` varchar(8) comment '备用字段2'
+	)engine=InnoDB default charset=utf8 comment='用户组织机构表'
+	
+ 3.用户组织机构关系表（暂不需要）
+ 4.角色表
+	create table `user_role`(
+		`rolid` int auto_increment primary key,
+		`name` varchar(16) not null unique comment '角色名称',
+		`state` tinyint not null default 1 comment '角色状态 1-启用 2-停用',
+		`create_time` timestamp not null default current_timestamp comment '角色创建时间',
+		`last_modify_time` timestamp not null default current_timestamp on update current_timestamp comment '角色最后修改时间',
+		`note` varchar(38) not null default '' comment '角色备注',
+		`remark1` int comment '备用字段1',
+		`remark2` varchar(8) comment '备用字段2'
+	)engine=InnoDB default charset=utf8 comment='用户角色表'
+	
+ 5.角色用户关系表
+	create table `user_role_relation`(
+		`user_rol_id` int auto_increment primary key ,
+		`userid` int not null comment '用户id',
+		`rolid` int not null comment '角色id'
+	)engine=InnoDB default charset=utf8 comment='用户角色关系表'
+	
+ 6.权限表
+	create table `user_authority`(
+		`autid` int auto_increment primary key comment '主键',
+		`type` tinyint not null default 0 comment '权限类型 0-模块权限 1-菜单权限',
+		`name` varchar(18) not null unique comment '权限名称',
+		`note` varchar(38) not null default ''  comment '权限备注',
+		`remark1` varchar(8) default '' comment '备用字段1'
+	)engine=InnoDB default charset=utf8 comment='权限表'
+	
+ 7.角色权限关系表
+	create table `rol_aut_relation`(
+		`rol_aut_id` int auto_increment primary key comment '主键',
+		`rolid` int not null comment '角色id',
+		`autid` int not null comment '权限id'	
+	)engine=InnoDB default charset=utf8 comment='角色权限多对多关系表'
+	
+ 8.模块资源表
+	create table `module_resource`(
+		`modid` int auto_increment primary key comment '主键',
+		`name` varchar(18) not null unique comment '模块名称',
+		`url` varchar(108) not null unique  comment '模块url',
+		`describe` varchar(108) not null default '' comment '描述',
+		`create_time` timestamp not null default current_timestamp comment '模块创建时间',
+		`last_modify_time` timestamp not null default current_timestamp on update current_timestamp comment '模块最后修改时间',
+		`remark1` varchar(8) comment '备用字段1'
+	)engine=InnoDB default charset=utf8 comment='模块资源表'
+	
+ 9.权限模块关系表
+	create table `aut_mod_relation`(
+		`aut_mod_id` int auto_increment primary key comment '主键',
+		`autid` int not null  comment '权限id',
+		`modid` int not null comment '模块id'
+	)engine=InnoDB default charset=utf8 comment='模块资源表'
+	
+ 10.操作资源表
+	create table `operation_resource`(
+		`ope_id` int auto_increment primary key comment '主键',
+		`name` varchar(18) not null unique comment '操作名称',
+		`describe` varchar(38) not null default '' comment '描述',
+		`create_time` timestamp not null default current_timestamp comment '操作创建时间',
+		`last_modify_time` timestamp not null default current_timestamp on update current_timestamp comment '操作最后修改时间',
+		`remark1` varchar(8) comment '备用字段1'
+	)engine=InnoDB default charset=utf8 comment='操作资源表'
+	
+ 11.权限操作关系表
+	create table `aut_ope_relation`(
+		`aut_ope_id` int auto_increment primary key comment '主键',
+		`autid` int not null comment '权限id',
+		`opeid` int not null comment '操作id'
+	)engine=InnoDB default charset=utf8 comment='权限操作关系表'
+ 
+ 12.用户注册信息表
+ 	create table `user_register_info`(
+ 		`regid` int auto_increment primary key comment '主键',
+ 		`num` varchar(16) not null unique comment '注册唯一编号',
+ 		`name` varchar(16) not null comment '注册姓名',
+ 		`create_time` timestamp not null default current_timestamp comment '创建时间',
+ 		`state` tinyint not null default 0 comment '0-申请  1-通过  2-驳回',
+ 		`note` varchar(256) not null comment '备注',
+ 		`remark1` int not null default 0 comment '备用字段1',
+ 		`remark2` varchar(26) not null default '' comment '备用字段2'
+ 	)engine=InnoDB default charset=utf8 comment='用户注册信息表'
+ 
+/*
+ * mongodb数据库设计
+ */
+1、人员登录信息
+	1.1、     key - value
+		 usernum
+		 username 
+		 orgid
+		 orgName
+		 loginTime
+		 logoutTime
+		 
+2、 
+ 
+ 
+ 
+ /*
+  * 模拟数据
+  */
+  王者荣耀    0
+  	射手    1
+  		后羿           11
+  		伽罗           12
+  		小短腿       13
+  		虞姬           14
+  		孙尚香       15
+  		马可波罗   16
+  		
+  	法师    2
+  		甄姬           101
+  		王昭君       102
+  		妲己           103
+  		上官婉儿   104
+  		诸葛亮       105
+  		貂蝉           106
+  		
+  	辅助   3
+  		刘禅           1001
+  		明世隐       1002
+  		牛魔           1003
+  		姜子牙       1004
+  		
+  	坦克   4
+  		东皇太一    10001
+  		程咬金        10002
+  		项羽            10003
+  		廉颇            10004
+  		
+  		

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>操作资源列表</title>
+<link rel="stylesheet" href="../../../jsPackage/layui-v2.4.5/css/layui.css">
+<link rel="stylesheet" href="../../../css/userCenter/resource_list.css" />
+<style>
+input {
+	height: 33px;
+	line-height: 33px;
+	padding: 0 7px;
+	border: 1px solid #ccc;
+	border-radius: 2px;
+	margin-bottom: -2px;
+	outline: none;
+}
+
+input:focus {
+	border-color: #009E94;
+}
+
+.layui-form-item {
+	margin-top: 10px;
+}
+</style>
+</head>
+<body>
+<div  class="loadContent">
+	<div class="layui-container">
+		<br> <br> <a class="layui-btn layui-btn-normal"
+			href="index.html">&lt;&lt;返回</a> &nbsp;&nbsp;
+		<div class="layui-btn-group">
+			<button class="layui-btn" id="btn-expand">全部展开</button>
+			<button class="layui-btn" id="btn-fold">全部折叠</button>
+		</div>
+		&nbsp;&nbsp; <input id="edt-search" type="text" placeholder="输入关键字"
+			style="width: 120px;" />&nbsp;&nbsp;
+		<button class="layui-btn" id="btn-search">&nbsp;&nbsp;搜索&nbsp;&nbsp;</button>
+		<button class="layui-btn" id="btn-add">&nbsp;&nbsp;新增&nbsp;&nbsp;</button>
+
+		<table id="resource_table" class="layui-table"
+			lay-filter="resource_table"></table>
+
+
+
+	</div>
+
+	<!-- 新增、编辑资源弹出页面 -->
+	<div id="resource_add" style="display: none;">
+		<form class="layui-form" action="">
+
+			<div class="layui-form-item" style="display: none;" >
+				<label class="layui-form-label">id</label>
+				<div class="layui-input-inline">
+					<input type="text"  name="mod_id" id="mod_id"
+						lay-verify="mod_id" autocomplete="off" placeholder="请输入"
+						class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">资源名称</label>
+				<div class="layui-input-inline">
+					<input type="text" required name="resource_name" id="resource_name"
+						lay-verify="resource_name" autocomplete="off" placeholder="请输入"
+						class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">父级资源</label>
+				<div class="layui-input-inline">
+					<select name="parent_resource" required id="parent_resource" lay-search
+						lay-filter="parent_resource">
+					</select>
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">是否为父级</label>
+				<div class="layui-input-inline">
+					<select name="is_parent" id="is_parent" lay-filter="is_parent">
+						<option value="0">是</option>
+						<option value="1">否</option>
+					</select>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">资源URL</label>
+				<div class="layui-input-inline">
+					<input type="text" name="resource_url" id="resource_url"
+						lay-verify="resource_url" autocomplete="off" placeholder="请输入"
+						class="layui-input">
+				</div>
+			</div>
+			
+			<div class="layui-form-item">
+				<label class="layui-form-label">排序</label>
+				<div class="layui-input-inline">
+					<input type="text" name="resource_sort" id="resource_sort"
+						lay-verify="resource_sort" autocomplete="off" placeholder="请输入"
+						class="layui-input">
+				</div>
+			</div>
+			
+			
+			<div class="layui-form-item">
+				<label class="layui-form-label">资源描述</label>
+				<div class="layui-input-inline">
+					<textarea name="resource_desc" required lay-verify="required"
+						placeholder="请输入" class="layui-textarea" id="resource_desc"></textarea>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button class="layui-btn" id="btn_commit" lay-submit=""
+						lay-filter="btn_commit">提交</button>
+					<button class="layui-btn" id="btn_update" lay-submit=""
+						lay-filter="btn_update">更改</button>
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<button class="layui-btn" id="btn_cancel">取消</button>
+				</div>
+
+			</div>
+
+
+		</form>
+	</div>
+	<script type="text/html" id="barDemo">
+  		<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+ 	 	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+	</script>
+	<!-- <script src="../../../jsPackage/web/design/layui.js"></script> -->
+	<script type="text/javascript" src="../../../js/userCenter/resource_list.js"></script>
+	<script type="text/javascript" src="../../../js/micro_userManager.js"></script>
+</div>
+</body>
+</html>

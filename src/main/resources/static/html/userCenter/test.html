@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>操作资源列表</title>
+<link rel="stylesheet" href="../../jsPackage/layui-v2.4.5/css/layui.css">
+<link rel="stylesheet" href="../../css/userCenter/resource_list.css" />
+<style>
+input {
+	height: 33px;
+	line-height: 33px;
+	padding: 0 7px;
+	border: 1px solid #ccc;
+	border-radius: 2px;
+	margin-bottom: -2px;
+	outline: none;
+}
+
+input:focus {
+	border-color: #009E94;
+}
+
+.layui-form-item {
+	margin-top: 10px;
+}
+</style>
+</head>
+<body>
+	<iframe src="" width="100%" height="900px" id="iframe"></iframe>
+	<script type="text/javascript" src="../../jsPackage/jquery-3.3.1/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../../jsPackage/jquery-3.3.1/jquery.cookie.js"></script>
+	<script type="text/javascript">
+	$(function(){
+		   var iframe = document.getElementById('iframe');
+		   $('#iframe').attr('src',"127.0.0.1:10238/iot_process/html/pending-problem.html?"+new Date().getTime());
+
+		    iframe.onload = function() {
+		        var data = {
+		            name: $.cookie("name").replace(/"/g,""),
+		            num:$.cookie("num").replace(/"/g,""),
+		            organ:$.cookie("organ").replace(/"/g,"")
+		        };
+		        // 向domain2传送跨域数据
+		        iframe.contentWindow.postMessage(JSON.stringify(data), '*');
+		    };
+
+	})
+
+	</script>
+
+</body>
+</html>

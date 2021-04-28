@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.soa.dao.IndexInfoMapper">
+	<resultMap id="BaseResultMap"
+		type="cn.soa.entity.IotIndexInfo">
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="PAGE_ID" jdbcType="VARCHAR" property="pageId" />
+		<result column="POSITION_X" jdbcType="DECIMAL"
+			property="positionX" />
+		<result column="POSITION_Y" jdbcType="DECIMAL"
+			property="positionY" />
+		<result column="WIDTH" jdbcType="DECIMAL" property="width" />
+		<result column="HEIGHT" jdbcType="DECIMAL" property="height" />
+		<result column="CONTENT" jdbcType="VARCHAR" property="content" />
+		<result column="LAST_MODIFIED_DATE" jdbcType="TIMESTAMP"
+			property="lastModifiedDate" />
+		<result column="STANDBY1" jdbcType="VARCHAR"
+			property="standby1" />
+		<result column="STANDBY2" jdbcType="VARCHAR"
+			property="standby2" />
+		<result column="STANDBY3" jdbcType="VARCHAR"
+			property="standby3" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID,PAGE_ID,POSITION_X,POSITION_Y,WIDTH,HEIGHT,CONTENT,LAST_MODIFIED_DATE,STANDBY1,STANDBY2,STANDBY3
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from IOT_INDEX_INFO
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 根据roleId查询 -->
+	<select id="findIndexInfoByRoleId"
+		parameterType="cn.soa.entity.UserRole" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from IOT_INDEX_INFO
+		<where>
+			PAGE_ID in
+			(select PAGE_ID FROM IOT_INDEX_INFO_ROLE
+			where ROLE_ID in
+			<foreach collection="list" index="index" item="item" open="("
+				close=")" separator=",">
+				#{item.rolid,jdbcType=VARCHAR}
+			</foreach>
+			)
+		</where>
+	</select>
+
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		IOT_INDEX_INFO
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="cn.soa.entity.IotIndexInfo">
+		insert into IOT_INDEX_INFO
+		(ID, PAGE_ID,
+		POSITION_X, POSITION_Y, WIDTH,
+		HEIGHT, CONTENT,
+		LAST_MODIFIED_DATE,
+		STANDBY1, STANDBY2, STANDBY3
+		)
+		values
+		(#{id,jdbcType=VARCHAR}, #{pageId,jdbcType=VARCHAR},
+		#{positionX,jdbcType=DECIMAL}, #{positionY,jdbcType=DECIMAL},
+		#{width,jdbcType=DECIMAL},
+		#{height,jdbcType=DECIMAL},
+		#{content,jdbcType=VARCHAR}, #{lastModifiedDate,jdbcType=TIMESTAMP},
+		#{standby1,jdbcType=VARCHAR}, #{standby2,jdbcType=VARCHAR},
+		#{standby3,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective"
+		parameterType="cn.soa.entity.IotIndexInfo">
+		insert into IOT_INDEX_INFO
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="pageId != null">
+				PAGE_ID,
+			</if>
+			<if test="positionX != null">
+				POSITION_X,
+			</if>
+			<if test="positionY != null">
+				POSITION_Y,
+			</if>
+			<if test="width != null">
+				WIDTH,
+			</if>
+			<if test="height != null">
+				HEIGHT,
+			</if>
+			<if test="content != null">
+				CONTENT,
+			</if>
+			<if test="lastModifiedDate != null">
+				LAST_MODIFIED_DATE,
+			</if>
+			<if test="standby1 != null">
+				STANDBY1,
+			</if>
+			<if test="standby2 != null">
+				STANDBY2,
+			</if>
+			<if test="standby3 != null">
+				STANDBY3,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="pageId != null">
+				#{pageId,jdbcType=VARCHAR},
+			</if>
+			<if test="positionX != null">
+				#{positionX,jdbcType=DECIMAL},
+			</if>
+			<if test="positionY != null">
+				#{positionY,jdbcType=DECIMAL},
+			</if>
+			<if test="width != null">
+				#{width,jdbcType=DECIMAL},
+			</if>
+			<if test="height != null">
+				#{height,jdbcType=DECIMAL},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=VARCHAR},
+			</if>
+			<if test="lastModifiedDate != null">
+				#{lastModifiedDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="standby1 != null">
+				#{standby1,jdbcType=VARCHAR},
+			</if>
+			<if test="standby2 != null">
+				#{standby2,jdbcType=VARCHAR},
+			</if>
+			<if test="standby3 != null">
+				#{standby3,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="cn.soa.entity.IotIndexInfo">
+		update IOT_INDEX_INFO
+		<set>
+			<if test="pageId != null">
+				PAGE_ID = #{pageId,jdbcType=VARCHAR},
+			</if>
+			<if test="positionX != null">
+				POSITION_X = #{positionX,jdbcType=DECIMAL},
+			</if>
+			<if test="positionY != null">
+				POSITION_Y = #{positionY,jdbcType=DECIMAL},
+			</if>
+			<if test="width != null">
+				WIDTH = #{width,jdbcType=DECIMAL},
+			</if>
+			<if test="height != null">
+				HEIGHT = #{height,jdbcType=DECIMAL},
+			</if>
+			<if test="content != null">
+				CONTENT = #{content,jdbcType=VARCHAR},
+			</if>
+			<if test="lastModifiedDate != null">
+				LAST_MODIFIED_DATE =
+				#{lastModifiedDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="standby1 != null">
+				STANDBY1 = #{standby1,jdbcType=VARCHAR},
+			</if>
+			<if test="standby2 != null">
+				STANDBY2 = #{standby2,jdbcType=VARCHAR},
+			</if>
+			<if test="standby3 != null">
+				STANDBY3 = #{standby3,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="cn.soa.entity.IotIndexInfo">
+		update IOT_INDEX_INFO
+		set
+		PAGE_ID =
+		#{pageId,jdbcType=VARCHAR},
+		POSITION_X = #{positionX,jdbcType=DECIMAL},
+		POSITION_Y = #{positionY,jdbcType=DECIMAL},
+		WIDTH =
+		#{width,jdbcType=DECIMAL},
+		HEIGHT = #{height,jdbcType=DECIMAL},
+		CONTENT
+		= #{content,jdbcType=VARCHAR},
+		LAST_MODIFIED_DATE =
+		#{lastModifiedDate,jdbcType=TIMESTAMP},
+		STANDBY1 =
+		#{standby1,jdbcType=VARCHAR},
+		STANDBY2 = #{standby2,jdbcType=VARCHAR},
+		STANDBY3 = #{standby3,jdbcType=VARCHAR}
+		where ID =
+		#{id,jdbcType=VARCHAR}
+	</update>
+
+	<delete id="deleteByRoleId"
+		parameterType="cn.soa.entity.UserRole">
+		delete from IOT_INDEX_INFO where PAGE_ID in (select
+		PAGE_ID from
+		IOT_INDEX_INFO_ROLE where ROLE_ID in
+		<foreach collection="list" open="(" close=")" separator=","
+			index="index" item="item">
+			#{item.rolid,jdbcType=VARCHAR}
+		</foreach>
+		)
+	</delete>
+</mapper>
