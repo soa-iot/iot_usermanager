@@ -54,7 +54,7 @@ public class RoleManagementC {
 		List<UserRoleVO> result = roleManagementS.getUserRoles(roleName, state);
 		
 		if(result == null) {
-			return new ResponseEntity<>(1, "查询角色列表信息失败");
+			return new ResponseEntity<>(1, "查询角色列表信息失败", 0, null);
 		}
 		return new ResponseEntity<>(0, "查询角色列表信息成功", result.size(), result);
 	}

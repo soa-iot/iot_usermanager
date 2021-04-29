@@ -59,6 +59,12 @@ public interface RoleManagementMapper {
 	Integer deleteRoleAuth(String rolid);
 	
 	/**
+	 * 删除角色人员关系
+	 * @param rolid - 角色id
+	 */
+	Integer deleteRoleUser(String rolid);
+	
+	/**
 	 * 根据角色ID查询人员列表
 	 * @param rolid - 角色id
 	 */
